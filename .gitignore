@@ -1,4 +1,4 @@
- Created by https://www.gitignore.io
+Created by https://www.gitignore.io
 
 ### OSX ###
 .DS_Store
@@ -85,6 +85,12 @@ target/
 __pycache__/
 local_settings.py
 
+# Virtualenv
 venv/
 .env
+
 db.sqlite3
+
+### JS ###
+node_modules/
+packege-lock.json
