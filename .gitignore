@@ -93,4 +93,4 @@ db.sqlite3
 
 ### JS ###
 node_modules/
-packege-lock.json
+package-lock.json
