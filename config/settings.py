@@ -23,10 +23,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'n(b+v==45q2p11(#2$7-g-g!6x86*+&9vqsilydyv_q!7y83(k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
+# CORS CONFIGURATION
+# ------------------------------------------------------------------------------
+# https://github.com/ottoyiu/django-cors-headers#configuration
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
@@ -39,19 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'webpack_loader',
-    
+    'corsheaders',
+
     'backend.socket_chat',
     'channels',
-]
-
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -126,9 +121,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-WEBPACK_LOADER = {
-    'DEFAULT': {
-            'BUNDLE_DIR_NAME': 'bundles/',
-            'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.dev.json'),
-        }
-}
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static/'),
+    os.path.join(BASE_DIR, 'frontend/')
+]
+
+
+try:
+    from .local_settings import *
+except:
+    from .prod_settings import *
