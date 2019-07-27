@@ -2,6 +2,10 @@ import os
 from .settings import BASE_DIR
 
 
+SECRET_KEY = 'n(b+v==45q2p11(#2$7-g-g!6x86*+&9vqsilydyv_q!7y83(k'
+
+ALLOWED_HOSTS = ["*"]
+
 DEBUG = False
 
 # MIDDLEWARE CONFIGURATION
