@@ -94,3 +94,5 @@ db.sqlite3
 ### JS ###
 node_modules/
 package-lock.json
+
+plan/
