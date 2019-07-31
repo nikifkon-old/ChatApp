@@ -20,16 +20,26 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'channels',
     'corsheaders',
     'webpack_loader',
+    
     'rest_framework',
-    # 'djoser',
+    # Auth
+    'rest_framework.authtoken',
+    'djoser',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google',
 
     'backend.profiles',
     'backend.socket_chat',
 ]
+
+SITE_ID = 1
 
 ROOT_URLCONF = 'config.urls'
 
@@ -68,6 +78,27 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Allauth
+# LOGIN_REDIRECT_URL = "/"
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# AUTHENTICATION_BACKENDS = (
+#     # Needed to login by username in Django admin, regardless of `allauth`
+#     'django.contrib.auth.backends.ModelBackend',
+
+#     # `allauth` specific authentication methods, such as login by e-mail
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# )
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
 
 
 # Internationalization
