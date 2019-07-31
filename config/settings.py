@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'rest_framework',
     # 'djoser',
 
+    'backend.profiles',
     'backend.socket_chat',
 ]
 
@@ -51,14 +52,6 @@ TEMPLATES = [
 # WSGI_APPLICATION = 'chat.wsgi.application'
 
 ASGI_APPLICATION = 'config.routing.application'
-
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 AUTH_PASSWORD_VALIDATORS = [
