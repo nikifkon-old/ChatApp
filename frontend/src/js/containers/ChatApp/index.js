@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'redux-starter-kit'
+import PropTypes from 'prop-types';
+
 import { actions } from '../Auth/Auth.redux'
 import { Btn } from '../../styles'
 
@@ -21,6 +23,12 @@ export class ChatApp extends Component{
       </Fragment>
     )
   }
+}
+
+ChatApp.propTypes = {
+  isAuth: PropTypes.bool,
+  name: PropTypes.string,
+  LogoutUser: PropTypes.func,
 }
 
 const AuthenticatedSelector = createSelector(

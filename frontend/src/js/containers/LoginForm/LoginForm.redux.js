@@ -36,11 +36,11 @@ const LoginUser = (data, history) => dispatch => {
   .then((response) => {
     const token = response.data.auth_token
     localStorage.setItem('user', token)
+    dispatch(AuthActions.setAuth(true))
 
     // redirect to /app
     history.push('/app')
 
-    dispatch(AuthActions.setAuth(true))
     const status = response.status
     dispatch(LoginActions.setUi({status}))
     

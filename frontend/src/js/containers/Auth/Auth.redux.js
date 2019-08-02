@@ -30,7 +30,7 @@ const { actions: AuthActions, reducer } = AuthSlice
 // Logout User
 const LogoutUser = () => dispatch => {
   axios.post(`${URL}/auth/token/logout`, {}, get_auth_headers())
-  .then((response) => {
+  .then(() => {
     dispatch(AuthActions.setAuth(false))
     localStorage.removeItem('user')
   })

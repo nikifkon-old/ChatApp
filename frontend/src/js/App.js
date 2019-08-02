@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { MuiThemeProvider } from '@material-ui/core/styles'
@@ -40,10 +40,12 @@ const App = () => {
                   direction="column"
                   background="#edeef0"
                 >
-                  <Route exact path="/" component={Home} />
-                  <Route path="/get-started" component={GetStarted} />
-                  <Route path="/login" component={Login} />
-                  <Route path="/app" component={RequireAuth(ChatApp)} />
+                  <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route path="/get-started" component={GetStarted} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/app" component={RequireAuth(ChatApp)} />
+                  </Switch>
                 </PageContainer>
               </Wrapper>
               <GlobalStyle />

@@ -1,7 +1,9 @@
-import React, { Fragment } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
+
 import { P } from '../../styles'
 
-const ErrorMessage = ({ errorText, status }) => {
+const ErrorMessage = ({ status }) => {
     let ErrorText
     
     if(status >= 400 && status < 500) {
@@ -15,6 +17,10 @@ const ErrorMessage = ({ errorText, status }) => {
     return (
       <P color="orangered">{ErrorText}</P>
     )
+}
+
+ErrorMessage.propTypes = {
+  status: PropTypes.number,
 }
 
 export default ErrorMessage

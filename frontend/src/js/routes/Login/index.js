@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types';
 
 import { H1, SectionContainer, ContentGrid, Content } from '../../styles'
 import { LoginForm } from '../../containers'
@@ -20,6 +21,12 @@ const Login = ({history}) => {
         <LoginForm history={history}/>
       </SectionContainer>
     )
+}
+
+Login.propTypes  = {
+  history: PropTypes.shape({
+    push: PropTypes.func
+  })
 }
 
 export default Login

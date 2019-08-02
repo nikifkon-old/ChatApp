@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { P, ContentGrid, Content, Header as StyledHeader } from '../../styles'
+import { P, Header as StyledHeader } from '../../styles'
 
 const Header = () => {
     return (

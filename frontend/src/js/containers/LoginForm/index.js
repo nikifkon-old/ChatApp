@@ -2,9 +2,10 @@ import React, { Component, Fragment } from 'react'
 import { Form, Field } from 'react-final-form'
 import { connect } from 'react-redux'
 import { createSelector } from 'redux-starter-kit'
+import PropTypes from 'prop-types';
 
 import { actions } from './LoginForm.redux'
-import { Btn, ContentGrid, Content, TextField, P } from '../../styles'
+import { Btn, ContentGrid, Content, TextField } from '../../styles'
 import { StyledForm } from './styles'
 import { ErrorMassage } from '../../components'
 
@@ -68,6 +69,16 @@ export class LoginForm extends Component{
     )
   }
 }
+
+LoginForm.propTypes = {
+  status: PropTypes.number,
+  LoginUser: PropTypes.func,
+  isAuth: PropTypes.bool,
+  history: PropTypes.shape({
+    push: PropTypes.func
+  })
+}
+
 const LoginStatusSelector = createSelector(
   ['login.ui.requestStatus']
 )
