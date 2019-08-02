@@ -1,8 +1,10 @@
-import styled, { createGlobalStyle } from 'styled-components'
-import { Button } from '@material-ui/core'
+import React from 'react'
+import styled, { createGlobalStyle, css } from 'styled-components'
+import { Button, Grid, TextField as MaterialTextField } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles'
 
-const bgColor = "#edeef0"
+const bgColor = "#fff"
+const primary = "#3f51b5"
 
 const MuiTheme = createMuiTheme({
     overrides: {
@@ -37,20 +39,75 @@ const Wrapper = styled.div`
     min-height: 100vh
 `
 
-const Btn = styled(Button)`
-    background: orangered
-    width: 300px
-    margin: 10px
+const PageContainer = styled(Grid)`
+  margin-top: 50px
+  background: ${props => props.background || bgColor}
+  flex: 1
 `
 
+const Header = styled(Grid)`
+  position: absolute
+  top: 0
+  z-index: 9
+  height: 50px
+  background: #000
+`
+const Footer = styled(Grid)`
+
+`
+
+const SectionContainer = styled(Grid)`
+  margin: ${props => props.horizontal_center === "true" ? 'auto auto' : '0 auto'}
+  max-width: 800px
+  background: ${props => props.background || bgColor}
+`
+
+const ContentGrid = styled(Grid)`
+  background: ${props => props.background || bgColor}
+`
+
+const Content = styled.div`
+  max-width: 600px
+  box-sizing: border-box
+  text-align: ${props => props.center ? 'center' : ';'}
+  background: ${props => props.background || bgColor}
+  margin: 0 auto
+  padding: ${props => props.paddingDesctop || '2% 5%'}
+  width: ${props => props.fullWidth ? '100%' : ';'}
+  @media(max-width: 768px) {
+    padding: ${props => props.paddingDesctop || '2% 5%'}
+  }
+`
+
+const Btn = styled(Button)`
+  width: ${props => props.width || '300px'}
+  margin: 10px auto
+`
+
+const TextField = ({
+  input: { name, onChange, value, ...restInput },
+  meta,
+  ...rest
+}) => (
+  <MaterialTextField
+    {...rest}
+    name={name}
+    helperText={meta.touched ? meta.error : undefined}
+    error={meta.error && meta.touched}
+    inputProps={restInput}
+    onChange={onChange}
+    value={value}
+  />
+)
+
 const H1 = styled.h1`
-  color: ${props => props.color || ""}
+  color: ${props => props.color || ";"}
   font-size: 1.75rem
-  line-height: 2rem;
+  line-height: 2rem
 `
 
 const P = styled.p`
-  color: ${props => props.color || ""}
+  color: ${props => props.color || ";"}
   font-size: 1rem
   line-height: 1.5rem
 `
@@ -60,6 +117,13 @@ export {
     MuiTheme,
     Btn,
     Wrapper,
+    PageContainer,
+    Header,
+    Footer,
+    SectionContainer,
+    ContentGrid,
+    Content,
+    TextField,
     H1,
     P
 }
