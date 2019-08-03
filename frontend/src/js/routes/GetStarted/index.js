@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
-import { H1, SectionContainer, ContentGrid, Content } from '../../styles'
-import { LoginForm } from '../../containers'
+import { SectionContainer, ContentGrid, Content, H1 } from '../../styles'
+import { SingUpForm } from '../../containers'
 
 const GetStarted = () => {
     return (
@@ -14,10 +14,10 @@ const GetStarted = () => {
         >
           <ContentGrid container>
             <Content>
-              Get Started
+              <H1>Get Started</H1>
             </Content>
           </ContentGrid>
-          <LoginForm />
+          <SingUpForm />
         </SectionContainer>
       </Fragment>
     )

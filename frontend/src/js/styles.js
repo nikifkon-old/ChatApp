@@ -79,6 +79,13 @@ const Content = styled.div`
   }
 `
 
+const StyledForm = styled.form`
+  width: 600px
+  @media(max-width: 768px){
+    width: 100%
+  }
+`
+
 const Btn = styled(Button)`
   width: ${props => props.width || '300px'}
   margin: 10px auto
@@ -118,6 +125,7 @@ export {
     Btn,
     Wrapper,
     PageContainer,
+    StyledForm,
     Header,
     Footer,
     SectionContainer,

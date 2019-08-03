@@ -33,6 +33,7 @@ const LogoutUser = () => dispatch => {
   .then(() => {
     dispatch(AuthActions.setAuth(false))
     localStorage.removeItem('user')
+    localStorage.removeItem('username')
   })
   .catch((error) => {
     console.log(error)

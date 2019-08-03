@@ -1,7 +1,7 @@
-import ErrorMassage from './ErrorMessage'
+import ErrorMessage from './ErrorMessage'
 import Header from './Header'
 
 export {
-  ErrorMassage,
+  ErrorMessage,
   Header
 }

@@ -3,11 +3,17 @@ import { Form, Field } from 'react-final-form'
 import { connect } from 'react-redux'
 import { createSelector } from 'redux-starter-kit'
 import PropTypes from 'prop-types';
+import { withRouter } from "react-router-dom";
 
 import { actions } from './LoginForm.redux'
-import { Btn, ContentGrid, Content, TextField } from '../../styles'
-import { StyledForm } from './styles'
-import { ErrorMassage } from '../../components'
+import { Btn, 
+  ContentGrid,
+  Content,
+  TextField,
+  StyledForm
+} from '../../styles'
+import { required } from '../../utils'
+import { ErrorMessage } from '../../components'
 
 export class LoginForm extends Component{
   onSubmit = values => {
@@ -29,11 +35,12 @@ export class LoginForm extends Component{
                 alignItems="center"
                 alignContent="center"
               >
-                <ErrorMassage status={status} />
+                <ErrorMessage status={status} />
                 <Content fullWidth>
                   <Field 
                     type="text"
                     name="username"
+                    validate={required}
                     placeholder="Username"
                     component={TextField}
                     variant="outlined"
@@ -45,6 +52,7 @@ export class LoginForm extends Component{
                   <Field 
                     type="password"
                     name="password"
+                    validate={required}
                     placeholder="Password"
                     component={TextField}
                     variant="outlined"
@@ -72,11 +80,11 @@ export class LoginForm extends Component{
 
 LoginForm.propTypes = {
   status: PropTypes.number,
-  LoginUser: PropTypes.func,
-  isAuth: PropTypes.bool,
+  LoginUser: PropTypes.func.isRequired,
+  isAuth: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func
-  })
+  }).isRequired
 }
 
 const LoginStatusSelector = createSelector(
@@ -91,4 +99,4 @@ const mapStateToProps = state => ({
   isAuth: AuthorizationSelector(state),
 })
 
-export default connect(mapStateToProps, actions)(LoginForm)
+export default connect(mapStateToProps, actions)(withRouter(LoginForm))
