@@ -1,8 +1,15 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
 
 export default function (ComposedComponent) {
   class RequireAuth extends Component {
+    
+    static propTypes = { 
+      isAuth: PropTypes.bool.isRequired,
+      history: PropTypes.object.isRequired,
+    }
+
     componentWillMount() {
       const { isAuth, history } = this.props
       if (!isAuth) {

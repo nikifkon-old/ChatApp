@@ -16,10 +16,21 @@ import { required } from '../../utils'
 import { ErrorMessage } from '../../components'
 
 export class LoginForm extends Component{
+  
+  static propTypes = {
+    status: PropTypes.number,
+    LoginUser: PropTypes.func.isRequired,
+    isAuth: PropTypes.bool.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func
+    }).isRequired
+  }
+
   onSubmit = values => {
     const { LoginUser, history } = this.props
     LoginUser(values, history)
   }
+
 
   render() {
     const { status } = this.props
@@ -76,15 +87,6 @@ export class LoginForm extends Component{
       </Fragment>
     )
   }
-}
-
-LoginForm.propTypes = {
-  status: PropTypes.number,
-  LoginUser: PropTypes.func.isRequired,
-  isAuth: PropTypes.bool.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func
-  }).isRequired
 }
 
 const LoginStatusSelector = createSelector(

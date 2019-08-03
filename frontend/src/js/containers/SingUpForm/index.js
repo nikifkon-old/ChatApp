@@ -16,6 +16,15 @@ import { composeValidators, isEmail, required, manyThen } from '../../utils'
 import { ErrorMessage } from '../../components'
 
 export class SingUpForm extends Component {
+
+  static propTypes = {
+    status: PropTypes.number,
+    SingUpUser: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func
+    }).isRequired
+  }
+  
   onSubmit = values => {
     const { SingUpUser, history } = this.props
     SingUpUser(values, history)
@@ -86,14 +95,6 @@ export class SingUpForm extends Component {
       </Fragment>
     )
   }
-}
-
-SingUpForm.propTypes = {
-  status: PropTypes.number,
-  SingUpUser: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func
-  }).isRequired
 }
 
 const mapStateToProps = state => ({

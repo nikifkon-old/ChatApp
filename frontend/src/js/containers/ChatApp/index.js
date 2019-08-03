@@ -8,6 +8,13 @@ import { Btn } from '../../styles'
 
 
 export class ChatApp extends Component{
+
+  static propTypes = {
+    isAuth: PropTypes.bool,
+    name: PropTypes.string,
+    LogoutUser: PropTypes.func,
+  }
+  
   logout = () => {
     this.props.LogoutUser()
   }
@@ -23,12 +30,6 @@ export class ChatApp extends Component{
       </Fragment>
     )
   }
-}
-
-ChatApp.propTypes = {
-  isAuth: PropTypes.bool,
-  name: PropTypes.string,
-  LogoutUser: PropTypes.func,
 }
 
 const AuthenticatedSelector = createSelector(
