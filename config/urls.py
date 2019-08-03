@@ -13,7 +13,6 @@ urlpatterns = [
     # path('accounts/', include('allauth.urls')),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
-    re_path('(^$)|(login)|(get-started)|(app)', 
-        TemplateView.as_view(template_name="index.html")),
+    re_path('.*', TemplateView.as_view(template_name="index.html")),
 
 ] + media + static

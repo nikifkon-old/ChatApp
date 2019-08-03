@@ -97,6 +97,9 @@ package-lock.json
 
 # webpack
 webpack-stats*
+frontend/builds/
+
+frontend/builds-dev/
 
 # media
 media/
