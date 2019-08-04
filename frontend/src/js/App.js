@@ -10,7 +10,7 @@ import GetStarted from './routes/GetStarted'
 import Login from './routes/Login'
 import { Header } from './components'
 import { ChatApp } from './containers'
-import RequireAuth from './HOC/RequireAuth'
+import { RequireAuth, RedirectIfAuth } from './HOC'
 
 const store = configureAppStore({})
 
@@ -42,8 +42,8 @@ const App = () => {
                 >
                   <Switch>
                     <Route exact path="/" component={Home} />
-                    <Route path="/get-started" component={GetStarted} />
-                    <Route path="/login" component={Login} />
+                    <Route path="/get-started" component={RedirectIfAuth(GetStarted)} />
+                    <Route path="/login" component={RedirectIfAuth(Login)} />
                     <Route path="/app" component={RequireAuth(ChatApp)} />
                   </Switch>
                 </PageContainer>

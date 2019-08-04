@@ -5,13 +5,16 @@ import PropTypes from 'prop-types';
 
 import { actions } from '../Auth/Auth.redux'
 import { Btn } from '../../styles'
-
+import { Notification } from '../../components'
 
 export class ChatApp extends Component{
 
   static propTypes = {
     isAuth: PropTypes.bool,
     name: PropTypes.string,
+    location: PropTypes.shape({
+      state: PropTypes.string
+    }).isRequired,
     LogoutUser: PropTypes.func,
   }
   
@@ -20,12 +23,15 @@ export class ChatApp extends Component{
   }
 
   render() {
-    const { isAuth, name } = this.props 
+    const { name, location } = this.props 
     return (
       <Fragment>
-        {isAuth ? <h1>Hello, {name}</h1>
-                : <h1><a href="/login">login</a>, please</h1>
+        { location.state ? 
+              <Notification message={location.state} type="error" />
+              : null
         }
+
+        <h1>Hello, {name}</h1>
         <Btn onClick={this.logout}>Logout</Btn>
       </Fragment>
     )

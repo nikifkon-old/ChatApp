@@ -6,10 +6,14 @@ import { P } from '../../styles'
 const ErrorMessage = ({ status }) => {
     let ErrorText
     
-    if(status >= 400 && status < 500) {
+    if(status >= 400) {
       ErrorText = "Invalid username or password, please try again"
     }
     
+    if(status == 403) {
+      ErrorText = "403 Forbidden, please try again"
+    }
+
     if(status >= 500 && status < 600) {
       ErrorText = "Something went wrong, try later"
     }
