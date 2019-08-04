@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 
+const error_message = {
+  notification: {
+    message: 'You has already login in'
+  }
+}
+
 export default function (ComposedComponent) {
   class RedirectIfAuth extends Component {
     static propTypes = { 
@@ -12,13 +18,13 @@ export default function (ComposedComponent) {
     componentWillMount() {
       const { isAuth, history } = this.props
       if (isAuth) {
-        history.push('/app', 'You has already login in')
+        history.push('/app', error_message)
       }
     }
 
     componentWillUpdate(nextProps) {
       if (nextProps.isAuth) {
-        this.props.history.push('/app', 'You has already login in')
+        this.props.history.push('/app', error_message)
       }
     }
 

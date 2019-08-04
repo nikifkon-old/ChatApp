@@ -8,8 +8,8 @@ import { Notification } from '../../components'
 const Login = (props) => {
     return (
       <Fragment>
-        { props.location.state ? 
-            <Notification message={props.location.state} type="error" />
+        { props.location.state && props.location.state.notification ? 
+            <Notification message={props.location.state.notification.message} type="error" />
             : null
         }
         <SectionContainer
@@ -32,8 +32,12 @@ const Login = (props) => {
 
 Login.propTypes = {
   location: PropTypes.shape({
-    state: PropTypes.string
-  }).isRequired
+    state: PropTypes.shape({
+      notification: PropTypes.shape({
+        message: PropTypes.string
+      })
+    })
+  }).isRequired,
 }
 
 export default Login

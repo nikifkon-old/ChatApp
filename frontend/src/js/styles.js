@@ -79,6 +79,11 @@ const Content = styled.div`
   }
 `
 
+const AppContainer = styled.div`
+  width: 100%
+  height: 100vh
+`
+
 const StyledForm = styled.form`
   width: 600px
   @media(max-width: 768px){
@@ -125,6 +130,7 @@ export {
     Btn,
     Wrapper,
     PageContainer,
+    AppContainer,
     StyledForm,
     Header,
     Footer,

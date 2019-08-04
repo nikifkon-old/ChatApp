@@ -4,7 +4,7 @@ import { createSelector } from 'redux-starter-kit'
 import PropTypes from 'prop-types';
 
 import { actions } from '../Auth/Auth.redux'
-import { Btn } from '../../styles'
+import { Btn, AppContainer } from '../../styles'
 import { Notification } from '../../components'
 
 export class ChatApp extends Component{
@@ -13,7 +13,11 @@ export class ChatApp extends Component{
     isAuth: PropTypes.bool,
     name: PropTypes.string,
     location: PropTypes.shape({
-      state: PropTypes.string
+      state: PropTypes.shape({
+        notification: PropTypes.shape({
+          message: PropTypes.string
+        })
+      })
     }).isRequired,
     LogoutUser: PropTypes.func,
   }
@@ -26,14 +30,16 @@ export class ChatApp extends Component{
     const { name, location } = this.props 
     return (
       <Fragment>
-        { location.state ? 
-              <Notification message={location.state} type="error" />
-              : null
+        { location.state && location.state.notification ? 
+          <Notification message={location.state.notification.message} type="error" />
+          : null
         }
-
-        <h1>Hello, {name}</h1>
-        <Btn onClick={this.logout}>Logout</Btn>
+        <AppContainer>
+          <h1>Hello, {name}</h1>
+          <Btn onClick={this.logout}>Logout</Btn>
+        </AppContainer>
       </Fragment>
+      
     )
   }
 }
