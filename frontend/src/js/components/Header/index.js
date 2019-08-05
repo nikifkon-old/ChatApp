@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 import { P, Header as StyledHeader } from '../../styles'
 
-const Header = () => {
+const Header = ({isOpen}) => {
     return (
-        <StyledHeader container
-          justify="space-evenly"
-          alignItems="center"
+        <StyledHeader
+          show={isOpen}
         >
           <Link to="/">
             <P color="#fff">
@@ -31,6 +31,10 @@ const Header = () => {
           </Link>
         </StyledHeader>
     )
+}
+
+Header.propTypes = {
+  isOpen: PropTypes.bool.isRequired
 }
 
 export default Header

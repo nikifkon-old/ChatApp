@@ -3,15 +3,18 @@ import { connect } from 'react-redux'
 import { createSelector } from 'redux-starter-kit'
 import PropTypes from 'prop-types';
 
-import { actions } from '../Auth/Auth.redux'
-import { Btn, AppContainer } from '../../styles'
-import { Notification } from '../../components'
+import { actions as AuthActions } from '../Auth/Auth.redux'
+import { actions as HeaderActions } from '../Header/Header.redux'
+
+import { AppContainer } from '../../styles'
+import { Notification, InfoPanel, ChatMenu } from '../../components'
 
 export class ChatApp extends Component{
 
   static propTypes = {
     isAuth: PropTypes.bool,
     name: PropTypes.string,
+    isOpen: PropTypes.bool.isRequired,
     location: PropTypes.shape({
       state: PropTypes.shape({
         notification: PropTypes.shape({
@@ -20,6 +23,7 @@ export class ChatApp extends Component{
       })
     }).isRequired,
     LogoutUser: PropTypes.func,
+    HandleHeader: PropTypes.func,
   }
   
   logout = () => {
@@ -27,16 +31,17 @@ export class ChatApp extends Component{
   }
 
   render() {
-    const { name, location } = this.props 
+    const { name, location, isOpen, HandleHeader } = this.props
     return (
       <Fragment>
         { location.state && location.state.notification ? 
           <Notification message={location.state.notification.message} type="error" />
           : null
         }
-        <AppContainer>
-          <h1>Hello, {name}</h1>
-          <Btn onClick={this.logout}>Logout</Btn>
+        <AppContainer menuisopen={isOpen}>
+          <ChatMenu HandleHeader={HandleHeader} />
+          <div style={{flex: ".75"}}></div>
+          <InfoPanel username={name} />
         </AppContainer>
       </Fragment>
       
@@ -44,16 +49,17 @@ export class ChatApp extends Component{
   }
 }
 
-const AuthenticatedSelector = createSelector(
-  ['auth.isAuth']
-)
+// const AuthenticatedSelector = createSelector(
+//   ['auth.isAuth']
+// )
 const NameSelector = createSelector(
   ['login.user.name']
 )
 
 const mapStateToProps = state => ({
-  isAuth: AuthenticatedSelector(state),
-  name: NameSelector(state)
+  // isAuth: AuthenticatedSelector(state),
+  name: NameSelector(state),
+  isOpen: state.ui.header.isOpen
 })
 
-export default connect(mapStateToProps, actions)(ChatApp)
+export default connect(mapStateToProps, {...AuthActions, ...HeaderActions})(ChatApp)

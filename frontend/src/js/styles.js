@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, { createGlobalStyle } from 'styled-components'
+import styled, { css, createGlobalStyle } from 'styled-components'
 import { Button, Grid, TextField as MaterialTextField } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles'
 
@@ -12,6 +12,11 @@ const MuiTheme = createMuiTheme({
             root: {
               margin: ""
             }
+        },
+        MuiIconButton: {
+          root: {
+            color: "unset"
+          }
         }
     }
 })
@@ -39,18 +44,25 @@ const Wrapper = styled.div`
     min-height: 100vh
 `
 
-const PageContainer = styled(Grid)`
-  margin-top: 50px
+const PageContainer = styled(({menuisopen, ...props}) => <Grid {...props} />)`
+  margin-top: ${props => props.menuisopen ? '50px' : '0px'}
   background: ${props => props.background || bgColor}
   flex: 1
+  transition: .3s ease-out 0s margin-top;
 `
 
-const Header = styled(Grid)`
+const Header = styled.nav`
+  display: flex
+  width: 100%
+  box-sizing: border-box
+  justify-content: space-evenly
+  align-items: center
   position: absolute
-  top: 0
+  top: ${props => props.show ? '0' : '-50px'}
   z-index: 9
   height: 50px
   background: #000
+  transition: .3s ease-out 0s top;
 `
 const Footer = styled(Grid)`
 
@@ -81,7 +93,8 @@ const Content = styled.div`
 
 const AppContainer = styled.div`
   width: 100%
-  height: 100vh
+  min-height: ${props => props.menuisopen ? "calc(100vh - 50px);" : "100vh;"}
+  display: flex
 `
 
 const StyledForm = styled.form`
@@ -115,13 +128,19 @@ const TextField = ({
 const H1 = styled.h1`
   color: ${props => props.color || ";"}
   font-size: 1.75rem
-  line-height: 2rem
+  line-height: 1.2rem
 `
 
 const P = styled.p`
   color: ${props => props.color || ";"}
+  text-align: ${props => props.center ? 'center' : ';'}
   font-size: 1rem
   line-height: 1.5rem
+  ${css`
+    ${props => props.grid_left ? 'margin-right: auto' : ''}
+    ${props => props.grid_right ? 'margin-left: auto' : ''}
+    ${props => props.noMargin ? 'margin: 0' : ''}
+  `}
 `
 
 export {
