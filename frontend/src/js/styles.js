@@ -4,7 +4,10 @@ import { Button, Grid, TextField as MaterialTextField } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles'
 
 const bgColor = "#fff"
-const primary = "#3f51b5"
+const dark_bg1 = "#1d232a"
+const dark_bg2 = "#282f37"
+const dark_cont1 = "#383f47"
+const dark_cont2 = "#909498"
 
 const MuiTheme = createMuiTheme({
     overrides: {
@@ -23,10 +26,10 @@ const MuiTheme = createMuiTheme({
 
 const GlobalStyle = createGlobalStyle`
     html, body {
-        margin: 0
-        padding: 0
-        font-family: 'Nunito', sans-serif;
-        background: ${bgColor}
+      margin: 0
+      padding: 0
+      font-family: 'Nunito', sans-serif;
+      background: ${bgColor}
     }
     
     a {
@@ -61,7 +64,7 @@ const Header = styled.nav`
   top: ${props => props.show ? '0' : '-50px'}
   z-index: 9
   height: 50px
-  background: #000
+  background: ${dark_bg1}
   transition: .3s ease-out 0s top;
 `
 const Footer = styled(Grid)`
@@ -95,6 +98,7 @@ const AppContainer = styled.div`
   width: 100%
   min-height: ${props => props.menuisopen ? "calc(100vh - 50px);" : "100vh;"}
   display: flex
+  transition: .3s ease-out 0s min-height;
 `
 
 const StyledForm = styled.form`
@@ -132,7 +136,7 @@ const H1 = styled.h1`
 `
 
 const P = styled.p`
-  color: ${props => props.color || ";"}
+  color: ${props => props.color || "#000"}
   text-align: ${props => props.center ? 'center' : ';'}
   font-size: 1rem
   line-height: 1.5rem
@@ -158,5 +162,9 @@ export {
     Content,
     TextField,
     H1,
-    P
+    P,
+    dark_bg1,
+    dark_bg2,
+    dark_cont1,
+    dark_cont2,
 }

@@ -3,6 +3,7 @@ import Header from './Header'
 import Notification from './Notification'
 import InfoPanel from './InfoPanel'
 import ColoredLine from './ColoredLine'
+import ChatNav from './ChatNav'
 import ChatMenu from './ChatMenu'
 
 export {
@@ -11,5 +12,6 @@ export {
   Notification,
   InfoPanel,
   ColoredLine,
+  ChatNav,
   ChatMenu,
 }

@@ -7,7 +7,7 @@ import { actions as AuthActions } from '../Auth/Auth.redux'
 import { actions as HeaderActions } from '../Header/Header.redux'
 
 import { AppContainer } from '../../styles'
-import { Notification, InfoPanel, ChatMenu } from '../../components'
+import { Notification, InfoPanel, ChatNav, ChatMenu, FriendList } from '../../components'
 
 export class ChatApp extends Component{
 
@@ -39,8 +39,10 @@ export class ChatApp extends Component{
           : null
         }
         <AppContainer menuisopen={isOpen}>
-          <ChatMenu HandleHeader={HandleHeader} />
-          <div style={{flex: ".75"}}></div>
+          <ChatNav HandleHeader={HandleHeader} />
+          <ChatMenu />
+          <FriendList />
+          <div style={{flex: ".59"}}></div>
           <InfoPanel username={name} />
         </AppContainer>
       </Fragment>
