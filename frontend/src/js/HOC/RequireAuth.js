@@ -21,16 +21,17 @@ export default function (ComposedComponent) {
       })
     }
 
-    componentWillMount() {
+    componentDidMount(){
       const { isAuth, history, location } = this.props
       if (!isAuth) {
         history.push('/login', get_error_message(location.pathname))
       }
     }
 
-    componentWillUpdate(nextProps) {
-      if (!nextProps.isAuth) {
-        this.props.history.push('/login', get_error_message(location.pathname))
+    componentDidUpdate() {
+      const { isAuth, history, location } = this.props
+      if (!isAuth) {
+        history.push('/login', get_error_message(location))
       }
     }
 

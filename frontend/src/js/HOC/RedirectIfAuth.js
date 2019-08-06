@@ -15,16 +15,17 @@ export default function (ComposedComponent) {
       history: PropTypes.object.isRequired
     }
 
-    componentWillMount() {
+    componentDidMount() {
       const { isAuth, history } = this.props
       if (isAuth) {
         history.push('/app', error_message)
       }
     }
 
-    componentWillUpdate(nextProps) {
-      if (nextProps.isAuth) {
-        this.props.history.push('/app', error_message)
+    componentDidUpdate() {
+      const { isAuth, history } = this.props
+      if (isAuth) {
+        history.push('/app', error_message)
       }
     }
 
