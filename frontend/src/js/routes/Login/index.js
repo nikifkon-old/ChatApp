@@ -20,7 +20,7 @@ const Login = (props) => {
           horizontal_center="true"
         >
           <ContentGrid container>
-            <Content center>
+            <Content center marginAuto>
               <H1>Login</H1>
             </Content>
           </ContentGrid>

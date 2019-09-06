@@ -1,4 +1,6 @@
 import os
+from datetime import timedelta
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -27,16 +29,15 @@ INSTALLED_APPS = [
     'webpack_loader',
     
     'rest_framework',
-    # Auth
+    'django_filters',
     'rest_framework.authtoken',
     'djoser',
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
-    # 'allauth.socialaccount.providers.google',
-
+    
     'backend.profiles',
     'backend.socket_chat',
+    'backend.groups',
+    'backend.chat_messages',
+    'backend.dialogs',
 ]
 
 SITE_ID = 1
@@ -79,24 +80,23 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Allauth
-# LOGIN_REDIRECT_URL = "/"
-
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-# AUTHENTICATION_BACKENDS = (
-#     # Needed to login by username in Django admin, regardless of `allauth`
-#     'django.contrib.auth.backends.ModelBackend',
-
-#     # `allauth` specific authentication methods, such as login by e-mail
-#     'allauth.account.auth_backends.AuthenticationBackend',
-# )
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    )
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'USER_ID_FIELD': 'id',
 }
 
 

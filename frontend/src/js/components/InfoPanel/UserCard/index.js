@@ -3,8 +3,7 @@ import { Grid } from '@material-ui/core'
 import PropTypes from 'prop-types'
 
 import Avatar from '../../../../assets/test_user_avatar.jpg'
-import { H1, P } from '../../../styles'
-import { StyledAvatar } from './styles'
+import { H1, P, Img } from '../../../styles'
 
 const UserCard = ({username, location}) => {
     return (
@@ -12,7 +11,7 @@ const UserCard = ({username, location}) => {
           direction="column"
           alignItems="center"
         >
-          <StyledAvatar src={Avatar} width="150px" alt="avatar"/>
+          <Img src={Avatar} width="150px" round alt="avatar"/>
           <H1>{username}</H1>
           <P noMargin>{location}</P>
         </Grid>

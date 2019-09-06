@@ -1,10 +1,20 @@
 from rest_framework import serializers
 
-from backend.chat_messages.models import Message
+from backend.chat_messages.models import (
+    GroupMessage,
+    DialogMessage,
+)
 
 
-class MessageSerializer(serializers.ModelSerializer):
+class GroupMessageSerializer(serializers.ModelSerializer):
     """ Message Serializer"""
     class Meta:
-        model = Message
+        model = GroupMessage
         fields = ("id", "sender", "group", "text", "date")
+
+
+class DialogMessageSerializer(serializers.ModelSerializer):
+    """ Message Serializer"""
+    class Meta:
+        model = DialogMessage
+        fields = ("id", "sender", "dialog", "text", "date")

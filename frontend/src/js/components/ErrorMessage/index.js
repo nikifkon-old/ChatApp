@@ -5,11 +5,15 @@ import { P } from '../../styles'
 
 const ErrorMessage = ({ status }) => {
     let ErrorText
-    
-    if(status >= 400) {
+
+    if(status == 400) {
+      ErrorText = "This username or email is already taken"
+    }
+
+    if(status == 401) {
       ErrorText = "Invalid username or password, please try again"
     }
-    
+
     if(status == 403) {
       ErrorText = "403 Forbidden, please try again"
     }
@@ -24,7 +28,10 @@ const ErrorMessage = ({ status }) => {
 }
 
 ErrorMessage.propTypes = {
-  status: PropTypes.number,
+  status: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.bool,
+  ])
 }
 
 export default ErrorMessage

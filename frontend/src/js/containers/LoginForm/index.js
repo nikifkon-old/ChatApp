@@ -1,43 +1,37 @@
 import React, { Component, Fragment } from 'react'
 import { Form, Field } from 'react-final-form'
 import { connect } from 'react-redux'
-import { createSelector } from 'redux-starter-kit'
-import PropTypes from 'prop-types';
-import { withRouter } from "react-router-dom";
+import PropTypes from 'prop-types'
 
-import { actions } from './LoginForm.redux'
-import { Btn, 
+import * as types from '../../actions'
+import { Btn,
   ContentGrid,
   Content,
-  TextField,
   StyledForm
 } from '../../styles'
 import { required } from '../../utils'
-import { ErrorMessage } from '../../components'
+import { ErrorMessage, TextField } from '../../components'
 
 export class LoginForm extends Component{
-  
+
   static propTypes = {
-    status: PropTypes.number,
-    LoginUser: PropTypes.func.isRequired,
-    isAuth: PropTypes.bool.isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func
-    }).isRequired
+    loginJWT: PropTypes.func.isRequired,
+    errorStatus: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.bool,
+    ])
   }
 
   onSubmit = values => {
-    const { LoginUser, history } = this.props
-    LoginUser(values, history)
+    const { loginJWT } = this.props
+    loginJWT(values)
   }
 
-
   render() {
-    const { status } = this.props
-
+    const { errorStatus } = this.props
     return (
       <Fragment>
-        <Form 
+        <Form
           onSubmit={this.onSubmit}
           render={({handleSubmit}) => (
             <StyledForm onSubmit={handleSubmit}>
@@ -46,9 +40,9 @@ export class LoginForm extends Component{
                 alignItems="center"
                 alignContent="center"
               >
-                <ErrorMessage status={status} />
+                <ErrorMessage status={errorStatus} />
                 <Content fullWidth>
-                  <Field 
+                  <Field
                     type="text"
                     name="username"
                     validate={required}
@@ -60,7 +54,7 @@ export class LoginForm extends Component{
                   />
                 </Content>
                 <Content fullWidth>
-                  <Field 
+                  <Field
                     type="password"
                     name="password"
                     validate={required}
@@ -72,7 +66,7 @@ export class LoginForm extends Component{
                   />
                 </Content>
                 <Content fullWidth>
-                  <Btn 
+                  <Btn
                     fullWidth
                     type="submit"
                   >
@@ -89,16 +83,29 @@ export class LoginForm extends Component{
   }
 }
 
-const LoginStatusSelector = createSelector(
-  ['login.ui.requestStatus']
-)
-const AuthorizationSelector = createSelector(
-  ['auth.isAuth']
-)
+const mapStateToProps = state => {
+  let errorStatus
+  try {
+    errorStatus = state.auth.login.error.status
+  } catch (error) {
+    errorStatus = false
+  }
 
-const mapStateToProps = state => ({
-  status: LoginStatusSelector(state),
-  isAuth: AuthorizationSelector(state),
-})
+  return {
+    errorStatus: errorStatus
+  }
+}
 
-export default connect(mapStateToProps, actions)(withRouter(LoginForm))
+const loginJWT = (values) => {
+  return {
+    type: types.LOGIN_WITH_JWT_REQUEST,
+    payload: values
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  {
+    loginJWT
+  }
+)(LoginForm)

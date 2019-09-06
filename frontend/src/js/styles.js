@@ -1,11 +1,12 @@
 import React from 'react'
 import styled, { css, createGlobalStyle } from 'styled-components'
-import { Button, Grid, TextField as MaterialTextField } from '@material-ui/core'
+import { Button, Grid } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles'
 
 const bgColor = "#fff"
 const dark_bg1 = "#1d232a"
 const dark_bg2 = "#282f37"
+const dark_bg3 = "#343c45"
 const dark_cont1 = "#383f47"
 const dark_cont2 = "#909498"
 
@@ -13,12 +14,14 @@ const MuiTheme = createMuiTheme({
     overrides: {
         MuiButtonBase: {
             root: {
-              margin: ""
+              margin: "",
+              backgroundColor: "",
             }
         },
         MuiIconButton: {
           root: {
-            color: "unset"
+            color: "unset",
+            backgroundColor: "#0000"
           }
         }
     }
@@ -74,19 +77,26 @@ const Footer = styled(Grid)`
 const SectionContainer = styled(Grid)`
   margin: ${props => props.horizontal_center === "true" ? 'auto auto' : '0 auto'}
   max-width: 800px
-  background: ${props => props.background || bgColor}
+  background: ${props => props.background || 'inherit'}
 `
 
 const ContentGrid = styled(Grid)`
-  background: ${props => props.background || bgColor}
+  background: ${props => props.background || 'inherit'}
 `
 
 const Content = styled.div`
   max-width: 600px
   box-sizing: border-box
   text-align: ${props => props.center ? 'center' : ';'}
-  background: ${props => props.background || bgColor}
-  margin: 0 auto
+  background: ${props => props.background || 'inherit'}
+  
+  ${css`
+    ${props => props.grid_left ? 'margin-right: auto' : ''}
+    ${props => props.grid_right ? 'margin-left: auto' : ''}
+    ${props => props.noMargin ? 'margin: 0' : ''}
+    ${props => props.marginAuto ? 'margin: 0 auto' : ''}
+  `}
+
   padding: ${props => props.paddingDesctop || '2% 5%'}
   width: ${props => props.fullWidth ? '100%' : ';'}
   @media(max-width: 768px) {
@@ -108,26 +118,15 @@ const StyledForm = styled.form`
   }
 `
 
-const Btn = styled(Button)`
-  width: ${props => props.width || '300px'}
-  margin: 10px auto
+const Img = styled.img`
+  border-radius: ${props => props.round ? '50%' : ';'}
 `
 
-const TextField = ({
-  input: { name, onChange, value, ...restInput },
-  meta,
-  ...rest
-}) => (
-  <MaterialTextField
-    {...rest}
-    name={name}
-    helperText={meta.touched ? meta.error : undefined}
-    error={meta.error && meta.touched}
-    inputProps={restInput}
-    onChange={onChange}
-    value={value}
-  />
-)
+const Btn = styled(Button)`
+  width: ${props => props.width || '300px'}
+  background: ${props => props.background || '#0000'}
+  margin: 10px auto
+`
 
 const H1 = styled.h1`
   color: ${props => props.color || ";"}
@@ -139,6 +138,7 @@ const P = styled.p`
   color: ${props => props.color || "#000"}
   text-align: ${props => props.center ? 'center' : ';'}
   font-size: 1rem
+  font-weight: ${props => props.bold ? 'bold' : ';'}
   line-height: 1.5rem
   ${css`
     ${props => props.grid_left ? 'margin-right: auto' : ''}
@@ -160,11 +160,12 @@ export {
     SectionContainer,
     ContentGrid,
     Content,
-    TextField,
+    Img,
     H1,
     P,
     dark_bg1,
     dark_bg2,
+    dark_bg3,
     dark_cont1,
     dark_cont2,
 }

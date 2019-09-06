@@ -3,7 +3,7 @@ import React from 'react'
 import { H1, dark_cont1 } from '../../styles'
 import { StyledChatMenu } from './styles'
 import MenuRow from './MenuRow'
-import ColoredLine from '../ColoredLine'
+import { ColoredLine } from '..'
 
 const ChatMenu = () => {
     return (

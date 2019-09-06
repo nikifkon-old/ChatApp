@@ -7,7 +7,7 @@ import { P } from '../../styles'
 const Notification = ({message, type}) => {
     return (
         <NotificationContainer type={type}>
-          <P>{message}</P>
+          <P color="#fff">{message}</P>
         </NotificationContainer>
     )
 }

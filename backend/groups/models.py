@@ -5,19 +5,23 @@ from backend.profiles.models import Profile
 
 
 class ChatGroup(models.Model):
+    """ Room for >2 people """
     name = models.CharField("Name", max_length=100)
     slug = models.SlugField("Unique name", max_length=100, unique=True)
     img = models.ImageField("Image", upload_to="groups/", null=True, blank=True)
     description = models.TextField("Description", max_length=1000, null=True, blank=True)
-    members = models.ManyToManyField(Profile, through='Membership', related_name='groups')
+    members = models.ManyToManyField(Profile, through='GroupMembership', related_name='groups')
+
 
     class Meta:
         verbose_name = "Group"
         verbose_name_plural = "Groups"
 
+
     def __str__(self):
         return self.name
-    
+
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.img:
@@ -28,11 +32,12 @@ class ChatGroup(models.Model):
                 img.save(self.img.path)
 
 
-class Membership(models.Model):
+class GroupMembership(models.Model):
+    """ m2m for Profile and Group """
     ROLES_CHOICES = [
         ("A", "Admin"),
         ("M", "Moderator"),
-        ("M", "Member"),
+        ("S", "Subscriber"),
     ]
 
     person = models.ForeignKey(Profile, on_delete=models.CASCADE)
@@ -40,9 +45,12 @@ class Membership(models.Model):
     role = models.CharField("Role in Group", max_length=1, choices=ROLES_CHOICES)
     date_joined = models.DateField("Date of joined", auto_now_add=True)
 
+
     class Meta:
-        verbose_name = "Membership"
-        verbose_name_plural = "Memberships"
+        verbose_name = "Membership in group"
+        verbose_name_plural = "Memberships in group"
+        unique_together = ("person", "group")
+
 
     def __str__(self):
         return f"{self.person.user.username} - {self.group.name}" 

@@ -1,7 +1,9 @@
-import RequireAuth from './RequireAuth'
-import RedirectIfAuth from './RedirectIfAuth'
+import Private from './Private'
+import AuthRouter from './AuthRouter'
+import ChatMenuWithHandleViewList from './ChatMenuWithHandleViewList'
 
 export {
-  RequireAuth,
-  RedirectIfAuth
+  Private,
+  AuthRouter,
+  ChatMenuWithHandleViewList,
 }

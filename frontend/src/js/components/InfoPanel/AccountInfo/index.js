@@ -4,13 +4,13 @@ import { Grid, IconButton } from '@material-ui/core'
 
 import { P } from '../../../styles'
 
-const UserInfo = ({username}) => {
+const UserInfo = ({username, logout}) => {
     return (
         <Grid container
           alignItems="center"
           justify="space-between"
         >
-          <IconButton size="small">
+          <IconButton onClick={logout} size="small">
             <i className="material-icons">
               notifications
             </i>
@@ -26,7 +26,8 @@ const UserInfo = ({username}) => {
 }
 
 UserInfo.propTypes = {
-  username: PropTypes.string.isRequired
+  username: PropTypes.string,
+  logout: PropTypes.func.isRequired,
 }
 
 export default UserInfo

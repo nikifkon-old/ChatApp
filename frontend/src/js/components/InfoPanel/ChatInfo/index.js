@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Grid, IconButton } from '@material-ui/core'
 
-import ColoredLine from '../../ColoredLine'
+import { ColoredLine } from '../..'
 import ChatLogo from '../../../../assets/logo.png'
 import UserCard from '../UserCard'
 import UserDetail from '../UserDetail'

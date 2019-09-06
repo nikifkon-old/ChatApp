@@ -1,0 +1,1 @@
+python manage.py makemigrations chat_messages dialogs groups profiles socket_chat

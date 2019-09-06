@@ -13,7 +13,7 @@ const GetStarted = () => {
           horizontal_center="true"
         >
           <ContentGrid container>
-            <Content>
+            <Content marginAuto>
               <H1>Get Started</H1>
             </Content>
           </ContentGrid>

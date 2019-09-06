@@ -1,67 +1,83 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { createSelector } from 'redux-starter-kit'
 import PropTypes from 'prop-types';
 
-import { actions as AuthActions } from '../Auth/Auth.redux'
-import { actions as HeaderActions } from '../Header/Header.redux'
+import {
+  getUserProfile,
+  logoutUser,
+} from '../../actions/authActions'
+import {
+  handleAppHeader,
+} from '../../actions/chatActions'
 
 import { AppContainer } from '../../styles'
-import { Notification, InfoPanel, ChatNav, ChatMenu, FriendList } from '../../components'
+import {
+  Notification,
+  InfoPanel,
+  ChatNav,
+  ChatMenu,
+  // FriendList,
+} from '../../components'
 
-export class ChatApp extends Component{
+import { FriendList } from '..'
 
+export class ChatApp extends Component {
   static propTypes = {
-    isAuth: PropTypes.bool,
-    name: PropTypes.string,
     isOpen: PropTypes.bool.isRequired,
-    location: PropTypes.shape({
-      state: PropTypes.shape({
-        notification: PropTypes.shape({
-          message: PropTypes.string
-        })
-      })
-    }).isRequired,
-    LogoutUser: PropTypes.func,
-    HandleHeader: PropTypes.func,
-  }
-  
-  logout = () => {
-    this.props.LogoutUser()
+    isAuth: PropTypes.bool.isRequired,
+    username: PropTypes.string.isRequired,
+    getUserProfile: PropTypes.func.isRequired,
+    logoutUser: PropTypes.func.isRequired,
+    handleAppHeader: PropTypes.func.isRequired,
   }
 
   render() {
-    const { name, location, isOpen, HandleHeader } = this.props
+    const {
+      isOpen,
+      username,
+      logoutUser,
+      getUserProfile,
+      handleAppHeader,
+    } = this.props
+
     return (
       <Fragment>
-        { location.state && location.state.notification ? 
+        {/* location.state && location.state.notification ?
           <Notification message={location.state.notification.message} type="error" />
           : null
-        }
+        */}
         <AppContainer menuisopen={isOpen}>
-          <ChatNav HandleHeader={HandleHeader} />
-          <ChatMenu />
-          <FriendList />
+          <ChatNav HandleHeader={handleAppHeader} />
+            {/*
+            <ChatMenu />
+            <FriendList dialogs={dialogs} />
+          */}
+          <div>
+            <button onClick={() => getUserProfile()}>get user data</button>
+          </div>
           <div style={{flex: ".59"}}></div>
-          <InfoPanel username={name} />
+          <InfoPanel
+           username={username}
+           logout={logoutUser}
+          />
         </AppContainer>
       </Fragment>
-      
     )
   }
 }
 
-// const AuthenticatedSelector = createSelector(
-//   ['auth.isAuth']
-// )
-const NameSelector = createSelector(
-  ['login.user.name']
-)
+const mapStateToProps = state => {
+  return {
+    isOpen: state.app.header.isOpen,
+    username: state.auth.user.data.user
+  }
+}
 
-const mapStateToProps = state => ({
-  // isAuth: AuthenticatedSelector(state),
-  name: NameSelector(state),
-  isOpen: state.ui.header.isOpen
-})
-
-export default connect(mapStateToProps, {...AuthActions, ...HeaderActions})(ChatApp)
+export default connect(
+  mapStateToProps,
+  {
+    getUserProfile,
+    logoutUser,
+    handleAppHeader,
+  }
+)(ChatApp)

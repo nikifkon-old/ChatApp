@@ -3,23 +3,22 @@ import PropTypes from 'prop-types'
 
 import ChatInfo from './ChatInfo'
 import AccountInfo from './AccountInfo'
-import ColoredLine from '../ColoredLine'
+import { ColoredLine } from '..'
 import { StyledInfoPanel } from './styles'
 
-const InfoPanel = ({username}) => {
+const InfoPanel = ({username, logout}) => {
     return (
         <StyledInfoPanel>
-          <AccountInfo username={username} />
+          <AccountInfo logout={logout} username={username} />
           <ColoredLine />
           <ChatInfo />
         </StyledInfoPanel>
     )
 }
 
-
 InfoPanel.propTypes = {
-  username: PropTypes.string.isRequired
+  username: PropTypes.string,
+  logout: PropTypes.func.isRequired,
 }
-
 
 export default InfoPanel

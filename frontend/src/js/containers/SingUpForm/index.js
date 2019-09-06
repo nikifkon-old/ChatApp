@@ -1,37 +1,35 @@
 import React, { Component, Fragment } from 'react'
 import { Form, Field } from 'react-final-form'
 import { connect } from 'react-redux'
-// import { createSelector } from 'redux-starter-kit'
 import PropTypes from 'prop-types';
 import { withRouter } from "react-router-dom";
 
-import { actions } from './SingUpForm.redux'
-import { Btn, 
-  ContentGrid, 
-  Content, 
-  TextField, 
-  StyledForm 
+import * as types from '../../actions'
+import { Btn,
+  ContentGrid,
+  Content,
+  StyledForm
 } from '../../styles'
 import { composeValidators, isEmail, required, manyThen } from '../../utils'
-import { ErrorMessage } from '../../components'
+import { ErrorMessage, TextField } from '../../components'
 
 export class SingUpForm extends Component {
 
   static propTypes = {
-    status: PropTypes.number,
-    SingUpUser: PropTypes.func.isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func
-    }).isRequired
+    errorStatus: PropTypes.oneOfType([
+      PropTypes.bool.isRequired,
+      PropTypes.number.isRequired
+    ]),
+    singUpUser: PropTypes.func.isRequired
   }
-  
+
   onSubmit = values => {
-    const { SingUpUser, history } = this.props
-    SingUpUser(values, history)
+    const { singUpUser } = this.props
+    singUpUser(values)
   }
 
   render() {
-    const { status } = this.props
+    const { errorStatus } = this.props
 
     return (
       <Fragment>
@@ -43,7 +41,7 @@ export class SingUpForm extends Component {
                 direction="column"
                 alignItems="center"
               >
-                <ErrorMessage status={status} />
+                <ErrorMessage status={errorStatus} />
                 <Content fullWidth>
                   <Field
                     type="text"
@@ -81,7 +79,7 @@ export class SingUpForm extends Component {
                    />
                 </Content>
                 <Content fullWidth>
-                  <Btn 
+                  <Btn
                     type="submit"
                     fullWidth
                   >
@@ -97,8 +95,29 @@ export class SingUpForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  status: state.singup.ui.requestStatus
-})
+const singUpUser = values => {
+  return {
+    type: types.SINGUP_USER_REQUEST,
+    payload: values
+  }
+}
 
-export default connect(mapStateToProps, actions)(withRouter(SingUpForm))
+const mapStateToProps = state => {
+  let errorStatus
+  try {
+    errorStatus = state.singup.error.status
+  } catch (error) {
+    errorStatus = false
+  }
+
+  return {
+    errorStatus
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  {
+    singUpUser
+  }
+)(withRouter(SingUpForm))

@@ -4,18 +4,17 @@ from backend.profiles.models import Profile
 from django.contrib.auth.models import User
  
 
-class UserSerializer(serializers.ModelSerializer):
-    """ Django User Serializer """
-    class Meta:
-        model = User
-        fields = ("__all__")
+# class UserSerializer(serializers.ModelSerializer):
+#     """ Django User Serializer """
+#     class Meta:
+#         model = User
+#         fields = ("username", "email")
 
 
-# HyperlinkedModelSerializer ???
 class ProfileSerializer(serializers.ModelSerializer):
     """ Profile Serializer"""
-    # user = UserSerializer(read_only=True)
+    user = serializers.StringRelatedField()
 
     class Meta:
         model = Profile
-        fields = ("user", "avatar", "tel", "birth", "gender", "groups")
+        fields = ("user", "avatar", "tel", "birth", "gender", "groups", "dialogs",)
