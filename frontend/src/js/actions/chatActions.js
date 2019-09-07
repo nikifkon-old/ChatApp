@@ -5,3 +5,10 @@ export const handleAppHeader = () => {
     type: types.HANDLE_APP_HEADER
   }
 }
+
+export const handleActiveTabs = id => {
+  return {
+    type: types.HANDLE_ACTIVE_TAB,
+    payload: id
+  }
+}

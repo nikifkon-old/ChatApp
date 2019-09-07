@@ -28,8 +28,9 @@ export default function (ComposedComponent) {
       const { isAuth, push, getUserProfile } = this.props
       if(!isAuth) {
         push('/login', this.getRedirectMessage())
+      } else {
+        getUserProfile()
       }
-      getUserProfile()
     }
 
     componentDidUpdate() {

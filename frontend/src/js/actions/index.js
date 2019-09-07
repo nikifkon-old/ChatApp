@@ -21,3 +21,5 @@ export const LOGOUT_USER = 'LOGOUT_USER'
 
 
 export const HANDLE_APP_HEADER = 'HANDLE_APP_HEADER'
+
+export const HANDLE_ACTIVE_TAB = 'HANDLE_ACTIVE_TAB'

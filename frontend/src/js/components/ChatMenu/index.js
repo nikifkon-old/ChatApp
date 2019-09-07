@@ -9,27 +9,27 @@ const ChatMenu = () => {
     return (
         <StyledChatMenu>
           <H1>Inbox</H1>
-          <ColoredLine 
+          <ColoredLine
             color={dark_cont1}
             height="2px"
           />
-          <MenuRow title="All Messages" newMessage={21} />
-          <MenuRow title="Unread" newMessage={89} />
-          <MenuRow title="Important" newMessage={6} />
-          <MenuRow title="Draft" newMessage={27} />
-          <ColoredLine 
+        <MenuRow id={1} title="All Messages" unreadCount={21} />
+          <MenuRow id={2} title="Unread" unreadCount={89} />
+          <MenuRow id={3} title="Important" unreadCount={6} />
+          <MenuRow id={4} title="Draft" unreadCount={27} />
+          <ColoredLine
             color={dark_cont1}
             height="2px"
           />
-          <MenuRow title="Groups" newMessage={3} />
-          <MenuRow title="Channels" newMessage={18} />
-          <ColoredLine 
+        <MenuRow id={5} title="Groups" unreadCount={3} />
+          <MenuRow id={6} title="Channels" unreadCount={18} />
+          <ColoredLine
             color={dark_cont1}
             height="2px"
           />
-          <MenuRow title="Media" newMessage={18} />
-          <MenuRow title="Help" />
-          <MenuRow title="Settings" />
+        <MenuRow id={7} title="Media" unreadCount={18} />
+          <MenuRow id={8} title="Help" />
+          <MenuRow id={9} title="Settings" />
         </StyledChatMenu>
     )
 }

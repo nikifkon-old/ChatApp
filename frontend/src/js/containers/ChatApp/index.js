@@ -12,7 +12,6 @@ import {
 
 import { AppContainer } from '../../styles'
 import {
-  Notification,
   InfoPanel,
   ChatNav,
   ChatMenu,
@@ -23,9 +22,9 @@ import { FriendList } from '..'
 
 export class ChatApp extends Component {
   static propTypes = {
-    isOpen: PropTypes.bool.isRequired,
     isAuth: PropTypes.bool.isRequired,
-    username: PropTypes.string.isRequired,
+    username: PropTypes.string,
+    isOpen: PropTypes.bool.isRequired,
     getUserProfile: PropTypes.func.isRequired,
     logoutUser: PropTypes.func.isRequired,
     handleAppHeader: PropTypes.func.isRequired,
@@ -35,6 +34,7 @@ export class ChatApp extends Component {
     const {
       isOpen,
       username,
+      activeTab,
       logoutUser,
       getUserProfile,
       handleAppHeader,
@@ -48,8 +48,8 @@ export class ChatApp extends Component {
         */}
         <AppContainer menuisopen={isOpen}>
           <ChatNav HandleHeader={handleAppHeader} />
-            {/*
-            <ChatMenu />
+          <ChatMenu />
+          {/*
             <FriendList dialogs={dialogs} />
           */}
           <div>
@@ -69,7 +69,7 @@ export class ChatApp extends Component {
 const mapStateToProps = state => {
   return {
     isOpen: state.app.header.isOpen,
-    username: state.auth.user.data.user
+    username: state.auth.user.data.user,
   }
 }
 

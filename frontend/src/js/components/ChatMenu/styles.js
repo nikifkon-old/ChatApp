@@ -9,7 +9,7 @@ const StyledChatMenu = styled.section`
   display: flex
   flex-direction: column
   align-items: center
-  padding: 0 25px
+  padding: 0 10px
   box-shadow: inset -10px 0px 20px ${dark_bg1}
 `
 

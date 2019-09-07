@@ -34,7 +34,7 @@ const GlobalStyle = createGlobalStyle`
       font-family: 'Nunito', sans-serif;
       background: ${bgColor}
     }
-    
+
     a {
       text-decoration: none
     }
@@ -89,7 +89,7 @@ const Content = styled.div`
   box-sizing: border-box
   text-align: ${props => props.center ? 'center' : ';'}
   background: ${props => props.background || 'inherit'}
-  
+
   ${css`
     ${props => props.grid_left ? 'margin-right: auto' : ''}
     ${props => props.grid_right ? 'margin-left: auto' : ''}
@@ -130,16 +130,16 @@ const Btn = styled(Button)`
 
 const H1 = styled.h1`
   color: ${props => props.color || ";"}
-  font-size: 1.75rem
-  line-height: 1.2rem
+  font-size: 20px
+  line-height: 1rem
 `
 
 const P = styled.p`
   color: ${props => props.color || "#000"}
   text-align: ${props => props.center ? 'center' : ';'}
-  font-size: 1rem
+  font-size: 14px
   font-weight: ${props => props.bold ? 'bold' : ';'}
-  line-height: 1.5rem
+  line-height: 20px
   ${css`
     ${props => props.grid_left ? 'margin-right: auto' : ''}
     ${props => props.grid_right ? 'margin-left: auto' : ''}

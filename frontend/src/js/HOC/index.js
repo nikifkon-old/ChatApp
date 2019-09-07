@@ -1,9 +1,9 @@
 import Private from './Private'
 import AuthRouter from './AuthRouter'
-import ChatMenuWithHandleViewList from './ChatMenuWithHandleViewList'
+import TabsConstructor from './TabsConstructor'
 
 export {
   Private,
   AuthRouter,
-  ChatMenuWithHandleViewList,
+  TabsConstructor,
 }
