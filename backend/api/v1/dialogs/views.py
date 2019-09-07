@@ -6,8 +6,11 @@ from backend.dialogs.models import Dialog, DialogMembership
 
 class DialogListCreateView(generics.ListCreateAPIView):
     """ Create & List Groups """
-    queryset = Dialog.objects.all()
     serializer_class = DialogSerializer
+
+    def get_queryset(self):
+        user_id = self.request.query_params.get('user_id')
+        return Dialog.objects.filter(members=user_id)
 
 
 class DialogRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):

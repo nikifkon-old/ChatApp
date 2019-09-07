@@ -27,12 +27,12 @@ INSTALLED_APPS = [
     'channels',
     'corsheaders',
     'webpack_loader',
-    
+
     'rest_framework',
     'django_filters',
     'rest_framework.authtoken',
     'djoser',
-    
+
     'backend.profiles',
     'backend.socket_chat',
     'backend.groups',
@@ -93,7 +93,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=50),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'AUTH_HEADER_TYPES': ('JWT',),
     'USER_ID_FIELD': 'id',

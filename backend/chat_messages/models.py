@@ -27,7 +27,7 @@ class DialogMessage(models.Model):
     dialog = models.ForeignKey(Dialog, on_delete=models.CASCADE, related_name="messages")
     text = models.TextField(max_length=1000)
     date = models.DateField("date of created or updated", auto_now=True)
-
+    
 
     class Meta:
         verbose_name = "Message in dialog"
