@@ -17,6 +17,7 @@ class LastMessageSerizalizer(serializers.ModelSerializer):
 
 
 class PersonSerializer(serializers.ModelSerializer):
+    """ Interlocutor serializer """
     user = serializers.SerializerMethodField()
     user_id = serializers.SerializerMethodField()
 
@@ -34,25 +35,32 @@ class PersonSerializer(serializers.ModelSerializer):
 
 class DialogSerializer(serializers.ModelSerializer):
     """ Dialog Serializer"""
-    members = PersonSerializer(many=True, read_only=True)
+
     last_message = serializers.SerializerMethodField()
+    interlocutor = serializers.SerializerMethodField()
+
+    def get_interlocutor(self, obj):
+        """ Get Interlocutor if `user_id` in query_params """
+        user_id = self.context['request'].query_params.get('user_id')
+        if user_id:
+            id = int(user_id)
+            # remove yourself
+            qs_interlocutor = DialogMembership.objects.filter(dialog=obj)\
+                .exclude(person__id=id)
+            serializer = PersonSerializer(qs_interlocutor[0].person)
+        else:
+            # get all members
+            profiles = Profile.objects.filter(dialogs=obj)
+            serializer = PersonSerializer(profiles, many=True)
+
+        return serializer.data
 
     def get_last_message(self, obj):
         """ Get last message in dialog """
         message = DialogMessage.objects.filter(dialog=obj).order_by('-date')[0]
         return LastMessageSerizalizer(message).data
 
-    def to_representation(self, obj):
-        """ Remove Yourself from dialog members """
-        ret = super().to_representation(obj)
-        user_id = int(self.context['request'].query_params.get('user_id'))
-        members = ret.get('members')
-        for id, member in enumerate(members):
-            if member.get('user_id') == user_id:
-                members.pop(id)
-        return ret
-
 
     class Meta:
         model = Dialog
-        fields = ("id", "members", "last_message")
+        fields = ("id", "interlocutor", "last_message")
