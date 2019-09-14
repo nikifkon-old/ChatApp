@@ -7,24 +7,39 @@
     "build-development": "webpack --config frontend/webpack/webpack.local.config.js --progres --mode=development",
     "build-production": "webpack --config frontend/webpack/webpack.production.config.js --progress --mode=production",
     "watch": "webpack-dev-server --config frontend/webpack/webpack.local.config.js",
-    "test": "./node_modules/karma/bin/karma start frontend/webpack/karma.config.js --log-level debug"
+    "test": "jest",
+    "test:ci": "jest --runInBand"
   },
-  "author": "",
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "transform": {
+      "\\.js$": [
+        "babel-jest"
+      ]
+    }
+  },
+  "author": "nikifkon",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.6.0",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^10.0.2",
+    "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "css-loader": "^3.1.0",
+    "eslint": "^6.3.0",
     "eslint-plugin-react": "^7.14.3",
     "file-loader": "^4.1.0",
     "prop-types": "^15.7.2",
     "react-hot-loader": "^4.8",
     "redux-devtools": "^3.5.0",
+    "redux-saga-test-plan": "^4.0.0-beta.2",
     "style-loader": "^0.23.1",
     "webpack": "^4.38.0",
     "webpack-bundle-tracker": "^0.4.2-beta",
@@ -35,6 +50,7 @@
     "@material-ui/core": "^4.3.0",
     "axios": "^0.19.0",
     "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
     "connected-react-router": "^6.5.2",
     "final-form": "^4.18.2",
     "jsonwebtoken": "^8.5.1",
@@ -45,7 +61,9 @@
     "react-router-dom": "^5.0.1",
     "redux": "^4.0.4",
     "redux-saga": "^1.0.5",
+    "reselect": "^4.0.0",
     "styled-components": "^4.3.2",
-    "watch": "^1.0.2"
+    "watch": "^1.0.2",
+    "why-did-you-update": "^0.1.1"
   }
 }

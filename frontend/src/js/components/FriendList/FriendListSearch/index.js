@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Content } from '../../../styles'
 
 const FriendListSearch = () => {

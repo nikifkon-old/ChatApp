@@ -1,48 +1,46 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { MuiThemeProvider } from '@material-ui/core/styles'
+import { StylesProvider } from "@material-ui/styles";
 
-import GlobalStyle, { MuiTheme, Wrapper, PageContainer } from '../styles'
+import GlobalStyle, { Wrapper, PageContainer } from '../styles'
 import Home from '../routes/Home'
 import GetStarted from '../routes/GetStarted'
 import Login from '../routes/Login'
 import { ChatApp } from '../containers'
 import { Header } from '../components'
-import { Private, AuthRouter } from '../HOC'
+import { Private, AuthRouter, withHeaderStatus } from '../HOC'
 
 
-const App = ({showHeader}) => {
+class App extends Component {
+  static propTypes = {
+    headerStatus: PropTypes.bool.isRequired
+  }
+
+  render() {
+    const {headerStatus} = this.props
     return (
-        <MuiThemeProvider theme={MuiTheme}>
-          <Wrapper>
-            <Header isOpen={showHeader} />
-            <PageContainer
-              menuisopen={showHeader}
-              container
-              direction="column"
-              background="#edeef0"
-            >
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/app" component={Private(ChatApp)} />
-                <Route path="/get-started" component={AuthRouter(GetStarted)} />
-                <Route path="/login" component={AuthRouter(Login)} />
-              </Switch>
-            </PageContainer>
-          </Wrapper>
-          <GlobalStyle />
-        </MuiThemeProvider>
+      <StylesProvider injectFirst>
+        <Wrapper>
+          <Header isOpen={headerStatus} />
+          <PageContainer
+            menuisopen={headerStatus}
+            container
+            direction="column"
+            background="#edeef0"
+          >
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/app" component={Private(ChatApp)} />
+              <Route path="/get-started" component={AuthRouter(GetStarted)} />
+              <Route path="/login" component={AuthRouter(Login)} />
+            </Switch>
+          </PageContainer>
+        </Wrapper>
+        <GlobalStyle />
+      </StylesProvider>
     )
+  }
 }
 
-App.propTypes = {
-  showHeader: PropTypes.bool.isRequired
-}
-
-const mapStateToProps = state => ({
-  showHeader: state.app.header.isOpen
-})
-
-export default connect(mapStateToProps, null)(App)
+export default withHeaderStatus(App)

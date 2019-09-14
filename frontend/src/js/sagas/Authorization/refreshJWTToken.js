@@ -1,7 +1,7 @@
 import { takeEvery, put, call } from 'redux-saga/effects'
 
-import { refreshTokenService } from '../services'
-import * as types from '../actions'
+import { refreshTokenService } from '../../services'
+import * as types from '../../actions'
 
 function* refreshJWTToken() {
   try {

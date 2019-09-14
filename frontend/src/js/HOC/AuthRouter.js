@@ -27,13 +27,6 @@ export default function (ComposedComponent) {
       }
     }
 
-    componentDidUpdate() {
-      const { isAuth, push } = this.props
-      if(isAuth) {
-        push('/app', this.getRedirectMessage())
-      }
-    }
-
     render() {
       return <ComposedComponent {...this.props} />
     }

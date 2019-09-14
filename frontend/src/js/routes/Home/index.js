@@ -8,8 +8,8 @@ import Logo from '../../../assets/logo.png'
 
 const Home = () => {
     return (
-        <SectionContainer container 
-          direction="column" 
+        <SectionContainer container
+          direction="column"
           alignItems="center"
         >
           <StyledLogo src={Logo} alt="logo" />
@@ -17,10 +17,21 @@ const Home = () => {
           <P>Just chat and nothing more</P>
           <Grid container item direction="row" justify="space-evenly">
             <Link to="/login">
-              <Btn variant="outlined">Login</Btn>
+              <Btn
+                variant="outlined"
+                width="300px"
+              >
+                Login
+              </Btn>
             </Link>
             <Link to="/get-started">
-              <Btn variant="contained" color="primary">Get started</Btn>
+              <Btn
+                variant="contained"
+                color="primary"
+                width="300px"
+              >
+                Get started
+              </Btn>
             </Link>
           </Grid>
         </SectionContainer>

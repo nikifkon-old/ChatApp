@@ -104,5 +104,6 @@ frontend/builds-dev/
 # media
 media/
 
+coverage/
 
 plan/

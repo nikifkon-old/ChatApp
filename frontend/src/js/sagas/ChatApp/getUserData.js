@@ -1,8 +1,8 @@
 import { put, takeEvery, call, select } from 'redux-saga/effects'
 
-import { getUserDataService } from '../services'
-import * as types from '../actions'
-import { selectUserId } from '../reducers/Authorization/authReducer'
+import { getUserDataService } from '../../services'
+import * as types from '../../actions'
+import { selectUserId } from '../../reducers/Authorization/authReducer'
 
 function* getUserData() {
   const user_id = yield select(selectUserId)

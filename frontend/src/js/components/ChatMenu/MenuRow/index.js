@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { TabsConstructor } from '../../../HOC'
-import { Btn, P, dark_cont2, dark_bg3 } from '../../../styles'
+import { Btn, P, dark_cont2, dark_active } from '../../../styles'
 
 const MenuRow = ({isActive, handleActiveTabs, unreadCount, title, id}) => {
 
     let styles = {}
     isActive ? styles = {
-      btnBackground: dark_bg3,
+      btnBackground: dark_active,
       titleColor: "#fff"
     } :
     styles = {

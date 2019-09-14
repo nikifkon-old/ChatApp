@@ -6,6 +6,7 @@ import ColoredLine from './ColoredLine'
 import ChatNav from './ChatNav'
 import ChatMenu from './ChatMenu'
 import FriendList from './FriendList'
+import Chat from './Chat'
 import TextField from './TextField'
 
 export {
@@ -18,4 +19,5 @@ export {
   ChatNav,
   ChatMenu,
   FriendList,
+  Chat,
 }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 import PropTypes from 'prop-types'
 
+import { getIsSuccessUserData } from '../reducers/selectors'
 import { getUserProfile } from '../actions/authActions'
 
 export default function (ComposedComponent) {
@@ -10,8 +11,9 @@ export default function (ComposedComponent) {
 
     static propTypes = {
       isAuth: PropTypes.bool.isRequired,
-      push: PropTypes.func.isRequired,
+      fetchedSuccess: PropTypes.bool.isRequired,
       current_url: PropTypes.string.isRequired,
+      push: PropTypes.func.isRequired,
       getUserProfile: PropTypes.func.isRequired,
     }
 
@@ -25,18 +27,22 @@ export default function (ComposedComponent) {
     }
 
     componentDidMount(){
-      const { isAuth, push, getUserProfile } = this.props
+      const { isAuth, fetchedSuccess, push, getUserProfile } = this.props
       if(!isAuth) {
         push('/login', this.getRedirectMessage())
-      } else {
+      }
+      if (!fetchedSuccess) {
         getUserProfile()
       }
     }
 
     componentDidUpdate() {
-      const { isAuth, push } = this.props
+      const { isAuth, fetchedSuccess, push } = this.props
       if(!isAuth) {
         push('/login', this.getRedirectMessage())
+      }
+      if (!fetchedSuccess) {
+        getUserProfile()
       }
     }
 
@@ -45,8 +51,9 @@ export default function (ComposedComponent) {
     }
   }
   const mapStateToProps = (state) => ({
-      isAuth: state.auth.auth.isAuth,
-      current_url: state.router.location.pathname,
+    isAuth: state.auth.auth.isAuth,
+    current_url: state.router.location.pathname,
+    fetchedSuccess: getIsSuccessUserData(state),
   })
 
   return connect(

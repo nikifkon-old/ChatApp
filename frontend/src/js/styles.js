@@ -1,90 +1,61 @@
 import React from 'react'
 import styled, { css, createGlobalStyle } from 'styled-components'
-import { Button, Grid } from '@material-ui/core'
-import { createMuiTheme } from '@material-ui/core/styles'
+import { Button, Grid, IconButton } from '@material-ui/core'
 
-const bgColor = "#fff"
-const dark_bg1 = "#1d232a"
-const dark_bg2 = "#282f37"
-const dark_bg3 = "#343c45"
-const dark_cont1 = "#383f47"
-const dark_cont2 = "#909498"
+export const bgColor = "#fff"
+export const dark_bg1 = "#0E1621"
+export const dark_bg2 = "#182533"
+export const dark_bg3 = "#202B36"
+export const dark_active = "#2B5278"
+export const dark_cont = "#fff"
+export const dark_cont1 = "#383f47"
+export const dark_cont2 = "#ccc"
 
-const MuiTheme = createMuiTheme({
-    overrides: {
-        MuiButtonBase: {
-            root: {
-              margin: "",
-              backgroundColor: "",
-            }
-        },
-        MuiIconButton: {
-          root: {
-            color: "unset",
-            backgroundColor: "#0000"
-          }
-        }
-    }
-})
+export default createGlobalStyle`
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    background: ${bgColor};
+  }
 
-const GlobalStyle = createGlobalStyle`
-    html, body {
-      margin: 0
-      padding: 0
-      font-family: 'Nunito', sans-serif;
-      background: ${bgColor}
-    }
+  a {
+    text-decoration: none
+  }
 
-    a {
-      text-decoration: none
-    }
-
-    img {
-        margin: 0 auto
-    }
+  img {
+      margin: 0 auto
+  }
 `
 
-const Wrapper = styled.div`
-    display: flex
-    flex-direction: column
-    min-height: 100vh
+export const Wrapper = styled.div`
+  display: flex
+  flex-direction: column
+  min-height: 100vh
 `
 
-const PageContainer = styled(({menuisopen, ...props}) => <Grid {...props} />)`
+export const PageContainer = styled(({menuisopen, ...props}) => <Grid {...props} />)`
   margin-top: ${props => props.menuisopen ? '50px' : '0px'}
   background: ${props => props.background || bgColor}
   flex: 1
   transition: .3s ease-out 0s margin-top;
 `
 
-const Header = styled.nav`
-  display: flex
-  width: 100%
-  box-sizing: border-box
-  justify-content: space-evenly
-  align-items: center
-  position: absolute
-  top: ${props => props.show ? '0' : '-50px'}
-  z-index: 9
-  height: 50px
-  background: ${dark_bg1}
-  transition: .3s ease-out 0s top;
-`
-const Footer = styled(Grid)`
+export const Footer = styled(Grid)`
 
 `
 
-const SectionContainer = styled(Grid)`
+export const SectionContainer = styled(Grid)`
   margin: ${props => props.horizontal_center === "true" ? 'auto auto' : '0 auto'}
   max-width: 800px
   background: ${props => props.background || 'inherit'}
 `
 
-const ContentGrid = styled(Grid)`
+export const ContentGrid = styled(Grid)`
   background: ${props => props.background || 'inherit'}
 `
 
-const Content = styled.div`
+export const Content = styled.div`
   max-width: 600px
   box-sizing: border-box
   text-align: ${props => props.center ? 'center' : ';'}
@@ -104,68 +75,71 @@ const Content = styled.div`
   }
 `
 
-const AppContainer = styled.div`
-  width: 100%
-  min-height: ${props => props.menuisopen ? "calc(100vh - 50px);" : "100vh;"}
-  display: flex
+export const AppContainer = styled.div`
+  width: 100%;
+  min-height: ${props =>
+    props.menuisopen
+      ? "calc(100vh - 50px)"
+      : "100vh"
+    };
+  display: grid;
+  grid-template-columns: 40px .8fr 1.3fr 550px 1fr;
   transition: .3s ease-out 0s min-height;
 `
 
-const StyledForm = styled.form`
+export const StyledForm = styled.form`
   width: 600px
   @media(max-width: 768px){
     width: 100%
   }
 `
 
-const Img = styled.img`
+export const Img = styled.img`
   border-radius: ${props => props.round ? '50%' : ';'}
 `
 
-const Btn = styled(Button)`
-  width: ${props => props.width || '300px'}
-  background: ${props => props.background || '#0000'}
-  margin: 10px auto
+export const Btn = styled(Button)`
+  width: ${props => props.width || '100%'};
+  color: ${props => props.color || 'inherit'};
+  ${css`
+    ${props => props.background
+      && `background: ${props.background};`
+    }
+  `}
+  margin: 10px auto;
 `
 
-const H1 = styled.h1`
+
+export const IconBtn = styled(IconButton)`
+  color: ${props => props.color || 'inherit'};
+  ${css`
+    ${props => props.background
+      && `background: ${props.background};`
+    }
+  `}
+`
+
+export const H1 = styled.h1`
   color: ${props => props.color || ";"}
   font-size: 20px
   line-height: 1rem
 `
 
-const P = styled.p`
-  color: ${props => props.color || "#000"}
-  text-align: ${props => props.center ? 'center' : ';'}
-  font-size: 14px
-  font-weight: ${props => props.bold ? 'bold' : ';'}
-  line-height: 20px
-  ${css`
-    ${props => props.grid_left ? 'margin-right: auto' : ''}
-    ${props => props.grid_right ? 'margin-left: auto' : ''}
-    ${props => props.noMargin ? 'margin: 0' : ''}
-  `}
+export const H4 = styled.h4`
+  color: ${props => props.color || ";"}
+  font-size: 16px
+  line-height: 1rem
 `
 
-export {
-    GlobalStyle as default,
-    MuiTheme,
-    Btn,
-    Wrapper,
-    PageContainer,
-    AppContainer,
-    StyledForm,
-    Header,
-    Footer,
-    SectionContainer,
-    ContentGrid,
-    Content,
-    Img,
-    H1,
-    P,
-    dark_bg1,
-    dark_bg2,
-    dark_bg3,
-    dark_cont1,
-    dark_cont2,
-}
+export const P = styled.p`
+  color: ${props => props.color || "inherit"};
+  text-align: ${props => props.center ? 'center' : ''};
+  font-size: 14px;
+  font-weight: ${props => props.bold ? 'bold' : ''};
+  line-height: 20px;
+  ${css`
+    ${props => props.grid_left ? 'margin-right: auto;' : ''}
+    ${props => props.grid_right ? 'margin-left: auto;' : ''}
+    ${props => props.noMargin ? 'margin: 0;' : ''}
+  `}
+`

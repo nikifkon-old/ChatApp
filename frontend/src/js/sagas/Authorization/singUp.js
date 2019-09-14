@@ -1,8 +1,8 @@
 import { takeEvery, put, call } from 'redux-saga/effects'
 import { push } from 'connected-react-router'
 
-import { singUpUserService } from '../services'
-import * as types from '../actions'
+import { singUpUserService } from '../../services'
+import * as types from '../../actions'
 
 function* loginJWT(action) {
   const { payload } = action

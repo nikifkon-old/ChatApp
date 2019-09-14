@@ -26,6 +26,8 @@ export default function(state = initialState, action) {
     return {
       ...state,
       fetching: false,
+      success: true,
+      error: null,
       data: action.payload
     }
     case types.GET_USER_DATA_FAILURE:

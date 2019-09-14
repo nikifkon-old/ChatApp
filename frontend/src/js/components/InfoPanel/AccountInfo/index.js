@@ -1,33 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Grid, IconButton } from '@material-ui/core'
 
-import { P } from '../../../styles'
+import { ContentGrid, P, IconBtn } from '../../../styles'
+import { withAccountInfo } from '../../../HOC'
 
-const UserInfo = ({username, logout}) => {
+const UserInfo = ({username, logoutUser}) => {
     return (
-        <Grid container
+        <ContentGrid container
           alignItems="center"
           justify="space-between"
         >
-          <IconButton onClick={logout} size="small">
+          <IconBtn onClick={logoutUser} size="small">
             <i className="material-icons">
               notifications
             </i>
-          </IconButton>
+          </IconBtn>
           <P center grid_right>{username}</P>
-          <IconButton size="small">
+          <IconBtn size="small">
             <i className="material-icons">
               keyboard_arrow_down
             </i>
-          </IconButton>
-        </Grid>
+          </IconBtn>
+        </ContentGrid>
     )
 }
 
 UserInfo.propTypes = {
   username: PropTypes.string,
-  logout: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired,
 }
 
-export default UserInfo
+export default withAccountInfo(UserInfo)

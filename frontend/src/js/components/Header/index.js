@@ -2,7 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { P, Header as StyledHeader } from '../../styles'
+import { StyledHeader } from './styles'
+import { P } from '../../styles'
 
 const Header = ({isOpen}) => {
     return (

@@ -3,6 +3,7 @@ from rest_framework import serializers
 from backend.dialogs.models import Dialog, DialogMembership
 from backend.profiles.models import Profile
 from backend.chat_messages.models import DialogMessage
+from backend.api.v1.profiles.serializers import ProfileSerializer
 
 class DialogMemberSerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,17 +48,18 @@ class DialogSerializer(serializers.ModelSerializer):
             # remove yourself
             qs_interlocutor = DialogMembership.objects.filter(dialog=obj)\
                 .exclude(person__id=id)
-            serializer = PersonSerializer(qs_interlocutor[0].person)
+            serializer = ProfileSerializer(qs_interlocutor[0].person)
         else:
             # get all members
             profiles = Profile.objects.filter(dialogs=obj)
-            serializer = PersonSerializer(profiles, many=True)
+            serializer = ProfileSerializer(profiles, many=True)
 
         return serializer.data
 
     def get_last_message(self, obj):
         """ Get last message in dialog """
-        message = DialogMessage.objects.filter(dialog=obj).order_by('-date')[0]
+        message = DialogMessage.objects.filter(dialog=obj)\
+            .order_by('-date')[0]
         return LastMessageSerizalizer(message).data
 
 

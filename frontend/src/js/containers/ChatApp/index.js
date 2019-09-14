@@ -2,41 +2,48 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 
+import { getIsSuccessDialogs } from '../../reducers/selectors'
 import {
   getUserProfile,
   logoutUser,
 } from '../../actions/authActions'
 import {
   handleAppHeader,
+  getDialogs,
 } from '../../actions/chatActions'
-
+import { withHeaderStatus } from '../../HOC'
 import { AppContainer } from '../../styles'
 import {
   InfoPanel,
   ChatNav,
   ChatMenu,
-  // FriendList,
+  FriendList,
+  Chat,
 } from '../../components'
 
-import { FriendList } from '..'
 
 export class ChatApp extends Component {
   static propTypes = {
     isAuth: PropTypes.bool.isRequired,
-    username: PropTypes.string,
-    isOpen: PropTypes.bool.isRequired,
+    headerStatus: PropTypes.bool.isRequired,
+    dialogs: PropTypes.array,
+    fetchedSuccess: PropTypes.bool.isRequired,
     getUserProfile: PropTypes.func.isRequired,
-    logoutUser: PropTypes.func.isRequired,
+    getDialogs: PropTypes.func.isRequired,
     handleAppHeader: PropTypes.func.isRequired,
+  }
+
+  componentDidMount() {
+    const { getDialogs, fetchedSuccess } = this.props
+    if (!fetchedSuccess) {
+      getDialogs()
+    }
   }
 
   render() {
     const {
-      isOpen,
-      username,
-      activeTab,
-      logoutUser,
-      getUserProfile,
+      headerStatus,
+      dialogs,
       handleAppHeader,
     } = this.props
 
@@ -46,20 +53,12 @@ export class ChatApp extends Component {
           <Notification message={location.state.notification.message} type="error" />
           : null
         */}
-        <AppContainer menuisopen={isOpen}>
+        <AppContainer menuisopen={headerStatus}>
           <ChatNav HandleHeader={handleAppHeader} />
           <ChatMenu />
-          {/*
-            <FriendList dialogs={dialogs} />
-          */}
-          <div>
-            <button onClick={() => getUserProfile()}>get user data</button>
-          </div>
-          <div style={{flex: ".59"}}></div>
-          <InfoPanel
-           username={username}
-           logout={logoutUser}
-          />
+          <FriendList dialogs={dialogs} />
+          <Chat />
+          <InfoPanel />
         </AppContainer>
       </Fragment>
     )
@@ -68,8 +67,8 @@ export class ChatApp extends Component {
 
 const mapStateToProps = state => {
   return {
-    isOpen: state.app.header.isOpen,
-    username: state.auth.user.data.user,
+    dialogs: state.app.dialogs.data,
+    fetchedSuccess: getIsSuccessDialogs(state)
   }
 }
 
@@ -77,7 +76,9 @@ export default connect(
   mapStateToProps,
   {
     getUserProfile,
-    logoutUser,
     handleAppHeader,
+    getDialogs,
   }
-)(ChatApp)
+)(
+  withHeaderStatus(ChatApp)
+)

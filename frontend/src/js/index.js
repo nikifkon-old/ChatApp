@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 
-import App from './containers/App'
-
+import { App } from './containers'
 import configureStore, { history } from './store/configureStore'
 
 const store = configureStore()

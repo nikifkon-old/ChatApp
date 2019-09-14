@@ -1,41 +1,44 @@
 import React, { Fragment } from 'react'
-import { Grid, IconButton } from '@material-ui/core'
+import PropTypes from 'prop-types'
 
-import { ColoredLine } from '../..'
+import { ColoredLine } from '../../index'
 import ChatLogo from '../../../../assets/logo.png'
 import UserCard from '../UserCard'
 import UserDetail from '../UserDetail'
-import { StledChatLogo } from './styles'
+import { StyledChatLogo } from './styles'
+import { ContentGrid, IconBtn } from '../../../styles'
+import { withChatInfo } from '../../../HOC'
 
-const ChatInfo = () => {
-    return (
-        <Fragment>
-          <Grid container
-            justify="space-between"
-            alignItems="center"
-          >
-            <IconButton size="small">
-              <StledChatLogo src={ChatLogo} width="20px" alt="Logo"/>
-            </IconButton>
-            <IconButton size="small">
-              <i className="material-icons">
-                more_horiz
-              </i>
-            </IconButton>
-          </Grid>
-          <UserCard 
-            username="Kirsten Mckellar"
-            location="Cape Town, RSA" />
-          <ColoredLine />
-          <UserDetail
-            nickname="test nickname"
-            tel="+83929292922"
-            date="8 Match 1900"
-            gender="Femail"
-            lang="ru"
-          />
-        </Fragment>
-    )
+const ChatInfo = (props) => {
+  const { interlocutor } = props
+  return (
+      <Fragment>
+        <ContentGrid container
+          justify="space-between"
+          alignItems="center"
+        >
+          <IconBtn size="small">
+            <StyledChatLogo src={ChatLogo} width="20px" alt="Logo"/>
+          </IconBtn>
+          <IconBtn size="small">
+            <i className="material-icons">
+              more_horiz
+            </i>
+          </IconBtn>
+        </ContentGrid>
+
+        <UserCard
+          interlocutor={interlocutor} />
+        <ColoredLine />
+        <UserDetail
+          interlocutor={interlocutor}
+        />
+      </Fragment>
+  )
 }
 
-export default ChatInfo
+ChatInfo.propTypes = {
+  interlocutor: PropTypes.object,
+}
+
+export default withChatInfo(ChatInfo)

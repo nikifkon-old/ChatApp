@@ -1,22 +1,20 @@
 import React from 'react'
-import { IconButton } from '@material-ui/core'
 import PropTypes from 'prop-types'
 
 import { StylesChatNav } from './styles'
+import { IconBtn } from '../../styles'
 
 const ChatNav = ({HandleHeader}) => {
-    const handleMenu = () => {
-      HandleHeader()
-    }
-
     return (
+      <section>
         <StylesChatNav>
-          <IconButton onClick={handleMenu}>
+          <IconBtn onClick={HandleHeader}>
             <i className="material-icons light">
               menu
             </i>
-          </IconButton>
+          </IconBtn>
         </StylesChatNav>
+      </section>
     )
 }
 

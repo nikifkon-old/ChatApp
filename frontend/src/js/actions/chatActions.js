@@ -12,3 +12,16 @@ export const handleActiveTabs = id => {
     payload: id
   }
 }
+
+export const getDialogs = () => {
+  return {
+    type: types.GET_DIALOGS_REQUEST
+  }
+}
+
+export const setActiveDialog = dialog_id => {
+    return {
+      type: types.GET_MESSAGES_IN_DIALOG_REQUEST,
+      payload: dialog_id
+    }
+}

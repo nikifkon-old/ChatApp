@@ -1,5 +1,5 @@
 import { takeEvery, race, take, put } from 'redux-saga/effects'
-import * as types from '../actions'
+import * as types from '../../actions'
 
 const ignoreActionTypes = ['REFRESH_ACCESS_TOKEN']
 

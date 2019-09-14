@@ -49,6 +49,7 @@ export default function(state = initialState, action) {
         ...state,
         fetching: false,
         success: true,
+        error: null,
         tokens: {
           ...state.tokens,
           access: action.payload.access

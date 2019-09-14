@@ -3,10 +3,14 @@ import {
   singUpUserService,
   refreshTokenService,
   getAuthHeaders,
- } from './authService'
+} from './authServices'
 import {
   getUserDataService,
 } from './userDataService'
+import {
+  getDialogsDataService,
+  getMessagesInDialogService,
+} from './ChatServices/dialogsServices'
 
 let BASE_URL
 if(process.env.NODE_ENV === 'development') {
@@ -26,4 +30,7 @@ export {
   getAuthHeaders,
 
   getUserDataService,
+
+  getDialogsDataService,
+  getMessagesInDialogService,
 }

@@ -1,52 +1,81 @@
 import React from 'react'
-import { IconButton } from '@material-ui/core'
 import PropTypes from 'prop-types'
+import {
+  Grid,
+  AvatarItem,
+  UsernameItem,
+  IconButtonItem,
+  LastMessageItem,
+  ElapsedTimeItem,
+} from './styles'
+import { dark_cont2 } from '../../../styles'
+import DefaultAvatar from '../../../../assets/defaultAvatar.jpg'
+import { getElapsedTime } from '../../../utils'
 
-import { ContentGrid, Content, Img, P, dark_cont2 } from '../../../styles'
 
-const FriendCard = ({dialog}) => {
-    console.log(dialog)
-    return (
-        <ContentGrid container
-          alignItems="center"
-          justify="space-evenly"
-        >
-          <Content
-            paddingDesctop="10px"
-          >
-            <Img src="http://127.0.0.1:3000/builds/frontend/src/assets/test_user_avatar.jpg" 
-              round
-              width="60px" 
-              alt=""
-            />
-          </Content>
-          <Content
-            paddingDesctop="0"
-            marginAuto
-          >
-            <P color="#fff" bold center>Kirsten Mckellar</P>
-            <P color={dark_cont2} center>
-              {"Thanks again you have been very kind".split(' ').slice(0, 3).join(' ')}...
-            </P>
-          </Content>
-          
-          <Content
-            paddingDesctop="0"
-            grid_right
-          >
-            <IconButton>
-              <i className="material-icons light">
-                more_horiz
-              </i>
-            </IconButton>
-            <P color={dark_cont2}>2 min</P>
-          </Content>
-        </ContentGrid>
-    )
+const FriendCard = (props) => {
+  const { setActiveDialog } = props
+  const { last_message, interlocutor } = props.dialog
+  const { date, sender, text } = last_message
+  let { avatar, user } = interlocutor
+
+  if (!avatar) {
+    avatar = DefaultAvatar
+  }
+
+  return (
+    <Grid onClick={setActiveDialog}>
+      <AvatarItem
+        src={avatar}
+        round
+        width="60px"
+        alt=""
+      />
+
+      <UsernameItem
+        color="#fff"
+        bold
+        center
+      >
+        {user}
+      </UsernameItem>
+
+      <IconButtonItem>
+        <i className="material-icons light">
+          more_horiz
+        </i>
+      </IconButtonItem>
+
+      <LastMessageItem
+        color={dark_cont2}
+        center
+      >
+        {text.split(' ').slice(0, 8).join(' ')}
+      </LastMessageItem>
+
+      <ElapsedTimeItem
+        color={dark_cont2}
+      >
+        {getElapsedTime(date)} ago
+      </ElapsedTimeItem>
+    </Grid>
+  )
 }
 
 FriendCard.propTypes = {
-  dialog: PropTypes.object.isRequired
+  dialog: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    last_message: PropTypes.shape({
+      sender: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
+    }),
+    interlocutor: PropTypes.shape({
+      user: PropTypes.string.isRequired,
+      avatar: PropTypes.string.isRequired,
+    }).isRequired
+  }),
+  setActiveDialog: PropTypes.func.isRequired,
 }
 
 export default FriendCard
