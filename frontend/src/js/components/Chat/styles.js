@@ -1,6 +1,8 @@
 import styled from 'styled-components'
+import { TextField } from '@material-ui/core';
 
-import { H4, P, dark_bg1, dark_bg2 } from '../../styles'
+import { withStyles } from '@material-ui/core/styles'
+import { H4, P, dark_bg1, dark_bg2, dark_cont, dark_cont1 } from '../../styles'
 
 // Containers
 export const StyledChatWrap = styled.section`
@@ -12,7 +14,8 @@ export const StyledTopPanel = styled.div`
 
 `
 export const StyledInputPanel = styled.div`
-
+  display: grid;
+  grid-template-columns: 70px 1fr 50px 50px;
 `
 
 export const StyledChat = styled.div`
@@ -20,7 +23,7 @@ export const StyledChat = styled.div`
   position: fixed;
   width: 550px;
   display: grid;
-  grid-template-rows: 50px 1fr 50px;
+  grid-template-rows: 50px 1fr 70px;
   transition: .3s ease-out 0s max-height;
 `
 
@@ -57,3 +60,33 @@ export const MessageDate = styled(P)`
   margin-left: auto;
   margin-top: auto;
 `
+
+// input
+export const MainInput = withStyles({
+  root: {
+    '&': {
+      width: '100%',
+      height: '45px',
+      color: dark_cont
+    },
+    '& label.Mui-focused': {
+      color: dark_cont,
+    },
+    '& .MuiOutlinedInput-root': {
+      '&': {
+        width: 'inherit',
+        height: 'inherit',
+        color: 'inherit'
+      },
+      '& fieldset': {
+        borderColor: dark_cont1,
+      },
+      '&:hover fieldset': {
+        borderColor: dark_cont,
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: dark_cont,
+      },
+    },
+  },
+})(TextField)
