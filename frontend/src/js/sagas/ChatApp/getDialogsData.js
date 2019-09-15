@@ -6,8 +6,9 @@ import { selectUserId } from '../../reducers/Authorization/authReducer'
 
 export function* getDialogsData() {
   const user_id = yield select(selectUserId)
+  let response
   try {
-    const response = yield call(getDialogsDataService, user_id)
+    response = yield call(getDialogsDataService, user_id)
     yield put({
       type: types.GET_DIALOGS_SUCCESS,
       payload: response.data
@@ -16,6 +17,13 @@ export function* getDialogsData() {
     yield put({
       type: types.GET_DIALOGS_FAILURE,
       payload: error
+    })
+  } finally {
+    // display first dialog
+    const firstDialog = response.data[0].id
+    yield put({
+      type: types.GET_MESSAGES_IN_DIALOG_REQUEST,
+      payload: firstDialog
     })
   }
 }

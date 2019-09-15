@@ -72,7 +72,7 @@ FriendCard.propTypes = {
     }),
     interlocutor: PropTypes.shape({
       user: PropTypes.string.isRequired,
-      avatar: PropTypes.string.isRequired,
+      avatar: PropTypes.string,
     }).isRequired
   }),
   setActiveDialog: PropTypes.func.isRequired,
