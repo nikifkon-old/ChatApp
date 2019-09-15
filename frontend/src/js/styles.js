@@ -98,25 +98,46 @@ export const Img = styled.img`
   border-radius: ${props => props.round ? '50%' : ';'}
 `
 
-export const Btn = styled(Button)`
+export const Btn = styled(
+    ({color, primary, ...props}) => <Button {...props} />
+  )`
   width: ${props => props.width || '100%'};
   color: ${props => props.color || 'inherit'};
   ${css`
     ${props => props.background
       && `background: ${props.background};`
     }
+    ${props => props.primary
+      && `
+        background: ${dark_active};
+        color: ${dark_cont};
+      `
+    }
   `}
   margin: 10px auto;
+  &:hover {
+    background: ${dark_active};
+    color: ${dark_cont};
+  }
 `
 
 
-export const IconBtn = styled(IconButton)`
+export const IconBtn = styled(
+    ({borderRadius, ...props}) => <IconButton {...props} />
+  )`
   color: ${props => props.color || 'inherit'};
   ${css`
     ${props => props.background
       && `background: ${props.background};`
     }
+    ${props => props.borderRadius
+      && `border-radius: ${props.borderRadius};`
+    }
   `}
+  &:hover {
+    background: ${dark_active};
+  }
+
 `
 
 export const H1 = styled.h1`

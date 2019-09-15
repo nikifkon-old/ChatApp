@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 
 import {
   getActiveDialog,
-  getDialogsData,
 } from '../reducers/selectors'
 
 export default (ComposedComponent) => {
@@ -22,7 +21,7 @@ export default (ComposedComponent) => {
 
 const mapStateToProps = state => {
   const activeDialog = getActiveDialog(state)
-  
+
   let interlocutor
   if(activeDialog) {
     interlocutor = activeDialog.interlocutor

@@ -2,7 +2,15 @@ import styled from 'styled-components'
 import { TextField } from '@material-ui/core';
 
 import { withStyles } from '@material-ui/core/styles'
-import { H4, P, dark_bg1, dark_bg2, dark_cont, dark_cont1 } from '../../styles'
+import {
+  ContentGrid,
+  H4,
+  P,
+  dark_bg1,
+  dark_bg2,
+  dark_cont,
+  dark_cont1
+} from '../../styles'
 
 // Containers
 export const StyledChatWrap = styled.section`
@@ -10,12 +18,12 @@ export const StyledChatWrap = styled.section`
   background: ${dark_bg1};
   position: relative;
 `
-export const StyledTopPanel = styled.div`
-
+export const StyledTopPanel = styled(ContentGrid)`
+  padding: 10px;
 `
 export const StyledInputPanel = styled.div`
   display: grid;
-  grid-template-columns: 70px 1fr 50px 50px;
+  grid-template-columns: 70px 1fr 70px 70px;
 `
 
 export const StyledChat = styled.div`
@@ -23,7 +31,7 @@ export const StyledChat = styled.div`
   position: fixed;
   width: 550px;
   display: grid;
-  grid-template-rows: 50px 1fr 70px;
+  grid-template-rows: 70px 1fr 70px;
   transition: .3s ease-out 0s max-height;
 `
 
