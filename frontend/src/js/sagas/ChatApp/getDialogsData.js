@@ -13,17 +13,17 @@ export function* getDialogsData() {
       type: types.GET_DIALOGS_SUCCESS,
       payload: response.data
     })
-  } catch (error) {
-    yield put({
-      type: types.GET_DIALOGS_FAILURE,
-      payload: error
-    })
-  } finally {
     // display first dialog
     const firstDialog = response.data[0].id
     yield put({
       type: types.GET_MESSAGES_IN_DIALOG_REQUEST,
       payload: firstDialog
+    })
+    
+  } catch (error) {
+    yield put({
+      type: types.GET_DIALOGS_FAILURE,
+      payload: error
     })
   }
 }
