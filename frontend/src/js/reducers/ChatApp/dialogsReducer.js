@@ -24,7 +24,15 @@ export default function(state = initialState, action) {
         fetching: false,
         success: true,
         error: null,
-        data: action.payload
+        // set messages in default: []
+        data: action.payload.map(
+          (dialog) => {
+            return {
+              ...dialog,
+              messages: [],
+            }
+          }
+        ),
       }
     case types.GET_DIALOGS_FAILURE:
       return {
@@ -50,6 +58,7 @@ export default function(state = initialState, action) {
         messages_fetching: false,
         messages_success: true,
         messages_error: null,
+        // set messages in active dialog
         data: state.data.map(
           (dialog) => dialog.id === action.payload.dialog_id ? {
             ...dialog,
@@ -63,6 +72,28 @@ export default function(state = initialState, action) {
         ...state,
         messages_fetching: false,
         messages_error: action.payload.error
+      }
+    case types.ADD_NEW_MESSAGE:
+      return {
+        ...state,
+        // add new message to `action.payload.dialog` dialog_id
+        data: state.data.map(
+          (dialog) => dialog.id === action.payload.dialog ? {
+            ...dialog,
+            messages: [
+              ...dialog.messages,
+              {
+                id: action.payload.id,
+                sender: action.payload.sender,
+                sender_name: action.payload.sender_name,
+                avatar: action.payload.avatar,
+                dialog: action.payload.dialog,
+                text: action.payload.text,
+                date: action.payload.date,
+              }
+            ]
+          } : dialog
+        )
       }
     default:
       return state

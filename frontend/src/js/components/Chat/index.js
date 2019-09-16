@@ -7,7 +7,7 @@ import InputPanel from './InputPanel'
 import ChatLog from './ChatLog'
 import { StyledChatWrap, StyledChat } from './styles'
 
-const Chat = ({headerStatus, activeDialog}) => {
+const Chat = ({headerStatus, activeDialog, addNewMessage}) => {
   return (
     <StyledChatWrap>
     <StyledChat
@@ -15,7 +15,7 @@ const Chat = ({headerStatus, activeDialog}) => {
     >
       <TopPanel />
       <ChatLog dialogData={activeDialog} />
-      <InputPanel />
+      <InputPanel addNewMessage={addNewMessage} />
     </StyledChat>
     </StyledChatWrap>
   )
@@ -23,6 +23,7 @@ const Chat = ({headerStatus, activeDialog}) => {
 
 Chat.propTypes = {
   headerStatus: PropTypes.bool.isRequired,
+  addNewMessage: PropTypes.func.isRequired,
   activeDialog: PropTypes.shape({
     id: PropTypes.number.isRequired,
     last_message: PropTypes.object.isRequired,

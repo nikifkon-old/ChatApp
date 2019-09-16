@@ -2,12 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import { addNewMessage } from '../actions/chatActions'
 import { getActiveDialog } from '../reducers/selectors'
 
 export default function (Chat) {
   class withDialogData extends React.Component {
     static propTypes = {
       data: PropTypes.object,
+      addNewMessage: PropTypes.func.isRequired,
     }
 
     render() {
@@ -25,6 +27,9 @@ export default function (Chat) {
 }
 
   return connect(
-    mapStateToProps, null
+    mapStateToProps,
+    {
+      addNewMessage,
+    }
   )(withDialogData)
 }

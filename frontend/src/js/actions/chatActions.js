@@ -20,8 +20,15 @@ export const getDialogs = () => {
 }
 
 export const setActiveDialog = dialog_id => {
-    return {
-      type: types.GET_MESSAGES_IN_DIALOG_REQUEST,
-      payload: dialog_id
-    }
+  return {
+    type: types.GET_MESSAGES_IN_DIALOG_REQUEST,
+    payload: dialog_id
+  }
+}
+
+export const addNewMessage = text => {
+  return {
+    type: types.ADD_NEW_MESSAGE_REQUEST,
+    payload: text
+  }
 }

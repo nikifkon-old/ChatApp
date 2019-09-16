@@ -1,7 +1,6 @@
 import styled from 'styled-components'
-import { TextField } from '@material-ui/core';
-
 import { withStyles } from '@material-ui/core/styles'
+import TextField from '../TextField'
 import {
   ContentGrid,
   H4,
@@ -21,7 +20,7 @@ export const StyledChatWrap = styled.section`
 export const StyledTopPanel = styled(ContentGrid)`
   padding: 10px;
 `
-export const StyledInputPanel = styled.div`
+export const StyledForm = styled.form`
   display: grid;
   grid-template-columns: 70px 1fr 70px 70px;
 `
