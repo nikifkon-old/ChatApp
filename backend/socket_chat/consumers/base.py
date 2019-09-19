@@ -36,17 +36,18 @@ class BaseConsumer(AsyncJsonWebsocketConsumer):
 
     async def event_authenticate(self, message):
         """ User Authorization """
-        try:
-            token = message['data']['access_token']
-            data = jwt.decode(token, settings.SECRET_KEY)
-            user = User.objects.get(id=data['user_id'])
-            self.user = user
-            await self._send_message({'detail': 'Authorization successed'})
-        except:
-            await self._throw_error({'detail': 'Authorization failed'})
+        # try:
+        token = message['data']['access_token']
+        data = jwt.decode(token, settings.SECRET_KEY)
+        user = User.objects.get(id=data['user_id'])
+        self.user = user
+        await self._send_message({'detail': 'Authorization successed'},
+                                 event=message['event'])
+        # except:
+        #     await self._throw_error({'detail': 'Authorization failed'})
 
     async def method_unedefined(self, message):
-        await self._throw_error({'detail': 'undefined event'},
+        await self._throw_error({'detail': 'Undefined event'},
                                 event=message['event'])
 
     async def parse_content(self, content):
