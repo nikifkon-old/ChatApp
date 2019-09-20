@@ -1,7 +1,7 @@
 from datetime import datetime
 from channels.db import database_sync_to_async
 
-from django.forms.models import model_to_dict
+from backend.api.v1.chat_messages.serializers import DialogMessageSerializer
 from backend.chat_messages.models import DialogMessage
 from backend.socket_chat.consumers.base import BaseConsumer, private
 
@@ -35,5 +35,5 @@ class ChatConsumer(BaseConsumer):
             date=datetime.now()
         )
         new_message.save()
-        serialized_data = model_to_dict(new_message)
-        return serialized_data
+        serialized = DialogMessageSerializer(new_message)
+        return serialized.data

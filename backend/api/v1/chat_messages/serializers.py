@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from django.conf import settings
 from backend.chat_messages.models import (
     GroupMessage,
     DialogMessage,
@@ -24,7 +23,6 @@ class DialogMessageSerializer(serializers.ModelSerializer):
 
     def get_avatar(self, obj):
         return obj.sender.avatar.url
-
 
     class Meta:
         model = DialogMessage
