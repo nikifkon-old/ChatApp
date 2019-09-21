@@ -5,9 +5,17 @@ import { withHeaderStatus, withDialogData } from '../../HOC'
 import TopPanel from './TopPanel'
 import InputPanel from './InputPanel'
 import ChatLog from './ChatLog'
+import { DialogSocket } from './Websockets'
 import { StyledChatWrap, StyledChat } from './styles'
 
-const Chat = ({headerStatus, activeDialog, addNewMessage}) => {
+const Chat = (props) => {
+  const {
+    headerStatus,
+    activeDialog,
+    sendMessage,
+    insertNewMessage,
+    accessToken
+  } = props
   return (
     <StyledChatWrap>
     <StyledChat
@@ -15,7 +23,15 @@ const Chat = ({headerStatus, activeDialog, addNewMessage}) => {
     >
       <TopPanel />
       <ChatLog dialogData={activeDialog} />
-      <InputPanel addNewMessage={addNewMessage} />
+      <InputPanel sendMessage={sendMessage} />
+      {
+        activeDialog && activeDialog.id &&
+        <DialogSocket
+          url={`ws://localhost:8000/ws/dialog/${activeDialog.id}`}
+          insertNewMessage={insertNewMessage}
+          accessToken={accessToken}
+        />
+      }
     </StyledChat>
     </StyledChatWrap>
   )
@@ -23,7 +39,9 @@ const Chat = ({headerStatus, activeDialog, addNewMessage}) => {
 
 Chat.propTypes = {
   headerStatus: PropTypes.bool.isRequired,
-  addNewMessage: PropTypes.func.isRequired,
+  sendMessage: PropTypes.func.isRequired,
+  insertNewMessage: PropTypes.func.isRequired,
+  accessToken: PropTypes.string.isRequired,
   activeDialog: PropTypes.shape({
     id: PropTypes.number.isRequired,
     last_message: PropTypes.object.isRequired,

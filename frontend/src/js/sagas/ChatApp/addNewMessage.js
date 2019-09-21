@@ -1,27 +1,18 @@
-import { put, takeEvery, select } from 'redux-saga/effects'
+import { takeEvery } from 'redux-saga/effects'
 import * as types from '../../actions'
-import { getUserId, getUserInfo, getActiveDialogId } from '../../reducers/selectors'
+import { sendMessage } from '../../components/Chat/Websockets/dialogs'
 
-
-export function* addNewMessage({payload: text}) {
-  const date = new Date()
-  const user_id = yield select(getUserId)
-  const user_data = yield select(getUserInfo)
-  const activeDialog = yield select(getActiveDialogId)
-  yield put({
-    type: types.ADD_NEW_MESSAGE,
-    payload: {
-      id: 11, // by websocket
-      sender: user_id,
-      sender_name: user_data.user,
-      avatar: user_data.avatar,
-      dialog: activeDialog,
-      text: text,
-      date: date.toLocaleString(),
+export function* sendNewMessage({payload: text}) {
+  const data = {
+    event: 'send.message',
+    data: {
+      text: text
     }
-  })
+  }
+  sendMessage(data)
+  yield
 }
 
 export default function*() {
-  yield takeEvery(types.ADD_NEW_MESSAGE_REQUEST, addNewMessage)
+  yield takeEvery(types.SEND_MESSAGE, sendNewMessage)
 }

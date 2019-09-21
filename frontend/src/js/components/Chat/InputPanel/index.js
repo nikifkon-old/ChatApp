@@ -5,10 +5,10 @@ import PropTypes from 'prop-types'
 import { StyledForm, MainInput } from '../styles'
 import { IconBtn } from '../../../styles'
 
-const InputPanel = ({addNewMessage}) => {
+const InputPanel = ({sendMessage}) => {
   return (
     <Form
-      onSubmit={(data) => addNewMessage(data.text)}
+      onSubmit={(data) => sendMessage(data.text)}
       render={({handleSubmit}) => (
         <StyledForm onSubmit={handleSubmit}>
           <IconBtn>
@@ -39,7 +39,7 @@ const InputPanel = ({addNewMessage}) => {
 }
 
 InputPanel.propTypes = {
-  addNewMessage: PropTypes.func.isRequired,
+  sendMessage: PropTypes.func.isRequired,
 }
 
 export default InputPanel

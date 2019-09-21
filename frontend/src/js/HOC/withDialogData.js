@@ -2,14 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { addNewMessage } from '../actions/chatActions'
-import { getActiveDialog } from '../reducers/selectors'
+import {
+  sendMessage,
+  insertNewMessage
+} from '../actions/chatActions'
+import {
+  getActiveDialog,
+  getAccessToken,
+} from '../reducers/selectors'
 
 export default function (Chat) {
   class withDialogData extends React.Component {
     static propTypes = {
       data: PropTypes.object,
-      addNewMessage: PropTypes.func.isRequired,
+      sendMessage: PropTypes.func.isRequired,
+      accessToken: PropTypes.string.isRequired,
     }
 
     render() {
@@ -21,15 +28,18 @@ export default function (Chat) {
 
   const mapStateToProps = state => {
     const activeDialog = getActiveDialog(state)
+    const accessToken = getAccessToken(state)
     return {
-      activeDialog
+      activeDialog,
+      accessToken,
     }
 }
 
   return connect(
     mapStateToProps,
     {
-      addNewMessage,
+      sendMessage,
+      insertNewMessage,
     }
   )(withDialogData)
 }

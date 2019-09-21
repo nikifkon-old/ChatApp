@@ -50,14 +50,16 @@ const FriendCard = (props) => {
         color={dark_cont2}
         center
       >
-        {text.split(' ').slice(0, 8).join(' ')}
+        {text.split(' ').slice(0, 8).join(' ') || 'No messages yet'}
       </LastMessageItem>
-
-      <ElapsedTimeItem
-        color={dark_cont2}
-      >
-        {getElapsedTime(date)} ago
-      </ElapsedTimeItem>
+      {
+        last_message && last_message.date &&
+        <ElapsedTimeItem
+          color={dark_cont2}
+          >
+          {getElapsedTime(date)} ago
+        </ElapsedTimeItem>
+      }
     </Grid>
   )
 }
@@ -66,9 +68,9 @@ FriendCard.propTypes = {
   dialog: PropTypes.shape({
     id: PropTypes.number.isRequired,
     last_message: PropTypes.shape({
-      sender: PropTypes.number.isRequired,
-      text: PropTypes.string.isRequired,
-      date: PropTypes.string.isRequired,
+      sender: PropTypes.number,
+      text: PropTypes.string,
+      date: PropTypes.string,
     }),
     interlocutor: PropTypes.shape({
       user: PropTypes.string.isRequired,

@@ -26,9 +26,16 @@ export const setActiveDialog = dialog_id => {
   }
 }
 
-export const addNewMessage = text => {
+export const sendMessage = text => {
   return {
-    type: types.ADD_NEW_MESSAGE_REQUEST,
+    type: types.SEND_MESSAGE,
     payload: text
+  }
+}
+
+export const insertNewMessage = data => {
+  return {
+    type: types.ADD_NEW_MESSAGE,
+    payload: data
   }
 }
