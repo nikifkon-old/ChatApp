@@ -5,6 +5,7 @@ from backend.profiles.models import Profile
 from backend.chat_messages.models import DialogMessage
 from backend.api.v1.profiles.serializers import ProfileSerializer
 
+
 class DialogMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = DialogMembership
@@ -27,7 +28,6 @@ class PersonSerializer(serializers.ModelSerializer):
 
     def get_user_id(self, obj):
         return obj.user.id
-
 
     class Meta:
         model = Profile
@@ -58,10 +58,12 @@ class DialogSerializer(serializers.ModelSerializer):
 
     def get_last_message(self, obj):
         """ Get last message in dialog """
-        message = DialogMessage.objects.filter(dialog=obj)\
-            .order_by('-date')[0]
+        try:
+            message = DialogMessage.objects.filter(dialog=obj)\
+                .order_by('-date')[0]
+        except:
+            message = None
         return LastMessageSerizalizer(message).data
-
 
     class Meta:
         model = Dialog
