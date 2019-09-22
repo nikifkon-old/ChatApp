@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { dark_cont1 } from '../../styles'
 import { StyledFriendList } from './styles'
-import { ColoredLine } from '../index'
+import { ColoredLine, Spinner } from '../index'
 import FriendListSearch from './FriendListSearch'
 import FriendListResult from './FriendListResult'
 import { withDialogsData } from '../../HOC/'
@@ -16,7 +16,7 @@ const FriendList = (props) => {
         dialogs={dialogs}
         setActiveDialog={setActiveDialog}
       />
-      : <p>Loading...</p>
+    : <Spinner />
     : <p>Error</p>
 
   return (

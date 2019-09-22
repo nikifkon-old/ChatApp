@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Message from '../Message'
+import { Spinner } from '../../index'
 import { StyledChatLog } from '../styles'
 
 const ChatLog = ({dialogData}) => {
@@ -13,7 +14,7 @@ const ChatLog = ({dialogData}) => {
           ? dialogData.messages.map(message =>
             <Message key={message.id} message={message} />
           ) : <p>No messages yet...</p>
-        : <p>Loading...</p>
+        : <Spinner />
       }
     </StyledChatLog>
   )

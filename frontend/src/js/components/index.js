@@ -8,6 +8,7 @@ import ChatMenu from './ChatMenu'
 import FriendList from './FriendList'
 import Chat from './Chat'
 import TextField from './TextField'
+import Spinner from './Spinners'
 
 export {
   ErrorMessage,
@@ -20,4 +21,5 @@ export {
   ChatMenu,
   FriendList,
   Chat,
+  Spinner,
 }
