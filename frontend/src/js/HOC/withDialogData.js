@@ -16,7 +16,7 @@ export default function (Chat) {
     static propTypes = {
       data: PropTypes.object,
       sendMessage: PropTypes.func.isRequired,
-      accessToken: PropTypes.string.isRequired,
+      accessToken: PropTypes.string,
     }
 
     render() {

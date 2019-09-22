@@ -8,6 +8,7 @@ const initialState = {
   },
   user_id: null,
   isAuth: false,
+  // refresh token request
   fetching: false,
   success: false,
   error: null
@@ -69,9 +70,7 @@ export default function(state = initialState, action) {
 
       return {
         ...state,
-        user_id: null,
-        isAuth: false,
-        tokens: {}
+        ...initialState
       }
     default:
       return state

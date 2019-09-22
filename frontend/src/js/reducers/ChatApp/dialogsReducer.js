@@ -95,6 +95,11 @@ export default function(state = initialState, action) {
           } : dialog
         )
       }
+    case types.DIALOG_CLEAN_UP:
+      return {
+        ...state,
+        ...initialState,
+      }
     default:
       return state
   }

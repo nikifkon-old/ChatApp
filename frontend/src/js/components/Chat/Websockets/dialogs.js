@@ -82,7 +82,7 @@ export const sendMessage = data => {
 DialogSocket.propTypes = {
   url: PropTypes.string.isRequired,
   insertNewMessage: PropTypes.func.isRequired,
-  accessToken: PropTypes.string.isRequired,
+  accessToken: PropTypes.string,
 }
 
 export default DialogSocket

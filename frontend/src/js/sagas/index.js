@@ -4,6 +4,7 @@ import watchLoginJWT from './Authorization/loginJWT'
 import watchSingUp from './Authorization/singUp'
 import watchRefreshJWTToken from './Authorization/refreshJWTToken'
 import monitorAuth from './Authorization/monitorAuth'
+import logoutCleanUp from './Authorization/logoutCleanUp'
 import getDialogsData from './ChatApp/getDialogsData'
 import getMessagesInDialogs from './ChatApp/getMessagesInDialogs'
 import addNewMessage from './ChatApp/addNewMessage'
@@ -18,5 +19,6 @@ export default function* rootSaga() {
     watchSingUp(),
     watchRefreshJWTToken(),
     monitorAuth(),
+    logoutCleanUp(),
   ])
 }

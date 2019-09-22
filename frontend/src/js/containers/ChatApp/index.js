@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { getIsSuccessDialogs } from '../../reducers/selectors'
 import {
   getUserProfile,
-  logoutUser,
 } from '../../actions/authActions'
 import {
   handleAppHeader,
@@ -34,8 +33,15 @@ export class ChatApp extends Component {
   }
 
   componentDidMount() {
-    const { getDialogs, fetchedSuccess } = this.props
-    if (!fetchedSuccess) {
+    const { getDialogs, isAuth, fetchedSuccess } = this.props
+    if (!fetchedSuccess && isAuth) {
+      getDialogs()
+    }
+  }
+
+  componentDidUpdate() {
+    const { getDialogs, isAuth, fetchedSuccess } = this.props
+    if (!fetchedSuccess && isAuth) {
       getDialogs()
     }
   }

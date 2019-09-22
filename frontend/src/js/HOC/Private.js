@@ -31,7 +31,7 @@ export default function (ComposedComponent) {
       if(!isAuth) {
         push('/login', this.getRedirectMessage())
       }
-      if (!fetchedSuccess) {
+      else if (!fetchedSuccess) {
         getUserProfile()
       }
     }
@@ -41,7 +41,7 @@ export default function (ComposedComponent) {
       if(!isAuth) {
         push('/login', this.getRedirectMessage())
       }
-      if (!fetchedSuccess) {
+      else if (!fetchedSuccess) {
         getUserProfile()
       }
     }

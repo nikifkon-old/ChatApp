@@ -26,6 +26,11 @@ export default function(state = initialState, action) {
         fetching: false,
         error: action.payload
       }
+    case types.LOGIN_CLEAN_UP:
+      return {
+        ...state,
+        ...initialState,
+      }
     default:
       return state
   }

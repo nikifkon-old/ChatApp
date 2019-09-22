@@ -23,19 +23,24 @@ export default function(state = initialState, action) {
         fetching: true
       }
     case types.GET_USER_DATA_SUCCESS:
-    return {
-      ...state,
-      fetching: false,
-      success: true,
-      error: null,
-      data: action.payload
-    }
+      return {
+        ...state,
+        fetching: false,
+        success: true,
+        error: null,
+        data: action.payload
+      }
     case types.GET_USER_DATA_FAILURE:
-    return {
-      ...state,
-      fetching: false,
-      error: action.payload
-    }
+      return {
+        ...state,
+        fetching: false,
+        error: action.payload
+      }
+    case types.USER_DATA_CLEAN_UP:
+      return {
+        ...state,
+        ...initialState,
+      }
     default:
       return state
   }

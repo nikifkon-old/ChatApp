@@ -26,6 +26,11 @@ export default function(state = initialState, action) {
         fetching: false,
         error: action.payload
       }
+    case types.SINGUP_CLEAN_UP:
+      return {
+        ...state,
+        ...initialState,
+      }
     default:
       return state
   }

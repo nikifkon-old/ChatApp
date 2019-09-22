@@ -8,6 +8,6 @@ export const getUserProfile = () => {
 
 export const logoutUser = () => {
   return {
-    type: types.LOGOUT_USER
+    type: types.LOGOUT_CLEAN_UP
   }
 }

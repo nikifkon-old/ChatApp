@@ -41,7 +41,7 @@ Chat.propTypes = {
   headerStatus: PropTypes.bool.isRequired,
   sendMessage: PropTypes.func.isRequired,
   insertNewMessage: PropTypes.func.isRequired,
-  accessToken: PropTypes.string.isRequired,
+  accessToken: PropTypes.string,
   activeDialog: PropTypes.shape({
     id: PropTypes.number.isRequired,
     last_message: PropTypes.object.isRequired,
