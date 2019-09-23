@@ -1,12 +1,13 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { IconButton as MaterialIconButton } from '@material-ui/core'
 
-import { ColoredLine } from '../../index'
+import { ColoredLine, IconButton } from '../../index'
 import ChatLogo from '../../../../assets/logo.png'
 import UserCard from '../UserCard'
 import UserDetail from '../UserDetail'
 import { StyledChatLogo } from './styles'
-import { ContentGrid, IconBtn } from '../../../styles'
+import { ContentGrid, dark_cont1 } from '../../../styles'
 import { withChatInfo } from '../../../HOC'
 
 const ChatInfo = (props) => {
@@ -17,19 +18,15 @@ const ChatInfo = (props) => {
           justify="space-between"
           alignItems="center"
         >
-          <IconBtn size="small">
+          <MaterialIconButton size="small">
             <StyledChatLogo src={ChatLogo} width="20px" alt="Logo"/>
-          </IconBtn>
-          <IconBtn size="small">
-            <i className="material-icons">
-              more_horiz
-            </i>
-          </IconBtn>
+          </MaterialIconButton>
+          <IconButton icon="more_horiz" size="small" />
         </ContentGrid>
 
         <UserCard
           interlocutor={interlocutor} />
-        <ColoredLine />
+        <ColoredLine color={dark_cont1} />
         <UserDetail
           interlocutor={interlocutor}
         />

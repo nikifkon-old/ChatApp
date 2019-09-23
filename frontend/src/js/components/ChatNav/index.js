@@ -1,18 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { IconButton } from '../index'
 import { StylesChatNav } from './styles'
-import { IconBtn } from '../../styles'
 
 const ChatNav = ({HandleHeader}) => {
     return (
       <section>
-        <StylesChatNav>
-          <IconBtn onClick={HandleHeader}>
-            <i className="material-icons light">
-              menu
-            </i>
-          </IconBtn>
+        <StylesChatNav
+          container
+          direction="column"
+          alignItems="center"
+        >
+          <IconButton icon="menu" onClick={HandleHeader} />
         </StylesChatNav>
       </section>
     )

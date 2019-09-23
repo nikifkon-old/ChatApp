@@ -63,7 +63,6 @@
     "redux-saga": "^1.0.5",
     "reselect": "^4.0.0",
     "styled-components": "^4.3.2",
-    "watch": "^1.0.2",
-    "why-did-you-update": "^0.1.1"
+    "watch": "^1.0.2"
   }
 }

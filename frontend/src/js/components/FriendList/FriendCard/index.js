@@ -40,11 +40,7 @@ const FriendCard = (props) => {
         {user}
       </UsernameItem>
 
-      <IconButtonItem>
-        <i className="material-icons light">
-          more_horiz
-        </i>
-      </IconButtonItem>
+      <IconButtonItem icon="more_horiz"/>
 
       <LastMessageItem
         color={dark_cont2}

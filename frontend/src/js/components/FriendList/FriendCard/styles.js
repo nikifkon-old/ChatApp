@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import { Img, P, H4, IconBtn, dark_bg3, dark_active } from '../../../styles'
+import IconButton from '../../IconButton'
+import { Img, P, H4, dark_bg3, dark_active } from '../../../styles'
 
 const Grid = styled.div`
   display: grid;
@@ -28,7 +29,7 @@ const UsernameItem = styled(H4)`
   margin-right: auto;
 `
 
-const IconButtonItem = styled(IconBtn)`
+const IconButtonItem = styled(IconButton)`
   grid-column: 3;
   grid-row: 1;
 `

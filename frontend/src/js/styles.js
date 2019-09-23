@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { css, createGlobalStyle } from 'styled-components'
-import { Button, Grid, IconButton } from '@material-ui/core'
+import { Button, Grid } from '@material-ui/core'
 
 export const bgColor = "#fff"
 export const dark_bg1 = "#0E1621"
@@ -119,25 +119,6 @@ export const Btn = styled(
     background: ${dark_active};
     color: ${dark_cont};
   }
-`
-
-
-export const IconBtn = styled(
-    ({borderRadius, ...props}) => <IconButton {...props} />
-  )`
-  color: ${props => props.color || 'inherit'};
-  ${css`
-    ${props => props.background
-      && `background: ${props.background};`
-    }
-    ${props => props.borderRadius
-      && `border-radius: ${props.borderRadius};`
-    }
-  `}
-  &:hover {
-    background: ${dark_active};
-  }
-
 `
 
 export const H1 = styled.h1`

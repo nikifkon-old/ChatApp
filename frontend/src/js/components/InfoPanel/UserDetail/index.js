@@ -1,12 +1,13 @@
 import React from 'react'
-import { Table,
+import {
   TableBody,
   TableRow,
   TableCell
 } from '@material-ui/core'
 import PropTypes from 'prop-types'
 
-import { P, dark_cont2, dark_cont } from '../../../styles'
+import { StyledTable } from './styles'
+import { P, dark_cont1, dark_cont2, dark_cont } from '../../../styles'
 
 const UserDetail = ({interlocutor}) => {
     let data = {
@@ -32,11 +33,11 @@ const UserDetail = ({interlocutor}) => {
       }
     }
     return (
-        <Table>
-          <TableBody>
-          {
-            Object.keys(data).map(key =>
-              <TableRow key={key}>
+      <StyledTable borderColor={dark_cont1}>
+        <TableBody>
+        {
+          Object.keys(data).map(key =>
+            <TableRow key={key}>
               <TableCell component="th">
                 <P noMargin color={dark_cont}>{key}:</P>
               </TableCell>
@@ -44,10 +45,10 @@ const UserDetail = ({interlocutor}) => {
                 <P noMargin color={dark_cont2}>{data[key]}</P>
               </TableCell>
             </TableRow>
-            )
-          }
-          </TableBody>
-        </Table>
+          )
+        }
+        </TableBody>
+      </StyledTable>
     )
 }
 

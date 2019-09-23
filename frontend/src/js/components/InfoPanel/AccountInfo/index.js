@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ContentGrid, P, IconBtn } from '../../../styles'
+import { ContentGrid, P } from '../../../styles'
+import { IconButton } from '../../index'
 import { withAccountInfo } from '../../../HOC'
 
 const UserInfo = ({username, logoutUser}) => {
@@ -10,17 +11,16 @@ const UserInfo = ({username, logoutUser}) => {
           alignItems="center"
           justify="space-between"
         >
-          <IconBtn onClick={logoutUser} size="small">
-            <i className="material-icons">
-              notifications
-            </i>
-          </IconBtn>
+          <IconButton
+            icon="notifications"
+            onClick={logoutUser}
+            size="small"
+          />
           <P center grid_right>{username}</P>
-          <IconBtn size="small">
-            <i className="material-icons">
-              keyboard_arrow_down
-            </i>
-          </IconBtn>
+          <IconButton
+            icon="keyboard_arrow_down"
+            size="small"
+          />
         </ContentGrid>
     )
 }

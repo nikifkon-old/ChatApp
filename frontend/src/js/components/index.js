@@ -9,6 +9,7 @@ import FriendList from './FriendList'
 import Chat from './Chat'
 import TextField from './TextField'
 import Spinner from './Spinners'
+import IconButton from './IconButton'
 
 export {
   ErrorMessage,
@@ -22,4 +23,5 @@ export {
   FriendList,
   Chat,
   Spinner,
+  IconButton,
 }

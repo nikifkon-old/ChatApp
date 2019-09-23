@@ -2,14 +2,15 @@ import React from 'react'
 
 import ChatInfo from './ChatInfo'
 import AccountInfo from './AccountInfo'
-import { ColoredLine } from '..'
+import { ColoredLine } from '../index'
 import { StyledInfoPanel } from './styles'
+import { dark_cont1 } from '../../styles'
 
 const InfoPanel = () => {
     return (
         <StyledInfoPanel>
           <AccountInfo />
-          <ColoredLine />
+          <ColoredLine color={dark_cont1} />
           <ChatInfo />
         </StyledInfoPanel>
     )

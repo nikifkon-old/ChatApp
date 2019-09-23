@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 
 import { withChatInfo } from '../../../HOC'
 import { StyledTopPanel } from '../styles'
-import { IconBtn, H4, dark_bg2 } from '../../../styles'
+import { IconButton } from '../../index'
+import { H4, dark_bg2 } from '../../../styles'
 
 const TopPanel = ({interlocutor}) => {
   let username
@@ -18,14 +19,11 @@ const TopPanel = ({interlocutor}) => {
       alignItems="center"
     >
       <H4>{username}</H4>
-      <IconBtn
+      <IconButton
+        icon="star"
         background={dark_bg2}
         borderRadius="0"
-      >
-        <i className="material-icons">
-          star
-        </i>
-      </IconBtn>
+      />
     </StyledTopPanel>
   )
 }
