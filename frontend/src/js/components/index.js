@@ -10,6 +10,7 @@ import Chat from './Chat'
 import TextField from './TextField'
 import Spinner from './Spinners'
 import IconButton from './IconButton'
+import Popover from './Popover'
 
 export {
   ErrorMessage,
@@ -24,4 +25,5 @@ export {
   Chat,
   Spinner,
   IconButton,
+  Popover,
 }
