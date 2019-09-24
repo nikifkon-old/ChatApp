@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { IconButton } from '../../index'
 import {
   StyledMessage,
   MessageDate,
-  MessageText,
-  MessageSender,
   MessageAvatar,
 } from '../styles'
+import { P, H4, GridItem } from '../../../styles'
 
 const Message = ({message}) => {
   const { sender_name, avatar, text, date } = message
@@ -15,9 +15,49 @@ const Message = ({message}) => {
   return (
     <StyledMessage>
       <MessageAvatar src={avatar} alt='avatar' />
-      <MessageSender>{sender_name}</MessageSender>
-      <MessageText>{text}</MessageText>
+
+      <GridItem
+        component={H4}
+        column="2"
+        row="1/2"
+        >
+        {sender_name}
+      </GridItem>
+
+      <GridItem
+        column="3"
+        row="1"
+        center
+        >
+        <IconButton icon="reply" size="small" />
+      </GridItem>
+
+      <GridItem
+        column="4"
+        row="1"
+        center
+        >
+        <IconButton icon="edit" size="small" />
+      </GridItem>
+
+      <GridItem
+        column="5"
+        row="1"
+        center
+        >
+        <IconButton icon="delete" size="small" />
+      </GridItem>
+
+      <GridItem
+        component={P}
+        column="2"
+        row="2"
+      >
+        {text}
+      </GridItem>
+
       <MessageDate>{date}</MessageDate>
+
     </StyledMessage>
   )
 }

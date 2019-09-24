@@ -50,8 +50,8 @@ Popover.defaultProps = {
 Popover.propTypes = {
   button: PropTypes.func.isRequired,
   modal: PropTypes.func.isRequired,
-  anchorOrigin: PropTypes.object.isRequired,
-  transformOrigin: PropTypes.object.isRequired,
+  anchorOrigin: PropTypes.object,
+  transformOrigin: PropTypes.object,
 }
 
 export default Popover

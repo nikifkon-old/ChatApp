@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles'
 import TextField from '../TextField'
 import {
   ContentGrid,
-  H4,
   P,
   dark_bg1,
   dark_bg2,
@@ -44,7 +43,7 @@ export const StyledMessage = styled.div`
   padding: 10px;
   margin: 10px;
   display: grid;
-  grid-template-columns: 65px 1fr 100px;
+  grid-template-columns: 65px 1fr 50px 50px 50px;
   border-radius: 5px;
 `
 export const MessageAvatar = styled.img`
@@ -54,15 +53,9 @@ export const MessageAvatar = styled.img`
   width: 60px;
   border-radius: 50%;
 `
-export const MessageSender = styled(H4)`
 
-`
-export const MessageText = styled(P)`
-  grid-column: 2;
-  grid-row: 2;
-`
 export const MessageDate = styled(P)`
-  grid-column: 3;
+  grid-column: 3/6;
   grid-row: 2;
   margin-left: auto;
   margin-top: auto;

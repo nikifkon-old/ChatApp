@@ -20,10 +20,12 @@ const UserInfo = ({username, logoutUser}) => {
 
       <Popover
         anchorOrigin={{
-          vertical: 'bottom'
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: 'top'
+          vertical: 'top',
+          horizontal: 'center',
         }}
         button={
           ({handleClick}) => (

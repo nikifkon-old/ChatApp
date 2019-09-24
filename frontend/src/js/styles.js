@@ -34,7 +34,9 @@ export const Wrapper = styled.div`
   min-height: 100vh
 `
 
-export const PageContainer = styled(({menuisopen, ...props}) => <Grid {...props} />)`
+export const PageContainer = styled(
+  ({menuisopen, ...props}) => <Grid {...props} />
+)`
   margin-top: ${props => props.menuisopen ? '50px' : '0px'}
   background: ${props => props.background || bgColor}
   flex: 1
@@ -73,6 +75,19 @@ export const Content = styled.div`
   @media(max-width: 768px) {
     padding: ${props => props.paddingDesctop || '2% 5%'}
   }
+`
+
+export const GridItem = styled(
+  ({component: Component, column, row, center, ...props}) => {
+    return Component ?
+      <Component {...props} />
+      :
+      <div {...props}/>
+  }
+)`
+  grid-column: ${props => props.column || 'auto'};
+  grid-row: ${props => props.row || 'auto'};
+  margin: ${props => props.center && 'auto'};
 `
 
 export const AppContainer = styled.div`
