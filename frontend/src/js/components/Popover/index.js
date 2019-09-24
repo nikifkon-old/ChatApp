@@ -2,7 +2,11 @@ import React, { Fragment } from 'react'
 import { Popover as MaterialPopover } from '@material-ui/core'
 import PropTypes from 'prop-types'
 
-const Popover = ({button: Button, modal: Modal}) => {
+const Popover = (props) => {
+  const {button: Button, modal: Modal,
+    anchorOrigin,
+    transformOrigin,
+  } = props
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
 
@@ -23,14 +27,8 @@ const Popover = ({button: Button, modal: Modal}) => {
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
+        anchorOrigin={anchorOrigin}
+        transformOrigin={transformOrigin}
       >
         <Modal />
       </MaterialPopover>
@@ -38,9 +36,22 @@ const Popover = ({button: Button, modal: Modal}) => {
   )
 }
 
+Popover.defaultProps = {
+  anchorOrigin: {
+    vertical: 'top',
+    horizontal: 'center',
+  },
+  transformOrigin: {
+    vertical: 'top',
+    horizontal: 'center',
+  },
+}
+
 Popover.propTypes = {
   button: PropTypes.func.isRequired,
   modal: PropTypes.func.isRequired,
+  anchorOrigin: PropTypes.object.isRequired,
+  transformOrigin: PropTypes.object.isRequired,
 }
 
 export default Popover
