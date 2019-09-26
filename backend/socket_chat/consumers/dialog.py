@@ -6,61 +6,57 @@ from backend.chat_messages.models import DialogMessage
 from backend.socket_chat.consumers.base import BaseConsumer, private
 
 
-class ChatConsumer(BaseConsumer):
-    async def connect(self):
-        await super().connect()
-        await self.channel_layer.group_add("websocket", self.channel_name)
-        self.dialog_id = self.scope['url_route']['kwargs']['dialog_id']
+class DialogConsumer(BaseConsumer):
+    @private
+    async def event_dialog_send(self, event):
+        """ Handle dialog.send event """
+        try:
+            id = event['data']['id']
+            text = event['data']['id']
+        except KeyError:
+            await self.throw_missed_filed(event=event)
+
+        new_message = await self.dialog_send_message(id, text)
+        await self.channel_layer.group_send(f'dialog_{id}', {
+            "type": "channels_message",
+            "data": new_message
+        })
 
     @private
-    async def event_send_message(self, event):
-        """ Handle send.message event """
+    async def event_dialog_delete(self, event):
+        """ Handle dialog.delete event """
         try:
-            data = await self.send_message(event['data']['text'])
-            await self.channel_layer.group_send("websocket", {
-                'type': 'message',
-                'data': data
-            })
-        except:
-            await self._throw_error({'detail': 'Invalid Format'}, event=event['event'])
+            id = event['data']['id']  # message id
+        except KeyError:
+            await self.throw_missed_filed(event=event)
+
+        details = await self.dialog_delete_message(event['data']['id'])
+        await self.channel_layer.group_send(f'dialog_{id}', {
+            'type': 'channels_message',
+            'data': details
+        })
 
     @private
-    async def event_delete_message(self, event):
-        """ Handle delete.message event """
+    async def event_dialog_update(self, event):
+        """ Handle dialog.update event """
         try:
-            details = await self.delete_message(event['data']['id'])
-            await self.channel_layer.group_send("websocket", {
-                'type': 'message',
-                'data': details
-            })
-        except:
-            await self._throw_error({'detail': 'Invalid Format'}, event=event['event'])
+            id = event['data']['id']
+            text = event['data']['id']
+        except KeyError:
+            await self.throw_missed_filed(event=event)
 
-    @private
-    async def event_update_message(self, event):
-        """ Handle update.message event """
-        try:
-            message = await self.update_message(
-                event['data']['id'],
-                event['data']['text']
-            )
-            await self.channel_layer.group_send("websocket", {
-                'type': 'message',
-                'data': message
-            })
-        except:
-            await self._throw_error({'detail': 'Invalid Format'}, event=event['event'])
-
-    async def message(self, message):
-        """ Redirect Group messages to each person """
-        await self._send_message(message['data'], event=message['type'])
+        message = await self.dialog_update_message(id, text)
+        await self.channel_layer.group_send("websocket", {
+            'type': 'channels_message',
+            'data': message
+        })
 
     @database_sync_to_async
-    def send_message(self, text):
+    def dialog_send_message(self, id, text):
         """ Create message in Database """
         new_message = DialogMessage.objects.create(
             sender_id=self.user.id,
-            dialog_id=self.dialog_id,
+            dialog_id=id,
             text=text,
             date=datetime.now()
         )
@@ -69,7 +65,7 @@ class ChatConsumer(BaseConsumer):
         return serialized.data
 
     @database_sync_to_async
-    def delete_message(self, id):
+    def dialog_delete_message(self, id):
         """ Delete message in Database """
         try:
             DialogMessage.objects.get(id=id).delete()
@@ -78,7 +74,7 @@ class ChatConsumer(BaseConsumer):
             return {'detail': 'Message doesn\'t exist'}
 
     @database_sync_to_async
-    def update_message(self, id, text):
+    def dialog_update_message(self, id, text):
         """ Update message in Database """
         try:
             message = DialogMessage.objects.get(id=id)

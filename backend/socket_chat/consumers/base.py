@@ -45,6 +45,8 @@ class BaseConsumer(AsyncJsonWebsocketConsumer):
                                      event=message['event'])
         except:
             await self._throw_error({'detail': 'Authorization failed'})
+        if getattr(self, 'on_authenticate_success'):
+            await self.on_authenticate_success()
 
     async def method_unedefined(self, message):
         await self._throw_error({'detail': 'Undefined event'},
@@ -68,6 +70,9 @@ class BaseConsumer(AsyncJsonWebsocketConsumer):
             'data': data,
             'event': event
         })
+
+    async def throw_missed_filed(self, event=None):
+        await self._throw_error({"detail": "Missed required fields"}, event=event)
 
     async def disconnect(self, code):
         print(code)

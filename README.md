@@ -7,46 +7,66 @@ python manage.py makemigrations chat_messages dialogs groups profiles socket_cha
 
 ---------------
 
-WebSocket URLs
+WebSocket DOC
 -----
-- **dialogs**: `ws:/localhost:8000/ws/dialog/__DIALOG_ID__`
+- **base URL**: `ws:/localhost:8000/ws/main`
 - events:
-  - *authenticate*:
-    - authenticate user for auto insert *user id* in all event  
-    - event: `authenticate`
+  - *`authenticate`:*
+    - authenticate user for auto insert *user id* in all event
     - data:
       - *access_token*, is required
-    - example:<code>
-      {"event": "authenticate", "data": {"access_token": "YOUR_TOKEN"}}
-    </code>
+    - example:
+    ```
+    {
+        "event": "authenticate",
+        "data": {
+          "access_token": "YOUR_TOKEN"
+        }
+    }
+    ```
 
-  - *send message:*
-    - send message in dialog(get id from URL)
+  - *`dialog.send`:*
+    - send message in dialog
     - data:
+      - *id*, of dialog, is required
       - *text*, is required
-    - example: <code>
-    {"event": "send.message", "data": {"text": "YOUR_TEXT"}}
-  </code>
+    - example:
+    ```
+    {
+        "event": "dialog.send",
+        "data": {
+          "id": "DIALOG_ID",
+          "text": "YOUR_TEXT"
+        }
+    }
+    ```
 
-  - *delete message:*
+  - *`dialog.delete`:*
     - delete message by id
     - data:
-      - *id*, is Required
-    - example: <code>
-      {"event": "delete.message", "data": {"id": "YOUR_ID"}}
-    </code>
+      - *id*, of message, is required
+    - example:
+    ```
+    {
+        "event": "dialog.delete",
+        "data": {
+          "id": "MESSAGE_ID"
+        }
+    }
+    ```
 
-  - *update message:*
+  - *`dialog.update`:*
     - update message text
     - data:
-      - *id*, is required,
-      - *text*, is required
-    - example: <code>
-      {
-        "event": "update.message",
+      - *id*, of message, is required,
+      - *text*, new text, is required
+    - example:
+    ```
+    {
+        "event": "dialog.update",
         "data": {
-        "id": "MESSAGE_ID",
-        "text": "NEW_TEXT"
+            "id": "MESSAGE_ID",
+            "text": "NEW_TEXT"
         }
-      }
-    </code>
+    }
+    ```
