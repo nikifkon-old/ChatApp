@@ -18,9 +18,9 @@ class DialogConsumer(BaseConsumer):
 
         new_message = await self.dialog_send_message(id, text)
         await self.channel_layer.group_send(f'dialog_{id}', {
-            "type": "channels_message",
-            "event": event['event'],
-            "data": new_message
+            'type': 'channels_message',
+            'event': event['event'],
+            'data': new_message
         })
 
     @private
@@ -34,7 +34,7 @@ class DialogConsumer(BaseConsumer):
         details = await self.dialog_delete_message(event['data']['id'])
         await self.channel_layer.group_send(f'dialog_{id}', {
             'type': 'channels_message',
-            "event": event['event'],
+            'event': event['event'],
             'data': details
         })
 
@@ -48,9 +48,9 @@ class DialogConsumer(BaseConsumer):
             await self.throw_missed_field(event=event)
 
         message = await self.dialog_update_message(id, text)
-        await self.channel_layer.group_send("websocket", {
+        await self.channel_layer.group_send('websocket', {
             'type': 'channels_message',
-            "event": event['event'],
+            'event': event['event'],
             'data': message
         })
 
