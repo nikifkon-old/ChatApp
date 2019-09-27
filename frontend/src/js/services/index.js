@@ -11,14 +11,18 @@ import {
   getDialogsDataService,
   getMessagesInDialogService,
 } from './ChatServices/dialogsServices'
+import {
+  connectToWebSocketService,
+  sendToWebsokcet
+} from './Websocket'
 
 let BASE_URL
 if(process.env.NODE_ENV === 'development') {
-  BASE_URL = 'http://localhost:8000'
+  BASE_URL = 'localhost:8000'
 }
 
 if(process.env.NODE_ENV === 'production') {
-  BASE_URL = 'http://localhost:8000'
+  BASE_URL = 'localhost:8000'
 }
 
 export {
@@ -33,4 +37,7 @@ export {
 
   getDialogsDataService,
   getMessagesInDialogService,
+
+  connectToWebSocketService,
+  sendToWebsokcet,
 }

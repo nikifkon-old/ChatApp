@@ -7,7 +7,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { App } from './containers'
 import configureStore, { history } from './store/configureStore'
 
-const store = configureStore()
+export const store = configureStore()
 
 ReactDOM.render(
   <Provider store={store}>

@@ -5,17 +5,18 @@ import { withHeaderStatus, withDialogData } from '../../HOC'
 import TopPanel from './TopPanel'
 import InputPanel from './InputPanel'
 import ChatLog from './ChatLog'
-import { DialogSocket } from './Websockets'
 import { StyledChatWrap, StyledChat } from './styles'
 
 const Chat = (props) => {
   const {
     headerStatus,
     activeDialog,
-    sendMessage,
-    insertNewMessage,
-    accessToken
+    sendMessageInDialog,
   } = props
+  let id
+  if (activeDialog) {
+    id = activeDialog.id
+  }
   return (
     <StyledChatWrap>
     <StyledChat
@@ -23,15 +24,7 @@ const Chat = (props) => {
     >
       <TopPanel />
       <ChatLog dialogData={activeDialog} />
-      <InputPanel sendMessage={sendMessage} />
-      {
-        activeDialog && activeDialog.id &&
-        <DialogSocket
-          url={`ws://localhost:8000/ws/dialog/${activeDialog.id}`}
-          insertNewMessage={insertNewMessage}
-          accessToken={accessToken}
-        />
-      }
+      <InputPanel sendMessage={sendMessageInDialog} id={id}/>
     </StyledChat>
     </StyledChatWrap>
   )
@@ -39,8 +32,7 @@ const Chat = (props) => {
 
 Chat.propTypes = {
   headerStatus: PropTypes.bool.isRequired,
-  sendMessage: PropTypes.func.isRequired,
-  insertNewMessage: PropTypes.func.isRequired,
+  sendMessageInDialog: PropTypes.func.isRequired,
   accessToken: PropTypes.string,
   activeDialog: PropTypes.shape({
     id: PropTypes.number.isRequired,

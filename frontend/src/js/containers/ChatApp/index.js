@@ -2,13 +2,14 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 
-import { getIsSuccessDialogs } from '../../reducers/selectors'
+import { getIsSuccessDialogs, getTokens } from '../../reducers/selectors'
 import {
   getUserProfile,
 } from '../../actions/authActions'
 import {
   handleAppHeader,
   getDialogs,
+  connectToWebSocket,
 } from '../../actions/chatActions'
 import { withHeaderStatus } from '../../HOC'
 import { AppContainer } from '../../styles'
@@ -27,15 +28,20 @@ export class ChatApp extends Component {
     headerStatus: PropTypes.bool.isRequired,
     dialogs: PropTypes.array,
     fetchedSuccess: PropTypes.bool.isRequired,
+    tokens: PropTypes.object,
     getUserProfile: PropTypes.func.isRequired,
     getDialogs: PropTypes.func.isRequired,
     handleAppHeader: PropTypes.func.isRequired,
+    connectToWebSocket: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
-    const { getDialogs, isAuth, fetchedSuccess } = this.props
+    const { getDialogs, isAuth, fetchedSuccess, connectToWebSocket, tokens } = this.props
     if (!fetchedSuccess && isAuth) {
       getDialogs()
+    }
+    if (isAuth && tokens) {
+      connectToWebSocket()
     }
   }
 
@@ -74,7 +80,8 @@ export class ChatApp extends Component {
 const mapStateToProps = state => {
   return {
     dialogs: state.app.dialogs.data,
-    fetchedSuccess: getIsSuccessDialogs(state)
+    fetchedSuccess: getIsSuccessDialogs(state),
+    tokens: getTokens(state)
   }
 }
 
@@ -84,6 +91,7 @@ export default connect(
     getUserProfile,
     handleAppHeader,
     getDialogs,
+    connectToWebSocket,
   }
 )(
   withHeaderStatus(ChatApp)

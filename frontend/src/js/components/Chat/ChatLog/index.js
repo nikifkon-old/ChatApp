@@ -10,7 +10,7 @@ const ChatLog = ({dialogData}) => {
     <StyledChatLog>
       {
         dialogData
-        ? dialogData.messages.length
+        ? dialogData.messages.length > 0
           ? dialogData.messages.map(message =>
             <Message key={message.id} message={message} />
           ) : <p>No messages yet...</p>

@@ -1,4 +1,5 @@
 import * as types from './index'
+import * as events from './websocketEvents'
 
 export const handleAppHeader = () => {
   return {
@@ -26,16 +27,21 @@ export const setActiveDialog = dialog_id => {
   }
 }
 
-export const sendMessage = text => {
+export const connectToWebSocket = () => {
   return {
-    type: types.SEND_MESSAGE,
-    payload: text
+    type: types.WEBSOCKET_CONNECT_REQUEST
   }
 }
 
-export const insertNewMessage = data => {
+export const sendMessageInDialog = ({id, text}) => {
   return {
-    type: types.ADD_NEW_MESSAGE,
-    payload: data
+    type: types.WEBSOCKET_SEND_REQUEST,
+    payload: {
+      event: events.DIALOG_SEND,
+      data: {
+        id,
+        text
+      }
+    }
   }
 }

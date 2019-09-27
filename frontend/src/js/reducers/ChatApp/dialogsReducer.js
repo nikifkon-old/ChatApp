@@ -73,12 +73,13 @@ export default function(state = initialState, action) {
         messages_fetching: false,
         messages_error: action.payload.error
       }
-    case types.ADD_NEW_MESSAGE:
+    case types.PUSH_RECEIVE_MESSAGE_IN_DIALOG: {
+      const id = Number(action.payload.dialog)
       return {
         ...state,
-        // add new message to `action.payload.dialog` dialog_id
+        // add new message to dialog with id: `action.payload.dialog`
         data: state.data.map(
-          (dialog) => dialog.id === action.payload.dialog ? {
+          (dialog) => dialog.id === id ? {
             ...dialog,
             messages: [
               ...dialog.messages,
@@ -87,7 +88,7 @@ export default function(state = initialState, action) {
                 sender: action.payload.sender,
                 sender_name: action.payload.sender_name,
                 avatar: action.payload.avatar,
-                dialog: action.payload.dialog,
+                dialog: id,
                 text: action.payload.text,
                 date: action.payload.date,
               }
@@ -95,6 +96,7 @@ export default function(state = initialState, action) {
           } : dialog
         )
       }
+    }
     case types.DIALOG_CLEAN_UP:
       return {
         ...state,

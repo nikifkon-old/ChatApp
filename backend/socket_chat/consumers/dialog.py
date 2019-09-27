@@ -12,7 +12,7 @@ class DialogConsumer(BaseConsumer):
         """ Handle dialog.send event """
         try:
             id = event['data']['id']
-            text = event['data']['id']
+            text = event['data']['text']
         except KeyError:
             await self.throw_missed_field(event=event)
 

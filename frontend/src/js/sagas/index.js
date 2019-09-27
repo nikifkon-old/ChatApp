@@ -7,18 +7,22 @@ import monitorAuth from './Authorization/monitorAuth'
 import logoutCleanUp from './Authorization/logoutCleanUp'
 import getDialogsData from './ChatApp/getDialogsData'
 import getMessagesInDialogs from './ChatApp/getMessagesInDialogs'
-import addNewMessage from './ChatApp/addNewMessage'
+import connectToWebSocket from './Websocket/connectToWebSocket'
+import sendToWebsocket from './Websocket/sendToWebsocket'
+import messageReducer from './Websocket/messageReducer'
 
 export default function* rootSaga() {
   yield all([
     watchGetUserData(),
     getDialogsData(),
     getMessagesInDialogs(),
-    addNewMessage(),
     watchLoginJWT(),
     watchSingUp(),
     watchRefreshJWTToken(),
     monitorAuth(),
     logoutCleanUp(),
+    connectToWebSocket(),
+    sendToWebsocket(),
+    messageReducer(),
   ])
 }

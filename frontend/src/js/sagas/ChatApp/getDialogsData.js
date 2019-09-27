@@ -2,7 +2,7 @@ import { put, takeEvery, call, select } from 'redux-saga/effects'
 
 import * as types from '../../actions'
 import { getDialogsDataService } from '../../services'
-import { selectUserId } from '../../reducers/Authorization/authReducer'
+import { selectUserId } from '../../reducers/selectors'
 
 export function* getDialogsData() {
   const user_id = yield select(selectUserId)
@@ -19,7 +19,7 @@ export function* getDialogsData() {
       type: types.GET_MESSAGES_IN_DIALOG_REQUEST,
       payload: firstDialog
     })
-    
+
   } catch (error) {
     yield put({
       type: types.GET_DIALOGS_FAILURE,

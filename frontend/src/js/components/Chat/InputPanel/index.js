@@ -7,10 +7,12 @@ import Emotion from './Emotion'
 import { IconButton } from '../../index'
 import { StyledForm, MainInput } from '../styles'
 
-const InputPanel = ({sendMessage}) => {
+const InputPanel = ({sendMessage, id}) => {
   return (
     <Form
-      onSubmit={(data) => sendMessage(data.text)}
+      onSubmit={
+        (data) => sendMessage({text: data.text, id})
+      }
       render={({handleSubmit}) => (
         <StyledForm onSubmit={handleSubmit}>
           <AttachFile />
@@ -30,6 +32,7 @@ const InputPanel = ({sendMessage}) => {
 
 InputPanel.propTypes = {
   sendMessage: PropTypes.func.isRequired,
+  id: PropTypes.number,
 }
 
 export default InputPanel
