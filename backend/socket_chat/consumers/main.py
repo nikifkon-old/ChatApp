@@ -13,7 +13,7 @@ class MainConsumer(DialogConsumer, BaseConsumer):
 
     async def channels_message(self, message):
         """ Redirect Group messages to each person """
-        await self._send_message(message['data'], event=message['type'])
+        await self._send_message(message['data'], event=message['event'])
 
     async def on_authenticate_success(self):
         """ Execute after user authenticate """

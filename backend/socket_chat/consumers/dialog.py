@@ -14,11 +14,12 @@ class DialogConsumer(BaseConsumer):
             id = event['data']['id']
             text = event['data']['id']
         except KeyError:
-            await self.throw_missed_filed(event=event)
+            await self.throw_missed_field(event=event)
 
         new_message = await self.dialog_send_message(id, text)
         await self.channel_layer.group_send(f'dialog_{id}', {
             "type": "channels_message",
+            "event": event['event'],
             "data": new_message
         })
 
@@ -28,11 +29,12 @@ class DialogConsumer(BaseConsumer):
         try:
             id = event['data']['id']  # message id
         except KeyError:
-            await self.throw_missed_filed(event=event)
+            await self.throw_missed_field(event=event)
 
         details = await self.dialog_delete_message(event['data']['id'])
         await self.channel_layer.group_send(f'dialog_{id}', {
             'type': 'channels_message',
+            "event": event['event'],
             'data': details
         })
 
@@ -43,11 +45,12 @@ class DialogConsumer(BaseConsumer):
             id = event['data']['id']
             text = event['data']['id']
         except KeyError:
-            await self.throw_missed_filed(event=event)
+            await self.throw_missed_field(event=event)
 
         message = await self.dialog_update_message(id, text)
         await self.channel_layer.group_send("websocket", {
             'type': 'channels_message',
+            "event": event['event'],
             'data': message
         })
 
