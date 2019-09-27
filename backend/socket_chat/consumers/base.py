@@ -43,10 +43,10 @@ class BaseConsumer(AsyncJsonWebsocketConsumer):
             self.user = user
             await self._send_message({'detail': 'Authorization successed'},
                                      event=message['event'])
+            if getattr(self, 'on_authenticate_success'):
+                await self.on_authenticate_success()
         except:
             await self._throw_error({'detail': 'Authorization failed'})
-        if getattr(self, 'on_authenticate_success'):
-            await self.on_authenticate_success()
 
     async def method_unedefined(self, message):
         await self._throw_error({'detail': 'Undefined event'},
