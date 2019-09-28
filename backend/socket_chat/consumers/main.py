@@ -18,12 +18,22 @@ class MainConsumer(DialogConsumer, BaseConsumer):
     async def on_authenticate_success(self):
         """ Execute after user authenticate """
         await self.get_user_channels(self.user)
+        # connect to channel for all groups
+        if self.dialogs:
+            for dialog in self.dialogs:
+                await self.channel_layer.group_add(f'dialog_{dialog}', self.channel_name)
+        if self.groups:
+            for group in self.groups:
+                await self.channel_layer.group_add(f'group_{group}', self.channel_name)
 
-        for dialog in self.dialogs:
-            await self.channel_layer.group_add(f'dialog_{dialog}', self.channel_name)
-
-        for group in self.groups:
-            await self.channel_layer.group_add(f'group_{group}', self.channel_name)
+    async def disconnect(self, code):
+        """ Discard from all channels """
+        if self.dialogs:
+            for dialog in self.dialogs:
+                await self.channel_layer.group_discard(f'dialog_{dialog}', self.channel_name)
+        if self.groups:
+            for group in self.groups:
+                await self.channel_layer.group_discard(f'group_{group}', self.channel_name)
 
     @database_sync_to_async
     def get_user_channels(self, user):
