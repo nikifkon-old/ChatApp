@@ -36,4 +36,5 @@ export function connectToWebSocketService() {
 export function sendToWebsokcet(data) {
   const json_data = JSON.stringify(data)
   socket.send(json_data)
+  return json_data
 }

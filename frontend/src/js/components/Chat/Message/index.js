@@ -9,8 +9,12 @@ import {
 } from '../styles'
 import { P, H4, GridItem } from '../../../styles'
 
-const Message = ({message}) => {
-  const { sender_name, avatar, text, date } = message
+const Message = ({message, deleteMessage}) => {
+  const { id, sender_name, avatar, text, date } = message
+
+  const handleDelete = () => {
+    deleteMessage({id})
+  }
 
   return (
     <StyledMessage>
@@ -45,7 +49,7 @@ const Message = ({message}) => {
         row="1"
         center
         >
-        <IconButton icon="delete" size="small" />
+        <IconButton onClick={handleDelete} icon="delete" size="small" />
       </GridItem>
 
       <GridItem
@@ -63,7 +67,9 @@ const Message = ({message}) => {
 }
 
 Message.propTypes = {
+  deleteMessage: PropTypes.func.isRequired,
   message: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     sender: PropTypes.number.isRequired,
     sender_name: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired,

@@ -5,14 +5,14 @@ import { sendToWebsokcet } from '../../services'
 
 export function* sendToWebsokcetSaga({payload: event}) {
   try {
-    const response = yield call(sendToWebsokcet, event)
+    yield call(sendToWebsokcet, event)
 
     yield put({
-      type: types.WEBSOCKET_SEND_SUCCESS,
-      payload: response.data
+      type: types.WEBSOCKET_SEND_SUCCESS
     })
 
   } catch (error) {
+    console.log(error);
     yield put({
       type: types.WEBSOCKET_SEND_FAILURE,
       payload: error

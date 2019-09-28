@@ -12,6 +12,7 @@ const Chat = (props) => {
     headerStatus,
     activeDialog,
     sendMessageInDialog,
+    deleteMessageInDialog,
   } = props
   let id
   if (activeDialog) {
@@ -23,7 +24,10 @@ const Chat = (props) => {
       headerStatus={headerStatus}
     >
       <TopPanel />
-      <ChatLog dialogData={activeDialog} />
+      <ChatLog
+        dialogData={activeDialog}
+        deleteMessage={deleteMessageInDialog}
+      />
       <InputPanel sendMessage={sendMessageInDialog} id={id}/>
     </StyledChat>
     </StyledChatWrap>
@@ -33,6 +37,7 @@ const Chat = (props) => {
 Chat.propTypes = {
   headerStatus: PropTypes.bool.isRequired,
   sendMessageInDialog: PropTypes.func.isRequired,
+  deleteMessageInDialog: PropTypes.func.isRequired,
   accessToken: PropTypes.string,
   activeDialog: PropTypes.shape({
     id: PropTypes.number.isRequired,

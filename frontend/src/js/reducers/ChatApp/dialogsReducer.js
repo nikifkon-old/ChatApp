@@ -97,6 +97,23 @@ export default function(state = initialState, action) {
         )
       }
     }
+    case types.DELETE_DIALOG_MESSAGE: {
+      const dialog_id = Number(action.payload.dialog_id)
+      const message_id = Number(action.payload.message_id)
+
+      return {
+        ...state,
+        data: state.data.map(
+          dialog => dialog.id === dialog_id
+          ? {
+            ...dialog,
+            messages: dialog.messages.filter(message => message.id !== message_id)
+          }
+          : dialog
+        )
+      }
+    }
+
     case types.DIALOG_CLEAN_UP:
       return {
         ...state,

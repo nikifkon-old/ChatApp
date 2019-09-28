@@ -45,3 +45,15 @@ export const sendMessageInDialog = ({id, text}) => {
     }
   }
 }
+
+export const deleteMessageInDialog = ({id}) => {
+  return {
+    type: types.WEBSOCKET_SEND_REQUEST,
+    payload: {
+      event: events.DIALOG_DELETE_MESSAGE,
+      data: {
+        id
+      }
+    }
+  }
+}

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import {
-  sendMessageInDialog
+  sendMessageInDialog,
+  deleteMessageInDialog,
 } from '../actions/chatActions'
 import {
   getActiveDialog,
@@ -15,6 +16,7 @@ export default function (Chat) {
     static propTypes = {
       data: PropTypes.object,
       sendMessageInDialog: PropTypes.func.isRequired,
+      deleteMessageInDialog: PropTypes.func.isRequired,
       accessToken: PropTypes.string,
     }
 
@@ -38,6 +40,7 @@ export default function (Chat) {
     mapStateToProps,
     {
       sendMessageInDialog,
+      deleteMessageInDialog,
     }
   )(withDialogData)
 }

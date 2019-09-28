@@ -19,7 +19,17 @@ function* MessageReducer({payload: event}) {
           type: types.PUSH_RECEIVE_MESSAGE_IN_DIALOG,
           payload: event.data
         })
-        console.log(event.data);
+      } else {
+        console.log(event.data.detail);
+      }
+      break
+
+    case events.DIALOG_DELETE_MESSAGE:
+      if (event.status === 'ok') {
+        yield put({
+          type: types.DELETE_DIALOG_MESSAGE,
+          payload: event.data
+        })
       } else {
         console.log(event.data.detail);
       }
