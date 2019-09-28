@@ -14,7 +14,7 @@ class DialogConsumer(BaseConsumer):
             id = event['data']['id']
             text = event['data']['text']
         except KeyError:
-            await self.throw_missed_field(event=event)
+            return await self.throw_missed_field(event=event)
 
         new_message = await self.dialog_send_message(id, text)
         await self.channel_layer.group_send(f'dialog_{id}', {
@@ -29,30 +29,52 @@ class DialogConsumer(BaseConsumer):
         try:
             id = event['data']['id']  # message id
         except KeyError:
-            await self.throw_missed_field(event=event)
+            return await self.throw_missed_field(event=event)
 
-        details = await self.dialog_delete_message(event['data']['id'])
-        await self.channel_layer.group_send(f'dialog_{id}', {
-            'type': 'channels_message',
-            'event': event['event'],
-            'data': details
-        })
+        data, is_ok = await self.dialog_delete_message(id)
+        if is_ok:
+            await self.channel_layer.group_send(
+                'dialog_%d' % data.get('dialog_id'),
+                {
+                    'type': 'channels_message',
+                    'event': event['event'],
+                    'data': data
+                }
+            )
+        else:
+            await self._throw_error(
+                {
+                    'detail': 'Message doesn\'t exist'
+                },
+                event=event
+            )
 
     @private
     async def event_dialog_update(self, event):
         """ Handle dialog.update event """
         try:
             id = event['data']['id']
-            text = event['data']['id']
+            text = event['data']['text']
         except KeyError:
-            await self.throw_missed_field(event=event)
+            return await self.throw_missed_field(event=event)
 
-        message = await self.dialog_update_message(id, text)
-        await self.channel_layer.group_send('websocket', {
-            'type': 'channels_message',
-            'event': event['event'],
-            'data': message
-        })
+        data, is_ok = await self.dialog_update_message(id, text)
+        if is_ok:
+            await self.channel_layer.group_send(
+                'dialog_%d' % data.get('dialog'),
+                {
+                    'type': 'channels_message',
+                    'event': event['event'],
+                    'data': data
+                }
+            )
+        else:
+            await self._throw_error(
+                {
+                    'detail': 'Message doesn\'t exist'
+                },
+                event=event
+            )
 
     @database_sync_to_async
     def dialog_send_message(self, id, text):
@@ -71,10 +93,16 @@ class DialogConsumer(BaseConsumer):
     def dialog_delete_message(self, id):
         """ Delete message in Database """
         try:
-            DialogMessage.objects.get(id=id).delete()
-            return {'detail': 'Deleting successed'}
+            message = DialogMessage.objects.get(id=id)
+            message.delete()
+            return (
+                {
+                    'dialog_id': message.dialog.id,
+                    'message_id': id
+                }, True
+            )
         except ObjectDoesNotExist:
-            return {'detail': 'Message doesn\'t exist'}
+            return {'detail': 'Message doesn\'t exist'}, False
 
     @database_sync_to_async
     def dialog_update_message(self, id, text):
@@ -84,6 +112,8 @@ class DialogConsumer(BaseConsumer):
             message.text = text
             message.save()
             serialized = DialogMessageSerializer(message)
-            return serialized.data
+            return (
+                serialized.data, True
+            )
         except ObjectDoesNotExist:
-            return {'detail': 'Message doesn\'t exist'}
+            return {'detail': 'Message doesn\'t exist'}, False
