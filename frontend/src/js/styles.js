@@ -88,6 +88,7 @@ export const GridItem = styled(
   grid-column: ${props => props.column || 'auto'};
   grid-row: ${props => props.row || 'auto'};
   margin: ${props => props.center && 'auto'};
+  color: ${props => props.color || 'inherit'};
 `
 
 export const AppContainer = styled.div`
@@ -98,7 +99,7 @@ export const AppContainer = styled.div`
       : "100vh"
     };
   display: grid;
-  grid-template-columns: 40px .8fr 1.3fr 550px 1fr;
+  grid-template-columns: 40px 1fr 1.3fr 550px 1fr;
   transition: .3s ease-out 0s min-height;
 `
 

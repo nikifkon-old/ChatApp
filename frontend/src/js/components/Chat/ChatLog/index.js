@@ -5,7 +5,7 @@ import Message from '../Message'
 import { Spinner } from '../../index'
 import { StyledChatLog } from '../styles'
 
-const ChatLog = ({dialogData, deleteMessage}) => {
+const ChatLog = ({dialogData, deleteMessage, updateMessage}) => {
   return (
     <StyledChatLog>
       {
@@ -16,6 +16,7 @@ const ChatLog = ({dialogData, deleteMessage}) => {
               key={message.id}
               message={message}
               deleteMessage={deleteMessage}
+              updateMessage={updateMessage}
             />
           ) : <p>No messages yet...</p>
         : <Spinner />
@@ -27,6 +28,7 @@ const ChatLog = ({dialogData, deleteMessage}) => {
 ChatLog.propTypes = {
   dialogData: PropTypes.object,
   deleteMessage: PropTypes.func.isRequired,
+  updateMessage: PropTypes.func.isRequired,
 }
 
 export default ChatLog

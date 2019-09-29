@@ -40,7 +40,7 @@ export const sendMessageInDialog = ({id, text}) => {
       event: events.DIALOG_SEND,
       data: {
         id,
-        text
+        text,
       }
     }
   }
@@ -52,7 +52,20 @@ export const deleteMessageInDialog = ({id}) => {
     payload: {
       event: events.DIALOG_DELETE_MESSAGE,
       data: {
-        id
+        id,
+      }
+    }
+  }
+}
+
+export const updateMessageInDialog = ({id, text}) => {
+  return {
+    type: types.WEBSOCKET_SEND_REQUEST,
+    payload: {
+      event: events.DIALOG_UPDATE_MESSAGE,
+      data: {
+        id,
+        text,
       }
     }
   }

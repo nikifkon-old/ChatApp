@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '../TextField'
+
 import {
   ContentGrid,
   P,
@@ -12,7 +13,7 @@ import {
 
 // Containers
 export const StyledChatWrap = styled.section`
-  color: #fff;
+  color: ${dark_cont};
   background: ${dark_bg1};
   position: relative;
 `
@@ -25,6 +26,7 @@ export const StyledForm = styled.form`
 `
 
 export const StyledChat = styled.div`
+  color: ${props => props.color || 'inherit'};
   height: calc(100vh ${props => props.headerStatus && '- 50px'});
   position: fixed;
   width: 550px;
@@ -40,6 +42,7 @@ export const StyledChatLog = styled.div`
 // Message
 export const StyledMessage = styled.div`
   background: ${dark_bg2};
+  color: ${props => props.color || 'inherit'};
   padding: 10px;
   margin: 10px;
   display: grid;
@@ -60,7 +63,11 @@ export const MessageDate = styled(P)`
   margin-left: auto;
   margin-top: auto;
 `
-
+export const MessageText = styled.div`
+  grid-column: 2;
+  grid-row: 2;
+  padding-bottom: 10px;
+`
 // input
 export const MainInput = withStyles({
   root: {
@@ -77,6 +84,37 @@ export const MainInput = withStyles({
         width: 'inherit',
         height: 'inherit',
         color: 'inherit'
+      },
+      '& fieldset': {
+        borderColor: dark_cont1,
+      },
+      '&:hover fieldset': {
+        borderColor: dark_cont,
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: dark_cont,
+      },
+    },
+  },
+})(TextField)
+
+export const EditMessageInput = withStyles({
+  root: {
+    '&': {
+      width: '100%',
+      color: dark_cont
+    },
+    '& label.Mui-focused': {
+      color: dark_cont,
+    },
+    '& .MuiInputBase-root': {
+      '&': {
+        width: 'inherit',
+        height: 'inherit',
+        color: 'inherit'
+      },
+      '&::before' : {
+        borderColor: dark_cont1,
       },
       '& fieldset': {
         borderColor: dark_cont1,

@@ -114,6 +114,30 @@ export default function(state = initialState, action) {
       }
     }
 
+    case types.UPDATE_DIALOG_MESSAGE: {
+      const dialog_id = Number(action.payload.dialog)
+      const message_id = Number(action.payload.id)
+      const new_text = action.payload.text
+      return {
+        ...state,
+        data: state.data.map(
+          dialog => dialog.id === dialog_id ?
+          {
+            ...dialog,
+            messages: dialog.messages.map(
+              message => message.id === message_id ?
+              {
+                ...message,
+                text: new_text
+              }
+              : message
+            )
+          }
+          : dialog
+        )
+      }
+    }
+
     case types.DIALOG_CLEAN_UP:
       return {
         ...state,

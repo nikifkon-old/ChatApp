@@ -35,6 +35,17 @@ function* MessageReducer({payload: event}) {
       }
       break
 
+    case events.DIALOG_UPDATE_MESSAGE:
+      if (event.status === 'ok') {
+        yield put({
+          type: types.UPDATE_DIALOG_MESSAGE,
+          payload: event.data
+        })
+      } else {
+        console.log(event.data.detail);
+      }
+      break
+
     default:
       yield
   }

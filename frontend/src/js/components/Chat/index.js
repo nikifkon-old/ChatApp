@@ -13,6 +13,7 @@ const Chat = (props) => {
     activeDialog,
     sendMessageInDialog,
     deleteMessageInDialog,
+    updateMessageInDialog,
   } = props
   let id
   if (activeDialog) {
@@ -27,6 +28,7 @@ const Chat = (props) => {
       <ChatLog
         dialogData={activeDialog}
         deleteMessage={deleteMessageInDialog}
+        updateMessage={updateMessageInDialog}
       />
       <InputPanel sendMessage={sendMessageInDialog} id={id}/>
     </StyledChat>
@@ -38,6 +40,7 @@ Chat.propTypes = {
   headerStatus: PropTypes.bool.isRequired,
   sendMessageInDialog: PropTypes.func.isRequired,
   deleteMessageInDialog: PropTypes.func.isRequired,
+  updateMessageInDialog: PropTypes.func.isRequired,
   accessToken: PropTypes.string,
   activeDialog: PropTypes.shape({
     id: PropTypes.number.isRequired,

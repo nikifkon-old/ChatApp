@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import {
   sendMessageInDialog,
   deleteMessageInDialog,
+  updateMessageInDialog,
 } from '../actions/chatActions'
 import {
   getActiveDialog,
@@ -17,6 +18,7 @@ export default function (Chat) {
       data: PropTypes.object,
       sendMessageInDialog: PropTypes.func.isRequired,
       deleteMessageInDialog: PropTypes.func.isRequired,
+      updateMessageInDialog: PropTypes.func.isRequired,
       accessToken: PropTypes.string,
     }
 
@@ -41,6 +43,7 @@ export default function (Chat) {
     {
       sendMessageInDialog,
       deleteMessageInDialog,
+      updateMessageInDialog,
     }
   )(withDialogData)
 }

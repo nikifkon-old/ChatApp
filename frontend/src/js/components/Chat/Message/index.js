@@ -1,19 +1,34 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Field, Form } from 'react-final-form'
 
-import { IconButton } from '../../index'
+import {
+  IconButton
+} from '../../index'
 import {
   StyledMessage,
   MessageDate,
   MessageAvatar,
+  MessageText,
+  EditMessageInput,
 } from '../styles'
 import { P, H4, GridItem } from '../../../styles'
 
-const Message = ({message, deleteMessage}) => {
+const Message = ({message, deleteMessage, updateMessage}) => {
   const { id, sender_name, avatar, text, date } = message
+  const [edited, setEdited] = React.useState(false)
+
+  const toggleEdit = () => {
+    setEdited(!edited)
+  }
 
   const handleDelete = () => {
     deleteMessage({id})
+  }
+
+  const handleUpdate = ({text}) => {
+    updateMessage({id, text})
+    setEdited(false)
   }
 
   return (
@@ -41,7 +56,7 @@ const Message = ({message, deleteMessage}) => {
         row="1"
         center
         >
-        <IconButton icon="edit" size="small" />
+        <IconButton icon="edit" onClick={toggleEdit} size="small" />
       </GridItem>
 
       <GridItem
@@ -49,16 +64,31 @@ const Message = ({message, deleteMessage}) => {
         row="1"
         center
         >
-        <IconButton onClick={handleDelete} icon="delete" size="small" />
+        <IconButton icon="delete" onClick={handleDelete} size="small" />
       </GridItem>
 
-      <GridItem
-        component={P}
-        column="2"
-        row="2"
-      >
-        {text}
-      </GridItem>
+      <MessageText>
+        {
+          edited ?
+          <Form
+            onSubmit={handleUpdate}
+            render={
+              ({handleSubmit}) => (
+                <form onSubmit={handleSubmit}>
+                  <Field
+                    component={EditMessageInput}
+                    name="text"
+                    InputProps={{disableUnderline: true}}
+                    autoFocus
+                  />
+                </form>
+              )
+            }
+          />
+          :
+          <P>{text}</P>
+        }
+      </MessageText>
 
       <MessageDate>{date}</MessageDate>
 
@@ -68,6 +98,7 @@ const Message = ({message, deleteMessage}) => {
 
 Message.propTypes = {
   deleteMessage: PropTypes.func.isRequired,
+  updateMessage: PropTypes.func.isRequired,
   message: PropTypes.shape({
     id: PropTypes.number.isRequired,
     sender: PropTypes.number.isRequired,

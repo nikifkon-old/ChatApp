@@ -8,11 +8,12 @@ import { IconButton } from '../../index'
 import { StyledForm, MainInput } from '../styles'
 
 const InputPanel = ({sendMessage, id}) => {
+  const handleSend = ({text}) => {
+    sendMessage({text, id})
+  }
   return (
     <Form
-      onSubmit={
-        (data) => sendMessage({text: data.text, id})
-      }
+      onSubmit={handleSend}
       render={({handleSubmit}) => (
         <StyledForm onSubmit={handleSubmit}>
           <AttachFile />
