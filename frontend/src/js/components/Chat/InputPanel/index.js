@@ -9,13 +9,21 @@ import { StyledForm, MainInput } from '../styles'
 
 const InputPanel = ({sendMessage, id}) => {
   const handleSend = ({text}) => {
-    sendMessage({text, id})
+    return new Promise((resolve) => {
+      sendMessage({text, id})
+      resolve()
+    })
   }
   return (
     <Form
       onSubmit={handleSend}
-      render={({handleSubmit}) => (
-        <StyledForm onSubmit={handleSubmit}>
+      render={({handleSubmit, form}) => (
+        <StyledForm onSubmit={
+          async (event) => {
+            await handleSubmit(event)
+            form.reset()
+          }
+        }>
           <AttachFile />
           <Field
             component={MainInput}
