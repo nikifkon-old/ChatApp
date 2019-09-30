@@ -6,8 +6,15 @@ import { Spinner } from '../../index'
 import { StyledChatLog } from '../styles'
 
 const ChatLog = ({dialogData, deleteMessage, updateMessage}) => {
+  const scrollDiv = React.createRef()
+
+  React.useEffect(() => {
+    // always scroll to bottom
+    scrollDiv.current.scrollTop = scrollDiv.current.scrollHeight
+  })
+
   return (
-    <StyledChatLog>
+    <StyledChatLog ref={scrollDiv}>
       {
         dialogData
         ? dialogData.messages.length > 0
