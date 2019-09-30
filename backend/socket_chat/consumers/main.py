@@ -9,7 +9,7 @@ class MainConsumer(DialogConsumer, BaseConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.dialogs = []
-        self.groups = []
+        self._groups = []
 
     async def channels_message(self, message):
         """ Redirect Group messages to each person """
@@ -22,18 +22,24 @@ class MainConsumer(DialogConsumer, BaseConsumer):
         if self.dialogs:
             for dialog in self.dialogs:
                 await self.channel_layer.group_add(f'dialog_{dialog}', self.channel_name)
-        if self.groups:
-            for group in self.groups:
+        if self._groups:
+            for group in self._groups:
                 await self.channel_layer.group_add(f'group_{group}', self.channel_name)
 
-    async def disconnect(self, code):
+    async def disconnect(self, *args, **kwargs):
         """ Discard from all channels """
         if self.dialogs:
             for dialog in self.dialogs:
-                await self.channel_layer.group_discard(f'dialog_{dialog}', self.channel_name)
-        if self.groups:
-            for group in self.groups:
-                await self.channel_layer.group_discard(f'group_{group}', self.channel_name)
+                await self.channel_layer.group_discard(
+                    f'dialog_{dialog}',
+                    self.channel_name
+                )
+        if self._groups:
+            for group in self._groups:
+                await self.channel_layer.group_discard(
+                    f'group_{group}',
+                    self.channel_name
+                )
 
     @database_sync_to_async
     def get_user_channels(self, user):
@@ -42,4 +48,4 @@ class MainConsumer(DialogConsumer, BaseConsumer):
         for dialog in profile.dialogs.values():
             self.dialogs.append(dialog.get('id'))
         for group in profile.groups.values():
-            self.groups.append(group.get('id'))
+            self._groups.append(group.get('id'))

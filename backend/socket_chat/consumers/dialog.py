@@ -3,10 +3,10 @@ from channels.db import database_sync_to_async
 from django.core.exceptions import ObjectDoesNotExist
 from backend.api.v1.chat_messages.serializers import DialogMessageSerializer
 from backend.chat_messages.models import DialogMessage
-from backend.socket_chat.consumers.base import BaseConsumer, private
+from backend.socket_chat.consumers.base import private
 
 
-class DialogConsumer(BaseConsumer):
+class DialogConsumer:
     @private
     async def event_dialog_send(self, event):
         """ Handle dialog.send event """

@@ -74,6 +74,3 @@ class BaseConsumer(AsyncJsonWebsocketConsumer):
 
     async def throw_missed_field(self, event=None):
         await self._throw_error({"detail": "Missed required fields"}, event=event)
-
-    async def disconnect(self, code):
-        print(code)
