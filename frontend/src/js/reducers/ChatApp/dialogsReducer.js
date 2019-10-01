@@ -74,23 +74,29 @@ export default function(state = initialState, action) {
         messages_error: action.payload.error
       }
     case types.PUSH_RECEIVE_MESSAGE_IN_DIALOG: {
-      const id = Number(action.payload.dialog)
+      const dialog_id = Number(action.payload.dialog)
+      const { id, sender, sender_name, avatar, text, date } = action.payload
       return {
         ...state,
         // add new message to dialog with id: `action.payload.dialog`
         data: state.data.map(
-          (dialog) => dialog.id === id ? {
+          (dialog) => dialog.id === dialog_id ? {
             ...dialog,
+            last_message: {
+              sender,
+              text,
+              date,
+            },
             messages: [
               ...dialog.messages,
               {
-                id: action.payload.id,
-                sender: action.payload.sender,
-                sender_name: action.payload.sender_name,
-                avatar: action.payload.avatar,
-                dialog: id,
-                text: action.payload.text,
-                date: action.payload.date,
+                id,
+                sender,
+                sender_name,
+                avatar,
+                dialog: dialog_id,
+                text,
+                date
               }
             ]
           } : dialog
@@ -107,7 +113,9 @@ export default function(state = initialState, action) {
           dialog => dialog.id === dialog_id
           ? {
             ...dialog,
-            messages: dialog.messages.filter(message => message.id !== message_id)
+            messages: dialog.messages.filter(
+              message => message.id !== message_id
+            )
           }
           : dialog
         )
