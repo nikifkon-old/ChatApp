@@ -1,5 +1,4 @@
 import React from 'react'
-import { Form, Field } from 'react-final-form'
 import PropTypes from 'prop-types'
 
 import AttachFile from './AttachFile'
@@ -8,34 +7,52 @@ import { IconButton } from '../../index'
 import { StyledForm, MainInput } from '../styles'
 
 const InputPanel = ({sendMessage, id}) => {
-  const handleSend = ({text}) => {
-    return new Promise((resolve) => {
-      sendMessage({text, id})
-      resolve()
-    })
+  const [inputValue, setInputValue] = React.useState('')
+
+  function handleChange(event) {
+    setInputValue(event.target.value)
   }
+
+  function handleEnterPress(event) {
+    if (event.keyCode === 13 && event.shiftKey  === false) {
+      handleSend(event)
+    }
+  }
+
+  function handleSend(event) {
+    event.preventDefault()
+    console.log(inputValue, id)
+    sendMessage({text: inputValue, id})
+  }
+
+  function handleEmotion (emoji) {
+    console.log(emoji);
+    // const NewEmoji = <Emoji emoji={emoji.id} size={16} />
+    setInputValue(inputValue + emoji.colons)
+    console.log(inputValue);
+  }
+
   return (
-    <Form
+    <StyledForm
       onSubmit={handleSend}
-      render={({handleSubmit, form}) => (
-        <StyledForm onSubmit={
-          async (event) => {
-            await handleSubmit(event)
-            form.reset()
-          }
-        }>
-          <AttachFile />
-          <Field
-            component={MainInput}
-            name="text"
-            variant="outlined"
-            margin="normal"
-          />
-          <Emotion />
-          <IconButton icon="send" type="submit" />
-        </StyledForm>
-      )}
-    />
+    >
+      <AttachFile />
+
+      <MainInput
+        value={inputValue}
+        onChange={handleChange}
+        onKeyDown={handleEnterPress}
+      />
+
+      <Emotion
+        onSelect={handleEmotion}
+      />
+
+      <IconButton
+        icon="send"
+        type="submit"
+      />
+    </StyledForm>
   )
 }
 

@@ -52,6 +52,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
     "connected-react-router": "^6.5.2",
+    "emoji-mart": "^2.11.1",
     "final-form": "^4.18.2",
     "jsonwebtoken": "^8.5.1",
     "react": "^16.8.6",

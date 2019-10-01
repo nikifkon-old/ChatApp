@@ -69,34 +69,15 @@ export const MessageText = styled.div`
   padding-bottom: 10px;
 `
 // input
-export const MainInput = withStyles({
-  root: {
-    '&': {
-      width: '100%',
-      height: '45px',
-      color: dark_cont
-    },
-    '& label.Mui-focused': {
-      color: dark_cont,
-    },
-    '& .MuiOutlinedInput-root': {
-      '&': {
-        width: 'inherit',
-        height: 'inherit',
-        color: 'inherit'
-      },
-      '& fieldset': {
-        borderColor: dark_cont1,
-      },
-      '&:hover fieldset': {
-        borderColor: dark_cont,
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: dark_cont,
-      },
-    },
-  },
-})(TextField)
+export const MainInput = styled.textarea`
+  max-width: 330px;
+  max-height: 50px;
+  font-size: 18px;
+  padding: 4px;
+  background: inherit;
+  color: inherit;
+  resize: none;
+`
 
 export const EditMessageInput = withStyles({
   root: {

@@ -1,10 +1,11 @@
 import React from 'react'
+import { Picker } from 'emoji-mart'
 import PropTypes from 'prop-types'
 
 import { IconButton, Popover } from '../../index'
-import { ContentGrid, P } from '../../../styles'
+import { ContentGrid } from '../../../styles'
 
-const Emotion = () => {
+const Emotion = ({onSelect}) => {
   return (
     <Popover
       transformOrigin={{
@@ -25,12 +26,18 @@ const Emotion = () => {
             container
             alignItems="center"
           >
-            <P>Select Emotion</P>
+            <Picker
+              onSelect={onSelect}
+            />
           </ContentGrid>
         )
       }
     />
   )
+}
+
+Emotion.propTypes = {
+  onSelect: PropTypes.func.isRequired,
 }
 
 export default Emotion
