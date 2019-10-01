@@ -22,6 +22,7 @@ const InputPanel = ({sendMessage, id}) => {
   function handleSend(event) {
     event.preventDefault()
     sendMessage({text: inputValue, id})
+    setInputValue('')
   }
 
   function handleEmotion (emoji) {
