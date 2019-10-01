@@ -1,5 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
+import {
+  EmojiedText
+} from '../../index'
 import {
   Grid,
   AvatarItem,
@@ -46,7 +50,8 @@ const FriendCard = (props) => {
         color={dark_cont2}
         center
       >
-        {text.split(' ').slice(0, 8).join(' ') || 'No messages yet'}
+        {/*{text.split(' ').slice(0, 8).join(' ') || 'No messages yet'}*/}
+        <EmojiedText text={text}/>
       </LastMessageItem>
       {
         last_message && last_message.date &&

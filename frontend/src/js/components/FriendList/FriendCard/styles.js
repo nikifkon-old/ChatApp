@@ -6,7 +6,7 @@ const Grid = styled.div`
   display: grid;
   padding: 5px;
   grid-template-columns: 60px 1fr 60px;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: auto 1fr;
   grid-column-gap: 30px;
 
   &:hover {

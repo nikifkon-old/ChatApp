@@ -21,7 +21,6 @@ const InputPanel = ({sendMessage, id}) => {
 
   function handleSend(event) {
     event.preventDefault()
-    console.log(inputValue, id)
     sendMessage({text: inputValue, id})
   }
 

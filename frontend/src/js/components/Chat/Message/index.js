@@ -1,10 +1,10 @@
 import React from 'react'
-import { Emoji } from 'emoji-mart'
 import PropTypes from 'prop-types'
 import { Field, Form } from 'react-final-form'
 
 import {
-  IconButton
+  IconButton,
+  EmojiedText,
 } from '../../index'
 import {
   StyledMessage,
@@ -13,7 +13,7 @@ import {
   MessageText,
   EditMessageInput,
 } from '../styles'
-import { P, H4, GridItem } from '../../../styles'
+import { H4, GridItem } from '../../../styles'
 
 const Message = ({message, deleteMessage, updateMessage}) => {
   const { id, sender_name, avatar, text, date } = message
@@ -30,19 +30,6 @@ const Message = ({message, deleteMessage, updateMessage}) => {
   function handleUpdate ({text}) {
     updateMessage({id, text})
     setEdited(false)
-  }
-
-  function getMessageText() {
-    const textArray = text.split(':')
-    return <span>
-      {
-        textArray.map(
-          (el, i) => (i % 2 === 1)
-            ? <Emoji key={i} emoji={el} size={25} />
-            : el
-        )
-      }
-    </span>
   }
 
   return (
@@ -101,11 +88,11 @@ const Message = ({message, deleteMessage, updateMessage}) => {
             }
           />
           :
-          <P>{getMessageText()}</P>
+          <EmojiedText text={text}/>
         }
       </MessageText>
 
-      <MessageDate>{date}</MessageDate>
+      <MessageDate>{new Date(date).toLocaleString()}</MessageDate>
 
     </StyledMessage>
   )

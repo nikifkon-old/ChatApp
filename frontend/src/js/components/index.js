@@ -11,6 +11,7 @@ import TextField from './TextField'
 import Spinner from './Spinners'
 import IconButton from './IconButton'
 import Popover from './Popover'
+import EmojiedText from './Message/EmojiedText'
 
 export {
   ErrorMessage,
@@ -26,4 +27,5 @@ export {
   Spinner,
   IconButton,
   Popover,
+  EmojiedText,
 }
