@@ -9,7 +9,7 @@ class GroupMessage(models.Model):
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="group_messages")
     group = models.ForeignKey(ChatGroup, on_delete=models.CASCADE, related_name="messages")
     text = models.TextField(max_length=1000)
-    date = models.DateField("date of created or updated", auto_now=True)
+    date = models.DateTimeField("date of created or updated", auto_now=True)
 
     class Meta:
         verbose_name = "Message in group"
@@ -24,7 +24,7 @@ class DialogMessage(models.Model):
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="dialog_messages")
     dialog = models.ForeignKey(Dialog, on_delete=models.CASCADE, related_name="messages")
     text = models.TextField(max_length=1000)
-    date = models.DateField("date of created or updated", auto_now=True)
+    date = models.DateTimeField("date of created or updated", auto_now=True)
 
     class Meta:
         verbose_name = "Message in dialog"

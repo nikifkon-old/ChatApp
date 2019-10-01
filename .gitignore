@@ -90,6 +90,7 @@ venv/
 .env
 
 db.sqlite3
+migrations/
 
 ### JS ###
 node_modules/

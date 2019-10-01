@@ -121,6 +121,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+DATETIME_INPUT_FORMATS = ['%d-%m-%Y %H:%M']
 
 MEDIA_URL = '/media/'
 
