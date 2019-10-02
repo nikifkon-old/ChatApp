@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import GroupMessage
-from .models import DialogMessage
+from .models import GroupMessage, DialogMessage, GroupMessageInfo
 
 admin.site.register(GroupMessage)
 admin.site.register(DialogMessage)
+admin.site.register(GroupMessageInfo)

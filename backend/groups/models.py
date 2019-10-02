@@ -12,15 +12,12 @@ class ChatGroup(models.Model):
     description = models.TextField("Description", max_length=1000, null=True, blank=True)
     members = models.ManyToManyField(Profile, through='GroupMembership', related_name='groups')
 
-
     class Meta:
         verbose_name = "Group"
         verbose_name_plural = "Groups"
 
-
     def __str__(self):
         return self.name
-
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -45,13 +42,10 @@ class GroupMembership(models.Model):
     role = models.CharField("Role in Group", max_length=1, choices=ROLES_CHOICES)
     date_joined = models.DateField("Date of joined", auto_now_add=True)
 
-
     class Meta:
         verbose_name = "Membership in group"
         verbose_name_plural = "Memberships in group"
         unique_together = ("person", "group")
 
-
     def __str__(self):
-        return f"{self.person.user.username} - {self.group.name}" 
-    
+        return f"`{self.person.user.username}` in `{self.group.name}`"
