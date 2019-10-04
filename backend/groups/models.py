@@ -2,6 +2,7 @@ from django.db import models
 from PIL import Image
 
 from backend.profiles.models import Profile
+from backend.socket_chat.models import MessageMixin
 
 
 class ChatGroup(models.Model):
@@ -49,3 +50,49 @@ class GroupMembership(models.Model):
 
     def __str__(self):
         return f"`{self.person.user.username}` in `{self.group.name}`"
+
+
+class GroupMessage(MessageMixin):
+    """ Group message """
+    group = models.ForeignKey(
+        ChatGroup,
+        on_delete=models.CASCADE,
+        related_name="messages"
+    )
+    readers = models.ManyToManyField(
+        Profile,
+        through="GroupMessageInfo",
+        related_name=f"group_messages"
+    )
+
+    def save(self, *args, **kwargs):
+        """ set readers as group members """
+        super().save(*args, **kwargs)
+        for person in self.group.members.all():
+            unread = True
+            if person.id == self.sender.id:
+                unread = False
+
+            GroupMessageInfo.objects.create(
+                message=self,
+                person=person,
+                unread=unread,
+            )
+
+    class Meta:
+        verbose_name = "Message in group"
+        verbose_name_plural = "Messages in group"
+
+    def __str__(self):
+        return f"`{self.sender}` send in `{self.group.name}`"
+
+
+class GroupMessageInfo(models.Model):
+    """ m2m for profile & group message """
+    message = models.ForeignKey(GroupMessage, on_delete=models.CASCADE)
+    person = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    unread = models.BooleanField(default=True)
+    stared = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"message {self.message.id}, for '{self.person}' user"

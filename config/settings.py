@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'backend.profiles',
     'backend.socket_chat',
     'backend.groups',
-    'backend.chat_messages',
     'backend.dialogs',
 ]
 

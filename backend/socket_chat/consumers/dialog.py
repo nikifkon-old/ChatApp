@@ -1,8 +1,8 @@
 from datetime import datetime
 from channels.db import database_sync_to_async
 from django.core.exceptions import ObjectDoesNotExist
-from backend.api.v1.chat_messages.serializers import DialogMessageSerializer
-from backend.chat_messages.models import DialogMessage
+from backend.api.v1.dialogs.serializers import DialogMessageSerializer
+from backend.dialogs.models import DialogMessage
 from backend.socket_chat.consumers.base import private
 
 

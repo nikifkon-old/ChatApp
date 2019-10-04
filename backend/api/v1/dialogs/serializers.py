@@ -1,8 +1,11 @@
 from rest_framework import serializers
 
-from backend.dialogs.models import Dialog, DialogMembership
+from backend.dialogs.models import (
+    Dialog,
+    DialogMembership,
+    DialogMessage
+)
 from backend.profiles.models import Profile
-from backend.chat_messages.models import DialogMessage
 from backend.api.v1.profiles.serializers import ProfileSerializer
 
 
@@ -68,3 +71,27 @@ class DialogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dialog
         fields = ("id", "interlocutor", "last_message")
+
+
+class DialogMessageSerializer(serializers.ModelSerializer):
+    """ Message Serializer"""
+    avatar = serializers.SerializerMethodField()
+    sender_name = serializers.SerializerMethodField()
+
+    def get_sender_name(self, obj):
+        return obj.sender.user.username
+
+    def get_avatar(self, obj):
+        return obj.sender.avatar.url
+
+    class Meta:
+        model = DialogMessage
+        fields = (
+            "id",
+            "sender",
+            "sender_name",
+            "avatar",
+            "dialog",
+            "text",
+            "date",
+        )

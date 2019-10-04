@@ -2,11 +2,13 @@ from rest_framework import generics
 from .serializers import (
     GroupSerializer,
     MemberSerializer,
+    GroupMessageSerializer,
 )
 
 from backend.groups.models import (
-    ChatGroup, 
+    ChatGroup,
     GroupMembership,
+    GroupMessage,
 )
 
 
@@ -28,3 +30,16 @@ class GroupRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = GroupSerializer
     lookup_url_kwarg = "slug"
     lookup_field = "slug"
+
+
+class GroupMessageListCreateView(generics.ListCreateAPIView):
+    """ Create & List Groups """
+    queryset = GroupMessage.objects.all()
+    serializer_class = GroupMessageSerializer
+    filterset_fields = ['dialog', 'sender']
+
+
+class GroupMessageRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """ Get & Update & Delete Group """
+    queryset = GroupMessage.objects.all()
+    serializer_class = GroupMessageSerializer

@@ -13,7 +13,7 @@ export const getDialogsDataService = user_id => {
 
 export const getMessagesInDialogService = dialog_id => {
   const GET_MESSAGES_IN_DIALOGS_API_ENDPOINT
-   = `http://${BASE_URL}/api/v1/message/dialog/?dialog=${dialog_id}`
+   = `http://${BASE_URL}/api/v1/dialog/messages/?dialog=${dialog_id}`
   const headers = {
     'headers': {
       ...getAuthHeaders()

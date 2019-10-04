@@ -17,7 +17,10 @@ const ChatLog = ({dialogData, deleteMessage, updateMessage}) => {
     <StyledChatLog ref={scrollDiv}>
       {
         dialogData
-        ? dialogData.messages.length > 0
+        ? (
+          typeof(dialogData.messages) === 'object' &&
+          dialogData.messages.length > 0
+        )
           ? dialogData.messages.map(message =>
             <Message
               key={message.id}

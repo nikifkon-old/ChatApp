@@ -1,6 +1,10 @@
 from rest_framework import serializers
 
-from backend.groups.models import ChatGroup, GroupMembership
+from backend.groups.models import (
+    ChatGroup,
+    GroupMembership,
+    GroupMessage
+)
 
 
 class MemberSerializer(serializers.ModelSerializer):
@@ -16,3 +20,10 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatGroup
         fields = ("name", "slug", "img", "description", "members")
+
+
+class GroupMessageSerializer(serializers.ModelSerializer):
+    """ Message Serializer"""
+    class Meta:
+        model = GroupMessage
+        fields = ("id", "sender", "group", "text", "date")

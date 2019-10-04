@@ -2,7 +2,7 @@ Django
 ----
 - **make migrations**:
 <code>
-python manage.py makemigrations chat_messages dialogs groups profiles socket_chat
+python manage.py makemigrations dialogs groups profiles socket_chat
 </code>
 
 ---------------
