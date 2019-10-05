@@ -45,7 +45,10 @@ class DialogSerializer(serializers.ModelSerializer):
 
     def get_interlocutor(self, obj):
         """ Get Interlocutor if `user_id` in query_params """
-        user_id = self.context['request'].query_params.get('user_id')
+        if self.context.get('request'):
+            user_id = self.context.get('request').query_params.get('user_id')
+        else:
+            user_id = self.context.get('user_id')
         if user_id:
             id = int(user_id)
             # remove yourself

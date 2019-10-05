@@ -1,12 +1,43 @@
 from datetime import datetime
 from channels.db import database_sync_to_async
-from django.core.exceptions import ObjectDoesNotExist
-from backend.api.v1.dialogs.serializers import DialogMessageSerializer
-from backend.dialogs.models import DialogMessage
+from django.core.exceptions import (
+    ObjectDoesNotExist,
+    ValidationError,
+)
+
+from backend.api.v1.dialogs.serializers import (
+    DialogMessageSerializer,
+    DialogSerializer,
+)
+from backend.dialogs.models import (
+    DialogMessage,
+    Dialog,
+    DialogMembership,
+)
+from backend.profiles.models import Profile
 from backend.socket_chat.consumers.base import private
 
 
 class DialogConsumer:
+    @private
+    async def event_dialog_create(self, event):
+        """ Handle dialog.create """
+        try:
+            id = event['data']['id']
+        except KeyError:
+            return await self.throw_missed_field(event=event)
+        data, is_ok = await self.dialog_create(id)
+        if is_ok:
+            await self._send_message(
+                data,
+                event=event['event']
+            )
+        else:
+            await self._throw_error(
+                data,
+                event=event['event']
+            )
+
     @private
     async def event_dialog_send(self, event):
         """ Handle dialog.send event """
@@ -117,3 +148,26 @@ class DialogConsumer:
             )
         except ObjectDoesNotExist:
             return {'detail': 'Message doesn\'t exist'}, False
+
+    @database_sync_to_async
+    def dialog_create(self, id):
+        """ Create Dialog room in Database """
+        new_dialog = Dialog.objects.create()
+        user = Profile.objects.get(user=self.user)
+        DialogMembership.objects.create(
+            dialog=new_dialog,
+            person=user
+        )
+        membership = DialogMembership(
+            dialog=new_dialog,
+            person_id=id
+        )
+        try:
+            membership.save()
+        except ValidationError as e:
+            return {'detail': str(e.message)}, False
+        serialized = DialogSerializer(
+            new_dialog,
+            context={'user_id': self.user.id}
+        )
+        return serialized.data, True

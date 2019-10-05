@@ -1,8 +1,9 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+
 from backend.profiles.models import Profile
 from backend.socket_chat.models import MessageMixin
-from django.utils.translation import gettext_lazy as _
 
 
 class Dialog(models.Model):
@@ -32,7 +33,7 @@ class DialogMembership(models.Model):
             )
         ]
 
-    def clean(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
         """ Only to members in dialog & no dialog with two same person """
         p1 = Profile.objects.get(id=self.person_id)
         dialog_members = Dialog.objects.get(id=self.dialog_id).members.all()
@@ -43,6 +44,7 @@ class DialogMembership(models.Model):
                 raise ValidationError(_('Dialog with these 2 person already exist'))
         elif len(dialog_members) == 2:
             raise ValidationError(_('This dialog already have 2 members'))
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.person.user.username} in {self.dialog.id}"

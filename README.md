@@ -24,7 +24,19 @@ WebSocket DOC
         }
     }
     ```
-
+  - *`dialog.create`:*
+    - create dialog & and add requesting user and user with passed id to this
+    - data:
+      - *id*, of user, is required
+    - example:
+    ```
+    {
+        "event": "dialog.create",
+        "data": {
+          "id": "USER_ID"
+        }
+    }
+    ```
   - *`dialog.send`:*
     - send message in dialog
     - data:
