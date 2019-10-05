@@ -37,7 +37,20 @@ WebSocket DOC
         }
     }
     ```
-  - *`dialog.send`:*
+  - *`dialog.delete`:*
+    - delete dialog by id
+    - data:
+      - *id*, of dialog, is required
+    - example:
+    ```
+    {
+        "event": "dialog.delete",
+        "data": {
+          "id": "DIALOG_ID"
+        }
+    }
+    ```
+  - *`dialog.message.send`:*
     - send message in dialog
     - data:
       - *id*, of dialog, is required
@@ -53,7 +66,7 @@ WebSocket DOC
     }
     ```
 
-  - *`dialog.delete`:*
+  - *`dialog.message.delete`:*
     - delete message by id
     - data:
       - *id*, of message, is required
@@ -67,7 +80,7 @@ WebSocket DOC
     }
     ```
 
-  - *`dialog.update`:*
+  - *`dialog.message.update`:*
     - update message text
     - data:
       - *id*, of message, is required,

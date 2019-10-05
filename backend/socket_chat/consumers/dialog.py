@@ -25,9 +25,21 @@ class DialogConsumer:
         try:
             id = event['data']['id']
         except KeyError:
-            return await self.throw_missed_field(event=event)
+            return await self.throw_missed_field(event=event['event'])
         data, is_ok = await self.dialog_create(id)
         if is_ok:
+            users = []
+            room = f'dialog_{data.get("id")}'
+            for user in data['interlocutor']:
+                users.append(user['user'])
+            await self.channel_layer.group_send('general', {
+                'type': 'connect_users',
+                'event': event['event'],
+                'data': {
+                    'users': users,
+                    'room': room,
+                }
+            })
             await self._send_message(
                 data,
                 event=event['event']
@@ -39,13 +51,33 @@ class DialogConsumer:
             )
 
     @private
-    async def event_dialog_send(self, event):
-        """ Handle dialog.send event """
+    async def event_dialog_delete(self, event):
+        try:
+            id = event['data']['id']
+        except KeyError:
+            return await self.throw_missed_field(event=event['event'])
+        data, is_ok = await self.delete_dialog(id)
+        if is_ok:
+            dialog_id = data['dialog_id']
+            await self.channel_layer.group_send(f'dialog_{dialog_id}', {
+                'type': 'channels_message',
+                'event': event['event'],
+                'data': data
+            })
+        else:
+            await self._throw_error(
+                data,
+                event=event['event']
+            )
+
+    @private
+    async def event_dialog_message_send(self, event):
+        """ Handle dialog.message.send event """
         try:
             id = event['data']['id']
             text = event['data']['text']
         except KeyError:
-            return await self.throw_missed_field(event=event)
+            return await self.throw_missed_field(event=event['event'])
 
         new_message = await self.dialog_send_message(id, text)
         await self.channel_layer.group_send(f'dialog_{id}', {
@@ -55,12 +87,12 @@ class DialogConsumer:
         })
 
     @private
-    async def event_dialog_delete(self, event):
-        """ Handle dialog.delete event """
+    async def event_dialog_message_delete(self, event):
+        """ Handle dialog.message.delete event """
         try:
             id = event['data']['id']  # message id
         except KeyError:
-            return await self.throw_missed_field(event=event)
+            return await self.throw_missed_field(event=event['event'])
 
         data, is_ok = await self.dialog_delete_message(id)
         if is_ok:
@@ -81,13 +113,13 @@ class DialogConsumer:
             )
 
     @private
-    async def event_dialog_update(self, event):
-        """ Handle dialog.update event """
+    async def event_dialog_message_update(self, event):
+        """ Handle dialog.message.update event """
         try:
             id = event['data']['id']
             text = event['data']['text']
         except KeyError:
-            return await self.throw_missed_field(event=event)
+            return await self.throw_missed_field(event=event['event'])
 
         data, is_ok = await self.dialog_update_message(id, text)
         if is_ok:
@@ -168,6 +200,21 @@ class DialogConsumer:
             return {'detail': str(e.message)}, False
         serialized = DialogSerializer(
             new_dialog,
-            context={'user_id': self.user.id}
+            # context={'user_id': self.user.id}
         )
         return serialized.data, True
+
+    @database_sync_to_async
+    def delete_dialog(self, id):
+        """ Delete dialog in Databese """
+        try:
+            dialog = Dialog.objects.get(id=id)
+            dialog.delete()
+            return (
+                {
+                    'dialog_id': id
+                },
+                True
+            )
+        except ObjectDoesNotExist:
+            return {'detail': 'Dialog doesn\'t exist'}, False

@@ -15,9 +15,16 @@ class MainConsumer(DialogConsumer, BaseConsumer):
         """ Redirect Group messages to each person """
         await self._send_message(message['data'], event=message['event'])
 
+    async def connect_users(self, message):
+        users = message['data']['users']
+        room = message['data']['room']
+        if self.user.username in users:
+            await self.channel_layer.group_add(room, self.channel_name)
+
     async def on_authenticate_success(self):
         """ Execute after user authenticate """
         await self.get_user_channels(self.user)
+        await self.channel_layer.group_add('general', self.channel_name)
         # connect to channel for all groups
         if self.dialogs:
             for dialog in self.dialogs:
