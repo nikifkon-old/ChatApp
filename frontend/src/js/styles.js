@@ -1,6 +1,9 @@
 import React from 'react'
 import styled, { css, createGlobalStyle } from 'styled-components'
 import { Button, Grid } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+
+import FinalFormTextField from './components/TextField'
 
 export const bgColor = "#fff"
 export const dark_bg1 = "#0E1621"
@@ -54,14 +57,17 @@ export const SectionContainer = styled(Grid)`
 `
 
 export const ContentGrid = styled(Grid)`
-  background: ${props => props.background || 'inherit'}
+  background: ${props => props.background || 'inherit'};
+  color: ${props => props.color || 'inherit'};
 `
 
 export const Content = styled.div`
-  max-width: 600px
-  box-sizing: border-box
-  text-align: ${props => props.center ? 'center' : ';'}
-  background: ${props => props.background || 'inherit'}
+  max-width: 600px;
+  height: ${props => props.height || 'unset'};
+  box-sizing: border-box;
+  text-align: ${props => props.center ? 'center' : ''};
+  background: ${props => props.background || 'inherit'};
+  color: ${props => props.color || 'inherit'};
 
   ${css`
     ${props => props.grid_left ? 'margin-right: auto' : ''}
@@ -98,12 +104,21 @@ export const AppContainer = styled.div`
       ? "calc(100vh - 50px)"
       : "100vh"
     };
+  color: ${dark_cont};
   display: grid;
   grid-template-columns: 40px 1fr 1.3fr 550px 1fr;
   transition: .3s ease-out 0s min-height;
 `
 
+export const StyledChatWrap = styled.section`
+  color: ${dark_cont};
+  background: ${dark_bg1};
+  position: relative;
+`
+
 export const StyledForm = styled.form`
+  color: inherit;
+  background: inherit;
   width: 600px
   @media(max-width: 768px){
     width: 100%
@@ -113,6 +128,43 @@ export const StyledForm = styled.form`
 export const Img = styled.img`
   border-radius: ${props => props.round ? '50%' : ';'}
 `
+
+export const TextField = withStyles({
+  root: {
+    '&': {
+      width: props => props.width || '100%',
+      color: dark_cont
+    },
+    '& label.Mui-focused': {
+      color: dark_cont1,
+    },
+    '& .MuiInputBase-root': {
+      '&': {
+        width: 'inherit',
+        height: 'inherit',
+        color: 'inherit',
+        width: '100%',
+      },
+      '&::before' : {
+        borderColor: dark_cont1,
+      },
+      '& fieldset': {
+        borderColor: dark_cont1,
+      },
+      '&:hover fieldset': {
+        borderColor: dark_cont,
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: dark_active,
+      },
+      '& input': {
+        // override -internal-autofill-selected by shadow
+        '-webkit-box-shadow': `inset 0 0 0 50px ${dark_bg1}`,
+        '-webkit-text-fill-color': dark_cont2,
+      },
+    },
+  },
+})(FinalFormTextField)
 
 export const Btn = styled(
     ({color, primary, ...props}) => <Button {...props} />
@@ -138,13 +190,15 @@ export const Btn = styled(
 `
 
 export const H1 = styled.h1`
-  color: ${props => props.color || ";"}
+  color: ${props => props.color || ""};
+  text-align: ${props => props.center ? 'center' : ''};
   font-size: 20px
   line-height: 1rem
 `
 
 export const H4 = styled.h4`
-  color: ${props => props.color || ";"}
+  color: ${props => props.color || ""};
+  text-align: ${props => props.center ? 'center' : ''};
   font-size: 16px
   line-height: 1rem
 `

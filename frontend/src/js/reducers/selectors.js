@@ -11,6 +11,9 @@ export const getUserInfo = state => state.auth.user.data
 
 export const getDialogs = state => state.app.dialogs
 
+export const getActiveTab = state => state.app.tabs.activeTab
+
+export const getDialogFetch = state => state.app.dialogs
 export const getActiveDialogId = state => state.app.dialogs.active
 export const getActiveDialog = state => {
   const activeId = getActiveDialogId(state)

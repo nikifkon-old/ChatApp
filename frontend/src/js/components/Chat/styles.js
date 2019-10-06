@@ -5,18 +5,12 @@ import TextField from '../TextField'
 import {
   ContentGrid,
   P,
-  dark_bg1,
   dark_bg2,
   dark_cont,
   dark_cont1
 } from '../../styles'
 
 // Containers
-export const StyledChatWrap = styled.section`
-  color: ${dark_cont};
-  background: ${dark_bg1};
-  position: relative;
-`
 export const StyledTopPanel = styled(ContentGrid)`
   padding: 10px;
 `

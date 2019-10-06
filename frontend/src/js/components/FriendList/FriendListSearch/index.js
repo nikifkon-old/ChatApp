@@ -1,12 +1,10 @@
 import React from 'react'
-import { Content } from '../../../styles'
+import { H4 } from '../../../styles'
 
 const FriendListSearch = () => {
-    return (
-        <Content>
-          search
-        </Content>
-    )
+  return (
+    <H4>search</H4>
+  )
 }
 
 export default FriendListSearch

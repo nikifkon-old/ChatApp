@@ -5,34 +5,40 @@ import { withHeaderStatus, withDialogData } from '../../HOC'
 import TopPanel from './TopPanel'
 import InputPanel from './InputPanel'
 import ChatLog from './ChatLog'
-import { StyledChatWrap, StyledChat } from './styles'
+import { StyledChat } from './styles'
 
 const Chat = (props) => {
   const {
+    fetching,
+    success,
+    error,
     headerStatus,
     activeDialog,
     sendMessageInDialog,
     deleteMessageInDialog,
     updateMessageInDialog,
   } = props
+
   let id
   if (activeDialog) {
     id = activeDialog.id
   }
+
   return (
-    <StyledChatWrap>
     <StyledChat
       headerStatus={headerStatus}
     >
       <TopPanel />
       <ChatLog
+        fetching={fetching}
+        success={success}
+        error={error}
         dialogData={activeDialog}
         deleteMessage={deleteMessageInDialog}
         updateMessage={updateMessageInDialog}
       />
       <InputPanel sendMessage={sendMessageInDialog} id={id}/>
     </StyledChat>
-    </StyledChatWrap>
   )
 }
 
@@ -47,7 +53,10 @@ Chat.propTypes = {
     last_message: PropTypes.object.isRequired,
     interlocutor: PropTypes.object.isRequired,
     messages: PropTypes.array,
-  })
+  }),
+  fetching: PropTypes.bool.isRequired,
+  success: PropTypes.bool.isRequired,
+  error: PropTypes.object,
 }
 
 export default withDialogData(withHeaderStatus(Chat))

@@ -2,7 +2,11 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 
-import { getIsSuccessDialogs, getTokens } from '../../reducers/selectors'
+import {
+  getIsSuccessDialogs,
+  getTokens,
+  getActiveTab,
+} from '../../reducers/selectors'
 import {
   getUserProfile,
 } from '../../actions/authActions'
@@ -10,15 +14,17 @@ import {
   handleAppHeader,
   getDialogs,
   connectToWebSocket,
+  createDialog,
 } from '../../actions/chatActions'
 import { withHeaderStatus } from '../../HOC'
-import { AppContainer } from '../../styles'
+import { AppContainer, StyledChatWrap } from '../../styles'
 import {
   InfoPanel,
-  ChatNav,
-  ChatMenu,
+  Nav,
+  Menu,
   FriendList,
   Chat,
+  RoomCreating,
 } from '../../components'
 
 
@@ -27,12 +33,14 @@ export class ChatApp extends Component {
     isAuth: PropTypes.bool.isRequired,
     headerStatus: PropTypes.bool.isRequired,
     dialogs: PropTypes.array,
+    tab: PropTypes.number.isRequired,
     fetchedSuccess: PropTypes.bool.isRequired,
     tokens: PropTypes.object,
     getUserProfile: PropTypes.func.isRequired,
     getDialogs: PropTypes.func.isRequired,
     handleAppHeader: PropTypes.func.isRequired,
     connectToWebSocket: PropTypes.func.isRequired,
+    createDialog: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -57,6 +65,8 @@ export class ChatApp extends Component {
       headerStatus,
       dialogs,
       handleAppHeader,
+      tab,
+      createDialog,
     } = this.props
 
     return (
@@ -66,10 +76,28 @@ export class ChatApp extends Component {
           : null
         */}
         <AppContainer menuisopen={headerStatus}>
-          <ChatNav HandleHeader={handleAppHeader} />
-          <ChatMenu />
+          <Nav HandleHeader={handleAppHeader} />
+          <Menu />
           <FriendList dialogs={dialogs} />
-          <Chat />
+
+          <StyledChatWrap>
+            {
+              ({
+                1: (
+                  <Chat />
+                ),
+                2: (
+                  <Chat />
+                ),
+                3: (
+                  <Chat />
+                ),
+                4: (
+                  <RoomCreating createDialog={createDialog} />
+                )
+              }[tab] || <div>defaul</div>)
+            }
+          </StyledChatWrap>
           <InfoPanel />
         </AppContainer>
       </Fragment>
@@ -81,7 +109,8 @@ const mapStateToProps = state => {
   return {
     dialogs: state.app.dialogs.data,
     fetchedSuccess: getIsSuccessDialogs(state),
-    tokens: getTokens(state)
+    tokens: getTokens(state),
+    tab: getActiveTab(state),
   }
 }
 
@@ -92,6 +121,7 @@ export default connect(
     handleAppHeader,
     getDialogs,
     connectToWebSocket,
+    createDialog,
   }
 )(
   withHeaderStatus(ChatApp)

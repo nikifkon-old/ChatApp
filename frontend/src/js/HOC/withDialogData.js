@@ -10,6 +10,7 @@ import {
 import {
   getActiveDialog,
   getAccessToken,
+  getDialogFetch,
 } from '../reducers/selectors'
 
 export default function (Chat) {
@@ -32,9 +33,14 @@ export default function (Chat) {
   const mapStateToProps = state => {
     const activeDialog = getActiveDialog(state)
     const accessToken = getAccessToken(state)
+    const dialogFetch = getDialogFetch(state)
+    const { fetching, success, error } = dialogFetch
     return {
       activeDialog,
       accessToken,
+      fetching,
+      success,
+      error,
     }
 }
 

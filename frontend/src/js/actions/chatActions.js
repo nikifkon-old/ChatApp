@@ -70,3 +70,15 @@ export const updateMessageInDialog = ({id, text}) => {
     }
   }
 }
+
+export const createDialog = ({id}) => {
+  return {
+    type: types.WEBSOCKET_SEND_REQUEST,
+    payload: {
+      event: events.DIALOG_CREATE,
+      data: {
+        id,
+      }
+    }
+  }
+}
