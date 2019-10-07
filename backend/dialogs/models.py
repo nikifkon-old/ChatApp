@@ -1,5 +1,8 @@
 from django.db import models
-from django.core.exceptions import ValidationError
+from django.core.exceptions import (
+    ValidationError,
+    ObjectDoesNotExist,
+)
 from django.utils.translation import gettext_lazy as _
 
 from backend.profiles.models import Profile
@@ -13,6 +16,17 @@ class Dialog(models.Model):
     class Meta:
         verbose_name = "Dialog"
         verbose_name_plural = "Dialogs"
+
+    @staticmethod
+    def check_unique_dialog_members(user1, user2):
+        try:
+            p1 = Profile.objects.get(id=user1)
+            p2 = Profile.objects.get(id=user2)
+        except ObjectDoesNotExist:
+            raise ValidationError(_('Profile does not exist'))
+        general_dialogs = p2.dialogs.all() & p1.dialogs.all()
+        if len(general_dialogs) > 0:
+            raise ValidationError(_('Dialog with these 2 person already exist'))
 
     def __str__(self):
         return f"{self.id}"
@@ -35,16 +49,16 @@ class DialogMembership(models.Model):
 
     def save(self, *args, **kwargs):
         """ Only to members in dialog & no dialog with two same person """
-        p1 = Profile.objects.get(id=self.person_id)
         dialog_members = Dialog.objects.get(id=self.dialog_id).members.all()
-        if len(dialog_members) == 1:
-            p2 = dialog_members.first()
-            general_dialogs = p2.dialogs.all() & p1.dialogs.all()
-            if len(general_dialogs) > 0:
-                raise ValidationError(_('Dialog with these 2 person already exist'))
-        elif len(dialog_members) == 2:
+        if len(dialog_members) >= 2:
             raise ValidationError(_('This dialog already have 2 members'))
-        super().save(*args, **kwargs)
+            super().save(*args, **kwargs)
+        # p1 = Profile.objects.get(id=self.person_id)
+        # if len(dialog_members) == 1:
+        #     p2 = dialog_members.first()
+        #     general_dialogs = p2.dialogs.all() & p1.dialogs.all()
+        #     if len(general_dialogs) > 0:
+        #         raise ValidationError(_('Dialog with these 2 person already exist'))
 
     def __str__(self):
         return f"{self.person.user.username} in {self.dialog.id}"

@@ -14,7 +14,6 @@ from backend.dialogs.models import (
     Dialog,
     DialogMembership,
 )
-from backend.profiles.models import Profile
 from backend.socket_chat.consumers.base import private
 
 
@@ -23,27 +22,23 @@ class DialogConsumer:
     async def event_dialog_create(self, event):
         """ Handle dialog.create """
         try:
-            id = event['data']['id']
+            id = int(event['data']['id'])
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
-        data, is_ok = await self.dialog_create(id)
+        data, dialog_id, is_ok = await self.dialog_create(id)
         if is_ok:
-            users = []
-            room = f'dialog_{data.get("id")}'
-            for user in data['interlocutor']:
-                users.append(user['user'])
+            users = [self.user.id, id]
+            room = f'dialog_{dialog_id}'
+
             await self.channel_layer.group_send('general', {
                 'type': 'connect_users',
                 'event': event['event'],
                 'data': {
                     'users': users,
                     'room': room,
+                    'room_data': data
                 }
             })
-            await self._send_message(
-                data,
-                event=event['event']
-            )
         else:
             await self._throw_error(
                 data,
@@ -52,6 +47,7 @@ class DialogConsumer:
 
     @private
     async def event_dialog_delete(self, event):
+        """ Handle dialog.delete """
         try:
             id = event['data']['id']
         except KeyError:
@@ -184,25 +180,42 @@ class DialogConsumer:
     @database_sync_to_async
     def dialog_create(self, id):
         """ Create Dialog room in Database """
+        try:
+            Dialog.check_unique_dialog_members(self.user.id, id)
+        except ValidationError as e:
+            return {'detail': str(e.message)}, False
+
         new_dialog = Dialog.objects.create()
-        user = Profile.objects.get(user=self.user)
-        DialogMembership.objects.create(
+        m2 = DialogMembership.objects.create(
             dialog=new_dialog,
-            person=user
+            person_id=self.user.id
         )
-        membership = DialogMembership(
+        m1 = DialogMembership(
             dialog=new_dialog,
             person_id=id
         )
         try:
-            membership.save()
+            m1.save_base()
+            m2.save_base()
         except ValidationError as e:
             return {'detail': str(e.message)}, False
-        serialized = DialogSerializer(
+
+        data1 = DialogSerializer(
             new_dialog,
-            # context={'user_id': self.user.id}
+            context={'user_id': self.user.id}
+        ).data
+        data2 = DialogSerializer(
+            new_dialog,
+            context={'user_id': id}
+        ).data
+        return (
+            {
+                self.user.id: data1,
+                id: data2
+            },
+            new_dialog.id,
+            True
         )
-        return serialized.data, True
 
     @database_sync_to_async
     def delete_dialog(self, id):
@@ -210,11 +223,6 @@ class DialogConsumer:
         try:
             dialog = Dialog.objects.get(id=id)
             dialog.delete()
-            return (
-                {
-                    'dialog_id': id
-                },
-                True
-            )
+            return ({'dialog_id': id}, True)
         except ObjectDoesNotExist:
             return {'detail': 'Dialog doesn\'t exist'}, False

@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from backend.profiles.models import Profile
 from django.contrib.auth.models import User
- 
+
 
 # class UserSerializer(serializers.ModelSerializer):
 #     """ Django User Serializer """

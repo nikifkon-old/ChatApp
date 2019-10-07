@@ -16,10 +16,18 @@ class MainConsumer(DialogConsumer, BaseConsumer):
         await self._send_message(message['data'], event=message['event'])
 
     async def connect_users(self, message):
+        """ Connect user to rooms """
         users = message['data']['users']
         room = message['data']['room']
-        if self.user.username in users:
+        room_data = message['data']['room_data']
+        event = message['event']
+
+        if self.user.id in users:
+            print('connecting %s to %s' % (self.user.id, room))
+            print(room_data, room)
             await self.channel_layer.group_add(room, self.channel_name)
+
+            await self._send_message(room_data[self.user.id], event=event)
 
     async def on_authenticate_success(self):
         """ Execute after user authenticate """
