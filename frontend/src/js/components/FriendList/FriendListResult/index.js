@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import FriendCard from '../FriendCard'
 import { ColoredLine } from '../..'
-import { ContentGrid, dark_cont1 } from '../../../styles'
+import { ContentGrid, P, dark_cont1 } from '../../../styles'
 
 const FriendListResult = ({dialogs, setActiveDialog}) => {
   return (
@@ -11,17 +11,19 @@ const FriendListResult = ({dialogs, setActiveDialog}) => {
       direction="column"
     >
       {
-        dialogs.map(dialog =>
-          (
-            <Fragment key={dialog.id}>
-              <FriendCard
-                dialog={dialog}
-                setActiveDialog={() => setActiveDialog(dialog.id)}
-              />
-              <ColoredLine color={dark_cont1} width="50%" />
-            </Fragment>
+        dialogs.length > 0
+          ? dialogs.map(dialog =>
+            (
+              <Fragment key={dialog.id}>
+                <FriendCard
+                  dialog={dialog}
+                  setActiveDialog={() => setActiveDialog(dialog.id)}
+                />
+                <ColoredLine color={dark_cont1} width="50%" />
+              </Fragment>
+            )
           )
-        )
+          : <P center>No dialogs yet...</P>
       }
     </ContentGrid>
   )

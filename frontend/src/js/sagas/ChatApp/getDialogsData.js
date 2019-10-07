@@ -14,11 +14,13 @@ export function* getDialogsData() {
       payload: response.data
     })
     // display first dialog
-    const firstDialog = response.data[0].id
-    yield put({
-      type: types.GET_MESSAGES_IN_DIALOG_REQUEST,
-      payload: firstDialog
-    })
+    if (response.data.length > 0) {
+      const firstDialog = response.data[0].id
+      yield put({
+        type: types.GET_MESSAGES_IN_DIALOG_REQUEST,
+        payload: firstDialog
+      })
+    }
 
   } catch (error) {
     yield put({
