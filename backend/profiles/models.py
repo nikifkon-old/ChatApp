@@ -13,8 +13,10 @@ class Profile(models.Model):
         ("W", "Woman"),
     ]
 
+    MEDIA_DIR = "profiles/"
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField("Avatar", upload_to="profiles/", null=True, blank=True)
+    avatar = models.ImageField("Avatar", upload_to=MEDIA_DIR, blank=True)
     tel = models.CharField("Telephone", max_length=16, blank=True)
     birth = models.DateField("Date of Birth", max_length=200, null=True, blank=True)
     gender = models.CharField("Gender", max_length=1, choices=GENDER_CHOICES, blank=True)
@@ -37,10 +39,12 @@ class Profile(models.Model):
         return self.user.username
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
         if self.avatar:
             img = Image.open(self.avatar.path)
             if img.height > 500 or img.width > 500:
                 output_size = (500, 500)
                 img.thumbnail(output_size)
                 img.save(self.avatar.path)
+        else:
+            self.avatar = self.MEDIA_DIR + "/defaultAvatar.jpg"
+        super().save(*args, **kwargs)
