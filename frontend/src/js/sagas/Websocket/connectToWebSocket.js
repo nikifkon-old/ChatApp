@@ -9,12 +9,7 @@ export function* connectToWebSocket() {
   const tokens = yield select(getTokens)
 
   try {
-    const response = yield call(connectToWebSocketService)
-
-    yield put({
-      type: types.WEBSOCKET_CONNECT_SUCCESS,
-      payload: response.data
-    })
+    yield call(connectToWebSocketService)
 
     yield put({
       type: types.WEBSOCKET_SEND_REQUEST,

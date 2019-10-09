@@ -8,7 +8,24 @@ function* MessageReducer({payload: event}) {
     case events.AUTHENTICATE:
       if (event.status === 'ok') {
         console.log('authenticate success')
+        yield put({
+          type: types.WEBSOCKET_CONNECT_SUCCESS,
+          payload: {
+            response: {
+              ...event.data
+            }
+          }
+        })
       } else {
+        yield put({
+          type: types.WEBSOCKET_CONNECT_FAILURE,
+          payload: {
+            response: {
+              ...event.data,
+              status: 401
+            }
+          }
+        })
         console.log('%c%s', 'color: red;', event.data.detail);
       }
       break
