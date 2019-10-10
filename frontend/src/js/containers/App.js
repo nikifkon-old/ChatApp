@@ -1,46 +1,51 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { StylesProvider } from "@material-ui/styles";
 
 import GlobalStyle, { Wrapper, PageContainer } from '../styles'
-import Home from '../routes/Home'
-import GetStarted from '../routes/GetStarted'
-import Login from '../routes/Login'
-import { ChatApp } from '../containers'
-import { Header } from '../components'
-import { Private, AuthRouter, withHeaderStatus } from '../HOC'
+import {
+  Home,
+  GetStarted,
+  Login,
+  ChatAppRoute,
+} from '../routes'
+// import { ChatApp } from '../containers'
+import {
+  Header,
+  PropsRoute,
+} from '../components'
+import { Private, AuthRouter } from '../HOC'
 
 
-class App extends Component {
-  static propTypes = {
-    headerStatus: PropTypes.bool.isRequired
+function App() {
+  const [headerIsOpen, setHeaderIsOpen] = React.useState(true)
+
+  function handleHeader() {
+    setHeaderIsOpen(!headerIsOpen)
   }
 
-  render() {
-    const {headerStatus} = this.props
-    return (
-      <StylesProvider injectFirst>
-        <Wrapper>
-          <Header isOpen={headerStatus} />
-          <PageContainer
-            menuisopen={headerStatus}
-            container
-            direction="column"
-            background="#edeef0"
-          >
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/app" component={Private(ChatApp)} />
-              <Route path="/get-started" component={AuthRouter(GetStarted)} />
-              <Route path="/login" component={AuthRouter(Login)} />
-            </Switch>
-          </PageContainer>
-        </Wrapper>
-        <GlobalStyle />
-      </StylesProvider>
-    )
-  }
+  return (
+    <StylesProvider injectFirst>
+      <Wrapper>
+        <Header isOpen={headerIsOpen} />
+        <PageContainer
+          headerIsOpen={headerIsOpen}
+          container
+          direction="column"
+          background="#edeef0"
+        >
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <PropsRoute path="/app" component={Private(ChatAppRoute)} handleHeader={handleHeader} />
+            <Route path="/get-started" component={AuthRouter(GetStarted)} />
+            <Route path="/login" component={AuthRouter(Login)} />
+          </Switch>
+        </PageContainer>
+      </Wrapper>
+      <GlobalStyle />
+    </StylesProvider>
+  )
 }
 
-export default withHeaderStatus(App)
+export default App

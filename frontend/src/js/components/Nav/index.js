@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { IconButton } from '../index'
 import { StylesChatNav } from './styles'
 
-const ChatNav = ({HandleHeader}) => {
+const ChatNav = ({handleHeader}) => {
     return (
       <section>
         <StylesChatNav
@@ -12,14 +12,14 @@ const ChatNav = ({HandleHeader}) => {
           direction="column"
           alignItems="center"
         >
-          <IconButton icon="menu" onClick={HandleHeader} />
+          <IconButton icon="menu" onClick={handleHeader} />
         </StylesChatNav>
       </section>
     )
 }
 
 ChatNav.propTypes = {
-  HandleHeader: PropTypes.func.isRequired
+  handleHeader: PropTypes.func.isRequired
 }
 
 export default ChatNav

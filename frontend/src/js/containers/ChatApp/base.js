@@ -1,10 +1,6 @@
-import React, { Component, Fragment } from 'react'
-import {
-  Route,
-  Switch,
-} from 'react-router-dom'
+import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types';
 
 import {
   getIsSuccessDialogs,
@@ -20,8 +16,6 @@ import {
   connectToWebSocket,
   createDialog,
 } from '../../actions/chatActions'
-import { withHeaderStatus } from '../../HOC'
-import { AppContainer, StyledChatWrap } from '../../styles'
 import {
   InfoPanel,
   Nav,
@@ -30,12 +24,11 @@ import {
   Chat,
   RoomCreating,
 } from '../../components'
+import { AppContainer, StyledChatWrap } from '../../styles'
 
-
-export class ChatApp extends Component {
+class ChatBase extends React.Component {
   static propTypes = {
     isAuth: PropTypes.bool.isRequired,
-    headerStatus: PropTypes.bool.isRequired,
     dialogs: PropTypes.array,
     tab: PropTypes.number.isRequired,
     fetchedSuccess: PropTypes.bool.isRequired,
@@ -66,16 +59,22 @@ export class ChatApp extends Component {
 
   render() {
     const {
-      headerStatus,
       dialogs,
-      handleAppHeader,
-      tab,
+      showChat,
+      showFormCreating,
       createDialog,
     } = this.props
-
     return (
       <Fragment>
         <FriendList dialogs={dialogs} />
+        <StyledChatWrap>
+          {
+            showChat && <Chat />
+          }
+          {
+            showFormCreating && <RoomCreating createDialog={createDialog} />
+          }
+        </StyledChatWrap>
         <InfoPanel />
       </Fragment>
     )
@@ -100,6 +99,4 @@ export default connect(
     connectToWebSocket,
     createDialog,
   }
-)(
-  withHeaderStatus(ChatApp)
-)
+)(ChatBase)

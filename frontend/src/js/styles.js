@@ -38,9 +38,9 @@ export const Wrapper = styled.div`
 `
 
 export const PageContainer = styled(
-  ({menuisopen, ...props}) => <Grid {...props} />
+  ({headerIsOpen, ...props}) => <Grid {...props} />
 )`
-  margin-top: ${props => props.menuisopen ? '50px' : '0px'}
+  margin-top: ${props => props.headerIsOpen ? '50px' : '0px'}
   background: ${props => props.background || bgColor}
   flex: 1
   transition: .3s ease-out 0s margin-top;
@@ -100,7 +100,7 @@ export const GridItem = styled(
 export const AppContainer = styled.div`
   width: 100%;
   min-height: ${props =>
-    props.menuisopen
+    props.headerIsOpen
       ? "calc(100vh - 50px)"
       : "100vh"
     };

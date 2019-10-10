@@ -183,7 +183,7 @@ class DialogConsumer:
         try:
             Dialog.check_unique_dialog_members(self.user.id, id)
         except ValidationError as e:
-            return {'detail': str(e.message)}, False
+            return {'detail': str(e.message)}, None, False
 
         new_dialog = Dialog.objects.create()
         m2 = DialogMembership.objects.create(
@@ -198,7 +198,7 @@ class DialogConsumer:
             m1.save_base()
             m2.save_base()
         except ValidationError as e:
-            return {'detail': str(e.message)}, False
+            return {'detail': str(e.message)}, None, False
 
         data1 = DialogSerializer(
             new_dialog,

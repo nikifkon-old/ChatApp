@@ -13,6 +13,7 @@ import IconButton from './IconButton'
 import Popover from './Popover'
 import EmojiedText from './Message/EmojiedText'
 import RoomCreating from './RoomCreating'
+import PropsRoute from './PropsRoute'
 
 export {
   ErrorMessage,
@@ -30,4 +31,5 @@ export {
   Popover,
   EmojiedText,
   RoomCreating,
+  PropsRoute,
 }
