@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch } from 'react-router-dom'
+import { Switch, useRouteMatch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import {
@@ -12,8 +12,8 @@ import {
 } from '../../containers'
 import { AppContainer } from '../../styles'
 
-function ChatAppRoute({match, handleHeader, ...props}) {
-
+function ChatAppRoute({handleHeader, ...props}) {
+  const match = useRouteMatch()
   return (
     <AppContainer>
       <Nav handleHeader={handleHeader} />
@@ -24,6 +24,29 @@ function ChatAppRoute({match, handleHeader, ...props}) {
           path={match.url}
           component={ChatBase}
           content="chatRoom"
+          {...props}
+          />
+        <PropsRoute
+          exact
+          path={`${match.url}/all messages`}
+          component={ChatBase}
+          content="chatRoom"
+          {...props}
+          />
+        <PropsRoute
+          exact
+          path={`${match.url}/unread`}
+          component={ChatBase}
+          content="chatRoom"
+          params="unread"
+          {...props}
+          />
+        <PropsRoute
+          exact
+          path={`${match.url}/important`}
+          component={ChatBase}
+          content="chatRoom"
+          params="important"
           {...props}
           />
         <PropsRoute

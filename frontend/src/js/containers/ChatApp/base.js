@@ -18,71 +18,71 @@ import {
 } from '../../actions/chatActions'
 import {
   InfoPanel,
-  Nav,
-  Menu,
   FriendList,
   Chat,
   RoomCreating,
 } from '../../components'
-import { AppContainer, StyledChatWrap } from '../../styles'
+import { StyledChatWrap } from '../../styles'
 
-class ChatBase extends React.Component {
-  static propTypes = {
-    isAuth: PropTypes.bool.isRequired,
-    dialogs: PropTypes.array,
-    tab: PropTypes.number.isRequired,
-    fetchedSuccess: PropTypes.bool.isRequired,
-    tokens: PropTypes.object,
-    getUserProfile: PropTypes.func.isRequired,
-    getDialogs: PropTypes.func.isRequired,
-    handleAppHeader: PropTypes.func.isRequired,
-    connectToWebSocket: PropTypes.func.isRequired,
-    createDialog: PropTypes.func.isRequired,
-    content: PropTypes.oneOf(['chatRoom', 'form'])
-  }
+function ChatBase(props) {
+  const {
+    content,
+    getDialogs,
+    isAuth,
+    fetchedSuccess,
+    connectToWebSocket,
+    tokens,
+    dialogs,
+    createDialog,
+    params,
+  } = props
 
-  componentDidMount() {
-    const { getDialogs, isAuth, fetchedSuccess, connectToWebSocket, tokens } = this.props
-    if (!fetchedSuccess && isAuth) {
-      getDialogs()
+  React.useEffect(() => {
+    switch (content) {
+      case "chatRoom":
+        if (!fetchedSuccess && isAuth) {
+          getDialogs()
+        }
+        if (isAuth && tokens) {
+          connectToWebSocket()
+        }
+        break;
     }
-    if (isAuth && tokens) {
-      connectToWebSocket()
-    }
-  }
+  }, [content])
 
-  componentDidUpdate() {
-    const { getDialogs, isAuth, fetchedSuccess } = this.props
-    if (!fetchedSuccess && isAuth) {
-      getDialogs()
-    }
-  }
-
-  render() {
-    const {
-      dialogs,
-      createDialog,
-      content
-    } = this.props
-    return (
-      <Fragment>
-        <FriendList dialogs={dialogs} />
-        <StyledChatWrap>
+  return (
+    <Fragment>
+      <FriendList dialogs={dialogs} />
+      <StyledChatWrap>
+        {
           {
-            {
-              "chatRoom": (
-                <Chat />
-              ),
-              "form": (
-                <RoomCreating createDialog={createDialog} />
-              )
-            }[content]
-          }
-        </StyledChatWrap>
-        <InfoPanel />
-      </Fragment>
-    )
-  }
+            "chatRoom": (
+              <Chat params={params} />
+            ),
+            "form": (
+              <RoomCreating createDialog={createDialog} />
+            )
+          }[content]
+        }
+      </StyledChatWrap>
+      <InfoPanel />
+    </Fragment>
+  )
+}
+
+ChatBase.propTypes = {
+  isAuth: PropTypes.bool.isRequired,
+  dialogs: PropTypes.array,
+  tab: PropTypes.number.isRequired,
+  fetchedSuccess: PropTypes.bool.isRequired,
+  tokens: PropTypes.object,
+  getUserProfile: PropTypes.func.isRequired,
+  getDialogs: PropTypes.func.isRequired,
+  handleAppHeader: PropTypes.func.isRequired,
+  connectToWebSocket: PropTypes.func.isRequired,
+  createDialog: PropTypes.func.isRequired,
+  content: PropTypes.oneOf(['chatRoom', 'form']),
+  params: PropTypes.oneOf(['unread', 'important']),
 }
 
 const mapStateToProps = state => {

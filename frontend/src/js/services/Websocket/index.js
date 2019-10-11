@@ -5,7 +5,7 @@ let socket
 
 export function connectToWebSocketService() {
   return new Promise(function(resolve, reject) {
-    socket = new WebSocket(`ws://${BASE_URL}/ws/main`)
+    socket = socket || new WebSocket(`ws://${BASE_URL}/ws/main`)
 
     socket.onopen = event => {
       resolve(socket)

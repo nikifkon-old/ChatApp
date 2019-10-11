@@ -5,17 +5,17 @@ import { IconButton } from '../index'
 import { StylesChatNav } from './styles'
 
 const ChatNav = ({handleHeader}) => {
-    return (
-      <section>
-        <StylesChatNav
-          container
-          direction="column"
-          alignItems="center"
-        >
-          <IconButton icon="menu" onClick={handleHeader} />
-        </StylesChatNav>
-      </section>
-    )
+  return (
+    <section>
+      <StylesChatNav
+        container
+        direction="column"
+        alignItems="center"
+      >
+        <IconButton icon="menu" onClick={handleHeader} />
+      </StylesChatNav>
+    </section>
+  )
 }
 
 ChatNav.propTypes = {
