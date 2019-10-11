@@ -4,14 +4,16 @@ import PropTypes from 'prop-types'
 
 import {
   Nav,
-  Menu,
   PropsRoute,
 } from '../../components'
-import { ChatBase } from '../../containers'
+import {
+  ChatBase,
+  Menu,
+} from '../../containers'
 import { AppContainer } from '../../styles'
 
 function ChatAppRoute({match, handleHeader, ...props}) {
-  console.log(match);
+
   return (
     <AppContainer>
       <Nav handleHeader={handleHeader} />
@@ -21,13 +23,13 @@ function ChatAppRoute({match, handleHeader, ...props}) {
           exact
           path={match.url}
           component={ChatBase}
-          showChat
+          content="chatRoom"
           {...props}
           />
         <PropsRoute
           path={`${match.url}/create room`}
           component={ChatBase}
-          showFormCreating
+          content="form"
           {...props}
         />
       </Switch>

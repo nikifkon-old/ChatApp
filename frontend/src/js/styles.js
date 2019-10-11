@@ -23,11 +23,12 @@ export default createGlobalStyle`
   }
 
   a {
-    text-decoration: none
+    text-decoration: none;
+    color: inherit;
   }
 
   img {
-      margin: 0 auto
+    margin: 0 auto;
   }
 `
 

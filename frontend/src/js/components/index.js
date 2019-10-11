@@ -4,7 +4,7 @@ import Notification from './Notification'
 import InfoPanel from './InfoPanel'
 import ColoredLine from './ColoredLine'
 import Nav from './Nav'
-import Menu from './Menu'
+import MenuItem from './MenuItem'
 import FriendList from './FriendList'
 import Chat from './Chat'
 import TextField from './TextField'
@@ -23,7 +23,7 @@ export {
   InfoPanel,
   ColoredLine,
   Nav,
-  Menu,
+  MenuItem,
   FriendList,
   Chat,
   Spinner,

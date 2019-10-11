@@ -38,6 +38,7 @@ class ChatBase extends React.Component {
     handleAppHeader: PropTypes.func.isRequired,
     connectToWebSocket: PropTypes.func.isRequired,
     createDialog: PropTypes.func.isRequired,
+    content: PropTypes.oneOf(['chatRoom', 'form'])
   }
 
   componentDidMount() {
@@ -60,19 +61,22 @@ class ChatBase extends React.Component {
   render() {
     const {
       dialogs,
-      showChat,
-      showFormCreating,
       createDialog,
+      content
     } = this.props
     return (
       <Fragment>
         <FriendList dialogs={dialogs} />
         <StyledChatWrap>
           {
-            showChat && <Chat />
-          }
-          {
-            showFormCreating && <RoomCreating createDialog={createDialog} />
+            {
+              "chatRoom": (
+                <Chat />
+              ),
+              "form": (
+                <RoomCreating createDialog={createDialog} />
+              )
+            }[content]
           }
         </StyledChatWrap>
         <InfoPanel />
