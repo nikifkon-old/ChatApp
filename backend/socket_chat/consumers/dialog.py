@@ -4,6 +4,17 @@ from backend.socket_chat.consumers.dialog_db import DialogDataBase
 
 class DialogConsumer(DialogDataBase):
     @private
+    async def event_dialog_get(self, event):
+        """ Handle dialog.get """
+        try:
+            id = int(event['data']['id'])
+            filter = event.get('data').get('filter')
+        except KeyError:
+            return await self.throw_missed_field(event=event['event'])
+        data = await self.dialog_get(id, filter)
+        await self._send_message(data, event=event['event'])
+
+    @private
     async def event_dialog_create(self, event):
         """ Handle dialog.create """
         try:

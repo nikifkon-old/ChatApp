@@ -18,6 +18,17 @@ from backend.dialogs.models import (
 
 class DialogDataBase:
     @database_sync_to_async
+    def dialog_get(self, id, filter=None):
+        """ Get user dialogs """
+        dialogs = Dialog.objects.filter(members__id=id)
+        serialized = DialogSerializer(
+            dialogs,
+            context={'filter': filter},
+            many=True
+        )
+        return serialized.data
+
+    @database_sync_to_async
     def dialog_send_message(self, id, text):
         """ Create message in Database """
         new_message = DialogMessage.objects.create(

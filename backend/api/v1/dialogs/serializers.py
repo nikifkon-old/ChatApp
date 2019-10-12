@@ -37,11 +37,42 @@ class PersonSerializer(serializers.ModelSerializer):
         fields = ("user", "user_id", "avatar")
 
 
+class DialogMessageSerializer(serializers.ModelSerializer):
+    """ Message Serializer"""
+    avatar = serializers.SerializerMethodField()
+    sender_name = serializers.SerializerMethodField()
+
+    def get_sender_name(self, obj):
+        return obj.sender.user.username
+
+    def get_avatar(self, obj):
+        return obj.sender.avatar.url
+
+    class Meta:
+        model = DialogMessage
+        fields = (
+            "id",
+            "sender",
+            "sender_name",
+            "avatar",
+            "dialog",
+            "text",
+            "date",
+        )
+
+
 class DialogSerializer(serializers.ModelSerializer):
     """ Dialog Serializer"""
-
     last_message = serializers.SerializerMethodField()
     interlocutor = serializers.SerializerMethodField()
+    messages = serializers.SerializerMethodField()
+
+    def get_messages(self, obj):
+        if self.context.get('filter') == 'unread':
+            messages = DialogMessage.objects.filter(dialog=obj)
+        else:
+            messages = obj.messages
+        return DialogMessageSerializer(messages, many=True).data
 
     def get_interlocutor(self, obj):
         """ Get Interlocutor if `user_id` in query_params """
@@ -73,28 +104,4 @@ class DialogSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Dialog
-        fields = ("id", "interlocutor", "last_message")
-
-
-class DialogMessageSerializer(serializers.ModelSerializer):
-    """ Message Serializer"""
-    avatar = serializers.SerializerMethodField()
-    sender_name = serializers.SerializerMethodField()
-
-    def get_sender_name(self, obj):
-        return obj.sender.user.username
-
-    def get_avatar(self, obj):
-        return obj.sender.avatar.url
-
-    class Meta:
-        model = DialogMessage
-        fields = (
-            "id",
-            "sender",
-            "sender_name",
-            "avatar",
-            "dialog",
-            "text",
-            "date",
-        )
+        fields = ("id", "messages", "interlocutor", "last_message")

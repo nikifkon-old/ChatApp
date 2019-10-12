@@ -24,6 +24,22 @@ WebSocket DOC
         }
     }
     ```
+  - *`dialog.get`:*
+    - get messages in user's dialogs
+    - data:
+      - *id*, of user, is required
+      - *filter*,  messages,
+        maybe: `unread`, `important`
+    - example:
+    ```
+    {
+        "event": "dialog.get",
+        "data": {
+          "id": "USER_ID",
+          "filter": "unread"
+        }
+    }
+    ```
   - *`dialog.create`:*
     - create dialog & and add requesting user and user with passed id to this
     - data:
