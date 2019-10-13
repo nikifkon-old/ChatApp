@@ -16,7 +16,7 @@ class Menu extends React.Component {
         />
         <MenuItem id={1} title="All Messages" unreadCount={21} />
         <MenuItem id={2} title="Unread" unreadCount={89} />
-        <MenuItem id={3} title="Important" unreadCount={6} />
+        <MenuItem id={3} title="Stared" unreadCount={6} />
         <MenuItem id={4} title="Create room" />
         <ColoredLine
           color={dark_cont1}

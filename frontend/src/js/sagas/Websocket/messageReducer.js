@@ -7,7 +7,7 @@ function* MessageReducer({payload: event}) {
   switch (event.event) {
     case events.AUTHENTICATE:
       if (event.status === 'ok') {
-        console.log('authenticate success')
+        console.log('%c%s', 'color: green;', 'authenticate success')
         yield put({
           type: types.WEBSOCKET_CONNECT_SUCCESS,
           payload: {
@@ -27,6 +27,17 @@ function* MessageReducer({payload: event}) {
           }
         })
         console.log('%c%s', 'color: red;', event.data.detail);
+      }
+      break
+
+    case events.DIALOG_GET:
+      if(event.status === 'ok') {
+        yield put({
+          type: types.GET_DIALOGS_SUCCESS,
+          payload: event.data
+        })
+      } else {
+        console.log(event.data.detail);
       }
       break
 

@@ -3,18 +3,19 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import {
-  getIsSuccessDialogs,
   getTokens,
   getActiveTab,
+  getWebsocketIsAuth,
+  getUserId,
 } from '../../reducers/selectors'
 import {
   getUserProfile,
 } from '../../actions/authActions'
 import {
   handleAppHeader,
-  getDialogs,
   connectToWebSocket,
   createDialog,
+  getDialogData,
 } from '../../actions/chatActions'
 import {
   InfoPanel,
@@ -27,28 +28,33 @@ import { StyledChatWrap } from '../../styles'
 function ChatBase(props) {
   const {
     content,
-    getDialogs,
+    params,
+    user_id,
     isAuth,
-    fetchedSuccess,
     connectToWebSocket,
     tokens,
     dialogs,
     createDialog,
-    params,
+    getDialogData,
+    websocketIsAuth,
   } = props
 
   React.useEffect(() => {
     switch (content) {
       case "chatRoom":
-        if (!fetchedSuccess && isAuth) {
-          getDialogs()
-        }
         if (isAuth && tokens) {
           connectToWebSocket()
         }
+        if (websocketIsAuth && user_id) {
+
+          getDialogData({
+            id: user_id,
+            filter: params
+          })
+        }
         break;
     }
-  }, [content])
+  }, [content, params, websocketIsAuth])
 
   return (
     <Fragment>
@@ -72,25 +78,27 @@ function ChatBase(props) {
 
 ChatBase.propTypes = {
   isAuth: PropTypes.bool.isRequired,
+  user_id: PropTypes.number,
   dialogs: PropTypes.array,
   tab: PropTypes.number.isRequired,
-  fetchedSuccess: PropTypes.bool.isRequired,
+  websocketIsAuth: PropTypes.bool.isRequired,
   tokens: PropTypes.object,
   getUserProfile: PropTypes.func.isRequired,
-  getDialogs: PropTypes.func.isRequired,
   handleAppHeader: PropTypes.func.isRequired,
   connectToWebSocket: PropTypes.func.isRequired,
+  getDialogData: PropTypes.func.isRequired,
   createDialog: PropTypes.func.isRequired,
   content: PropTypes.oneOf(['chatRoom', 'form']),
-  params: PropTypes.oneOf(['unread', 'important']),
+  params: PropTypes.oneOf(['unread', 'stared']),
 }
 
 const mapStateToProps = state => {
   return {
     dialogs: state.app.dialogs.data,
-    fetchedSuccess: getIsSuccessDialogs(state),
     tokens: getTokens(state),
     tab: getActiveTab(state),
+    websocketIsAuth: getWebsocketIsAuth(state),
+    user_id: getUserId(state)
   }
 }
 
@@ -99,8 +107,8 @@ export default connect(
   {
     getUserProfile,
     handleAppHeader,
-    getDialogs,
     connectToWebSocket,
     createDialog,
+    getDialogData,
   }
 )(ChatBase)

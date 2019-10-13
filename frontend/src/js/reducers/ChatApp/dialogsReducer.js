@@ -29,7 +29,7 @@ export default function(state = initialState, action) {
           (dialog) => {
             return {
               ...dialog,
-              messages: [],
+              messages: dialog.messages || [],
             }
           }
         ),

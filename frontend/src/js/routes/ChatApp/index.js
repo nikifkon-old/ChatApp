@@ -43,10 +43,10 @@ function ChatAppRoute({handleHeader, ...props}) {
           />
         <PropsRoute
           exact
-          path={`${match.url}/important`}
+          path={`${match.url}/stared`}
           component={ChatBase}
           content="chatRoom"
-          params="important"
+          params="stared"
           {...props}
           />
         <PropsRoute
