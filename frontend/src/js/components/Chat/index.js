@@ -47,7 +47,6 @@ Chat.propTypes = {
   sendMessageInDialog: PropTypes.func.isRequired,
   deleteMessageInDialog: PropTypes.func.isRequired,
   updateMessageInDialog: PropTypes.func.isRequired,
-  accessToken: PropTypes.string,
   activeDialog: PropTypes.shape({
     id: PropTypes.number.isRequired,
     last_message: PropTypes.object.isRequired,
@@ -56,7 +55,7 @@ Chat.propTypes = {
   }),
   fetching: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
-  error: PropTypes.object,
+  error: PropTypes.string,
 }
 
 export default withDialogData(withHeaderStatus(Chat))

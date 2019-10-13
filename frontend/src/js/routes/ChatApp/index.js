@@ -9,6 +9,7 @@ import {
 import {
   ChatBase,
   Menu,
+  DialogList,
 } from '../../containers'
 import { AppContainer } from '../../styles'
 
@@ -18,6 +19,7 @@ function ChatAppRoute({handleHeader, ...props}) {
     <AppContainer>
       <Nav handleHeader={handleHeader} />
       <Menu />
+      <DialogList />
       <Switch>
         <PropsRoute
           exact

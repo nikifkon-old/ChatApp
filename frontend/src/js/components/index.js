@@ -5,7 +5,6 @@ import InfoPanel from './InfoPanel'
 import ColoredLine from './ColoredLine'
 import Nav from './Nav'
 import MenuItem from './MenuItem'
-import FriendList from './FriendList'
 import Chat from './Chat'
 import TextField from './TextField'
 import Spinner from './Spinners'
@@ -24,7 +23,6 @@ export {
   ColoredLine,
   Nav,
   MenuItem,
-  FriendList,
   Chat,
   Spinner,
   IconButton,

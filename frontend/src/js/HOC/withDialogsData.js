@@ -24,12 +24,13 @@ export default function (FriendList) {
 
   const mapStateToProps = state => {
     const dialogs = getDialogs(state)
+    const { data, fetching, success, error } = dialogs
 
     return {
-      data: dialogs.data,
-      fetching: dialogs.fetching,
-      success: dialogs.success,
-      error: dialogs.error,
+      data,
+      fetching,
+      success,
+      error,
     }
 }
 

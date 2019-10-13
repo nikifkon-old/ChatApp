@@ -1,4 +1,5 @@
 import * as types from '../../actions'
+import * as events from '../../actions/websocketEvents'
 
 const initialState = {
   fetching: false,
@@ -7,32 +8,29 @@ const initialState = {
   messages_fetching: false,
   messages_success: false,
   messages_error: null,
-  active: 1,
+  active: null,
   data: []
 }
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case types.GET_DIALOGS_REQUEST:
-      return {
-        ...state,
-        fetching: true
+    case types.WEBSOCKET_SEND_REQUEST:
+      if (action.payload.event === events.DIALOG_GET) {
+        return {
+          ...state,
+          fetching: true
+        }
+      } else {
+        return state
       }
-    case types.GET_DIALOGS_SUCCESS:
+    case types.SET_DIALOG_DATA:
       return {
         ...state,
         fetching: false,
         success: true,
         error: null,
-        // set messages in default: []
-        data: action.payload.map(
-          (dialog) => {
-            return {
-              ...dialog,
-              messages: dialog.messages || [],
-            }
-          }
-        ),
+        data: action.payload,
+        active: action.payload[0] && action.payload[0].id
       }
     case types.GET_DIALOGS_FAILURE:
       return {
@@ -47,32 +45,6 @@ export default function(state = initialState, action) {
         active: action.payload
       }
 
-    case types.GET_MESSAGES_IN_DIALOG_REQUEST:
-      return {
-        ...state,
-        messages_fetching: true
-      }
-    case types.GET_MESSAGES_IN_DIALOG_SUCCESS:
-      return {
-        ...state,
-        messages_fetching: false,
-        messages_success: true,
-        messages_error: null,
-        // set messages in active dialog
-        data: state.data.map(
-          (dialog) => dialog.id === action.payload.dialog_id ? {
-            ...dialog,
-            messages: action.payload.data
-          }
-          : dialog
-        )
-      }
-    case types.GET_MESSAGES_IN_DIALOG_FAILURE:
-      return {
-        ...state,
-        messages_fetching: false,
-        messages_error: action.payload.error
-      }
     case types.PUSH_RECEIVE_MESSAGE_IN_DIALOG: {
       const dialog_id = Number(action.payload.dialog)
       const { id, sender, sender_name, avatar, text, date } = action.payload

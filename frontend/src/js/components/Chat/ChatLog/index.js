@@ -11,7 +11,6 @@ const ChatLog = (props) => {
     dialogData,
     deleteMessage,
     updateMessage,
-    fetching,
     success,
     error,
   } = props
@@ -25,25 +24,20 @@ const ChatLog = (props) => {
   return (
     <StyledChatLog ref={scrollDiv}>
       {
-        fetching
-          ? <Spinner />
-          : (
-              success &&
-              dialogData &&
-              typeof(dialogData.messages) === 'object' &&
-              dialogData.messages.length > 0
+        success
+          ? dialogData && dialogData.messages.length > 0
+            ? dialogData.messages.map(message =>
+              <Message
+                key={message.id}
+                message={message}
+                deleteMessage={deleteMessage}
+                updateMessage={updateMessage}
+              />
             )
-              ? dialogData.messages.map(message =>
-                <Message
-                  key={message.id}
-                  message={message}
-                  deleteMessage={deleteMessage}
-                  updateMessage={updateMessage}
-                />
-              )
-              : error
-                ? <P>Error</P>
-                : <P>No messages yet...</P>
+            : <P center>No messages yet...</P>
+          : error
+            ? <P center>Error</P>
+            : <Spinner />
       }
     </StyledChatLog>
   )
@@ -55,7 +49,7 @@ ChatLog.propTypes = {
   updateMessage: PropTypes.func.isRequired,
   fetching: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
-  error: PropTypes.object,
+  error: PropTypes.string,
 }
 
 export default ChatLog

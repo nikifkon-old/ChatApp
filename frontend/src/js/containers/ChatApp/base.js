@@ -4,22 +4,16 @@ import { connect } from 'react-redux'
 
 import {
   getTokens,
-  getActiveTab,
   getWebsocketIsAuth,
   getUserId,
 } from '../../reducers/selectors'
 import {
-  getUserProfile,
-} from '../../actions/authActions'
-import {
-  handleAppHeader,
   connectToWebSocket,
   createDialog,
   getDialogData,
 } from '../../actions/chatActions'
 import {
   InfoPanel,
-  FriendList,
   Chat,
   RoomCreating,
 } from '../../components'
@@ -33,7 +27,6 @@ function ChatBase(props) {
     isAuth,
     connectToWebSocket,
     tokens,
-    dialogs,
     createDialog,
     getDialogData,
     websocketIsAuth,
@@ -58,7 +51,6 @@ function ChatBase(props) {
 
   return (
     <Fragment>
-      <FriendList dialogs={dialogs} />
       <StyledChatWrap>
         {
           {
@@ -79,12 +71,8 @@ function ChatBase(props) {
 ChatBase.propTypes = {
   isAuth: PropTypes.bool.isRequired,
   user_id: PropTypes.number,
-  dialogs: PropTypes.array,
-  tab: PropTypes.number.isRequired,
   websocketIsAuth: PropTypes.bool.isRequired,
   tokens: PropTypes.object,
-  getUserProfile: PropTypes.func.isRequired,
-  handleAppHeader: PropTypes.func.isRequired,
   connectToWebSocket: PropTypes.func.isRequired,
   getDialogData: PropTypes.func.isRequired,
   createDialog: PropTypes.func.isRequired,
@@ -94,9 +82,7 @@ ChatBase.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    dialogs: state.app.dialogs.data,
     tokens: getTokens(state),
-    tab: getActiveTab(state),
     websocketIsAuth: getWebsocketIsAuth(state),
     user_id: getUserId(state)
   }
@@ -105,8 +91,6 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {
-    getUserProfile,
-    handleAppHeader,
     connectToWebSocket,
     createDialog,
     getDialogData,

@@ -9,8 +9,7 @@ import {
 } from '../actions/chatActions'
 import {
   getActiveDialog,
-  getAccessToken,
-  getDialogFetch,
+  getDialogs,
 } from '../reducers/selectors'
 
 export default function (Chat) {
@@ -20,7 +19,6 @@ export default function (Chat) {
       sendMessageInDialog: PropTypes.func.isRequired,
       deleteMessageInDialog: PropTypes.func.isRequired,
       updateMessageInDialog: PropTypes.func.isRequired,
-      accessToken: PropTypes.string,
     }
 
     render() {
@@ -32,12 +30,11 @@ export default function (Chat) {
 
   const mapStateToProps = state => {
     const activeDialog = getActiveDialog(state)
-    const accessToken = getAccessToken(state)
-    const dialogFetch = getDialogFetch(state)
-    const { fetching, success, error } = dialogFetch
+    const dialogs = getDialogs(state)
+    const { fetching, success, error } = dialogs
+
     return {
       activeDialog,
-      accessToken,
       fetching,
       success,
       error,

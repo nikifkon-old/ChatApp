@@ -3,6 +3,7 @@ import SingUpForm from './SingUpForm'
 import App from './App'
 import ChatBase from './ChatApp/base'
 import Menu from './ChatApp/Menu'
+import DialogList from './DialogList'
 
 export {
   LoginForm,
@@ -10,4 +11,5 @@ export {
   App,
   ChatBase,
   Menu,
+  DialogList,
 }
