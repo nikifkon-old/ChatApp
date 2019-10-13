@@ -7,11 +7,10 @@ class DialogConsumer(DialogDataBase):
     async def event_dialog_get(self, event):
         """ Handle dialog.get """
         try:
-            id = int(event['data']['id'])
             filter = event.get('data').get('filter')
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
-        data = await self.dialog_get(id, filter)
+        data = await self.dialog_get(self.user.id, filter)
         await self._send_message(data, event=event['event'])
 
     @private

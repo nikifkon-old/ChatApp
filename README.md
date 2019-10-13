@@ -27,15 +27,13 @@ WebSocket DOC
   - *`dialog.get`:*
     - get messages in user's dialogs
     - data:
-      - *id*, of user, is required
       - *filter*,  messages,
-        maybe: `unread`, `important`
+        maybe: `unread`, `stared`
     - example:
     ```
     {
         "event": "dialog.get",
         "data": {
-          "id": "USER_ID",
           "filter": "unread"
         }
     }

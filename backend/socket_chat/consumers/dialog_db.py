@@ -23,7 +23,10 @@ class DialogDataBase:
         dialogs = Dialog.objects.filter(members__id=id)
         serialized = DialogSerializer(
             dialogs,
-            context={'filter': filter},
+            context={
+                'filter': filter,
+                'user_id': id
+            },
             many=True
         )
         return serialized.data

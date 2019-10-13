@@ -3,7 +3,8 @@ from rest_framework import serializers
 from backend.dialogs.models import (
     Dialog,
     DialogMembership,
-    DialogMessage
+    DialogMessage,
+    DialogMessageInfo,
 )
 from backend.profiles.models import Profile
 from backend.api.v1.profiles.serializers import ProfileSerializer
@@ -63,16 +64,35 @@ class DialogMessageSerializer(serializers.ModelSerializer):
 
 class DialogSerializer(serializers.ModelSerializer):
     """ Dialog Serializer"""
+    messages = serializers.SerializerMethodField()
     last_message = serializers.SerializerMethodField()
     interlocutor = serializers.SerializerMethodField()
-    messages = serializers.SerializerMethodField()
 
     def get_messages(self, obj):
-        if self.context.get('filter') == 'unread':
-            messages = DialogMessage.objects.filter(dialog=obj)
-        else:
-            messages = obj.messages
-        return DialogMessageSerializer(messages, many=True).data
+        """ get messages qs with passed filters"""
+        self.messages_qs = obj.messages.all()
+        user_id = self.context.get('user_id')
+
+        if user_id:
+            if self.context.get('filter') == 'unread':
+                messages_info = DialogMessageInfo.objects.filter(
+                    unread=True,
+                    person=user_id,
+                    message__dialog=obj
+                )
+                self.messages_qs = [
+                    message_info.message for message_info in messages_info
+                ]
+            if self.context.get('filter') == 'stared':
+                messages_info = DialogMessageInfo.objects.filter(
+                    stared=True,
+                    person=user_id,
+                    message__dialog=obj
+                )
+                self.messages_qs = [
+                    message_info.message for message_info in messages_info
+                ]
+        return DialogMessageSerializer(self.messages_qs, many=True).data
 
     def get_interlocutor(self, obj):
         """ Get Interlocutor if `user_id` in query_params """
@@ -96,9 +116,8 @@ class DialogSerializer(serializers.ModelSerializer):
     def get_last_message(self, obj):
         """ Get last message in dialog """
         try:
-            message = DialogMessage.objects.filter(dialog=obj)\
-                .order_by('-date')[0]
-        except:
+            message = self.messages_qs[0]
+        except IndexError:
             message = None
         return LastMessageSerizalizer(message).data
 
