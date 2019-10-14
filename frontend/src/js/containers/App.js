@@ -1,6 +1,5 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import { StylesProvider } from "@material-ui/styles";
 
 import GlobalStyle, { Wrapper, PageContainer } from '../styles'
@@ -10,7 +9,6 @@ import {
   Login,
   ChatAppRoute,
 } from '../routes'
-// import { ChatApp } from '../containers'
 import {
   Header,
   PropsRoute,

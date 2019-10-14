@@ -19,6 +19,9 @@ function* logout() {
   yield put({
     type: types.DIALOG_CLEAN_UP
   })
+  yield put({
+    type: types.WEBSOCKET_CLEAN_UP
+  })
   yield put(push('/login'))
 }
 

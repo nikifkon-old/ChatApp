@@ -26,6 +26,11 @@ export default function(state = initialState, action) {
         connecting: false,
         error: action.payload
       }
+    case types.WEBSOCKET_CLEAN_UP:
+      return {
+        ...state,
+        ...initialState,
+      }
     default:
       return state
   }

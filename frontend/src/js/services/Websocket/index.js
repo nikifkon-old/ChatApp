@@ -22,6 +22,7 @@ export function connectToWebSocketService() {
 
     socket.onclose = event => {
       reject(event)
+      socket = null
       console.log('%c%s', 'color: orangered;', `Disconnecting on ${event.target.url}`)
     }
 

@@ -6,6 +6,7 @@ import {
   getTokens,
   getWebsocketIsAuth,
   getUserId,
+  getDialogs,
 } from '../../reducers/selectors'
 import {
   connectToWebSocket,
@@ -25,6 +26,7 @@ function ChatBase(props) {
     params,
     user_id,
     isAuth,
+    fetchedSucces,
     connectToWebSocket,
     tokens,
     createDialog,
@@ -35,11 +37,10 @@ function ChatBase(props) {
   React.useEffect(() => {
     switch (content) {
       case "chatRoom":
-        if (isAuth && tokens) {
+        if (isAuth && tokens && !websocketIsAuth) {
           connectToWebSocket()
         }
-        if (websocketIsAuth && user_id) {
-
+        if (websocketIsAuth && user_id && !fetchedSucces) {
           getDialogData({
             id: user_id,
             filter: params
@@ -72,6 +73,7 @@ ChatBase.propTypes = {
   isAuth: PropTypes.bool.isRequired,
   user_id: PropTypes.number,
   websocketIsAuth: PropTypes.bool.isRequired,
+  fetchedSucces: PropTypes.bool.isRequired,
   tokens: PropTypes.object,
   connectToWebSocket: PropTypes.func.isRequired,
   getDialogData: PropTypes.func.isRequired,
@@ -84,7 +86,8 @@ const mapStateToProps = state => {
   return {
     tokens: getTokens(state),
     websocketIsAuth: getWebsocketIsAuth(state),
-    user_id: getUserId(state)
+    user_id: getUserId(state),
+    fetchedSucces: getDialogs(state).success,
   }
 }
 

@@ -5,11 +5,12 @@ import * as events from '../../actions/websocketEvents'
 import { connectToWebSocketService } from '../../services'
 import { getTokens } from '../../reducers/selectors'
 
+let socket;
 export function* connectToWebSocket() {
   const tokens = yield select(getTokens)
 
   try {
-    yield call(connectToWebSocketService)
+    socket = yield call(connectToWebSocketService)
 
     yield put({
       type: types.WEBSOCKET_SEND_REQUEST,
@@ -28,6 +29,11 @@ export function* connectToWebSocket() {
   }
 }
 
+function disconnectFrommWebsocket() {
+  socket.close()
+}
+
 export default function*() {
   yield takeEvery(types.WEBSOCKET_CONNECT_REQUEST, connectToWebSocket)
+  yield takeEvery(types.WEBSOCKET_CLEAN_UP, disconnectFrommWebsocket)
 }
