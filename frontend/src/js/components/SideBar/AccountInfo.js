@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { ContentGrid, P, H4 } from '../../../styles'
-import { IconButton, Popover } from '../../index'
-import { withAccountInfo } from '../../../HOC'
+import { ContentGrid, P, H4 } from '../../styles'
+import { IconButton, Popover } from '../index'
 
 const UserInfo = ({username, logoutUser}) => {
   return (
@@ -47,14 +46,13 @@ const UserInfo = ({username, logoutUser}) => {
           </ContentGrid>
         )}
       />
-
     </ContentGrid>
-  )
+  );
 }
 
 UserInfo.propTypes = {
   username: PropTypes.string,
   logoutUser: PropTypes.func.isRequired,
-}
+};
 
-export default withAccountInfo(UserInfo)
+export default UserInfo;

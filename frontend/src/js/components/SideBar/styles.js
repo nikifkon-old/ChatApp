@@ -7,3 +7,7 @@ export const StyledTable = styled(({borderColor, ...rest}) => <Table {...rest} /
     border-color: ${props => props.borderColor || 'inherit'};
   }
 `
+
+export const StyledChatLogo = styled.img`
+  border-radius: 50%
+`

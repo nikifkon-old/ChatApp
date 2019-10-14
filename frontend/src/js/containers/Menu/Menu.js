@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { H1, dark_cont1 } from '../../../styles'
+import { H1, dark_cont1 } from '../../styles'
 import { StyledChatMenu } from './styles'
-import { ColoredLine, MenuItem } from '../../../components'
+import { ColoredLine, MenuItem } from '../../components'
 
 class Menu extends React.Component {
   render () {

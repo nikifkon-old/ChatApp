@@ -1,8 +1,9 @@
 import LoginForm from './LoginForm'
 import SingUpForm from './SingUpForm'
 import App from './App'
-import ChatBase from './ChatApp/base'
-import Menu from './ChatApp/Menu'
+import ChatBase from './ChatApp'
+import Menu from './Menu'
+import SideBar from './SideBar'
 import DialogList from './DialogList'
 
 export {
@@ -11,5 +12,6 @@ export {
   App,
   ChatBase,
   Menu,
+  SideBar,
   DialogList,
 }

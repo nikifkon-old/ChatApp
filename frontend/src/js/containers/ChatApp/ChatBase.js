@@ -14,7 +14,6 @@ import {
   getDialogData,
 } from '../../actions/chatActions'
 import {
-  InfoPanel,
   Chat,
   RoomCreating,
 } from '../../components'
@@ -64,7 +63,6 @@ function ChatBase(props) {
           }[content]
         }
       </StyledChatWrap>
-      <InfoPanel />
     </Fragment>
   )
 }

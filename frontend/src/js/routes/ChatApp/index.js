@@ -9,6 +9,7 @@ import {
 import {
   ChatBase,
   Menu,
+  SideBar,
   DialogList,
 } from '../../containers'
 import { AppContainer } from '../../styles'
@@ -58,6 +59,7 @@ function ChatAppRoute({handleHeader, ...props}) {
           {...props}
         />
       </Switch>
+      <SideBar />
     </AppContainer>
   );
 }

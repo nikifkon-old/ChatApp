@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { dark_bg1, dark_bg2 } from '../../../styles'
+import { dark_bg1, dark_bg2 } from '../../styles'
 
 const StyledChatMenu = styled.section`
   color: #fff

@@ -1,7 +1,6 @@
 import ErrorMessage from './ErrorMessage'
 import Header from './Header'
 import Notification from './Notification'
-import InfoPanel from './InfoPanel'
 import ColoredLine from './ColoredLine'
 import Nav from './Nav'
 import MenuItem from './MenuItem'
@@ -19,7 +18,6 @@ export {
   Header,
   Notification,
   TextField,
-  InfoPanel,
   ColoredLine,
   Nav,
   MenuItem,

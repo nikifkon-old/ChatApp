@@ -12,7 +12,7 @@ config.entry = {
   ]
 };
 
-config.devtool = 'eval';
+config.devtool = 'source-map';
 config.output = {
   path: path.join(__dirname, '../builds-dev/'),
   filename: '[name]-[hash].js',
