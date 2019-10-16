@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
@@ -6,7 +6,6 @@ import {
   getTokens,
   getWebsocketIsAuth,
   getUserId,
-  getDialogs,
 } from '../../reducers/selectors'
 import {
   connectToWebSocket,
@@ -14,9 +13,11 @@ import {
   getDialogData,
 } from '../../actions/chatActions'
 import {
-  Chat,
   RoomCreating,
 } from '../../components'
+import {
+  Chat,
+} from '../index'
 import { StyledChatWrap } from '../../styles'
 
 function ChatBase(props) {
@@ -25,7 +26,6 @@ function ChatBase(props) {
     params,
     user_id,
     isAuth,
-    fetchedSucces,
     connectToWebSocket,
     tokens,
     createDialog,
@@ -33,37 +33,34 @@ function ChatBase(props) {
     websocketIsAuth,
   } = props
 
-  React.useEffect(() => {
-    switch (content) {
-      case "chatRoom":
-        if (isAuth && tokens && !websocketIsAuth) {
-          connectToWebSocket()
-        }
-        if (websocketIsAuth && user_id && !fetchedSucces) {
-          getDialogData({
-            id: user_id,
-            filter: params
-          })
-        }
-        break;
+  useEffect(() => {
+    if (isAuth && tokens && !websocketIsAuth) {
+      connectToWebSocket()
     }
-  }, [content, params, websocketIsAuth])
+  }, [connectToWebSocket, isAuth, tokens, websocketIsAuth])
+
+  useEffect(() => {
+    if (websocketIsAuth) {
+      getDialogData({
+        id: user_id,
+        filter: params
+      })
+    }
+  }, [websocketIsAuth, params, getDialogData, user_id])
 
   return (
-    <Fragment>
-      <StyledChatWrap>
+    <StyledChatWrap>
+      {
         {
-          {
-            "chatRoom": (
-              <Chat params={params} />
-            ),
-            "form": (
-              <RoomCreating createDialog={createDialog} />
-            )
-          }[content]
-        }
-      </StyledChatWrap>
-    </Fragment>
+          "chatRoom": (
+            <Chat params={params} />
+          ),
+          "form": (
+            <RoomCreating createDialog={createDialog} />
+          )
+        }[content]
+      }
+    </StyledChatWrap>
   )
 }
 
@@ -71,7 +68,6 @@ ChatBase.propTypes = {
   isAuth: PropTypes.bool.isRequired,
   user_id: PropTypes.number,
   websocketIsAuth: PropTypes.bool.isRequired,
-  fetchedSucces: PropTypes.bool.isRequired,
   tokens: PropTypes.object,
   connectToWebSocket: PropTypes.func.isRequired,
   getDialogData: PropTypes.func.isRequired,
@@ -85,7 +81,6 @@ const mapStateToProps = state => {
     tokens: getTokens(state),
     websocketIsAuth: getWebsocketIsAuth(state),
     user_id: getUserId(state),
-    fetchedSucces: getDialogs(state).success,
   }
 }
 

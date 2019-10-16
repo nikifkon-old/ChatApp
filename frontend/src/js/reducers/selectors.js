@@ -11,8 +11,6 @@ export const getUserInfo = state => state.auth.user.data
 
 export const getDialogs = state => state.app.dialogs
 
-export const getActiveTab = state => state.app.tabs.activeTab
-
 export const getActiveDialogId = state => state.app.dialogs.active
 
 export const getActiveDialog = state => {
@@ -21,3 +19,5 @@ export const getActiveDialog = state => {
 
   return data.find(dialog => dialog.id === activeId)
 }
+
+export const getHeaderStatus = state => state.app.header.isOpen

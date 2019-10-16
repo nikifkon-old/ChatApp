@@ -12,13 +12,17 @@ import {
   SideBar,
   DialogList,
 } from '../../containers'
+import {
+  withHeaderStatus,
+} from '../../HOC'
 import { AppContainer } from '../../styles'
 
-function ChatAppRoute({handleHeader, ...props}) {
+function ChatAppRoute(props) {
+  const {headerIsOpen, handleAppHeader} = props
   const match = useRouteMatch()
   return (
-    <AppContainer>
-      <Nav handleHeader={handleHeader} />
+    <AppContainer headerIsOpen={headerIsOpen}>
+      <Nav handleHeader={handleAppHeader} />
       <Menu />
       <DialogList />
       <Switch>
@@ -66,7 +70,8 @@ function ChatAppRoute({handleHeader, ...props}) {
 
 ChatAppRoute.propTypes = {
   match: PropTypes.object.isRequired,
-  handleHeader: PropTypes.func.isRequired,
-}
+  headerIsOpen: PropTypes.bool.isRequired,
+  handleAppHeader: PropTypes.func.isRequired,
+};
 
-export default ChatAppRoute
+export default withHeaderStatus(ChatAppRoute);

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { IconButton, Popover } from '../../index'
 import { ContentGrid } from '../../../styles'
 
-const AttachFile = () => {
+function AttachFile() {
   return (
     <Popover
       transformOrigin={{
@@ -41,7 +41,7 @@ const AttachFile = () => {
         )
       }
     />
-  )
+);
 }
 
-export default AttachFile
+export default AttachFile;

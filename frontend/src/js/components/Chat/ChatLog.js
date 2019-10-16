@@ -1,12 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Message from '../Message'
-import { Spinner } from '../../index'
-import { StyledChatLog } from '../styles'
-import { P } from '../../../styles'
+import Message from './Message'
+import { Spinner } from '../index'
+import { StyledChatLog } from './styles'
+import { P } from '../../styles'
 
-const ChatLog = (props) => {
+function ChatLog(props) {
   const {
     dialogData,
     deleteMessage,
@@ -40,7 +40,7 @@ const ChatLog = (props) => {
             : <Spinner />
       }
     </StyledChatLog>
-  )
+  );
 }
 
 ChatLog.propTypes = {
@@ -50,6 +50,6 @@ ChatLog.propTypes = {
   fetching: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
   error: PropTypes.string,
-}
+};
 
-export default ChatLog
+export default ChatLog;

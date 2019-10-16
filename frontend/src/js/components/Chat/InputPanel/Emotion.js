@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { IconButton, Popover } from '../../index'
 import { ContentGrid } from '../../../styles'
 
-const Emotion = ({onSelect}) => {
+function Emotion({onSelect}) {
   return (
     <Popover
       transformOrigin={{
@@ -33,11 +33,11 @@ const Emotion = ({onSelect}) => {
         )
       }
     />
-  )
+  );
 }
 
 Emotion.propTypes = {
   onSelect: PropTypes.func.isRequired,
-}
+};
 
-export default Emotion
+export default Emotion;

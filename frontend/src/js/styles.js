@@ -3,6 +3,9 @@ import styled, { css, createGlobalStyle } from 'styled-components'
 import { Button, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
+import {
+  withHeaderStatus,
+} from './HOC'
 import FinalFormTextField from './components/TextField'
 
 export const bgColor = "#fff"
@@ -38,14 +41,14 @@ export const Wrapper = styled.div`
   min-height: 100vh
 `
 
-export const PageContainer = styled(
-  ({headerIsOpen, ...props}) => <Grid {...props} />
+export const PageContainer = withHeaderStatus(styled(
+  ({headerIsOpen, handleAppHeader, ...props}) => <Grid {...props}/>
 )`
   margin-top: ${props => props.headerIsOpen ? '50px' : '0px'}
   background: ${props => props.background || bgColor}
   flex: 1
   transition: .3s ease-out 0s margin-top;
-`
+`)
 
 export const Footer = styled(Grid)`
 

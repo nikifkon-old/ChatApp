@@ -7,13 +7,6 @@ export const handleAppHeader = () => {
   }
 }
 
-export const handleActiveTabs = id => {
-  return {
-    type: types.HANDLE_ACTIVE_TAB,
-    payload: id
-  }
-}
-
 export const getDialogs = () => {
   return {
     type: types.GET_DIALOGS_REQUEST

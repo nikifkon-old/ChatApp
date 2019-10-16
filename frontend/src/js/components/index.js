@@ -4,7 +4,6 @@ import Notification from './Notification'
 import ColoredLine from './ColoredLine'
 import Nav from './Nav'
 import MenuItem from './MenuItem'
-import Chat from './Chat'
 import TextField from './TextField'
 import Spinner from './Spinners'
 import IconButton from './IconButton'
@@ -21,7 +20,6 @@ export {
   ColoredLine,
   Nav,
   MenuItem,
-  Chat,
   Spinner,
   IconButton,
   Popover,

@@ -1,21 +1,27 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Field, Form } from 'react-final-form'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Field, Form } from 'react-final-form';
 
 import {
   IconButton,
   EmojiedText,
-} from '../../index'
+} from '../index'
 import {
   StyledMessage,
   MessageDate,
   MessageAvatar,
   MessageText,
   EditMessageInput,
-} from '../styles'
-import { H4, GridItem } from '../../../styles'
+} from './styles'
+import { H4, GridItem } from '../../styles'
 
-const Message = ({message, deleteMessage, updateMessage}) => {
+function Message(props) {
+  const {
+    message,
+    deleteMessage,
+    updateMessage,
+  } = props
+
   const { id, sender_name, avatar, text, date } = message
   const [edited, setEdited] = React.useState(false)
 
@@ -95,7 +101,7 @@ const Message = ({message, deleteMessage, updateMessage}) => {
       <MessageDate>{new Date(date).toLocaleString()}</MessageDate>
 
     </StyledMessage>
-  )
+  );
 }
 
 Message.propTypes = {
@@ -109,6 +115,6 @@ Message.propTypes = {
     text: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
   }).isRequired
-}
+};
 
-export default Message
+export default Message;

@@ -5,6 +5,7 @@ import ChatBase from './ChatApp'
 import Menu from './Menu'
 import SideBar from './SideBar'
 import DialogList from './DialogList'
+import Chat from './Chat'
 
 export {
   LoginForm,
@@ -14,4 +15,5 @@ export {
   Menu,
   SideBar,
   DialogList,
+  Chat,
 }
