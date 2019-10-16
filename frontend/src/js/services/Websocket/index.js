@@ -5,7 +5,11 @@ let socket
 
 export function connectToWebSocketService() {
   return new Promise(function(resolve, reject) {
-    socket = socket || new WebSocket(`ws://${BASE_URL}/ws/main`)
+    if (socket) {
+      resolve(socket)
+    } else {
+      socket = new WebSocket(`ws://${BASE_URL}/ws/main`)
+    }
 
     socket.onopen = event => {
       resolve(socket)
@@ -28,6 +32,7 @@ export function connectToWebSocketService() {
 
     socket.onerror = error => {
       reject(error)
+      socket = null
     }
 
     return socket

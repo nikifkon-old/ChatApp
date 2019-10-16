@@ -21,7 +21,6 @@ export function* connectToWebSocket() {
         }
       }
     })
-    console.log(2);
   } catch (error) {
     yield put({
       type: types.WEBSOCKET_CONNECT_FAILURE,
@@ -30,11 +29,11 @@ export function* connectToWebSocket() {
   }
 }
 
-function disconnectFrommWebsocket() {
+function disconnectFromWebsocket() {
   socket.close()
 }
 
 export default function*() {
   yield takeEvery(types.WEBSOCKET_CONNECT_REQUEST, connectToWebSocket)
-  yield takeEvery(types.WEBSOCKET_CLEAN_UP, disconnectFrommWebsocket)
+  yield takeEvery(types.WEBSOCKET_CLEAN_UP, disconnectFromWebsocket)
 }
