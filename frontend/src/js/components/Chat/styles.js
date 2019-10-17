@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles'
 import TextField from '../TextField'
 
 import {
-  ContentGrid,
   P,
   dark_bg2,
   dark_cont,
@@ -11,8 +10,10 @@ import {
 } from '../../styles'
 
 // Containers
-export const StyledTopPanel = styled(ContentGrid)`
-  padding: 10px;
+export const StyledTopPanel = styled.div`
+  display: grid;
+  grid-template-columns: auto 100px 1fr 34px;
+  grid-column-gap: 5px;
 `
 export const StyledForm = styled.form`
   display: grid;
@@ -56,6 +57,7 @@ export const MessageText = styled.div`
 export const MainInput = styled.textarea`
   max-width: 330px;
   max-height: 50px;
+  margin: auto 0;
   font-size: 18px;
   padding: 4px;
   background: inherit;

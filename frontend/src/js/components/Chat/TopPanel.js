@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { StyledTopPanel } from './styles'
 import { IconButton } from '../index'
-import { H4, dark_bg2 } from '../../styles'
+import { GridItem, P, H4 } from '../../styles'
 
 function TopPanel(props) {
   const {
@@ -12,16 +12,31 @@ function TopPanel(props) {
   let user = dialog && dialog.interlocutor && dialog.interlocutor.user;
 
   return (
-    <StyledTopPanel
-      container
-      justify="space-between"
-      alignItems="center"
-    >
-      <H4>{user}</H4>
-      <IconButton
-        icon="star"
-        background={dark_bg2}
-        borderRadius="0"
+    <StyledTopPanel>
+      <GridItem
+        component={H4}
+        column="1"
+        center
+      >
+        {user}
+      </GridItem>
+      {
+        false
+          ? <GridItem
+            component={P}
+            column="2"
+            center
+          >
+            is typing...
+          </GridItem>
+          : null
+      }
+      <GridItem
+        column="4"
+        center
+        component={IconButton}
+        icon="more_vert"
+        size="small"
       />
     </StyledTopPanel>
   )

@@ -24,7 +24,8 @@ export const Grid = styled.div`
   grid-template-columns: 60px 1fr 60px;
   grid-template-rows: auto 1fr;
   grid-column-gap: 30px;
-
+  user-select: none;
+  
   &:hover {
     background: ${dark_bg3};
   }
