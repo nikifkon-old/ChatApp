@@ -42,6 +42,28 @@ class DialogMessageSerializer(serializers.ModelSerializer):
     """ Message Serializer"""
     avatar = serializers.SerializerMethodField()
     sender_name = serializers.SerializerMethodField()
+    unread = serializers.SerializerMethodField()
+    stared = serializers.SerializerMethodField()
+
+    def get_unread(self, obj):
+        if self.context.get('user_id'):
+            info = DialogMessageInfo.objects.get(
+                message=obj,
+                person=self.context.get('user_id')
+            )
+            return info.unread
+        else:
+            return None
+
+    def get_stared(self, obj):
+        if self.context.get('user_id'):
+            info = DialogMessageInfo.objects.get(
+                message=obj,
+                person=self.context.get('user_id')
+            )
+            return info.stared
+        else:
+            return None
 
     def get_sender_name(self, obj):
         return obj.sender.user.username
@@ -58,6 +80,8 @@ class DialogMessageSerializer(serializers.ModelSerializer):
             "avatar",
             "dialog",
             "text",
+            "unread",
+            "stared",
             "date",
         )
 
@@ -92,7 +116,13 @@ class DialogSerializer(serializers.ModelSerializer):
                 self.messages_qs = [
                     message_info.message for message_info in messages_info
                 ]
-        return DialogMessageSerializer(self.messages_qs, many=True).data
+        return DialogMessageSerializer(
+            self.messages_qs,
+            context={
+                "user_id": user_id
+            },
+            many=True
+        ).data
 
     def get_interlocutor(self, obj):
         """ Get Interlocutor if `user_id` in query_params """
