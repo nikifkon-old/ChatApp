@@ -1,6 +1,15 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { dark_cont } from '../../styles'
+
+const scale = keyframes`
+  0% {
+    height: 30px;
+  }
+  100% {
+    height: 50px;
+  }
+`;
 
 const AnimatedSpinner = styled.div`
   width: 50px;
@@ -12,35 +21,27 @@ const AnimatedSpinner = styled.div`
     width: 13px;
     height: 30px;
     background: ${dark_cont};
-    animation: scale .3s infinite alternate;
+    animation: ${scale} .3s infinite alternate;
   }
   & > div:nth-child(1) {
-    animation-delay: 0
+    animation-delay: 0;
   }
   & > div:nth-child(2) {
-    animation-delay: calc(.5s/3)
+    animation-delay: calc(.5s/3);
   }
   & > div:nth-child(3) {
-    animation-delay: calc(2 * (.5s/3))
+    animation-delay: calc(2 * (.5s/3));
   }
-  @keyframes scale {
-    0% {
-      height: 30px
-    }
-    100% {
-      height: 50px
-    }
-  }
-`
+`;
 
-const Spinner = () => {
+function Spinner() {
   return (
     <AnimatedSpinner>
-      <div></div>
-      <div></div>
-      <div></div>
+      <div />
+      <div />
+      <div />
     </AnimatedSpinner>
-  )
+  );
 }
 
-export default Spinner
+export default Spinner;

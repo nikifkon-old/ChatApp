@@ -12,5 +12,5 @@ export const StyledChat = withHeaderStatus(styled.div`
   width: 550px;
   display: grid;
   grid-template-rows: 70px 1fr 70px;
-  transition: .3s ease-out 0s max-height;
+  transition: .3s ease-out 0s height;
 `)

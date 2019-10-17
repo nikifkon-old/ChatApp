@@ -8,11 +8,11 @@ import {
   Grid,
   AvatarItem,
   UsernameItem,
-  IconButtonItem,
+  UnreadMessagesCounter,
   LastMessageItem,
   ElapsedTimeItem,
 } from './styles'
-import { dark_cont2 } from '../../styles'
+import { P, dark_cont2 } from '../../styles'
 import DefaultAvatar from '../../../assets/defaultAvatar.jpg'
 import { getElapsedTime } from '../../utils'
 
@@ -48,7 +48,9 @@ const DialogCard = (props) => {
         {user}
       </UsernameItem>
 
-      <IconButtonItem icon="more_horiz"/>
+      <UnreadMessagesCounter>
+        <P center>3</P>
+      </UnreadMessagesCounter>
 
       <LastMessageItem
         color={dark_cont2}

@@ -1,8 +1,24 @@
 import styled from 'styled-components'
-import IconButton from '../IconButton'
-import { Img, P, H4, dark_bg3, dark_active } from '../../styles'
+import { Content, Img, P, H4, dark_cont, dark_bg3, dark_active } from '../../styles'
 
-const Grid = styled.div`
+export const UnreadMessagesCounter = styled(Content)`
+  && {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-column: 3;
+    grid-row: 1;
+
+    & > p {
+      width: 20px;
+      height: 20px;
+      background: ${dark_active};
+      border-radius: 50%;
+    }
+  }
+`
+
+export const Grid = styled.div`
   display: grid;
   padding: 5px;
   grid-template-columns: 60px 1fr 60px;
@@ -14,42 +30,32 @@ const Grid = styled.div`
   }
   &:active {
     background: ${dark_active}
+    & > div${UnreadMessagesCounter} > p {
+      background: ${dark_cont};
+      color: ${dark_active};
+    }
   }
 `
 
-const AvatarItem = styled(Img)`
+export const AvatarItem = styled(Img)`
   grid-column: 1;
   grid-row: 1/3;
   margin: auto 0;
 `
 
-const UsernameItem = styled(H4)`
+export const UsernameItem = styled(H4)`
   grid-column: 2;
   grid-row: 1;
   margin-right: auto;
 `
 
-const IconButtonItem = styled(IconButton)`
-  grid-column: 3;
-  grid-row: 1;
-`
-
-const LastMessageItem = styled(P)`
+export const LastMessageItem = styled(P)`
   grid-column: 2;
   grid-row: 2;
   margin-right: auto;
 `
 
-const ElapsedTimeItem = styled(P)`
+export const ElapsedTimeItem = styled(P)`
   grid-column: 3;
   grid-row: 2
 `
-
-export {
-  Grid,
-  AvatarItem,
-  UsernameItem,
-  IconButtonItem,
-  LastMessageItem,
-  ElapsedTimeItem,
-}

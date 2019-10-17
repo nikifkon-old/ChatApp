@@ -19,16 +19,6 @@ export const StyledForm = styled.form`
   grid-template-columns: 70px 1fr 70px 70px;
 `
 
-export const StyledChat = styled.div`
-  color: ${props => props.color || 'inherit'};
-  height: calc(100vh ${props => props.headerStatus && '- 50px'});
-  position: fixed;
-  width: 550px;
-  display: grid;
-  grid-template-rows: 70px 1fr 70px;
-  transition: .3s ease-out 0s max-height;
-`
-
 export const StyledChatLog = styled.div`
   overflow-y: scroll;
 `
