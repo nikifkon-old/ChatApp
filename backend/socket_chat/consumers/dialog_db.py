@@ -40,7 +40,6 @@ class DialogDataBase:
             text=text,
             date=datetime.now()
         )
-        new_message.save()
         serialized = DialogMessageSerializer(new_message)
         return serialized.data
 
