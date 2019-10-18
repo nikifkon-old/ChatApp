@@ -30,6 +30,21 @@ function* MessageReducer({payload: event}) {
       }
       break
 
+    case events.DIALOGS_LIST:
+      if(event.status === 'ok') {
+        yield put({
+          type: types.SET_DIALOGS_DATA,
+          payload: event.data
+        })
+      } else {
+        console.log(event.data.detail);
+        yield put({
+          type: types.GET_DIALOGS_FAILURE,
+          payload: event.data.detail
+        })
+      }
+      break
+
     case events.DIALOG_GET:
       if(event.status === 'ok') {
         yield put({

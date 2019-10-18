@@ -15,7 +15,7 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case types.WEBSOCKET_SEND_REQUEST:
-      if (action.payload.event === events.DIALOG_GET) {
+      if (action.payload.event === events.DIALOGS_LIST) {
         return {
           ...state,
           fetching: true
@@ -23,7 +23,7 @@ export default function(state = initialState, action) {
       } else {
         return state
       }
-    case types.SET_DIALOG_DATA:
+    case types.SET_DIALOGS_DATA:
       return {
         ...state,
         fetching: false,
@@ -32,6 +32,17 @@ export default function(state = initialState, action) {
         data: action.payload,
         active: action.payload[0] && action.payload[0].id
       }
+    case types.SET_DIALOG_DATA: {
+      const id = action.payload.id
+      return {
+        ...state,
+        data: state.data.map(
+          dialog => dialog.id === id 
+            ? action.payload
+            : dialog
+        )
+      }
+    }
     case types.GET_DIALOGS_FAILURE:
       return {
         ...state,

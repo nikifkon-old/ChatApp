@@ -25,14 +25,30 @@ WebSocket DOC
     }
     ```
   - *`dialog.get`:*
-    - get messages in user's dialogs
+    - get dialog details (messages)
     - data:
+      - *id*, of dialog,
       - *filter*,  messages,
         maybe: `unread`, `stared`
     - example:
     ```
     {
         "event": "dialog.get",
+        "data": {
+          "id": "DIALOG_ID"
+          "filter": "unread"
+        }
+    }
+    ```
+  - *`dialogs.list`:*
+    - get dialogs without messages
+    - data:
+      - *filter*, messages,
+        maybe: `unread`, `stared`
+    - example:
+    ```
+    {
+        "event": "dialogs.list",
         "data": {
           "filter": "unread"
         }

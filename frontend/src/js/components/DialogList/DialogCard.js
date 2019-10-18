@@ -18,8 +18,8 @@ import { getElapsedTime } from '../../utils'
 
 
 const DialogCard = (props) => {
-  const { setActiveDialog } = props
-  const { last_message, id, interlocutor } = props.dialog
+  const { dialog, getDialogDetails } = props
+  const { last_message, id, interlocutor, unread_count } = dialog
   const { date, text } = last_message
   let { avatar, user } = interlocutor
 
@@ -27,12 +27,12 @@ const DialogCard = (props) => {
     avatar = DefaultAvatar
   }
 
-  function handleActiveDialog() {
-    setActiveDialog(id)
+  function handleDialogDetails() {
+    getDialogDetails(id)
   }
 
   return (
-    <Grid onClick={handleActiveDialog}>
+    <Grid onClick={handleDialogDetails}>
       <AvatarItem
         src={avatar}
         round
@@ -48,9 +48,13 @@ const DialogCard = (props) => {
         {user}
       </UsernameItem>
 
-      <UnreadMessagesCounter>
-        <P center>3</P>
-      </UnreadMessagesCounter>
+      {
+        unread_count !== 0 && (
+          <UnreadMessagesCounter>
+            <P center>{unread_count}</P>
+          </UnreadMessagesCounter>
+        )
+      }
 
       <LastMessageItem
         color={dark_cont2}
@@ -82,9 +86,10 @@ DialogCard.propTypes = {
     interlocutor: PropTypes.shape({
       user: PropTypes.string.isRequired,
       avatar: PropTypes.string,
-    }).isRequired
+    }).isRequired,
+    unread_count: PropTypes.number.isRequired,
   }),
-  setActiveDialog: PropTypes.func.isRequired,
+  getDialogDetails: PropTypes.func.isRequired,
 }
 
 export default DialogCard

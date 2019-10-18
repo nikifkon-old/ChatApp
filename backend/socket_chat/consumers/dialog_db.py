@@ -24,15 +24,45 @@ class DialogDataBase:
         serialized = DialogSerializer(
             dialogs,
             context={
+                'message_details': True,
                 'filter': filter,
-                'user_id': id
+                'user_id': id,
             },
             many=True
         )
         return serialized.data
 
     @database_sync_to_async
-    def dialog_send_message(self, id, text):
+    def get_dialog_messages(self, dialog_id, user_id, filter=None):
+        """ Get dialog with messages """
+        dialog = Dialog.objects.get(id=dialog_id)
+        serialized = DialogSerializer(
+            dialog,
+            context={
+                'message_details': True,
+                'filter': filter,
+                'user_id': user_id,
+            }
+        )
+        return serialized.data
+
+    @database_sync_to_async
+    def get_dialog_list(self, id, filter=None):
+        """ Get list of dialogs without messages """
+        dialogs = Dialog.objects.filter(members__id=id)
+        serialized = DialogSerializer(
+            dialogs,
+            context={
+                'message_details': False,
+                'user_id': id,
+                'filter': filter,
+            },
+            many=True
+        )
+        return serialized.data
+
+    @database_sync_to_async
+    def send_dialog_message(self, id, text):
         """ Create message in Database """
         new_message = DialogMessage.objects.create(
             sender_id=self.user.id,
@@ -44,7 +74,7 @@ class DialogDataBase:
         return serialized.data
 
     @database_sync_to_async
-    def dialog_delete_message(self, id):
+    def delete_dialog_message(self, id):
         """ Delete message in Database """
         try:
             message = DialogMessage.objects.get(id=id)
@@ -59,7 +89,7 @@ class DialogDataBase:
             return {'detail': 'Message doesn\'t exist'}, False
 
     @database_sync_to_async
-    def dialog_update_message(self, id, text):
+    def update_dialog_message(self, id, text):
         """ Update message in Database """
         try:
             message = DialogMessage.objects.get(id=id)
@@ -73,7 +103,7 @@ class DialogDataBase:
             return {'detail': 'Message doesn\'t exist'}, False
 
     @database_sync_to_async
-    def dialog_create(self, id):
+    def create_dialog(self, id):
         """ Create Dialog room in Database """
         try:
             Dialog.check_unique_dialog_members(self.user.id, id)

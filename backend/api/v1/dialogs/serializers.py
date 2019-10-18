@@ -90,51 +90,61 @@ class DialogSerializer(serializers.ModelSerializer):
     """ Dialog Serializer"""
     messages = serializers.SerializerMethodField()
     last_message = serializers.SerializerMethodField()
+    unread_count = serializers.SerializerMethodField()
     interlocutor = serializers.SerializerMethodField()
 
-    def get_messages(self, obj):
-        """ get messages qs with passed filters"""
-        self.messages_qs = obj.messages.all()
-        user_id = self.context.get('user_id')
-
-        if user_id:
-            if self.context.get('filter') == 'unread':
-                messages_info = DialogMessageInfo.objects.filter(
-                    unread=True,
-                    person=user_id,
-                    message__dialog=obj
-                )
-                self.messages_qs = [
-                    message_info.message for message_info in messages_info
-                ]
-            if self.context.get('filter') == 'stared':
-                messages_info = DialogMessageInfo.objects.filter(
-                    stared=True,
-                    person=user_id,
-                    message__dialog=obj
-                )
-                self.messages_qs = [
-                    message_info.message for message_info in messages_info
-                ]
-        return DialogMessageSerializer(
-            self.messages_qs,
-            context={
-                "user_id": user_id
-            },
-            many=True
-        ).data
-
-    def get_interlocutor(self, obj):
-        """ Get Interlocutor if `user_id` in query_params """
+    @property
+    def user_id(self):
         if self.context.get('request'):
             user_id = self.context.get('request').query_params.get('user_id')
         else:
             user_id = self.context.get('user_id')
-        if user_id:
-            id = int(user_id)
+        return user_id
+
+    def get_messages(self, obj):
+        """ get messages qs with passed filters"""
+        self.messages_qs = obj.messages.all()
+
+        if self.context.get('message_details'):
+            if self.user_id:
+                if self.context.get('filter') == 'unread':
+                    messages_info = DialogMessageInfo.objects.filter(
+                        unread=True,
+                        person=self.user_id,
+                        message__dialog=obj
+                    )
+                    self.messages_qs = [
+                        message_info.message for message_info in messages_info
+                    ]
+                elif self.context.get('filter') == 'stared':
+                    messages_info = DialogMessageInfo.objects.filter(
+                        stared=True,
+                        person=self.user_id,
+                        message__dialog=obj
+                    )
+                    self.messages_qs = [
+                        message_info.message for message_info in messages_info
+                    ]
+            serialized = DialogMessageSerializer(
+                self.messages_qs,
+                context={
+                    "user_id": self.user_id
+                },
+                many=True
+            )
+        else:
+            serialized = DialogMessageSerializer(
+                obj.messages.none(),
+                many=True,
+            )
+        return serialized.data
+
+    def get_interlocutor(self, obj):
+        """ Get Interlocutor if `user_id` in query_params """
+        if self.user_id:
             # remove yourself
             qs_interlocutor = DialogMembership.objects.filter(dialog=obj)\
-                .exclude(person__id=id)
+                .exclude(person__id=self.user_id)
             serializer = ProfileSerializer(qs_interlocutor[0].person)
         else:
             # get all members
@@ -143,14 +153,30 @@ class DialogSerializer(serializers.ModelSerializer):
 
         return serializer.data
 
+    def get_unread_count(self, obj):
+        """ Get count of unread messages """
+        if self.user_id:
+            count = DialogMessageInfo.objects.filter(
+                message__dialog=obj,
+                person__id=self.user_id,
+                unread=True
+            ).count()
+            return count
+
     def get_last_message(self, obj):
         """ Get last message in dialog """
         try:
-            message = self.messages_qs[0]
+            message = self.messages_qs.last()
         except IndexError:
             message = None
         return LastMessageSerizalizer(message).data
 
     class Meta:
         model = Dialog
-        fields = ("id", "messages", "interlocutor", "last_message")
+        fields = (
+            "id",
+            "messages",
+            "interlocutor",
+            "unread_count",
+            "last_message"
+        )

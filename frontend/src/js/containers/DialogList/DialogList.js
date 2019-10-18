@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { setActiveDialog } from '../../actions/chatActions'
+import { getDialogDetails } from '../../actions/chatActions'
 import { getDialogs } from '../../reducers/selectors'
 import { ColoredLine, Spinner } from '../../components'
 import { Search, DialogCard } from '../../components/DialogList'
@@ -10,7 +10,7 @@ import { StyledFriendList } from './styles'
 import { ContentGrid, P, dark_cont1 } from '../../styles'
 
 function DialogList(props) {
-  const { data, success, error, setActiveDialog } = props
+  const { data, success, error, getDialogDetails } = props
 
   return (
     <StyledFriendList>
@@ -29,7 +29,7 @@ function DialogList(props) {
                     <Fragment key={dialog.id}>
                       <DialogCard
                         dialog={dialog}
-                        setActiveDialog={setActiveDialog}
+                        getDialogDetails={getDialogDetails}
                       />
                       <ColoredLine color={dark_cont1} width="50%" />
                     </Fragment>
@@ -51,11 +51,13 @@ DialogList.propTypes = {
   success: PropTypes.bool.isRequired,
   fetching: PropTypes.bool.isRequired,
   error: PropTypes.string,
-  setActiveDialog: PropTypes.func.isRequired,
+  getDialogDetails: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => {
   const dialogs = getDialogs(state)
+  // console.log(getUnreadCount(state));
+
   return {
     data: dialogs.data,
     fetching: dialogs.fetching,
@@ -66,5 +68,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps, {
-  setActiveDialog
+  getDialogDetails
 })(DialogList)

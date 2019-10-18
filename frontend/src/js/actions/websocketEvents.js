@@ -1,5 +1,6 @@
 export const AUTHENTICATE = 'authenticate'
 
+export const DIALOGS_LIST = 'dialogs.list'
 export const DIALOG_GET = 'dialog.get'
 export const DIALOG_CREATE = 'dialog.create'
 export const DIALOG_DELETE = 'dialog.delete'

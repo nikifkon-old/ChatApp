@@ -1,34 +1,34 @@
-import { put, takeEvery, call } from 'redux-saga/effects'
+import { put, takeEvery } from 'redux-saga/effects'
 
 import * as types from '../../actions'
-import { getMessagesInDialogService } from '../../services'
+import * as events from '../../actions/websocketEvents'
 
-export function* getMessagesInDialogs({payload: dialog_id}) {
+export function* getMessagesInDialogs({payload: id}) {
   try {
-    const response = yield call(getMessagesInDialogService, dialog_id)
     yield put({
-      type: types.GET_MESSAGES_IN_DIALOG_SUCCESS,
+      type: types.WEBSOCKET_SEND_REQUEST,
       payload: {
-        data: response.data,
-        dialog_id
+        event: events.DIALOG_GET,
+        data: { id }
       }
     })
+
   } catch (error) {
     yield put({
-      type: types.GET_MESSAGES_IN_DIALOG_FAILURE,
+      type: types.GET_DIALOG_DETAILS_FAILURE,
       payload: {
         error,
-        dialog_id
+        id,
       }
     })
   } finally {
     yield put({
       type: types.SET_ACTIVE_DIALOG,
-      payload: dialog_id
+      payload: id,
     })
   }
 }
 
 export default function*() {
-  yield takeEvery('GET_MESSAGES_IN_DIALOG_REQUEST', getMessagesInDialogs)
+  yield takeEvery('GET_DIALOG_DETAILS_REQUEST', getMessagesInDialogs)
 }

@@ -13,18 +13,12 @@ export const getDialogs = () => {
   }
 }
 
-export const setActiveDialog = dialog_id => {
+export const getDialogDetails = dialog_id => {
   return {
-    type: types.SET_ACTIVE_DIALOG,
-    payload: dialog_id
+    type: types.GET_DIALOG_DETAILS_REQUEST,
+    payload: dialog_id,
   }
 }
-// export const setActiveDialog = dialog_id => {
-//   return {
-//     type: types.GET_MESSAGES_IN_DIALOG_REQUEST,
-//     payload: dialog_id
-//   }
-// }
 
 export const connectToWebSocket = () => {
   return {
@@ -36,7 +30,7 @@ export const getDialogData = ({id, filter}) => {
   return {
     type: types.WEBSOCKET_SEND_REQUEST,
     payload: {
-      event: events.DIALOG_GET,
+      event: events.DIALOGS_LIST,
       data: {
         id,
         filter,
