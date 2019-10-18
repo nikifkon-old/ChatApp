@@ -79,7 +79,7 @@ class DialogMessage(MessageMixin):
             if person.id == self.sender.id:
                 unread = False
 
-            DialogMessageInfo.objects.create(
+            DialogMessageInfo.objects.get_or_create(
                 message=self,
                 person=person,
                 unread=unread,
