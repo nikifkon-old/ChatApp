@@ -8,10 +8,6 @@ import {
   getUserDataService,
 } from './userDataService'
 import {
-  getDialogsDataService,
-  getMessagesInDialogService,
-} from './ChatServices/dialogsServices'
-import {
   connectToWebSocketService,
   sendToWebsokcet
 } from './Websocket'
@@ -34,9 +30,6 @@ export {
   getAuthHeaders,
 
   getUserDataService,
-
-  getDialogsDataService,
-  getMessagesInDialogService,
 
   connectToWebSocketService,
   sendToWebsokcet,
