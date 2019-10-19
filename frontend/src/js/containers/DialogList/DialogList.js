@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
+import { useRouteMatch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { getDialogDetails } from '../../actions/chatActions'
@@ -56,13 +57,13 @@ DialogList.propTypes = {
 
 const mapStateToProps = state => {
   const dialogs = getDialogs(state)
-  // console.log(getUnreadCount(state));
+  const { fetching, success, error } = dialogs
 
   return {
     data: dialogs.data,
-    fetching: dialogs.fetching,
-    success: dialogs.success,
-    error: dialogs.error,
+    fetching: fetching,
+    success: success,
+    error: error,
   }
 }
 

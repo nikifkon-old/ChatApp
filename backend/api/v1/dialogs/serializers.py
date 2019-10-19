@@ -104,27 +104,18 @@ class DialogSerializer(serializers.ModelSerializer):
     def get_messages(self, obj):
         """ get messages qs with passed filters"""
         self.messages_qs = obj.messages.all()
+        # filters
+        if self.user_id:
+            if self.context.get('filter') == 'unread':
+                self.messages_qs = obj.messages.filter(
+                    dialogmessageinfo__unread=True,
+                )
+            elif self.context.get('filter') == 'stared':
+                self.messages_qs = obj.messages.filter(
+                    dialogmessageinfo__stared=True,
+                )
 
         if self.context.get('message_details'):
-            if self.user_id:
-                if self.context.get('filter') == 'unread':
-                    messages_info = DialogMessageInfo.objects.filter(
-                        unread=True,
-                        person=self.user_id,
-                        message__dialog=obj
-                    )
-                    self.messages_qs = [
-                        message_info.message for message_info in messages_info
-                    ]
-                elif self.context.get('filter') == 'stared':
-                    messages_info = DialogMessageInfo.objects.filter(
-                        stared=True,
-                        person=self.user_id,
-                        message__dialog=obj
-                    )
-                    self.messages_qs = [
-                        message_info.message for message_info in messages_info
-                    ]
             serialized = DialogMessageSerializer(
                 self.messages_qs,
                 context={

@@ -26,13 +26,12 @@ export const connectToWebSocket = () => {
   }
 }
 
-export const getDialogData = ({id, filter}) => {
+export const getDialogData = ({filter}) => {
   return {
     type: types.WEBSOCKET_SEND_REQUEST,
     payload: {
       event: events.DIALOGS_LIST,
       data: {
-        id,
         filter,
       }
     }
