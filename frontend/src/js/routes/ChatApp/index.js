@@ -5,9 +5,10 @@ import PropTypes from 'prop-types'
 import {
   Nav,
   PropsRoute,
+  RoomCreating,
 } from '../../components'
 import {
-  ChatBase,
+  Chat,
   Menu,
   SideBar,
   DialogList,
@@ -15,54 +16,36 @@ import {
 import {
   withHeaderStatus,
 } from '../../HOC'
-import { AppContainer } from '../../styles'
+import { useWebsocket } from '../../hooks/'
+import { AppContainer, StyledChatWrap } from '../../styles'
 
 function ChatAppRoute(props) {
-  const {headerIsOpen, handleAppHeader} = props
+  const { headerIsOpen, handleAppHeader } = props
   const match = useRouteMatch()
+
+  useWebsocket()
+
   return (
     <AppContainer headerIsOpen={headerIsOpen}>
       <Nav handleHeader={handleAppHeader} />
       <Menu />
       <DialogList />
-      <Switch>
-        <PropsRoute
-          exact
-          path={match.url}
-          component={ChatBase}
-          content="chatRoom"
-          {...props}
+      <StyledChatWrap>
+        <Switch>
+          <PropsRoute
+            exact
+            path={`${match.url}/create room`}
+            component={RoomCreating}
+            {...props}
           />
-        <PropsRoute
-          exact
-          path={`${match.url}/all messages`}
-          component={ChatBase}
-          content="chatRoom"
-          {...props}
+          <PropsRoute
+            exact
+            path={`${match.url}/:filter`}
+            component={Chat}
+            {...props}
           />
-        <PropsRoute
-          exact
-          path={`${match.url}/unread`}
-          component={ChatBase}
-          content="chatRoom"
-          params="unread"
-          {...props}
-          />
-        <PropsRoute
-          exact
-          path={`${match.url}/stared`}
-          component={ChatBase}
-          content="chatRoom"
-          params="stared"
-          {...props}
-          />
-        <PropsRoute
-          path={`${match.url}/create room`}
-          component={ChatBase}
-          content="form"
-          {...props}
-        />
-      </Switch>
+        </Switch>
+      </StyledChatWrap>
       <SideBar />
     </AppContainer>
   );

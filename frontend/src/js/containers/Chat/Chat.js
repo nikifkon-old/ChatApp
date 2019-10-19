@@ -1,5 +1,6 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import {
@@ -8,6 +9,7 @@ import {
   ChatLog,
 } from '../../components/Chat'
 import {
+  getDialogData,
   sendMessageInDialog,
   deleteMessageInDialog,
   updateMessageInDialog,
@@ -15,6 +17,7 @@ import {
 import {
   getActiveDialog,
   getDialogs,
+  getWebsocketIsAuth,
 } from '../../reducers/selectors'
 import { StyledChat } from './styles'
 
@@ -28,8 +31,19 @@ const Chat = (props) => {
     deleteMessageInDialog,
     updateMessageInDialog,
   } = props
-
   let id = dialog && dialog.id
+
+  const { filter } = useParams()
+  const dispatch = useDispatch()
+  const websocketIsAuth = useSelector(state => getWebsocketIsAuth(state))
+
+  useEffect(() => {
+    if (websocketIsAuth) {
+      dispatch(getDialogData({
+        filter: filter
+      }))
+    }
+  }, [websocketIsAuth, filter, dispatch])
 
   return (
     <StyledChat>
