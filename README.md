@@ -1,6 +1,6 @@
 Quick Start
 ---
-- Clone Repo: `git clone https://github.com/modekano/ChatApp.git`
+- Clone Repo: `git clone https://github.com/nikifkon/ChatApp.git`
 - Go to project folder: `cd ChatApp`
 - Activate Virtualenv(optional):  `pip install virtualenv`
   - Create venv: `virtualenv venv`
