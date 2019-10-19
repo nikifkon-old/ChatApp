@@ -21,3 +21,5 @@ export const getActiveDialog = state => {
 }
 
 export const getHeaderStatus = state => state.app.header.isOpen
+
+export const getQueryParams = state => state.router.location.search

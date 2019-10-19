@@ -1,10 +1,9 @@
 import React from 'react'
-import { Switch, useRouteMatch } from 'react-router-dom'
+import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import {
   Nav,
-  PropsRoute,
   RoomCreating,
 } from '../../components'
 import {
@@ -21,7 +20,7 @@ import { AppContainer, StyledChatWrap } from '../../styles'
 
 function ChatAppRoute(props) {
   const { headerIsOpen, handleAppHeader } = props
-  const match = useRouteMatch()
+  const { url } = useRouteMatch()
 
   useWebsocket()
 
@@ -32,17 +31,17 @@ function ChatAppRoute(props) {
       <DialogList />
       <StyledChatWrap>
         <Switch>
-          <PropsRoute
+          <Route exact path={`${url}`}>
+            <Redirect to={`${url}/all-messages`}/>
+          </Route>
+          <Route
             exact
-            path={`${match.url}/create room`}
+            path={`${url}/create room`}
             component={RoomCreating}
-            {...props}
           />
-          <PropsRoute
-            exact
-            path={`${match.url}/:filter`}
+          <Route
+            path={`${url}`}
             component={Chat}
-            {...props}
           />
         </Switch>
       </StyledChatWrap>

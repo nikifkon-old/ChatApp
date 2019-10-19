@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
-import { useRouteMatch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { getDialogDetails } from '../../actions/chatActions'

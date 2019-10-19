@@ -12,7 +12,7 @@ function Header() {
           Home
         </P>
       </Link>
-      <Link to="/app/all messages">
+      <Link to="/app">
         <P color="#fff">
           App
         </P>

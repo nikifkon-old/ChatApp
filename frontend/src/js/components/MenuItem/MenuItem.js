@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import { P, dark_cont2, dark_active } from '../../styles'
 
-const MenuRow = ({unreadCount, title}) => {
+const MenuRow = ({unreadCount, title, link}) => {
   let match = useRouteMatch('/app/:page');
   const page = match && match.params ? match.params.page : null;
 
@@ -15,13 +15,21 @@ const MenuRow = ({unreadCount, title}) => {
   return (
     <StyledLink
       isActive={isActive}
-      to={`/app/${title}`}
+      to={`/app/${link || title}`}
     >
       <P center grid_left color={dark_cont2}>{title}</P>
       <P center color="#fff">{unreadCount}</P>
     </StyledLink>
   )
 };
+
+MenuRow.propTypes = {
+  title: PropTypes.string.isRequired,
+  link: PropTypes.string,
+  unreadCount: PropTypes.number,
+  id: PropTypes.number.isRequired,
+};
+
 
 const StyledLink = styled(({isActive, ...props}) => <Link {...props} />)`
   width: 100%;
@@ -32,10 +40,4 @@ const StyledLink = styled(({isActive, ...props}) => <Link {...props} />)`
   };
 `;
 
-MenuRow.propTypes = {
-  title: PropTypes.string.isRequired,
-  unreadCount: PropTypes.number,
-  id: PropTypes.number.isRequired,
-};
-
-export default MenuRow
+export default MenuRow;

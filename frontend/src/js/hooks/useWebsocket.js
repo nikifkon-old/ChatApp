@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   getTokens,
   getWebsocketIsAuth,
+  getQueryParams,
 } from '../reducers/selectors'
 import {
   connectToWebSocket,
@@ -14,8 +15,10 @@ export default function useWebsocket() {
   const dispatch = useDispatch()
   const tokens = useSelector(state => getTokens(state))
   const websocketIsAuth = useSelector(state => getWebsocketIsAuth(state))
+  const queryParams = useSelector(state => getQueryParams(state))
+  const query = new URLSearchParams(queryParams)
 
-  // useWebsocket(isAuth, tokens, websocketIsAuth)
+  // after get tokens connect to webo
   useEffect(() => {
     if (tokens && !websocketIsAuth) {
       dispatch(connectToWebSocket())
@@ -25,7 +28,9 @@ export default function useWebsocket() {
   // after authenticate get dialogs list
   useEffect(() => {
     if (websocketIsAuth) {
-      dispatch(getDialogData({}))
+      dispatch(getDialogData({
+        filter: query.get('filter')
+      }))
     }
-  }, [websocketIsAuth, dispatch])
+  }, [websocketIsAuth, dispatch, query])
 }
