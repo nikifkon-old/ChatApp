@@ -12,10 +12,10 @@ function Menu() {
         color={dark_cont1}
         height="2px"
       />
-    <MenuItem id={1} title="All Messages" link="all-messages" unreadCount={21} />
+    <MenuItem id={1} title="All Messages" link="messages" unreadCount={21} />
       <MenuItem id={2} title="Unread" link="messages?filter=unread" unreadCount={89} />
       <MenuItem id={3} title="Stared" link="messages?filter=stared" unreadCount={6} />
-      <MenuItem id={4} title="Create room" />
+      <MenuItem id={4} title="Create room" link="create" />
       <ColoredLine
         color={dark_cont1}
         height="2px"

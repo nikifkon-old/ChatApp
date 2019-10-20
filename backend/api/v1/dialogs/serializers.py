@@ -107,12 +107,16 @@ class DialogSerializer(serializers.ModelSerializer):
         # filters
         if self.user_id:
             if self.context.get('filter') == 'unread':
-                self.messages_qs = obj.messages.filter(
-                    dialogmessageinfo__unread=True,
+                person = Profile.objects.get(id=self.user_id)
+                self.messages_qs = person.dialog_messages.filter(
+                    dialog=obj,
+                    dialogmessageinfo__unread=True
                 )
             elif self.context.get('filter') == 'stared':
-                self.messages_qs = obj.messages.filter(
-                    dialogmessageinfo__stared=True,
+                person = Profile.objects.get(id=self.user_id)
+                self.messages_qs = person.dialog_messages.filter(
+                    dialog=obj,
+                    dialogmessageinfo__stared=True
                 )
 
         if self.context.get('message_details'):

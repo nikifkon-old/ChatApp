@@ -5,18 +5,18 @@ import {
   getTokens,
   getWebsocketIsAuth,
   getQueryParams,
-} from '../reducers/selectors'
+} from '../../reducers/selectors'
 import {
   connectToWebSocket,
   getDialogData,
-} from '../actions/chatActions'
+} from '../../actions/chatActions'
 
 export default function useWebsocket() {
   const dispatch = useDispatch()
   const tokens = useSelector(state => getTokens(state))
   const websocketIsAuth = useSelector(state => getWebsocketIsAuth(state))
   const queryParams = useSelector(state => getQueryParams(state))
-  const query = new URLSearchParams(queryParams)
+  const filters = new URLSearchParams(queryParams)
 
   // after get tokens connect to webo
   useEffect(() => {
@@ -29,8 +29,8 @@ export default function useWebsocket() {
   useEffect(() => {
     if (websocketIsAuth) {
       dispatch(getDialogData({
-        filter: query.get('filter')
+        filter: filters.get('filter')
       }))
     }
-  }, [websocketIsAuth, dispatch, query])
+  }, [websocketIsAuth, dispatch, filters])
 }

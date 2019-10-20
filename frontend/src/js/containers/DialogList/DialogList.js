@@ -1,20 +1,46 @@
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import React, { useState, Fragment } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+// import PropTypes from 'prop-types'
 
 import { getDialogDetails } from '../../actions/chatActions'
-import { getDialogs } from '../../reducers/selectors'
+import {
+  getDialogsInfo,
+  getDialogsList,
+  getNotEmptyDialogsData,
+} from './selectors'
 import { ColoredLine, Spinner } from '../../components'
 import { Search, DialogCard } from '../../components/DialogList'
 import { StyledFriendList } from './styles'
-import { ContentGrid, P, dark_cont1 } from '../../styles'
+import { Btn, ContentGrid, P, dark_cont1 } from '../../styles'
 
-function DialogList(props) {
-  const { data, success, error, getDialogDetails } = props
+function DialogList() {
+  const [allowEmpty, setAllowEmpty] = useState(false);
+  const dispatch = useDispatch();
+  const dialogs = useSelector(state => getDialogsInfo(state));
+  const { success, error } = dialogs;
+
+  const data = useSelector(state => {
+    if (allowEmpty) {
+      return getDialogsList(state)
+    } else {
+      return getNotEmptyDialogsData(state)
+    }
+  });
+
+  function handleDialogDetails(args) {
+    dispatch(getDialogDetails(args))
+  }
+
+  function handleAllowEmpty() {
+    setAllowEmpty(!allowEmpty)
+  }
 
   return (
     <StyledFriendList>
       <Search />
+      <Btn width="50%" onClick={handleAllowEmpty}>
+        allow empty
+      </Btn>
       <ColoredLine color={dark_cont1} />
       {
         success
@@ -29,7 +55,7 @@ function DialogList(props) {
                     <Fragment key={dialog.id}>
                       <DialogCard
                         dialog={dialog}
-                        getDialogDetails={getDialogDetails}
+                        getDialogDetails={handleDialogDetails}
                       />
                       <ColoredLine color={dark_cont1} width="50%" />
                     </Fragment>
@@ -43,30 +69,15 @@ function DialogList(props) {
             : <Spinner />
       }
     </StyledFriendList>
-  )
+  );
 }
 
-DialogList.propTypes = {
-  data: PropTypes.array.isRequired,
-  success: PropTypes.bool.isRequired,
-  fetching: PropTypes.bool.isRequired,
-  error: PropTypes.string,
-  getDialogDetails: PropTypes.func.isRequired,
-}
+// DialogList.propTypes = {
+//   data: PropTypes.array.isRequired,
+//   success: PropTypes.bool.isRequired,
+//   fetching: PropTypes.bool.isRequired,
+//   error: PropTypes.string,
+//   getDialogDetails: PropTypes.func.isRequired,
+// };
 
-const mapStateToProps = state => {
-  const dialogs = getDialogs(state)
-  const { fetching, success, error } = dialogs
-
-  return {
-    data: dialogs.data,
-    fetching: fetching,
-    success: success,
-    error: error,
-  }
-}
-
-export default connect(
-  mapStateToProps, {
-  getDialogDetails
-})(DialogList)
+export default DialogList;
