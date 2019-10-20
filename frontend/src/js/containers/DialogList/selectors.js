@@ -4,7 +4,7 @@ export const getDialogsInfo = state => state.app.dialogs
 
 export const getDialogsList = createSelector(
   [ getDialogsInfo ],
-  dialogs => dialogs.data.sort((first, second) => second.unread_count - first.unread_count)
+  dialogs => dialogs.data
 )
 
 export const getNotEmptyDialogsData = createSelector(

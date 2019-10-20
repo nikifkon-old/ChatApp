@@ -18,26 +18,31 @@ export default function(state = initialState, action) {
       if (action.payload.event === events.DIALOGS_LIST) {
         return {
           ...state,
-          fetching: true
+          fetching: true,
+          active: null,
         }
       } else {
         return state
       }
-    case types.SET_DIALOGS_DATA:
+    case types.SET_DIALOGS_DATA: {
+      const sorted_data = action.payload.sort(
+        (first, second) => second.unread_count - first.unread_count
+      )
       return {
         ...state,
         fetching: false,
         success: true,
         error: null,
-        data: action.payload,
-        active: action.payload[0] && action.payload[0].id
+        data: sorted_data,
+        active: sorted_data[0] && sorted_data[0].id
       }
+    }
     case types.SET_DIALOG_DATA: {
       const id = action.payload.id
       return {
         ...state,
         data: state.data.map(
-          dialog => dialog.id === id 
+          dialog => dialog.id === id
             ? action.payload
             : dialog
         )

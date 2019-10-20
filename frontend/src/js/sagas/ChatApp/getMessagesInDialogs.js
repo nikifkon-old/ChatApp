@@ -21,11 +21,6 @@ export function* getMessagesInDialogs({payload: id}) {
         id,
       }
     })
-  } finally {
-    yield put({
-      type: types.SET_ACTIVE_DIALOG,
-      payload: id,
-    })
   }
 }
 

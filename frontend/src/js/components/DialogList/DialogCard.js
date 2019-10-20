@@ -1,4 +1,5 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import {
@@ -18,7 +19,7 @@ import { getElapsedTime } from '../../utils'
 
 
 const DialogCard = (props) => {
-  const { dialog, getDialogDetails } = props
+  const { dialog, setActiveDialog } = props
   const { last_message, id, interlocutor, unread_count } = dialog
   const { date, text } = last_message
   let { avatar, user } = interlocutor
@@ -27,8 +28,10 @@ const DialogCard = (props) => {
     avatar = DefaultAvatar
   }
 
+  const dispatch = useDispatch()
+
   function handleDialogDetails() {
-    getDialogDetails(id)
+    dispatch(setActiveDialog(id))
   }
 
   return (
@@ -89,7 +92,7 @@ DialogCard.propTypes = {
     }).isRequired,
     unread_count: PropTypes.number.isRequired,
   }),
-  getDialogDetails: PropTypes.func.isRequired,
+  setActiveDialog: PropTypes.func.isRequired,
 }
 
 export default DialogCard

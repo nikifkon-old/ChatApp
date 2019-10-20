@@ -16,7 +16,6 @@ export default function useWebsocket() {
   const tokens = useSelector(state => getTokens(state))
   const websocketIsAuth = useSelector(state => getWebsocketIsAuth(state))
   const queryParams = useSelector(state => getQueryParams(state))
-  const filters = new URLSearchParams(queryParams)
 
   // after get tokens connect to webo
   useEffect(() => {
@@ -28,9 +27,10 @@ export default function useWebsocket() {
   // after authenticate get dialogs list
   useEffect(() => {
     if (websocketIsAuth) {
+      const filter = new URLSearchParams(queryParams).get('filter')
       dispatch(getDialogData({
-        filter: filters.get('filter')
+        filter: filter
       }))
     }
-  }, [websocketIsAuth, dispatch, filters])
+  }, [websocketIsAuth, dispatch, queryParams])
 }
