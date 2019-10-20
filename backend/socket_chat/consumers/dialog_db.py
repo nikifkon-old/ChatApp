@@ -14,24 +14,10 @@ from backend.dialogs.models import (
     Dialog,
     DialogMembership,
 )
+from backend.dialogs.models import DialogMessageInfo
 
 
 class DialogDataBase:
-    @database_sync_to_async
-    def dialog_get(self, id, filter=None):
-        """ Get user dialogs """
-        dialogs = Dialog.objects.filter(members__id=id)
-        serialized = DialogSerializer(
-            dialogs,
-            context={
-                'message_details': True,
-                'filter': filter,
-                'user_id': id,
-            },
-            many=True
-        )
-        return serialized.data
-
     @database_sync_to_async
     def get_dialog_messages(self, dialog_id, user_id, filter=None):
         """ Get dialog with messages """
@@ -49,7 +35,17 @@ class DialogDataBase:
     @database_sync_to_async
     def get_dialog_list(self, id, filter=None):
         """ Get list of dialogs without messages """
-        dialogs = Dialog.objects.filter(members__id=id)
+        if filter:
+            if filter == 'unread':
+                info = DialogMessageInfo.objects.filter(person__id=id, unread=True)
+            if filter == 'stared':
+                info = DialogMessageInfo.objects.filter(person__id=id, stared=True)
+            dialogs = Dialog.objects.filter(
+                members__id=id,
+                messages__dialogmessageinfo__in=info
+            ).distinct()
+        else:
+            dialogs = Dialog.objects.filter(members__id=id)
         serialized = DialogSerializer(
             dialogs,
             context={
