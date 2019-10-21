@@ -100,3 +100,12 @@ export const createDialog = ({id}) => {
     }
   }
 }
+
+export const setAsRead = ({dialog_id, message_id}) => {
+  return {
+    type: types.SET_AS_READ,
+    payload: {
+      dialog_id, message_id
+    }
+  }
+}

@@ -14,7 +14,7 @@ import {
 } from '../../selectors'
 import { ColoredLine, Spinner } from '../../components'
 import { Search, DialogCard } from '../../components/DialogList'
-import { StyledFriendList } from './styles'
+import { StyledDialogList } from './styles'
 import { Btn, ContentGrid, P, dark_cont1 } from '../../styles'
 
 const { getActiveDialog, getDialog } = dialogSelectors
@@ -55,7 +55,7 @@ function DialogList() {
   }
 
   return (
-    <StyledFriendList>
+    <StyledDialogList>
       <Search />
       {
         queryFilter === '' &&
@@ -90,7 +90,7 @@ function DialogList() {
             ? <P>Error {error}</P>
             : <Spinner />
       }
-    </StyledFriendList>
+    </StyledDialogList>
   );
 }
 

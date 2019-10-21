@@ -134,6 +134,28 @@ export default function(state = initialState, action) {
       }
     }
 
+    case types.SET_AS_READ: {
+      const { dialog_id, message_id } = action.payload
+      return {
+        ...state,
+        data: state.data.map(
+          dialog => dialog.id === dialog_id
+            ? {
+              ...dialog,
+              unread_count: dialog.unread_count - 1,
+              messages: dialog.messages.map(
+                message => message.id === message_id
+                  ? {
+                    ...message,
+                    unread: false,
+                  }
+                  : message
+              )
+            }
+            : dialog
+        )
+      }
+    }
     case types.DIALOG_CLEAN_UP:
       return {
         ...state,

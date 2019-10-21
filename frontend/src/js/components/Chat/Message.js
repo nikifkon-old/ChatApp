@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback, createRef } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Field, Form } from 'react-final-form';
 
@@ -6,6 +7,9 @@ import {
   IconButton,
   EmojiedText,
 } from '../index'
+import {
+  setAsRead,
+} from '../../actions/chatActions'
 import {
   StyledMessage,
   MessageDate,
@@ -20,26 +24,49 @@ function Message(props) {
     message,
     deleteMessage,
     updateMessage,
+    maxOffset,
   } = props
 
-  const { id, sender_name, avatar, text, date } = message
-  const [edited, setEdited] = React.useState(false)
+  const { id, sender_name, dialog, unread, avatar, text, date } = message
+  const [edited, setEdited] = useState(false)
 
-  function toggleEdit () {
+  function toggleEdit() {
     setEdited(!edited)
   }
 
-  function handleDelete () {
+  function handleDelete() {
     deleteMessage({id})
   }
 
-  function handleUpdate ({text}) {
+  function handleUpdate({text}) {
     updateMessage({id, text})
     setEdited(false)
   }
 
+  const Message = createRef()
+  const dispatch = useDispatch()
+
+  const handleUnread = useCallback((e) => {
+    if( e.offsetTop + e.scrollHeight - 80 < maxOffset) {
+      dispatch(setAsRead({
+        dialog_id: dialog,
+        message_id: id,
+      }))
+    }
+  }, [dialog, dispatch, id, maxOffset])
+
+  useEffect(() => {
+    if (unread) {
+      const messageDom = Message.current
+      handleUnread(messageDom)
+    }
+  }, [Message, maxOffset, handleUnread, unread])
+
+
   return (
-    <StyledMessage>
+    <StyledMessage
+      ref={Message}
+    >
       <MessageAvatar src={avatar} alt='avatar' />
 
       <GridItem
@@ -47,7 +74,7 @@ function Message(props) {
         column="2"
         row="1/2"
         >
-        {sender_name}
+        {sender_name} - {unread ? "true" : "false"}
       </GridItem>
 
       <GridItem
@@ -107,10 +134,13 @@ function Message(props) {
 Message.propTypes = {
   deleteMessage: PropTypes.func.isRequired,
   updateMessage: PropTypes.func.isRequired,
+  maxOffset: PropTypes.number.isRequired,
   message: PropTypes.shape({
     id: PropTypes.number.isRequired,
     sender: PropTypes.number.isRequired,
+    dialog: PropTypes.number.isRequired,
     sender_name: PropTypes.string.isRequired,
+    unread: PropTypes.bool.isRequired,
     avatar: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
