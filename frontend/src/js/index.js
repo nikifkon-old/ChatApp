@@ -16,4 +16,5 @@ ReactDOM.render(
       <App />
     </ConnectedRouter>
   </Provider>,
-document.getElementById('react-root'))
+  document.getElementById('react-root')
+)

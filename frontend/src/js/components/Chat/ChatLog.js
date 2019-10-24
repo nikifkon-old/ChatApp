@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types';
 
+import { setAsRead } from '../../actions/chatActions'
 import Message from './Message'
 import { Spinner } from '../index'
 import { StyledChatLog } from './styles'
@@ -16,45 +18,46 @@ function ChatLog(props) {
   } = props
   const ChatLog = React.createRef()
 
-  // useEffect(() => {
-  //   // always scroll to bottom
-  //   ChatLog.current.scrollTop = ChatLog.current.scrollHeight
-  // })
-
-  // scroll handle
-  const [maxOffset, setMaxOffset] = useState(0)
+  const [maxOffset, setMaxOffset] = useState(500)
 
   const handleScroll = useCallback((e) => {
     const elementDom = e.target
     const new_value = elementDom.scrollTop + elementDom.offsetHeight
     if ( Math.abs(maxOffset - new_value) > 100) {
-      setMaxOffset(elementDom.scrollTop + elementDom.offsetHeight)
+      console.log('set max offset', new_value);
+      setMaxOffset(new_value)
     }
   }, [maxOffset])
 
-  useEffect(() => {
-    const elementDom = ChatLog.current
-    elementDom.addEventListener('scroll', handleScroll)
-    return () => {
-      elementDom.removeEventListener('scroll', handleScroll)
-    }
-  }, [ChatLog, handleScroll])
+  const dispatch = useDispatch()
+
+  const handleUnread = useCallback(({dialog, id}) => {
+    dispatch(setAsRead({
+      dialog_id: dialog,
+      message_id: id,
+    }))
+  }, [dispatch])
 
   return (
     <StyledChatLog
+      onScroll={handleScroll}
       ref={ChatLog}
     >
       {
         success
           ? dialogData && dialogData.messages.length > 0
-            ? dialogData.messages.map(message =>
-              <Message
-                key={message.id}
-                maxOffset={maxOffset}
-                message={message}
-                deleteMessage={deleteMessage}
-                updateMessage={updateMessage}
-              />
+            ? dialogData.messages.map(message => {
+                return (
+                  <Message
+                    key={message.id}
+                    maxOffset={maxOffset}
+                    message={message}
+                    handleUnread={handleUnread}
+                    deleteMessage={deleteMessage}
+                    updateMessage={updateMessage}
+                  />
+                )
+              }
             )
             : <P center>No messages yet...</P>
           : error
