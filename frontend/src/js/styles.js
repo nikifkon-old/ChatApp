@@ -218,4 +218,5 @@ export const P = styled.p`
     ${props => props.grid_right ? 'margin-left: auto;' : ''}
     ${props => props.noMargin ? 'margin: 0;' : ''}
   `}
+  display: ${props => props.inline && 'inline-block'};
 `

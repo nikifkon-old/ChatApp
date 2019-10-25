@@ -24,7 +24,7 @@ class Message extends Component {
     deleteMessage: PropTypes.func.isRequired,
     updateMessage: PropTypes.func.isRequired,
     handleUnread: PropTypes.func.isRequired,
-    maxOffset: PropTypes.number.isRequired,
+    maxOffset: PropTypes.number,
     message: PropTypes.shape({
       id: PropTypes.number.isRequired,
       sender: PropTypes.number.isRequired,
@@ -37,13 +37,13 @@ class Message extends Component {
     }).isRequired
   };
 
-  toggleEdit() {
+  toggleEdit = () => {
     this.setState({
       edited: !this.state.edited
     });
   }
 
-  handleDelete() {
+  handleDelete = () => {
     const { deleteMessage, message } = this.props
     const { id } = message
     deleteMessage({id})
@@ -87,8 +87,8 @@ class Message extends Component {
   render() {
     const { message } = this.props
     const { edited } = this.state
-    const { sender_name, unread, avatar, text, date } = message
-    console.log('message render', text);
+    const { sender_name, avatar, text, date } = message
+
     return (
       <StyledMessage
         ref={this.MessageRef}
@@ -100,7 +100,7 @@ class Message extends Component {
           column="2"
           row="1/2"
           >
-          {sender_name} - {unread ? "true" : "false"}
+          {sender_name}
         </GridItem>
 
         <GridItem

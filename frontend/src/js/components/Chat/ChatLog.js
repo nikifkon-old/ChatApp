@@ -1,16 +1,17 @@
-import React, { useState, useCallback } from 'react';
+import React, { Fragment, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types';
 
 import { setAsRead } from '../../actions/chatActions'
 import Message from './Message'
-import { Spinner } from '../index'
+import { Spinner, ColoredLine } from '../index'
 import { StyledChatLog } from './styles'
-import { P } from '../../styles'
+import { dark_cont1, P } from '../../styles'
 
 function ChatLog(props) {
   const {
     dialogData,
+    firstUnread,
     deleteMessage,
     updateMessage,
     success,
@@ -18,14 +19,20 @@ function ChatLog(props) {
   } = props
   const ChatLog = React.createRef()
 
-  const [maxOffset, setMaxOffset] = useState(500)
+  const [maxOffset, setMaxOffset] = useState(null)
 
   const handleScroll = useCallback((e) => {
     const elementDom = e.target
     const new_value = elementDom.scrollTop + elementDom.offsetHeight
-    if ( Math.abs(maxOffset - new_value) > 100) {
-      console.log('set max offset', new_value);
+    const scrollHeight = elementDom.scrollHeight
+    if (!maxOffset) {
       setMaxOffset(new_value)
+    }
+    else if ( Math.abs(maxOffset - new_value) > 100) {
+      setMaxOffset(new_value)
+    }
+    else if (new_value === scrollHeight) {
+      setMaxOffset(scrollHeight)
     }
   }, [maxOffset])
 
@@ -48,14 +55,23 @@ function ChatLog(props) {
           ? dialogData && dialogData.messages.length > 0
             ? dialogData.messages.map(message => {
                 return (
-                  <Message
-                    key={message.id}
-                    maxOffset={maxOffset}
-                    message={message}
-                    handleUnread={handleUnread}
-                    deleteMessage={deleteMessage}
-                    updateMessage={updateMessage}
-                  />
+                  <Fragment key={message.id}>
+                    {
+                      message.id === firstUnread
+                      && <ColoredLine
+                        color={dark_cont1}
+                        text="New Messages:"
+                      />
+                    }
+                    <Message
+                      key={message.id}
+                      maxOffset={maxOffset}
+                      message={message}
+                      handleUnread={handleUnread}
+                      deleteMessage={deleteMessage}
+                      updateMessage={updateMessage}
+                    />
+                  </Fragment>
                 )
               }
             )
@@ -70,6 +86,7 @@ function ChatLog(props) {
 
 ChatLog.propTypes = {
   dialogData: PropTypes.object,
+  firstUnread: PropTypes.number,
   deleteMessage: PropTypes.func.isRequired,
   updateMessage: PropTypes.func.isRequired,
   fetching: PropTypes.bool.isRequired,

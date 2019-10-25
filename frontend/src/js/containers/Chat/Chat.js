@@ -16,7 +16,12 @@ import {
   getActiveDialog,
   getDialogs,
 } from '../../reducers/selectors'
+import {
+  dialogSelectors,
+} from '../../selectors'
 import { StyledChat } from './styles'
+
+const { getIdOfFirstUnreadMessageInActiveDialog } = dialogSelectors
 
 const Chat = (props) => {
   const {
@@ -24,6 +29,7 @@ const Chat = (props) => {
     fetching,
     success,
     error,
+    firstUnread,
     sendMessageInDialog,
     deleteMessageInDialog,
     updateMessageInDialog,
@@ -35,6 +41,7 @@ const Chat = (props) => {
       <TopPanel dialog={dialog} />
       <ChatLog
         dialogData={dialog}
+        firstUnread={firstUnread}
         fetching={fetching}
         success={success}
         error={error}
@@ -49,18 +56,25 @@ const Chat = (props) => {
 const mapStateToProps = state => {
   const dialogs = getDialogs(state)
   const { fetching, success, error } = dialogs
-
+  const data = getActiveDialog(state)
+  let idOfFirstUnreadMessage
+  if (data && data.messages.length > 0) {
+    idOfFirstUnreadMessage = getIdOfFirstUnreadMessageInActiveDialog(state)
+  }
   return {
-    dialog: getActiveDialog(state),
+    dialog: data,
+    firstUnread: idOfFirstUnreadMessage,
     fetching,
     success,
     error,
   }
 }
+
 Chat.propTypes = {
   sendMessageInDialog: PropTypes.func.isRequired,
   deleteMessageInDialog: PropTypes.func.isRequired,
   updateMessageInDialog: PropTypes.func.isRequired,
+  firstUnread: PropTypes.number,
   dialog: PropTypes.shape({
     id: PropTypes.number.isRequired,
     last_message: PropTypes.object.isRequired,
