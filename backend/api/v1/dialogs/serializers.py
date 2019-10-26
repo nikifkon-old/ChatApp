@@ -52,8 +52,6 @@ class DialogMessageSerializer(serializers.ModelSerializer):
                 person=self.context.get('user_id')
             )
             return info.unread
-        else:
-            return None
 
     def get_stared(self, obj):
         if self.context.get('user_id'):
@@ -62,8 +60,6 @@ class DialogMessageSerializer(serializers.ModelSerializer):
                 person=self.context.get('user_id')
             )
             return info.stared
-        else:
-            return None
 
     def get_sender_name(self, obj):
         return obj.sender.user.username

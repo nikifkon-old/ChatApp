@@ -38,8 +38,9 @@ class Message extends Component {
   };
 
   toggleEdit = () => {
+    const { edited } = this.state
     this.setState({
-      edited: !this.state.edited
+      edited: !edited
     });
   }
 
@@ -49,7 +50,7 @@ class Message extends Component {
     deleteMessage({id})
   }
 
-  handleUpdate({text}) {
+  handleUpdate = ({text}) => {
     const { updateMessage, message } = this.props
     const { id } = message
     updateMessage({id, text})
@@ -77,10 +78,15 @@ class Message extends Component {
     const msg = this.MessageRef.current
     const unread = this.props.message.unread
     const messageOffset = msg.offsetTop + msg.scrollHeight - 80
-    if (unread && messageOffset < nextProps.maxOffset) {
-      return true
-    } else {
+    if (
+        this.props.maxOffset !== nextProps.maxOffset &&
+        (
+          !unread || messageOffset > nextProps.maxOffset
+        )
+    ) {
       return false
+    } else {
+      return true
     }
   }
 

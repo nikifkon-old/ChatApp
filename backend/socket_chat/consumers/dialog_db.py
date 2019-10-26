@@ -66,7 +66,12 @@ class DialogDataBase:
             text=text,
             date=datetime.now()
         )
-        serialized = DialogMessageSerializer(new_message)
+        serialized = DialogMessageSerializer(
+            new_message,
+            context={
+                'user_id': self.user.id
+            }
+        )
         return serialized.data
 
     @database_sync_to_async
@@ -85,13 +90,29 @@ class DialogDataBase:
             return {'detail': 'Message doesn\'t exist'}, False
 
     @database_sync_to_async
-    def update_dialog_message(self, id, text):
+    def update_dialog_message(self, id, text=None, stared=None, unread=None):
         """ Update message in Database """
         try:
             message = DialogMessage.objects.get(id=id)
-            message.text = text
-            message.save()
-            serialized = DialogMessageSerializer(message)
+            if(text is not None):
+                message.text = text
+            # if(stared is not None or unread is not None):
+            #    info = DialogMessageInfo.objects.get(
+            #        message=message,
+            #        person__id=self.user.id
+            #    )
+            #    if(unread is not None):
+            #        info.unread = unread
+            #    if(stared is not None):
+            #        info.stared = stared
+            #    info.save()
+            message.save(unread=unread)
+            serialized = DialogMessageSerializer(
+                message,
+                context={
+                    'user_id': self.user.id
+                }
+            )
             return (
                 serialized.data, True
             )

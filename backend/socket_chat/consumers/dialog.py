@@ -119,11 +119,13 @@ class DialogConsumer(DialogDataBase):
         """ Handle dialog.message.update event """
         try:
             id = event['data']['id']
-            text = event['data']['text']
+            text = event['data'].get('text')
+            stared = event['data'].get('stared')
+            unread = event['data'].get('unread')
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
 
-        data, is_ok = await self.update_dialog_message(id, text)
+        data, is_ok = await self.update_dialog_message(id, text=text, stared=stared, unread=unread)
         if is_ok:
             await self.channel_layer.group_send(
                 'dialog_%d' % data.get('dialog'),

@@ -71,19 +71,19 @@ class DialogMessage(MessageMixin):
         related_name="dialog_messages"
     )
 
-    def save(self, *args, **kwargs):
+    def save(self, unread=True, *args, **kwargs):
         """ set readers as dialog members """
         super().save(*args, **kwargs)
         for person in self.dialog.members.all():
-            unread = True
             if person.id == self.sender.id:
                 unread = False
 
-            DialogMessageInfo.objects.get_or_create(
+            info, created = DialogMessageInfo.objects.get_or_create(
                 message=self,
                 person=person,
-                unread=unread,
             )
+            info.unread = unread
+            info.save()
 
     class Meta:
         verbose_name = "Message in dialog"

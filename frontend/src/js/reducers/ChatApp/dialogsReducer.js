@@ -63,7 +63,7 @@ export default function(state = initialState, action) {
 
     case types.PUSH_RECEIVE_MESSAGE_IN_DIALOG: {
       const dialog_id = Number(action.payload.dialog)
-      const { id, sender, sender_name, avatar, text, date } = action.payload
+      const { sender, text, date } = action.payload
       return {
         ...state,
         // add new message to dialog with id: `action.payload.dialog`
@@ -78,13 +78,7 @@ export default function(state = initialState, action) {
             messages: [
               ...dialog.messages,
               {
-                id,
-                sender,
-                sender_name,
-                avatar,
-                dialog: dialog_id,
-                text,
-                date
+                ...action.payload
               }
             ]
           } : dialog

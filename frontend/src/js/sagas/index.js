@@ -1,5 +1,6 @@
 import { all } from 'redux-saga/effects'
 import watchGetUserData from './ChatApp/getUserData'
+import setAsRead from './ChatApp/setAsRead'
 import watchLoginJWT from './Authorization/loginJWT'
 import watchSingUp from './Authorization/singUp'
 import watchRefreshJWTToken from './Authorization/refreshJWTToken'
@@ -12,6 +13,7 @@ import messageReducer from './Websocket/messageReducer'
 export default function* rootSaga() {
   yield all([
     watchGetUserData(),
+    setAsRead(),
     watchLoginJWT(),
     watchSingUp(),
     watchRefreshJWTToken(),

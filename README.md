@@ -127,14 +127,16 @@ WebSocket DOC
     - update message text
     - data:
       - *id*, of message, is required,
-      - *text*, new text, is required
+      - *text*, new text,
+      - *unread* - bool, set as read,
+      - *stared* - bool, set stared,
     - example:
     ```
     {
         "event": "dialog.update",
         "data": {
             "id": "MESSAGE_ID",
-            "text": "NEW_TEXT"
+            "text": "NEW_TEXT",
         }
     }
     ```
