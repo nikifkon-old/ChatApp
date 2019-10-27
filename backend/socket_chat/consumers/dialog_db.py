@@ -79,6 +79,8 @@ class DialogDataBase:
         """ Delete message in Database """
         try:
             message = DialogMessage.objects.get(id=id)
+            if message.sender.id != self.user.id:
+                return {'detail': 'You can\'t delete foreign message'}, False
             message.delete()
             return (
                 {
@@ -90,11 +92,13 @@ class DialogDataBase:
             return {'detail': 'Message doesn\'t exist'}, False
 
     @database_sync_to_async
-    def update_dialog_message(self, id, text=None, stared=None, unread=None):
+    def update_dialog_message(self, id, text=None, stared=False, unread=True):
         """ Update message in Database """
         try:
             message = DialogMessage.objects.get(id=id)
             if(text is not None):
+                if message.sender.id != self.user.id:
+                    return {'detail': 'You can\'t update foreign messages'}, False
                 message.text = text
             # if(stared is not None or unread is not None):
             #    info = DialogMessageInfo.objects.get(

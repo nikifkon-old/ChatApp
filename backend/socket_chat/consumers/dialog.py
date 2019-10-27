@@ -108,10 +108,8 @@ class DialogConsumer(DialogDataBase):
             )
         else:
             await self._throw_error(
-                {
-                    'detail': 'Message doesn\'t exist'
-                },
-                event=event
+                data,
+                event=event['event']
             )
 
     @private
@@ -120,8 +118,8 @@ class DialogConsumer(DialogDataBase):
         try:
             id = event['data']['id']
             text = event['data'].get('text')
-            stared = event['data'].get('stared')
-            unread = event['data'].get('unread')
+            stared = event['data'].get('stared', False)
+            unread = event['data'].get('unread', True)
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
 
@@ -137,8 +135,6 @@ class DialogConsumer(DialogDataBase):
             )
         else:
             await self._throw_error(
-                {
-                    'detail': 'Message doesn\'t exist'
-                },
-                event=event
+                data,
+                event=event['event']
             )
