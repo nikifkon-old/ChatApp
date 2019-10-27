@@ -75,14 +75,14 @@ class DialogMessage(MessageMixin):
         """ set readers as dialog members """
         super().save(*args, **kwargs)
         for person in self.dialog.members.all():
-            if person.id == self.sender.id:
-                unread = False
-
             info, created = DialogMessageInfo.objects.get_or_create(
                 message=self,
                 person=person,
             )
-            info.unread = unread
+            if person.id == self.sender.id:
+                info.unread = False
+            else:
+                info.unread = unread
             info.save()
 
     class Meta:
