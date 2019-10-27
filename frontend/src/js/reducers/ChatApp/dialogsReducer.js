@@ -43,8 +43,14 @@ export default function(state = initialState, action) {
         ...state,
         data: state.data.map(
           dialog => dialog.id === id
-            ? action.payload
-            : dialog
+            ? {
+                ...action.payload,
+                fetched: true
+              }
+            : {
+                ...dialog,
+                fetched: true
+              }
         )
       }
     }

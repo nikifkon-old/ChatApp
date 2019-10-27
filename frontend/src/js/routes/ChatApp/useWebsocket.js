@@ -7,9 +7,15 @@ import {
   getQueryParams,
 } from '../../reducers/selectors'
 import {
+  dialogSelectors,
+} from '../../selectors'
+import {
   connectToWebSocket,
   getDialogData,
+  getDialogDetails,
 } from '../../actions/chatActions'
+
+const { getActiveDialog, getDialog } = dialogSelectors
 
 export default function useWebsocket() {
   const dispatch = useDispatch()
@@ -33,4 +39,16 @@ export default function useWebsocket() {
       }))
     }
   }, [websocketIsAuth, dispatch, queryParams])
+
+  // get dialogs details on active dialog change
+  const active = useSelector(state => getActiveDialog(state));
+  const activeDialog = useSelector(state => getDialog(state, active))
+  const hasMessages = dialog =>
+    dialog && dialog.messages && dialog.messages.length === 0 ? false : true
+
+  useEffect(() => {
+    if (active !== null && !hasMessages(activeDialog) && !activeDialog.fetched) {
+      dispatch(getDialogDetails(active))
+    }
+  }, [active, activeDialog, dispatch])
 }
