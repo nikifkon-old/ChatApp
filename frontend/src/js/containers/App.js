@@ -11,7 +11,6 @@ import {
 } from '../routes';
 import {
   Header,
-  PropsRoute,
 } from '../components';
 import {
   Private,
@@ -30,7 +29,7 @@ function App() {
         >
           <Switch>
             <Route exact path="/" component={Home} />
-            <PropsRoute path="/app" component={Private(ChatAppRoute)} />
+            <Route path="/app" component={Private(ChatAppRoute)} />
             <Route path="/get-started" component={AuthRouter(GetStarted)} />
             <Route path="/login" component={AuthRouter(Login)} />
           </Switch>

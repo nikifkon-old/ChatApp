@@ -10,9 +10,9 @@ import { Btn } from '../../styles'
 const { getQueryParams } = routerSelectors
 
 function AllowEmptyBtn({handleAllowEmpty}) {
-  const queryFilter = useSelector(state => getQueryParams(state));
+  const filter = useSelector(state => getQueryParams(state, 'filter'));
 
-  if (queryFilter === '') {
+  if (filter === null) {
     return (
       <Btn width="50%" onClick={handleAllowEmpty}>
         allow empty

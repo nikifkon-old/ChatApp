@@ -133,6 +133,16 @@ export default function(state = initialState, action) {
       }
     }
 
+    case types.PUSH_NEW_DIALOG: {
+      return {
+        ...state,
+        data: [
+          ...state.data,
+          action.payload,
+        ]
+      }
+    }
+
     case types.SET_AS_READ: {
       const { dialog_id, message_id } = action.payload
       return {

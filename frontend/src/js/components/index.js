@@ -9,7 +9,6 @@ import Spinner from './Spinners'
 import IconButton from './IconButton'
 import Popover from './Popover'
 import EmojiedText from './Message/EmojiedText'
-import RoomCreating from './RoomCreating'
 import PropsRoute from './PropsRoute'
 
 export {
@@ -24,6 +23,5 @@ export {
   IconButton,
   Popover,
   EmojiedText,
-  RoomCreating,
   PropsRoute,
 }

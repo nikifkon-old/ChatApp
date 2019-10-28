@@ -91,13 +91,13 @@ export const updateMessageInDialog = ({id, text, stared, unread}) => {
   }
 }
 
-export const createDialog = ({id}) => {
+export const createDialog = ({person_id}) => {
   return {
     type: types.WEBSOCKET_SEND_REQUEST,
     payload: {
       event: events.DIALOG_CREATE,
       data: {
-        id,
+        id: person_id,
       }
     }
   }

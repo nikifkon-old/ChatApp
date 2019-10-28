@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 
 import {
   Nav,
-  RoomCreating,
 } from '../../components'
 import {
   Chat,
@@ -12,6 +11,7 @@ import {
   SideBar,
   DialogList,
 } from '../../containers'
+import { RoomCreate } from './index'
 import {
   withHeaderStatus,
 } from '../../HOC'
@@ -35,9 +35,8 @@ function ChatAppRoute(props) {
             <Redirect to={`${url}/messages`}/>
           </Route>
           <Route
-            exact
             path={`${url}/create`}
-            component={RoomCreating}
+            component={RoomCreate}
           />
           <Route
             path={`${url}`}

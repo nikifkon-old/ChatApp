@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled, { css, createGlobalStyle } from 'styled-components'
 import { Button, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
@@ -127,6 +128,10 @@ export const StyledForm = styled.form`
   @media(max-width: 768px){
     width: 100%
   }
+`
+
+export const StyledLink = styled(({width, ...props}) => <Link {...props} />)`
+  width: ${props => props.width || 'unset'};
 `
 
 export const Img = styled.img`

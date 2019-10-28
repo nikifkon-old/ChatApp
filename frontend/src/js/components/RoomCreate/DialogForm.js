@@ -1,18 +1,20 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React, { Fragment, useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import { Form, Field } from 'react-final-form'
 
+import { createDialog } from '../../actions/chatActions'
 import { IconButton } from '../index'
 import { CreatingForm } from './styles'
 import { TextField, P } from '../../styles'
 
-const DialogForm = ({createDialog}) => {
+const DialogForm = () => {
+  const dispatch = useDispatch();
 
-  function handleSubmit(values) {
-    if (values.id) {
-      createDialog({id: values.id})
-    }
-  }
+  const handleSubmit = useCallback((values) => {
+    dispatch(createDialog({
+      person_id: values.id,
+    }))
+  }, [dispatch])
 
   return (
     <Fragment>
@@ -59,11 +61,7 @@ const DialogForm = ({createDialog}) => {
         )}
       />
     </Fragment>
-  )
+  );
 }
 
-DialogForm.propTypes = {
-  createDialog: PropTypes.func.isRequired,
-}
-
-export default DialogForm
+export default DialogForm;
