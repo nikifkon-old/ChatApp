@@ -46,15 +46,26 @@ class DialogDataBase:
             ).distinct()
         else:
             dialogs = Dialog.objects.filter(members__id=id)
-        serialized = DialogSerializer(
-            dialogs,
-            context={
-                'message_details': False,
-                'user_id': id,
-                'filter': filter,
-            },
-            many=True
-        )
+        if filter == 'stared':
+            serialized = DialogSerializer(
+                dialogs,
+                context={
+                    'message_details': True,
+                    'user_id': id,
+                    'filter': filter,
+                },
+                many=True
+            )
+        else:
+            serialized = DialogSerializer(
+                dialogs,
+                context={
+                    'message_details': False,
+                    'user_id': id,
+                    'filter': filter,
+                },
+                many=True
+            )
         return serialized.data
 
     @database_sync_to_async

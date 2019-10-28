@@ -22,8 +22,9 @@ export default function useWebsocket() {
   const tokens = useSelector(state => getTokens(state))
   const websocketIsAuth = useSelector(state => getWebsocketIsAuth(state))
   const queryParams = useSelector(state => getQueryParams(state))
+  const filter = new URLSearchParams(queryParams).get('filter')
 
-  // after get tokens connect to webo
+  // after get tokens connect to websocket
   useEffect(() => {
     if (tokens && !websocketIsAuth) {
       dispatch(connectToWebSocket())
@@ -33,22 +34,22 @@ export default function useWebsocket() {
   // after authenticate get dialogs list
   useEffect(() => {
     if (websocketIsAuth) {
-      const filter = new URLSearchParams(queryParams).get('filter')
       dispatch(getDialogData({
         filter: filter
       }))
     }
-  }, [websocketIsAuth, dispatch, queryParams])
+  }, [websocketIsAuth, dispatch, filter])
 
   // get dialogs details on active dialog change
   const active = useSelector(state => getActiveDialog(state));
   const activeDialog = useSelector(state => getDialog(state, active))
-  const hasMessages = dialog =>
-    dialog && dialog.messages && dialog.messages.length === 0 ? false : true
 
   useEffect(() => {
-    if (active !== null && !hasMessages(activeDialog) && !activeDialog.fetched) {
+    if (activeDialog &&
+      !activeDialog.fetched &&
+      filter !== 'stared'
+    ) {
       dispatch(getDialogDetails(active))
     }
-  }, [active, activeDialog, dispatch])
+  }, [active, activeDialog, dispatch, filter])
 }
