@@ -15,7 +15,7 @@ import {
   getDialogDetails,
 } from '../../actions/chatActions'
 
-const { getActiveDialog, getDialog } = dialogSelectors
+const { getActiveDialogId, getDialog } = dialogSelectors
 const { getQueryParams } = routerSelectors
 
 export default function useWebsocket() {
@@ -41,7 +41,7 @@ export default function useWebsocket() {
   }, [websocketIsAuth, dispatch, filter])
 
   // get dialogs details on active dialog change
-  const active = useSelector(state => getActiveDialog(state));
+  const active = useSelector(state => getActiveDialogId(state));
   const activeDialog = useSelector(state => getDialog(state, active))
 
   useEffect(() => {

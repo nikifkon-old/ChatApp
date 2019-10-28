@@ -9,19 +9,13 @@ import {
 } from '../../components/Chat'
 import {
   sendMessageInDialog,
-  deleteMessageInDialog,
-  updateMessageInDialog,
 } from '../../actions/chatActions'
-import {
-  getActiveDialog,
-  getDialogs,
-} from '../../reducers/selectors'
 import {
   dialogSelectors,
 } from '../../selectors'
 import { StyledChat } from './styles'
 
-const { getIdOfFirstUnreadMessageInActiveDialog } = dialogSelectors
+const { getActiveDialogId, getDialog, getDialogs } = dialogSelectors
 
 const Chat = (props) => {
   const {
@@ -29,10 +23,7 @@ const Chat = (props) => {
     fetching,
     success,
     error,
-    firstUnread,
     sendMessageInDialog,
-    deleteMessageInDialog,
-    updateMessageInDialog,
   } = props
   let id = dialog && dialog.id
 
@@ -41,12 +32,9 @@ const Chat = (props) => {
       <TopPanel dialog={dialog} />
       <ChatLog
         dialogData={dialog}
-        firstUnread={firstUnread}
         fetching={fetching}
         success={success}
         error={error}
-        deleteMessage={deleteMessageInDialog}
-        updateMessage={updateMessageInDialog}
       />
       <InputPanel sendMessage={sendMessageInDialog} id={id}/>
     </StyledChat>
@@ -56,14 +44,10 @@ const Chat = (props) => {
 const mapStateToProps = state => {
   const dialogs = getDialogs(state)
   const { fetching, success, error } = dialogs
-  const data = getActiveDialog(state)
-  let idOfFirstUnreadMessage
-  if (data && data.messages.length > 0) {
-    idOfFirstUnreadMessage = getIdOfFirstUnreadMessageInActiveDialog(state)
-  }
+  const active = getActiveDialogId(state)
+  const data = getDialog(state, active)
   return {
     dialog: data,
-    firstUnread: idOfFirstUnreadMessage,
     fetching,
     success,
     error,
@@ -72,8 +56,6 @@ const mapStateToProps = state => {
 
 Chat.propTypes = {
   sendMessageInDialog: PropTypes.func.isRequired,
-  deleteMessageInDialog: PropTypes.func.isRequired,
-  updateMessageInDialog: PropTypes.func.isRequired,
   firstUnread: PropTypes.number,
   dialog: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -90,7 +72,5 @@ export default connect(
   mapStateToProps,
   {
     sendMessageInDialog,
-    deleteMessageInDialog,
-    updateMessageInDialog,
   }
 )(Chat);

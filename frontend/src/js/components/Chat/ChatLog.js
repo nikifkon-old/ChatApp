@@ -1,35 +1,31 @@
 import React, { Fragment, useState, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types';
 
 import {
   setAsRead,
   updateMessageInDialog,
+  deleteMessageInDialog,
 } from '../../actions/chatActions'
-import {
-  routerSelectors
-} from '../../selectors'
-import Message from './Message'
-import { Spinner, ColoredLine } from '../index'
-import { StyledChatLog } from './styles'
-import { dark_cont1, P } from '../../styles'
 
-const { getQueryParams } = routerSelectors
+import {
+  Message,
+  NewMessagesLabel,
+} from './index'
+import { Spinner } from '../index'
+import { StyledChatLog } from './styles'
+import { P } from '../../styles'
+
 
 function ChatLog(props) {
   const {
     dialogData,
-    firstUnread,
-    deleteMessage,
-    updateMessage,
     success,
     error,
   } = props
   const ChatLog = React.createRef()
 
   const [maxOffset, setMaxOffset] = useState(null)
-
-  const filter = useSelector(state => getQueryParams(state, 'filter'))
 
   const handleScroll = useCallback((e) => {
     const elementDom = e.target
@@ -62,6 +58,19 @@ function ChatLog(props) {
     }))
   }, [dispatch])
 
+  const deleteMessage = useCallback(({id}) => {
+    dispatch(deleteMessageInDialog({
+      id
+    }))
+  }, [dispatch])
+
+  const updateMessage = useCallback(({id, text}) => {
+    dispatch(updateMessageInDialog({
+      id,
+      text,
+    }))
+  }, [dispatch])
+
   return (
     <StyledChatLog
       onScroll={handleScroll}
@@ -73,14 +82,9 @@ function ChatLog(props) {
             ? dialogData.messages.map(message => {
                 return (
                   <Fragment key={message.id}>
-                    {
-                      message.id === firstUnread &&
-                      filter !== 'stared'
-                      && <ColoredLine
-                        color={dark_cont1}
-                        text="New Messages:"
-                      />
-                    }
+                    <NewMessagesLabel
+                      id={message.id}
+                    />
                     <Message
                       key={message.id}
                       maxOffset={maxOffset}
@@ -105,9 +109,6 @@ function ChatLog(props) {
 
 ChatLog.propTypes = {
   dialogData: PropTypes.object,
-  firstUnread: PropTypes.number,
-  deleteMessage: PropTypes.func.isRequired,
-  updateMessage: PropTypes.func.isRequired,
   fetching: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
   error: PropTypes.string,
