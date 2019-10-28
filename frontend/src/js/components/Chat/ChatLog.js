@@ -1,12 +1,20 @@
 import React, { Fragment, useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types';
 
-import { setAsRead } from '../../actions/chatActions'
+import {
+  setAsRead,
+  updateMessageInDialog,
+} from '../../actions/chatActions'
+import {
+  routerSelectors
+} from '../../selectors'
 import Message from './Message'
 import { Spinner, ColoredLine } from '../index'
 import { StyledChatLog } from './styles'
 import { dark_cont1, P } from '../../styles'
+
+const { getQueryParams } = routerSelectors
 
 function ChatLog(props) {
   const {
@@ -20,6 +28,8 @@ function ChatLog(props) {
   const ChatLog = React.createRef()
 
   const [maxOffset, setMaxOffset] = useState(null)
+
+  const filter = useSelector(state => getQueryParams(state, 'filter'))
 
   const handleScroll = useCallback((e) => {
     const elementDom = e.target
@@ -45,6 +55,13 @@ function ChatLog(props) {
     }))
   }, [dispatch])
 
+  const starMessage = useCallback(({id, stared}) => {
+    dispatch(updateMessageInDialog({
+      id,
+      stared: stared,
+    }))
+  }, [dispatch])
+
   return (
     <StyledChatLog
       onScroll={handleScroll}
@@ -57,7 +74,8 @@ function ChatLog(props) {
                 return (
                   <Fragment key={message.id}>
                     {
-                      message.id === firstUnread
+                      message.id === firstUnread &&
+                      filter !== 'stared'
                       && <ColoredLine
                         color={dark_cont1}
                         text="New Messages:"
@@ -69,6 +87,7 @@ function ChatLog(props) {
                       message={message}
                       handleUnread={handleUnread}
                       deleteMessage={deleteMessage}
+                      starMessage={starMessage}
                       updateMessage={updateMessage}
                     />
                   </Fragment>

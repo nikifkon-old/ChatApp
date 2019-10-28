@@ -103,7 +103,7 @@ class DialogDataBase:
             return {'detail': 'Message doesn\'t exist'}, False
 
     @database_sync_to_async
-    def update_dialog_message(self, id, text=None, stared=False, unread=True):
+    def update_dialog_message(self, id, text=None, stared=None, unread=None):
         """ Update message in Database """
         try:
             message = DialogMessage.objects.get(id=id)
@@ -111,17 +111,7 @@ class DialogDataBase:
                 if message.sender.id != self.user.id:
                     return {'detail': 'You can\'t update foreign messages'}, False
                 message.text = text
-            # if(stared is not None or unread is not None):
-            #    info = DialogMessageInfo.objects.get(
-            #        message=message,
-            #        person__id=self.user.id
-            #    )
-            #    if(unread is not None):
-            #        info.unread = unread
-            #    if(stared is not None):
-            #        info.stared = stared
-            #    info.save()
-            message.save(unread=unread)
+            message.save(unread=unread, stared=stared)
             serialized = DialogMessageSerializer(
                 message,
                 context={

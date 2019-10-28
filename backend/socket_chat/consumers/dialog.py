@@ -118,8 +118,8 @@ class DialogConsumer(DialogDataBase):
         try:
             id = event['data']['id']
             text = event['data'].get('text')
-            stared = event['data'].get('stared', False)
-            unread = event['data'].get('unread', True)
+            stared = event['data'].get('stared')
+            unread = event['data'].get('unread')
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
 

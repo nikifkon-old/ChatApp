@@ -71,7 +71,7 @@ class DialogMessage(MessageMixin):
         related_name="dialog_messages"
     )
 
-    def save(self, unread=True, *args, **kwargs):
+    def save(self, unread=None, stared=None, *args, **kwargs):
         """ set readers as dialog members """
         super().save(*args, **kwargs)
         for person in self.dialog.members.all():
@@ -79,10 +79,16 @@ class DialogMessage(MessageMixin):
                 message=self,
                 person=person,
             )
-            if person.id == self.sender.id:
-                info.unread = False
+            if created:
+                if person.id == self.sender.id:
+                    info.unread = False
+                else:
+                    info.unread = True
             else:
-                info.unread = unread
+                if unread is not None:
+                    info.unread = unread
+                if stared is not None:
+                    info.stared = stared
             info.save()
 
     class Meta:

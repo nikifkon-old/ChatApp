@@ -23,6 +23,7 @@ class Message extends Component {
   static propTypes = {
     deleteMessage: PropTypes.func.isRequired,
     updateMessage: PropTypes.func.isRequired,
+    starMessage: PropTypes.func.isRequired,
     handleUnread: PropTypes.func.isRequired,
     maxOffset: PropTypes.number,
     message: PropTypes.shape({
@@ -31,6 +32,7 @@ class Message extends Component {
       dialog: PropTypes.number.isRequired,
       sender_name: PropTypes.string.isRequired,
       unread: PropTypes.bool.isRequired,
+      stared: PropTypes.bool.isRequired,
       avatar: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
@@ -48,6 +50,15 @@ class Message extends Component {
     const { deleteMessage, message } = this.props
     const { id } = message
     deleteMessage({id})
+  }
+
+  handleStar = () => {
+    const { starMessage, message } = this.props
+    const { id, stared } = message
+    starMessage({
+      id,
+      stared: !stared
+    })
   }
 
   handleUpdate = ({text}) => {
@@ -93,8 +104,14 @@ class Message extends Component {
   render() {
     const { message } = this.props
     const { edited } = this.state
-    const { sender_name, avatar, text, date } = message
+    const { sender_name, avatar, text, date, stared } = message
 
+    let starBtnColor
+    if (stared) {
+      starBtnColor = "active"
+    } else {
+      starBtnColor = "normal"
+    }
     return (
       <StyledMessage
         ref={this.MessageRef}
@@ -127,6 +144,18 @@ class Message extends Component {
 
         <GridItem
           column="5"
+          row="1"
+          center
+          >
+          <IconButton icon="star"
+            onClick={this.handleStar}
+            size="small"
+            color={starBtnColor}
+          />
+        </GridItem>
+
+        <GridItem
+          column="6"
           row="1"
           center
           >

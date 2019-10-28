@@ -5,29 +5,40 @@ import PropTypes from 'prop-types'
 
 import { dark_active } from '../../styles'
 
-const IconButton = ({icon, ...rest}) => {
+const IconButton = ({icon, color, borderRadius, backgroud, ...rest}) => {
   return (
-    <StyledIconButton {...rest}>
+    <StyledIconButton
+      color={color}
+      borderRadius={borderRadius}
+      background={backgroud}
+      {...rest}
+    >
       <i className="material-icons">
         {icon}
       </i>
     </StyledIconButton>
-  )
+  );
 }
 
 IconButton.propTypes = {
   icon: PropTypes.string.isRequired,
-}
+  color: PropTypes.oneOf(["active", "normal"]),
+  borderRadius: PropTypes.string,
+  backgroud: PropTypes.string,
+};
 
 const StyledIconButton = styled(
-    ({borderRadius, backgroud, ...rest}) => <MaterialIconButton {...rest} />
+    ({borderRadius, backgroud, color, ...rest}) => <MaterialIconButton {...rest} />
   )`
-  color: inherit;
+  color: ${props => props.color === "active"
+    ? dark_active
+    : 'inherit'
+  };
   background: ${props => props.background || 'inherit'};
   border-radius: ${props => props.borderRadius || '50%'};
   &:hover {
     background: ${dark_active};
   }
-`
+`;
 
-export default IconButton
+export default IconButton;

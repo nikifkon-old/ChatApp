@@ -4,10 +4,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   getTokens,
   getWebsocketIsAuth,
-  getQueryParams,
 } from '../../reducers/selectors'
 import {
   dialogSelectors,
+  routerSelectors,
 } from '../../selectors'
 import {
   connectToWebSocket,
@@ -16,13 +16,13 @@ import {
 } from '../../actions/chatActions'
 
 const { getActiveDialog, getDialog } = dialogSelectors
+const { getQueryParams } = routerSelectors
 
 export default function useWebsocket() {
   const dispatch = useDispatch()
   const tokens = useSelector(state => getTokens(state))
   const websocketIsAuth = useSelector(state => getWebsocketIsAuth(state))
-  const queryParams = useSelector(state => getQueryParams(state))
-  const filter = new URLSearchParams(queryParams).get('filter')
+  const filter = useSelector(state => getQueryParams(state, 'filter'))
 
   // after get tokens connect to websocket
   useEffect(() => {

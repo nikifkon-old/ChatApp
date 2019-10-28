@@ -76,7 +76,7 @@ export const deleteMessageInDialog = ({id}) => {
   }
 }
 
-export const updateMessageInDialog = ({id, text}) => {
+export const updateMessageInDialog = ({id, text, stared, unread}) => {
   return {
     type: types.WEBSOCKET_SEND_REQUEST,
     payload: {
@@ -84,6 +84,8 @@ export const updateMessageInDialog = ({id, text}) => {
       data: {
         id,
         text,
+        stared,
+        unread,
       }
     }
   }

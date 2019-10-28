@@ -113,7 +113,6 @@ export default function(state = initialState, action) {
     case types.UPDATE_DIALOG_MESSAGE: {
       const dialog_id = Number(action.payload.dialog)
       const message_id = Number(action.payload.id)
-      const new_text = action.payload.text
       return {
         ...state,
         data: state.data.map(
@@ -124,7 +123,7 @@ export default function(state = initialState, action) {
               message => message.id === message_id ?
               {
                 ...message,
-                text: new_text
+                ...action.payload,
               }
               : message
             )
