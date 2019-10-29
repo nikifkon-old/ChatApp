@@ -1,9 +1,11 @@
+import List from './List'
+import Card from './Card'
 import Search from './Search'
-import DialogCard from './DialogCard'
 import AllowEmptyBtn from './AllowEmptyBtn'
 
 export {
+  List as default,
+  Card,
   Search,
-  DialogCard,
   AllowEmptyBtn,
-}
+};

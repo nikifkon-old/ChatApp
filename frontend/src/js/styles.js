@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles'
 import {
   withHeaderStatus,
 } from './HOC'
-import FinalFormTextField from './components/TextField'
+import FinalFormTextField from './components/@common/TextField'
 
 export const bgColor = "#fff"
 export const dark_bg1 = "#0E1621"

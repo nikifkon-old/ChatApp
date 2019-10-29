@@ -3,7 +3,7 @@ import { IconButton as MaterialIconButton } from '@material-ui/core'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-import { dark_active } from '../../styles'
+import { dark_active } from '../../../styles'
 
 const IconButton = ({icon, color, borderRadius, backgroud, ...rest}) => {
   return (

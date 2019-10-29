@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-import { ContentGrid, P } from '../../styles'
+import { ContentGrid, P } from '../../../styles'
 
 function getHalfWidth(width, text) {
   const percentIndex = width.indexOf("%")

@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 
 import {
   routerSelectors,
-} from '../../selectors'
-import { Btn } from '../../styles'
+} from '../../../selectors'
+import { Btn } from '../../../styles'
 
 const { getQueryParams } = routerSelectors
 

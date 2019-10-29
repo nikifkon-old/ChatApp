@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
-import { dark_cont } from '../../styles'
+import { dark_cont } from '../../../styles'
 
 const scale = keyframes`
   0% {

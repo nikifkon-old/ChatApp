@@ -1,5 +1,23 @@
 import styled from 'styled-components'
-import { Content, Img, P, H4, dark_cont, dark_bg3, dark_active } from '../../styles'
+
+import {
+  Content,
+  Img,
+  P,
+  H4,
+  dark_cont,
+  dark_bg2,
+  dark_bg3,
+  dark_active
+} from '../../../styles'
+
+export const StyledDialogList = styled.section`
+  color: #fff
+  background: ${dark_bg2}
+  display: flex
+  flex-direction: column
+  align-items: center
+`
 
 export const UnreadMessagesCounter = styled(Content)`
   && {
@@ -25,7 +43,7 @@ export const Grid = styled.div`
   grid-template-rows: auto 1fr;
   grid-column-gap: 30px;
   user-select: none;
-  
+
   &:hover {
     background: ${dark_bg3};
   }

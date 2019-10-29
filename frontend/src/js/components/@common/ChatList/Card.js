@@ -1,10 +1,10 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
 import {
   EmojiedText
-} from '../index'
+} from '../../index'
 import {
   Grid,
   AvatarItem,
@@ -13,17 +13,16 @@ import {
   LastMessageItem,
   ElapsedTimeItem,
 } from './styles'
-import { P, dark_cont2 } from '../../styles'
-import DefaultAvatar from '../../../assets/defaultAvatar.jpg'
-import { getElapsedTime } from '../../utils'
+import { P, dark_cont2 } from '../../../styles'
+import DefaultAvatar from '../../../../assets/defaultAvatar.jpg'
+import { getElapsedTime } from '../../../utils'
 
-
-const DialogCard = (props) => {
-  const { dialog, setActiveDialog } = props
-  const { last_message, id, interlocutor, unread_count } = dialog
+function Card(props) {
+  const { data, setActive } = props
+  const { last_message, id, unread_count, title } = data
   const { date, text } = last_message
-  let { avatar, user } = interlocutor
 
+  let avatar = data.avatar
   if (!avatar) {
     avatar = DefaultAvatar
   }
@@ -31,7 +30,7 @@ const DialogCard = (props) => {
   const dispatch = useDispatch()
 
   function handleDialogDetails() {
-    dispatch(setActiveDialog(id))
+    dispatch(setActive(id))
   }
 
   return (
@@ -48,7 +47,7 @@ const DialogCard = (props) => {
         bold
         center
       >
-        {user}
+        {title}
       </UsernameItem>
 
       {
@@ -75,24 +74,22 @@ const DialogCard = (props) => {
         </ElapsedTimeItem>
       }
     </Grid>
-  )
+  );
 }
 
-DialogCard.propTypes = {
-  dialog: PropTypes.shape({
+Card.propTypes = {
+  data: PropTypes.shape({
     id: PropTypes.number.isRequired,
     last_message: PropTypes.shape({
       sender: PropTypes.number,
       text: PropTypes.string,
       date: PropTypes.string,
     }),
-    interlocutor: PropTypes.shape({
-      user: PropTypes.string.isRequired,
-      avatar: PropTypes.string,
-    }).isRequired,
     unread_count: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    avatar: PropTypes.string,
   }),
-  setActiveDialog: PropTypes.func.isRequired,
+  setActive: PropTypes.func.isRequired,
 }
 
-export default DialogCard
+export default Card;

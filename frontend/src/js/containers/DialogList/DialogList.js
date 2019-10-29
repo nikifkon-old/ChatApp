@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 // import PropTypes from 'prop-types'
 
@@ -8,15 +8,7 @@ import {
   getDialogsList,
   getNotEmptyDialogsData,
 } from './selectors'
-import { ColoredLine, Spinner } from '../../components'
-import {
-  Search,
-  DialogCard,
-  AllowEmptyBtn,
-} from '../../components/DialogList'
-import { StyledDialogList } from './styles'
-import { ContentGrid, P, dark_cont1 } from '../../styles'
-
+import { ChatList, Card } from '../../components'
 
 function DialogList() {
   // allow dialogs without messages
@@ -38,38 +30,26 @@ function DialogList() {
   });
 
   return (
-    <StyledDialogList>
-      <Search />
-      <ColoredLine color={dark_cont1} />
-      <AllowEmptyBtn handleAllowEmpty={handleAllowEmpty} />
-      {
-        success
-          ? data.length > 0
-            ? <ContentGrid
-                container
-                direction="column"
-              >
-              {
-                data.map(
-                  dialog => (
-                    <Fragment key={dialog.id}>
-                      <DialogCard
-                        dialog={dialog}
-                        setActiveDialog={setActiveDialog}
-                      />
-                      <ColoredLine color={dark_cont1} width="50%" />
-                    </Fragment>
-                  )
-                )
-              }
-              </ContentGrid>
-              : <P center>have not dialog yet...</P>
-          : error
-            ? <P>Error {error}</P>
-            : <Spinner />
-      }
-    </StyledDialogList>
-  );
+    <ChatList
+      data={data}
+      success={success}
+      error={error}
+      handleAllowEmpty={handleAllowEmpty}
+      card={({data}) => {
+        data = {
+          ...data,
+          avatar: data.interlocutor.avatar,
+          title: data.interlocutor.user,
+        }
+        return (
+          <Card
+            data={data}
+            setActive={setActiveDialog}
+          />
+        )
+      }}
+    />
+  )
 }
 
 // DialogList.propTypes = {
