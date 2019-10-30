@@ -29,11 +29,6 @@ module.exports = {
           loader: "babel-loader"
         },
       },
-      {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
     ]
   },
 
@@ -42,6 +37,6 @@ module.exports = {
       path.join(__dirname, 'frontend/src/js'),
       'node_modules'
     ],
-    extensions: ['.js', '.jsx', '.ts', '.tsx']
+    extensions: ['.js', '.jsx']
   }
 };

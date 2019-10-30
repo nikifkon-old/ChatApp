@@ -1,7 +1,15 @@
 import styled from 'styled-components'
 
-// @ts-ignore
-import { Content, Img, P, H4, dark_cont, dark_bg2, dark_bg3, dark_active } from '../../../styles'
+import {
+  Content,
+  Img,
+  P,
+  H4,
+  dark_cont,
+  dark_bg2,
+  dark_bg3,
+  dark_active
+} from '../../../styles'
 
 export const StyledDialogList = styled.section`
   color: #fff

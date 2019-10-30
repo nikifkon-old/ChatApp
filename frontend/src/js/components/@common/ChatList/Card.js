@@ -1,10 +1,10 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 
-// @ts-ignore
-import { EmojiedText } from '../../index'
-// @ts-ignore
+import {
+  EmojiedText
+} from '../../index'
 import {
   Grid,
   AvatarItem,
@@ -13,32 +13,11 @@ import {
   LastMessageItem,
   ElapsedTimeItem,
 } from './styles'
-// @ts-ignore
 import { P, dark_cont2 } from '../../../styles'
-// @ts-ignore
 import DefaultAvatar from '../../../../assets/defaultAvatar.jpg'
-// @ts-ignore
 import { getElapsedTime } from '../../../utils'
 
-interface Card {
-  data: DataCard;
-  setActive: Function;
-}
-
-interface DataCard {
-  last_message: Message;
-  id: number;
-  unread_count: number;
-  title: string;
-  avatar: string;
-}
-
-interface Message {
-  date: string;
-  text: string;
-}
-
-function Card(props : Card) {
+function Card(props) {
   const { data, setActive } = props
   const { last_message, id, unread_count, title } = data
   const { date, text } = last_message

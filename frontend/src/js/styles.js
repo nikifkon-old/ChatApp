@@ -4,9 +4,9 @@ import styled, { css, createGlobalStyle } from 'styled-components'
 import { Button, Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
-// @ts-ignore
-import { withHeaderStatus } from './HOC'
-// @ts-ignore
+import {
+  withHeaderStatus,
+} from './HOC'
 import FinalFormTextField from './components/@common/TextField'
 
 export const bgColor = "#fff"
