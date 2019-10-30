@@ -1,15 +1,29 @@
 import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles'
-import { TextField } from '../index'
+import { TextField } from '../../index'
 
 import {
   P,
   dark_bg2,
   dark_cont,
   dark_cont1
-} from '../../styles'
+} from '../../../styles'
+
+import {
+  withHeaderStatus,
+} from '../../../HOC'
 
 // Containers
+export const StyledChat = withHeaderStatus(styled.div`
+  color: ${props => props.color || 'inherit'};
+  height: calc(100vh ${props => props.headerIsOpen && '- 50px'});
+  position: fixed;
+  width: 550px;
+  display: grid;
+  grid-template-rows: 70px 1fr 70px;
+  transition: .3s ease-out 0s height;
+`)
+
 export const StyledTopPanel = styled.div`
   display: grid;
   grid-template-columns: auto 100px 1fr 34px;

@@ -2,14 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { StyledTopPanel } from './styles'
-import { IconButton } from '../index'
-import { GridItem, P, H4 } from '../../styles'
+import { IconButton } from '../../index'
+import { GridItem, P, H4 } from '../../../styles'
 
 function TopPanel(props) {
-  const {
-    dialog
-  } = props
-  let user = dialog && dialog.interlocutor && dialog.interlocutor.user;
+  const { title } = props
 
   return (
     <StyledTopPanel>
@@ -18,7 +15,7 @@ function TopPanel(props) {
         column="1"
         center
       >
-        {user}
+        {title}
       </GridItem>
       {
         false
@@ -43,13 +40,7 @@ function TopPanel(props) {
 }
 
 TopPanel.propTypes = {
-  dialog: PropTypes.shape({
-    interlocutor: PropTypes.shape({
-      user: PropTypes.string.isRequired,
-    }).isRequired,
-  }),
+  title: PropTypes.string,
 }
-
-TopPanel.dp
 
 export default TopPanel

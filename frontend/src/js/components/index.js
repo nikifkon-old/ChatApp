@@ -4,6 +4,7 @@ import IconButton from './@common/IconButton'
 import ColoredLine from './@common/ColoredLine'
 import ChatList from './@common/ChatList'
 import { Card } from './@common/ChatList'
+import Chat from './@common/Chat'
 import ErrorMessage from './ErrorMessage'
 import Header from './Header'
 import Notification from './Notification'
@@ -20,6 +21,7 @@ export {
   IconButton,
   ChatList,
   Card,
+  Chat,
   ErrorMessage,
   Header,
   Notification,

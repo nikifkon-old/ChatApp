@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import AttachFile from './AttachFile';
-import Emotion from './Emotion';
-import { IconButton } from '../../index';
+import { AttachFile, Emotion } from './index';
+import { IconButton } from '../../../index';
 import { StyledForm, MainInput } from '../styles';
 
 function InputPanel(props) {
@@ -49,7 +48,7 @@ function InputPanel(props) {
       <Emotion
         onSelect={handleEmotion}
       />
-    
+
       <IconButton
         icon="send"
         type="submit"

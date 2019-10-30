@@ -1,10 +1,11 @@
 import React from 'react'
+import { Picker } from 'emoji-mart'
 import PropTypes from 'prop-types'
 
-import { IconButton, Popover } from '../../index'
-import { ContentGrid } from '../../../styles'
+import { IconButton, Popover } from '../../../index'
+import { ContentGrid } from '../../../../styles'
 
-function AttachFile() {
+function Emotion({onSelect}) {
   return (
     <Popover
       transformOrigin={{
@@ -14,7 +15,7 @@ function AttachFile() {
       button={
         ({handleClick}) => (
           <IconButton
-            icon="attach_file"
+            icon="insert_emoticon"
             onClick={handleClick}
           />
         )
@@ -25,23 +26,18 @@ function AttachFile() {
             container
             alignItems="center"
           >
-            <IconButton
-              icon="photo_camera"
-              borderRadius="0"
-            />
-            <IconButton
-              icon="videocam"
-              borderRadius="0"
-            />
-            <IconButton
-              icon="music_note"
-              borderRadius="0"
+            <Picker
+              onSelect={onSelect}
             />
           </ContentGrid>
         )
       }
     />
-);
+  );
 }
 
-export default AttachFile;
+Emotion.propTypes = {
+  onSelect: PropTypes.func.isRequired,
+};
+
+export default Emotion;

@@ -109,6 +109,7 @@ export const AppContainer = styled.div`
       ? "calc(100vh - 50px)"
       : "100vh"
     };
+  background: ${dark_bg1};
   color: ${dark_cont};
   display: grid;
   grid-template-columns: 40px 1fr 1.3fr 550px 1fr;

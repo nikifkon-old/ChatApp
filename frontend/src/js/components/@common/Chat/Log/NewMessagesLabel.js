@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import {
   routerSelectors,
   dialogSelectors,
-} from '../../selectors'
-import { ColoredLine } from '../index'
-import { dark_cont1 } from '../../styles'
+} from '../../../../selectors'
+import { ColoredLine } from '../../../index'
+import { dark_cont1 } from '../../../../styles'
 
 const { getQueryParams} = routerSelectors
 const { getFirstUnread } = dialogSelectors

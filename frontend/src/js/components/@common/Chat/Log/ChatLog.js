@@ -6,20 +6,20 @@ import {
   setAsRead,
   updateMessageInDialog,
   deleteMessageInDialog,
-} from '../../actions/chatActions'
+} from '../../../../actions/chatActions'
 
 import {
   Message,
   NewMessagesLabel,
 } from './index'
-import { Spinner } from '../index'
-import { StyledChatLog } from './styles'
-import { P } from '../../styles'
+import { Spinner } from '../../../index'
+import { StyledChatLog } from '../styles'
+import { P } from '../../../../styles'
 
 
 function ChatLog(props) {
   const {
-    dialogData,
+    data,
     success,
     error,
   } = props
@@ -78,8 +78,8 @@ function ChatLog(props) {
     >
       {
         success
-          ? dialogData && dialogData.messages.length > 0
-            ? dialogData.messages.map(message => {
+          ? data && data.messages.length > 0
+            ? data.messages.map(message => {
                 return (
                   <Fragment key={message.id}>
                     <NewMessagesLabel
@@ -108,7 +108,7 @@ function ChatLog(props) {
 }
 
 ChatLog.propTypes = {
-  dialogData: PropTypes.object,
+  data: PropTypes.object,
   fetching: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
   error: PropTypes.string,

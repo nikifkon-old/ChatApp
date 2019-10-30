@@ -4,7 +4,7 @@ import App from './App'
 import Menu from './Menu'
 import SideBar from './SideBar'
 import DialogList from './DialogList'
-import Chat from './Chat'
+import DialogChat from './DialogChat'
 
 export {
   LoginForm,
@@ -13,5 +13,5 @@ export {
   Menu,
   SideBar,
   DialogList,
-  Chat,
+  DialogChat,
 }

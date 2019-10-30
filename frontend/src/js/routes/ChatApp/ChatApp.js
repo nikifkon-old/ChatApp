@@ -6,7 +6,7 @@ import {
   Nav,
 } from '../../components'
 import {
-  Chat,
+  DialogChat,
   Menu,
   SideBar,
   DialogList,
@@ -16,7 +16,7 @@ import {
   withHeaderStatus,
 } from '../../HOC'
 import { useWebsocket } from './index'
-import { AppContainer, StyledChatWrap } from '../../styles'
+import { AppContainer } from '../../styles'
 
 function ChatAppRoute(props) {
   const { headerIsOpen, handleAppHeader } = props
@@ -28,22 +28,26 @@ function ChatAppRoute(props) {
     <AppContainer headerIsOpen={headerIsOpen}>
       <Nav handleHeader={handleAppHeader} />
       <Menu />
-      <DialogList />
-      <StyledChatWrap>
-        <Switch>
-          <Route exact path={`${url}`}>
-            <Redirect to={`${url}/messages`}/>
-          </Route>
-          <Route
-            path={`${url}/create`}
-            component={RoomCreate}
-          />
-          <Route
-            path={`${url}`}
-            component={Chat}
-          />
-        </Switch>
-      </StyledChatWrap>
+      <Switch>
+        <Route exact path={`${url}`}>
+          <Redirect to={`${url}/messages`}/>
+        </Route>
+        <Route
+          path={`${url}/create`}
+          component={RoomCreate}
+        />
+        <Route
+          path={`${url}/messages`}
+        >
+          <DialogList />
+          <DialogChat />
+        </Route>
+        <Route
+          path={`${url}/groups`}
+        >
+          <p>goups list</p>
+        </Route>
+      </Switch>
       <SideBar />
     </AppContainer>
   );

@@ -3,58 +3,57 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import {
-  TopPanel,
-  InputPanel,
-  ChatLog,
-} from '../../components/Chat'
+  Chat,
+} from '../../components'
 import {
   sendMessageInDialog,
 } from '../../actions/chatActions'
 import {
   dialogSelectors,
 } from '../../selectors'
-import { StyledChat } from './styles'
 
 const { getActiveDialogId, getDialog, getDialogs } = dialogSelectors
 
-const Chat = (props) => {
-  const {
+const DialogChat = (props) => {
+  let {
     dialog,
     fetching,
     success,
     error,
     sendMessageInDialog,
   } = props
-  let id = dialog && dialog.id
+
+  let data = dialog && {
+    id: dialog.id,
+    title: dialog.interlocutor.user,
+    messages: dialog.messages,
+  }
 
   return (
-    <StyledChat>
-      <TopPanel dialog={dialog} />
-      <ChatLog
-        dialogData={dialog}
-        fetching={fetching}
-        success={success}
-        error={error}
-      />
-      <InputPanel sendMessage={sendMessageInDialog} id={id}/>
-    </StyledChat>
-  );
+    <Chat
+      data={data}
+      fetching={fetching}
+      success={success}
+      error={error}
+      sendMessage={sendMessageInDialog}
+    />
+  )
 }
 
 const mapStateToProps = state => {
   const dialogs = getDialogs(state)
   const { fetching, success, error } = dialogs
   const active = getActiveDialogId(state)
-  const data = getDialog(state, active)
+  const dialog = getDialog(state, active)
   return {
-    dialog: data,
+    dialog,
     fetching,
     success,
     error,
   }
 }
 
-Chat.propTypes = {
+DialogChat.propTypes = {
   sendMessageInDialog: PropTypes.func.isRequired,
   firstUnread: PropTypes.number,
   dialog: PropTypes.shape({
@@ -73,4 +72,4 @@ export default connect(
   {
     sendMessageInDialog,
   }
-)(Chat);
+)(DialogChat);

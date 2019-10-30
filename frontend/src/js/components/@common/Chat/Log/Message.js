@@ -5,15 +5,15 @@ import { Field, Form } from 'react-final-form';
 import {
   IconButton,
   EmojiedText,
-} from '../index'
+} from '../../../index'
 import {
   StyledMessage,
   MessageDate,
   MessageAvatar,
   MessageText,
   EditMessageInput,
-} from './styles'
-import { H4, GridItem } from '../../styles'
+} from '../styles'
+import { H4, GridItem } from '../../../../styles'
 
 class Message extends Component {
   state = {
