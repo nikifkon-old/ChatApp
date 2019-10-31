@@ -47,10 +47,7 @@ export default function(state = initialState, action) {
                 ...action.payload,
                 fetched: true
               }
-            : {
-                ...dialog,
-                fetched: true
-              }
+            : dialog
         )
       }
     }

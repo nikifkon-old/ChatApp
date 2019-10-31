@@ -11,42 +11,31 @@ import { StyledChat } from './styles'
 
 const Chat = (props) => {
   const {
-    data,
-    fetching,
-    success,
-    error,
-    sendMessage,
+    topPanelProps,
+    logProps,
+    messageProps,
+    inputProps,
   } = props
-  let id = data && data.id
-  let title = data && data.title // TODO: check performance
 
   return (
     <StyledChatWrap>
     <StyledChat>
-      <TopPanel title={title} />
+      <TopPanel {...topPanelProps}/>
       <ChatLog
-        data={data}
-        fetching={fetching}
-        success={success}
-        error={error}
+        messageProps={messageProps}
+        {...logProps}
       />
-      <InputPanel sendMessage={sendMessage} id={id}/>
+      <InputPanel {...inputProps}/>
     </StyledChat>
     </StyledChatWrap>
   );
 }
 
 Chat.propTypes = {
-  sendMessage: PropTypes.func.isRequired,
   firstUnread: PropTypes.number,
-  data: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    messages: PropTypes.array,
-  }),
-  fetching: PropTypes.bool.isRequired,
-  success: PropTypes.bool.isRequired,
-  error: PropTypes.string,
+  logProps: PropTypes.object.isRequired,
+  messageProps: PropTypes.object.isRequired,
+  inputProps: PropTypes.object.isRequired,
 };
 
 export default Chat;

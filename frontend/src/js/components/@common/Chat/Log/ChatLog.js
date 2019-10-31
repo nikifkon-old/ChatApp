@@ -1,12 +1,5 @@
 import React, { Fragment, useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types';
-
-import {
-  setAsRead,
-  updateMessageInDialog,
-  deleteMessageInDialog,
-} from '../../../../actions/chatActions'
 
 import {
   Message,
@@ -22,6 +15,7 @@ function ChatLog(props) {
     data,
     success,
     error,
+    messageProps,
   } = props
   const ChatLog = React.createRef()
 
@@ -42,35 +36,6 @@ function ChatLog(props) {
     }
   }, [maxOffset])
 
-  const dispatch = useDispatch()
-
-  const handleUnread = useCallback(({dialog, id}) => {
-    dispatch(setAsRead({
-      dialog_id: dialog,
-      message_id: id,
-    }))
-  }, [dispatch])
-
-  const starMessage = useCallback(({id, stared}) => {
-    dispatch(updateMessageInDialog({
-      id,
-      stared: stared,
-    }))
-  }, [dispatch])
-
-  const deleteMessage = useCallback(({id}) => {
-    dispatch(deleteMessageInDialog({
-      id
-    }))
-  }, [dispatch])
-
-  const updateMessage = useCallback(({id, text}) => {
-    dispatch(updateMessageInDialog({
-      id,
-      text,
-    }))
-  }, [dispatch])
-
   return (
     <StyledChatLog
       onScroll={handleScroll}
@@ -89,10 +54,7 @@ function ChatLog(props) {
                       key={message.id}
                       maxOffset={maxOffset}
                       message={message}
-                      handleUnread={handleUnread}
-                      deleteMessage={deleteMessage}
-                      starMessage={starMessage}
-                      updateMessage={updateMessage}
+                      {...messageProps}
                     />
                   </Fragment>
                 )

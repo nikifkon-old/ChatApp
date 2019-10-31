@@ -7,6 +7,9 @@ import {
 } from '../../components'
 import {
   sendMessageInDialog,
+  setAsRead,
+  updateMessageInDialog,
+  deleteMessageInDialog,
 } from '../../actions/chatActions'
 import {
   dialogSelectors,
@@ -21,21 +24,34 @@ const DialogChat = (props) => {
     success,
     error,
     sendMessageInDialog,
+    setAsRead,
+    updateMessageInDialog,
+    deleteMessageInDialog,
   } = props
 
-  let data = dialog && {
-    id: dialog.id,
-    title: dialog.interlocutor.user,
-    messages: dialog.messages,
-  }
+  let title = dialog && dialog.interlocutor.user
+  let id = dialog && dialog.id
 
   return (
     <Chat
-      data={data}
-      fetching={fetching}
-      success={success}
-      error={error}
-      sendMessage={sendMessageInDialog}
+      logProps={{
+        data: dialog,
+        fetching,
+        success,
+        error
+      }}
+      topPanelProps={{
+        title
+      }}
+      inputProps={{
+        sendMessage: sendMessageInDialog,
+        id
+      }}
+      messageProps={{
+        setAsRead,
+        updateMessage: updateMessageInDialog,
+        deleteMessage: deleteMessageInDialog
+      }}
     />
   )
 }
@@ -71,5 +87,8 @@ export default connect(
   mapStateToProps,
   {
     sendMessageInDialog,
+    setAsRead,
+    updateMessageInDialog,
+    deleteMessageInDialog,
   }
 )(DialogChat);

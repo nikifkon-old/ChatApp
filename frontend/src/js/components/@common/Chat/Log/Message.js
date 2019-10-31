@@ -23,8 +23,7 @@ class Message extends Component {
   static propTypes = {
     deleteMessage: PropTypes.func.isRequired,
     updateMessage: PropTypes.func.isRequired,
-    starMessage: PropTypes.func.isRequired,
-    handleUnread: PropTypes.func.isRequired,
+    setAsRead: PropTypes.func.isRequired,
     maxOffset: PropTypes.number,
     message: PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -53,9 +52,9 @@ class Message extends Component {
   }
 
   handleStar = () => {
-    const { starMessage, message } = this.props
+    const { updateMessage, message } = this.props
     const { id, stared } = message
-    starMessage({
+    updateMessage({
       id,
       stared: !stared
     })
@@ -73,14 +72,17 @@ class Message extends Component {
   MessageRef = createRef()
 
   componentDidUpdate() {
-    const { handleUnread, message } = this.props
+    const { setAsRead, message } = this.props
     const { dialog, id, unread } = message
 
     if(unread) {
       const msg = this.MessageRef.current
       const messageOffset = msg.offsetTop + msg.scrollHeight - 80
       if (unread && messageOffset < this.props.maxOffset) {
-        handleUnread({dialog, id})
+        setAsRead({
+          dialog_id: dialog,
+          message_id: id,
+        })
       }
     }
   }
