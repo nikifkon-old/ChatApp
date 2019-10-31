@@ -8,7 +8,7 @@ import {
   getDialogsList,
   getNotEmptyDialogsData,
 } from './selectors'
-import { ChatList, Card } from '../../components'
+import { ChatList } from '../../components'
 
 function DialogList() {
   // allow dialogs without messages
@@ -19,9 +19,9 @@ function DialogList() {
   }
 
   // data
-  const dialogs = useSelector(state => getDialogsInfo(state));
-  const { success, error } = dialogs;
-  const data = useSelector(state => {
+  const dialogsInfo = useSelector(state => getDialogsInfo(state));
+  const { success, error } = dialogsInfo;
+  const dialogs = useSelector(state => {
     if (allowEmpty) {
       return getDialogsList(state)
     } else {
@@ -31,22 +31,23 @@ function DialogList() {
 
   return (
     <ChatList
-      data={data}
-      success={success}
-      error={error}
-      handleAllowEmpty={handleAllowEmpty}
-      card={({data}) => {
-        data = {
+      listProps={{
+        list: dialogs,
+        success,
+        error
+      }}
+      additionalBtnProps={{
+        handler: handleAllowEmpty
+      }}
+      cardProps={{
+        setActive: setActiveDialog
+      }}
+      getCardData={(data) => {
+        return {
           ...data,
           avatar: data.interlocutor.avatar,
           title: data.interlocutor.user,
         }
-        return (
-          <Card
-            data={data}
-            setActive={setActiveDialog}
-          />
-        )
       }}
     />
   )

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   AllowEmptyBtn,
   Search,
+  Card,
 } from './index'
 import {
   ColoredLine,
@@ -14,30 +15,34 @@ import { ContentGrid, P, dark_cont1 } from '../../../styles'
 
 function List(props) {
   const {
-    data,
-    success,
-    error,
-    handleAllowEmpty,
-    card: Card
+    listProps: {
+      list,
+      success,
+      error,
+    },
+    cardProps,
+    additionalBtnProps,
+    getCardData
   } = props
   return (
     <StyledDialogList>
       <Search />
       <ColoredLine color={dark_cont1} />
-      <AllowEmptyBtn handleAllowEmpty={handleAllowEmpty} />
+      <AllowEmptyBtn {...additionalBtnProps} />
       {
         success
-          ? data.length > 0
+          ? list.length > 0
             ? <ContentGrid
                 container
                 direction="column"
               >
               {
-                data.map(
-                  dialog => (
-                    <Fragment key={dialog.id}>
+                list.map(
+                  card => (
+                    <Fragment key={card.id}>
                       <Card
-                        data={dialog}
+                        data={getCardData(card)}
+                        {...cardProps}
                       />
                       <ColoredLine color={dark_cont1} width="50%" />
                     </Fragment>
@@ -55,11 +60,14 @@ function List(props) {
 }
 
 List.propTypes = {
-  data: PropTypes.array,
-  success: PropTypes.bool.isRequired,
-  error: PropTypes.object,
-  handleAllowEmpty: PropTypes.func.isRequired,
-  card: PropTypes.func.isRequired,
+  listProps: PropTypes.shape({
+    list: PropTypes.array,
+    success: PropTypes.bool.isRequired,
+    error: PropTypes.object,
+  }),
+  additionalBtnProps: PropTypes.object.isRequired,
+  cardProps: PropTypes.object.isRequired,
+  getCardData: PropTypes.func.isRequired,
 };
 
 export default List;
