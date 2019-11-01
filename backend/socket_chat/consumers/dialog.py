@@ -60,8 +60,7 @@ class DialogConsumer(DialogDataBase):
             return await self.throw_missed_field(event=event['event'])
         data, is_ok = await self.delete_dialog(id)
         if is_ok:
-            dialog_id = data['dialog_id']
-            await self.channel_layer.group_send(f'dialog_{dialog_id}', {
+            await self.channel_layer.group_send(f'dialog_{id}', {
                 'type': 'channels_message',
                 'event': event['event'],
                 'data': data
@@ -99,7 +98,7 @@ class DialogConsumer(DialogDataBase):
         data, is_ok = await self.delete_dialog_message(id)
         if is_ok:
             await self.channel_layer.group_send(
-                'dialog_%d' % data.get('dialog_id'),
+                'dialog_%d' % data.get('chat_id'),
                 {
                     'type': 'channels_message',
                     'event': event['event'],
@@ -126,7 +125,7 @@ class DialogConsumer(DialogDataBase):
         data, is_ok = await self.update_dialog_message(id, text=text, stared=stared, unread=unread)
         if is_ok:
             await self.channel_layer.group_send(
-                'dialog_%d' % data.get('dialog'),
+                'dialog_%d' % data.get('chat_id'),
                 {
                     'type': 'channels_message',
                     'event': event['event'],

@@ -44,6 +44,7 @@ class DialogMessageSerializer(serializers.ModelSerializer):
     sender_name = serializers.SerializerMethodField()
     unread = serializers.SerializerMethodField()
     stared = serializers.SerializerMethodField()
+    chat_id = serializers.IntegerField(source="dialog.id")
 
     def get_unread(self, obj):
         if self.context.get('user_id'):
@@ -74,7 +75,7 @@ class DialogMessageSerializer(serializers.ModelSerializer):
             "sender",
             "sender_name",
             "avatar",
-            "dialog",
+            "chat_id",
             "text",
             "unread",
             "stared",

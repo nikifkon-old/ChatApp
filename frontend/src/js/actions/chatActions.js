@@ -103,11 +103,11 @@ export const createDialog = ({person_id}) => {
   }
 }
 
-export const setAsRead = ({dialog_id, message_id}) => {
+export const setAsRead = ({chat_id, message_id}) => {
   return {
-    type: types.SET_AS_READ,
+    type: types.SET_AS_READ_DIALOG_MESSAGE,
     payload: {
-      dialog_id, message_id
+      chat_id, message_id
     }
   }
 }

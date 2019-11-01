@@ -22,6 +22,8 @@ export function* connectToWebSocket() {
       }
     })
   } catch (error) {
+    console.log(error);
+    
     yield put({
       type: types.WEBSOCKET_CONNECT_FAILURE,
       payload: error

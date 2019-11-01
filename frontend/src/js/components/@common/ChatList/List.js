@@ -17,43 +17,46 @@ function List(props) {
   const {
     listProps: {
       list,
-      success,
+      fetching,
       error,
     },
     cardProps,
     additionalBtnProps,
     getCardData
   } = props
+
+  if (error) {
+    return <P>Error {error}</P>
+  } else if (fetching) {
+    return <Spinner />
+  }
+
   return (
     <StyledDialogList>
       <Search />
       <ColoredLine color={dark_cont1} />
       <AllowEmptyBtn {...additionalBtnProps} />
       {
-        success
-          ? list.length > 0
-            ? <ContentGrid
-                container
-                direction="column"
-              >
-              {
-                list.map(
-                  card => (
-                    <Fragment key={card.id}>
-                      <Card
-                        data={getCardData(card)}
-                        {...cardProps}
-                      />
-                      <ColoredLine color={dark_cont1} width="50%" />
-                    </Fragment>
-                  )
+        list.length > 0
+          ? <ContentGrid
+              container
+              direction="column"
+            >
+            {
+              list.map(
+                card => (
+                  <Fragment key={card.id}>
+                    <Card
+                      data={getCardData(card)}
+                      {...cardProps}
+                    />
+                    <ColoredLine color={dark_cont1} width="50%" />
+                  </Fragment>
                 )
-              }
-              </ContentGrid>
-              : <P center>have not dialog yet...</P>
-          : error
-            ? <P>Error {error}</P>
-            : <Spinner />
+              )
+            }
+            </ContentGrid>
+          : <P center>have not dialog yet...</P>
       }
     </StyledDialogList>
   );
@@ -62,7 +65,7 @@ function List(props) {
 List.propTypes = {
   listProps: PropTypes.shape({
     list: PropTypes.array,
-    success: PropTypes.bool.isRequired,
+    fetching: PropTypes.bool.isRequired,
     error: PropTypes.object,
   }),
   additionalBtnProps: PropTypes.object.isRequired,

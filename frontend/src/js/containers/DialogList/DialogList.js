@@ -20,7 +20,7 @@ function DialogList() {
 
   // data
   const dialogsInfo = useSelector(state => getDialogsInfo(state));
-  const { success, error } = dialogsInfo;
+  const { fetching, error } = dialogsInfo;
   const dialogs = useSelector(state => {
     if (allowEmpty) {
       return getDialogsList(state)
@@ -33,7 +33,7 @@ function DialogList() {
     <ChatList
       listProps={{
         list: dialogs,
-        success,
+        fetching,
         error
       }}
       additionalBtnProps={{

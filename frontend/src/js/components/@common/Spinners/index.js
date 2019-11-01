@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
-import { dark_cont } from '../../../styles'
+import { dark_cont, ContentGrid } from '../../../styles'
 
 const scale = keyframes`
   0% {
@@ -16,6 +16,7 @@ const AnimatedSpinner = styled.div`
   height: 50px;
   display: flex;
   align-items: center;
+  margin: 100px auto;
   & > div {
     margin: 5px;
     width: 13px;
@@ -36,11 +37,15 @@ const AnimatedSpinner = styled.div`
 
 function Spinner() {
   return (
-    <AnimatedSpinner>
-      <div />
-      <div />
-      <div />
-    </AnimatedSpinner>
+    <ContentGrid
+     container
+    >
+      <AnimatedSpinner>
+        <div />
+        <div />
+        <div />
+      </AnimatedSpinner>
+    </ContentGrid>
   );
 }
 

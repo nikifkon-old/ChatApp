@@ -95,7 +95,7 @@ class DialogDataBase:
             message.delete()
             return (
                 {
-                    'dialog_id': message.dialog.id,
+                    'chat_id': message.dialog.id,
                     'message_id': id
                 }, True
             )
@@ -170,6 +170,6 @@ class DialogDataBase:
         try:
             dialog = Dialog.objects.get(id=id)
             dialog.delete()
-            return ({'dialog_id': id}, True)
+            return id, True
         except ObjectDoesNotExist:
             return {'detail': 'Dialog doesn\'t exist'}, False

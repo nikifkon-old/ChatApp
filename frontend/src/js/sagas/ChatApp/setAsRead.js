@@ -5,7 +5,7 @@ import * as events from '../../actions/websocketEvents'
 
 
 function* setAsRead({payload}) {
-  const { dialog_id, message_id } = payload
+  const { chat_id, message_id } = payload
   yield put({
     type: types.WEBSOCKET_SEND_REQUEST,
     payload: {
@@ -19,5 +19,5 @@ function* setAsRead({payload}) {
 }
 
 export default function* () {
-  yield takeEvery(types.SET_AS_READ, setAsRead)
+  yield takeEvery(types.SET_AS_READ_DIALOG_MESSAGE, setAsRead)
 }

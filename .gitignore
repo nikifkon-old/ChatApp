@@ -105,6 +105,9 @@ frontend/builds-dev/
 # media
 media/
 
+# ide
+.vscode/
+
 coverage/
 
 plan/

@@ -19,48 +19,48 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case types.SET_DIALOGS_DATA: {
+    case types.SET_GROUPS_DATA: {
       return setData(state, action.payload)
-    }
+   }
 
-    case types.GET_DIALOGS_FAILURE:
+    case types.GET_GROUPS_FAILURE:
       return {
         ...state,
         fetching: false,
         error: action.payload
       }
     
-    case types.SET_DIALOG_DATA: {
+    case types.SET_GROUP_DATA: {
       return setDataToOne(state, action.payload)
     }
 
-    case types.SET_ACTIVE_DIALOG:
+    case types.SET_ACTIVE_GROUP:
       return {
         ...state,
         active: action.payload
       }
 
-    case types.PUSH_RECEIVE_MESSAGE_IN_DIALOG: {
+    case types.PUSH_RECEIVE_MESSAGE_IN_GROUP: {
       return pushMessage(state, action.payload)
     }
 
-    case types.DELETE_DIALOG_MESSAGE: {
+    case types.DELETE_GROUP_MESSAGE: {
       return deleteMessage(state, action.payload)
     }
 
-    case types.UPDATE_DIALOG_MESSAGE: {
+    case types.UPDATE_GROUP_MESSAGE: {
       return updateMessage(state, action.payload)
     }
 
-    case types.PUSH_NEW_DIALOG: {
+    case types.PUSH_NEW_GROUP: {
       return pushChat(state, action.payload)
     }
 
-    case types.SET_AS_READ_DIALOG_MESSAGE: {
+    case types.SET_AS_READ_GROUP_MESSAGE: {
       return setAsRead(state, action.payload)
     }
 
-    case types.DIALOG_CLEAN_UP:
+    case types.GROUP_CLEAN_UP:
       return {
         ...initialState,
       }

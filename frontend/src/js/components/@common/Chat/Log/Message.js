@@ -28,7 +28,7 @@ class Message extends Component {
     message: PropTypes.shape({
       id: PropTypes.number.isRequired,
       sender: PropTypes.number.isRequired,
-      dialog: PropTypes.number.isRequired,
+      chat_id: PropTypes.number.isRequired,
       sender_name: PropTypes.string.isRequired,
       unread: PropTypes.bool.isRequired,
       stared: PropTypes.bool.isRequired,
@@ -73,15 +73,15 @@ class Message extends Component {
 
   componentDidUpdate() {
     const { setAsRead, message } = this.props
-    const { dialog, id, unread } = message
+    const { chat_id, id, unread } = message
 
     if(unread) {
       const msg = this.MessageRef.current
       const messageOffset = msg.offsetTop + msg.scrollHeight - 80
       if (unread && messageOffset < this.props.maxOffset) {
         setAsRead({
-          dialog_id: dialog,
           message_id: id,
+          chat_id,
         })
       }
     }
