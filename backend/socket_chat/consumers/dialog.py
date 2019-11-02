@@ -1,8 +1,8 @@
-from backend.socket_chat.consumers.base import private
+from backend.socket_chat.consumers.base import BaseConsumer, private
 from backend.socket_chat.consumers.dialog_db import DialogDataBase
 
 
-class DialogConsumer(DialogDataBase):
+class DialogConsumer(DialogDataBase, BaseConsumer):
     @private
     async def event_dialogs_list(self, event):
         """ Handle dialogs.list """
@@ -10,7 +10,7 @@ class DialogConsumer(DialogDataBase):
             filter = event.get('data').get('filter')
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
-        data = await self.get_dialog_list(self.user.id, filter)
+        data = await self.get_list(self.user.id, filter)
         await self._send_message(data, event=event['event'])
 
     @private
@@ -21,7 +21,7 @@ class DialogConsumer(DialogDataBase):
             filter = event.get('data').get('filter')
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
-        data = await self.get_dialog_messages(id, self.user.id, filter)
+        data = await self.get_messages(id, self.user.id, filter)
         await self._send_message(data, event=event['event'])
 
     @private
@@ -31,9 +31,10 @@ class DialogConsumer(DialogDataBase):
             id = int(event['data']['id'])
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
-        data, dialog_id, is_ok = await self.create_dialog(id)
+        data, is_ok = await self.create(id)
         if is_ok:
             users = [self.user.id, id]
+            dialog_id = data[next(iter(data))].get('id')
             room = f'dialog_{dialog_id}'
 
             await self.channel_layer.group_send('general', {
@@ -58,7 +59,7 @@ class DialogConsumer(DialogDataBase):
             id = event['data']['id']
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
-        data, is_ok = await self.delete_dialog(id)
+        data, is_ok = await self.delete(id)
         if is_ok:
             await self.channel_layer.group_send(f'dialog_{id}', {
                 'type': 'channels_message',
@@ -80,7 +81,7 @@ class DialogConsumer(DialogDataBase):
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
 
-        new_message = await self.send_dialog_message(id, text)
+        new_message = await self.send_message(id, text)
         await self.channel_layer.group_send(f'dialog_{id}', {
             'type': 'channels_message',
             'event': event['event'],
@@ -95,7 +96,7 @@ class DialogConsumer(DialogDataBase):
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
 
-        data, is_ok = await self.delete_dialog_message(id)
+        data, is_ok = await self.delete_message(id)
         if is_ok:
             await self.channel_layer.group_send(
                 'dialog_%d' % data.get('chat_id'),
@@ -122,7 +123,7 @@ class DialogConsumer(DialogDataBase):
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
 
-        data, is_ok = await self.update_dialog_message(id, text=text, stared=stared, unread=unread)
+        data, is_ok = await self.update_message(id, text=text, stared=stared, unread=unread)
         if is_ok:
             await self.channel_layer.group_send(
                 'dialog_%d' % data.get('chat_id'),

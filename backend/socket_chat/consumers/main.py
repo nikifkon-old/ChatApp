@@ -23,10 +23,7 @@ class MainConsumer(DialogConsumer, BaseConsumer):
         event = message['event']
 
         if self.user.id in users:
-            print('connecting %s to %s' % (self.user.id, room))
-            print(room_data, room)
             await self.channel_layer.group_add(room, self.channel_name)
-
             await self._send_message(room_data[self.user.id], event=event)
 
     async def on_authenticate_success(self):

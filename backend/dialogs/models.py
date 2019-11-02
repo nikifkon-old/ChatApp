@@ -18,7 +18,7 @@ class Dialog(models.Model):
         verbose_name_plural = "Dialogs"
 
     @staticmethod
-    def check_unique_dialog_members(user1, user2):
+    def check_unique_members(user1, user2):
         try:
             p1 = Profile.objects.get(id=user1)
             p2 = Profile.objects.get(id=user2)
@@ -101,7 +101,11 @@ class DialogMessage(MessageMixin):
 
 class DialogMessageInfo(models.Model):
     """ m2m for profile & dialog message """
-    message = models.ForeignKey(DialogMessage, on_delete=models.CASCADE)
+    message = models.ForeignKey(
+        DialogMessage,
+        on_delete=models.CASCADE,
+        related_name="message_info"
+    )
     person = models.ForeignKey(Profile, on_delete=models.CASCADE)
     unread = models.BooleanField(default=True)
     stared = models.BooleanField(default=False)
