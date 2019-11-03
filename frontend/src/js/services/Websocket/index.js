@@ -8,7 +8,7 @@ export function connectToWebSocketService() {
     if (socket) {
       resolve(socket)
     } else {
-      socket = new WebSocket(`ws://${BASE_URL}/ws/main`)
+      socket = new WebSocket(`ws://${BASE_URL}/ws/dialogs/`)
     }
 
     socket.onopen = event => {

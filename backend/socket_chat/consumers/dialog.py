@@ -1,6 +1,4 @@
-from backend.socket_chat.consumers.base import BaseConsumer, private
 from backend.socket_chat.mixins.chat import ChatConsumerMixin
-
 from backend.dialogs.models import (
     DialogMessage,
     Dialog,

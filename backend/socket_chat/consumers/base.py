@@ -2,6 +2,9 @@ import jwt
 from django.conf import settings
 from django.contrib.auth.models import User
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
+from channels.db import database_sync_to_async
+
+from backend.profiles.models import Profile
 
 
 def private(func):
@@ -20,6 +23,8 @@ class BaseConsumer(AsyncJsonWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.user = None
+        self.dialogs = []
+        self._groups = []
 
     async def connect(self):
         await self.accept()
@@ -74,3 +79,54 @@ class BaseConsumer(AsyncJsonWebsocketConsumer):
 
     async def throw_missed_field(self, event=None):
         await self._throw_error({"detail": "Missed required fields"}, event=event)
+
+    async def channels_message(self, message):
+        """ Redirect Group messages to each person """
+        await self._send_message(message['data'], event=message['event'])
+
+    async def connect_users(self, message):
+        """ Connect user to rooms """
+        users = message['data']['users']
+        room = message['data']['room']
+        room_data = message['data']['room_data']
+        event = message['event']
+
+        if self.user.id in users:
+            await self.channel_layer.group_add(room, self.channel_name)
+            await self._send_message(room_data[self.user.id], event=event)
+
+    async def on_authenticate_success(self):
+        """ Execute after user authenticate """
+        await self.get_user_channels(self.user)
+        await self.channel_layer.group_add('general', self.channel_name)
+        # connect to channel for all groups
+        if self.dialogs:
+            for dialog in self.dialogs:
+                await self.channel_layer.group_add(f'dialog_{dialog}', self.channel_name)
+        if self._groups:
+            for group in self._groups:
+                await self.channel_layer.group_add(f'group_{group}', self.channel_name)
+
+    async def disconnect(self, *args, **kwargs):
+        """ Discard from all channels """
+        if self.dialogs:
+            for dialog in self.dialogs:
+                await self.channel_layer.group_discard(
+                    f'dialog_{dialog}',
+                    self.channel_name
+                )
+        if self._groups:
+            for group in self._groups:
+                await self.channel_layer.group_discard(
+                    f'group_{group}',
+                    self.channel_name
+                )
+
+    @database_sync_to_async
+    def get_user_channels(self, user):
+        """ Get all user's dialogs & groups id """
+        profile = Profile.objects.get(user=user)
+        for dialog in profile.dialogs.values():
+            self.dialogs.append(dialog.get('id'))
+        for group in profile.groups.values():
+            self._groups.append(group.get('id'))

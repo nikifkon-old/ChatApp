@@ -11,8 +11,7 @@ class ChatConsumerMixin(BaseConsumer, ChatDBMixin):
         super().__init__(*args, **kwargs)
         try:
             getattr(self.Meta, 'name')
-            if self.Meta.name_plural is None:
-                self.Meta.name_plural = self.Meta.name + 's'
+            self.Meta.name_plural = self.Meta.name + 's'
         except AttributeError:
             raise ValidationError(_('missed attribute "name" required in Meta class'))
         
@@ -23,7 +22,6 @@ class ChatConsumerMixin(BaseConsumer, ChatDBMixin):
         setattr(self, 'event_%s_message_send' % self.Meta.name, self.message_send)
         setattr(self, 'event_%s_message_delete' % self.Meta.name, self.message_delete)
         setattr(self, 'event_%s_message_update' % self.Meta.name, self.message_update)
-
 
     @private
     async def list(self, event):
