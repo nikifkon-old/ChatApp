@@ -5,19 +5,7 @@ from django.core.exceptions import (
     ValidationError,
 )
 
-class ChatMixin:
-    class Meta:
-        chat_model = None
-        chat_serializer = None
-        chat_membership = None
-        message_model = None
-        message_serializer = None
-        message_info_model = None
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.chat_name = self.Meta.chat_model.__name__.lower()
-
+class ChatDBMixin:
     @database_sync_to_async
     def get_messages(self, id, user_id, filter=None):
         """ Get chat with messages """
@@ -70,7 +58,7 @@ class ChatMixin:
         """ Create message in Database """
         kwargs = {
             'sender_id': self.user.id,
-            f'{self.chat_name}_id': id,
+            '%s_id' % self.Meta.name: id,
             'text': text,
             'date': datetime.now()
         }
@@ -92,7 +80,7 @@ class ChatMixin:
                 return {'detail': 'You can\'t delete foreign message'}, False
             message.delete()
             return {
-                'chat_id': getattr(message, f'{self.chat_name}').id,
+                'chat_id': getattr(message, f'{self.Meta.name}').id,
                 'message_id': id
             }, True
             
@@ -120,7 +108,7 @@ class ChatMixin:
             return {'detail': 'Message doesn\'t exist'}, False
 
     @database_sync_to_async
-    def create(self, id):
+    def create_chat(self, id):
         """ Create chat in Database """
         try:
             self.Meta.chat_model.check_unique_members(self.user.id, id)
@@ -129,15 +117,15 @@ class ChatMixin:
 
         new_chat = self.Meta.chat_model.objects.create()
         kwargs1 = {
-            self.chat_name: new_chat,
+            self.Meta.name : new_chat,
             'person_id': id
         }
         kwargs2 = {
-            self.chat_name: new_chat,
+            self.Meta.name : new_chat,
             'person_id': self.user.id
         }
-        m1 = self.ChatMembership(**kwargs1)
-        m2 = self.ChatMembership.objects.create(**kwargs2)
+        m1 = self.Meta.chat_membership(**kwargs1)
+        m2 = self.Meta.chat_membership.objects.create(**kwargs2)
         try:
             m1.save_base()
             m2.save_base()
