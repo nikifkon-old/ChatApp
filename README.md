@@ -18,6 +18,9 @@ Django
 python manage.py makemigrations dialogs groups profiles socket_chat
 </code>
 
+- **run tests**:
+<code>pytest</code>
+
 ---------------
 
 WebSocket DOC
