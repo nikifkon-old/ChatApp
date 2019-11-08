@@ -49,10 +49,16 @@ class DialogMembership(models.Model):
 
     def save(self, *args, **kwargs):
         """ Only to members in dialog & no dialog with two same person """
-        dialog_members = Dialog.objects.get(id=self.dialog_id).members.all()
+        dialog_members = self.dialog.members.all()
         if len(dialog_members) >= 2:
             raise ValidationError(_('This dialog already have 2 members'))
-            super().save(*args, **kwargs)
+        else:
+            for member in dialog_members:
+                member_dialogs = member.dialogs.exclude(id=self.dialog.id)
+                general_dialogs = member_dialogs & self.person.dialogs.all()
+                if len(general_dialogs) > 0:
+                    raise ValidationError(_('Person already have dialog with members'))
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.person.user.username} in {self.dialog.id}"
