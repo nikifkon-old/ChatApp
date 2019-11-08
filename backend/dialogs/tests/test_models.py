@@ -9,33 +9,34 @@ from backend.dialogs.models import (
 )
 
 
+User = get_user_model()
+
 class TestDialogModel(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        UserModel = get_user_model()
-        UserModel.objects.create(username="test_name", password="test_password")
-        UserModel.objects.create(username="test_name2", password="test_password")
-        UserModel.objects.create(username="test_name3", password="test_password")
-        
-        person = Profile.objects.get(id=1)
-        dialog = Dialog.objects.create()
-        Dialog.objects.create()
-        DialogMembership.objects.create(dialog=dialog, person=person)
+        user1 = User.objects.create(username="test_name", password="test_password")
+        user2 = User.objects.create(username="test_name2", password="test_password")
+        user3 = User.objects.create(username="test_name3", password="test_password")
+
+        cls.p1 = Profile.objects.get(user=user1)
+        cls.p2 = Profile.objects.get(user=user2)
+        cls.p3 = Profile.objects.get(user=user3)
+
+        cls.d1 = Dialog.objects.create()
+        cls.d2 = Dialog.objects.create()
+        DialogMembership.objects.create(dialog=cls.d1, person=cls.p1)
     
     def test_membership(self):
-        d = Dialog.objects.get(id=1)
-        p = Profile.objects.get(id=1)
-        members = d.members.filter(dialogmembership__person__id=1)
+        members = self.d1.members.filter(dialogmembership__person=self.p1)
         empty_qs = Profile.objects.none()
         self.assertNotEqual(members, empty_qs)
     
     def test_unique_members(self):
-        dialog = Dialog.objects.get(id=1)
-        person = Profile.objects.get(id=1)
+        person = self.d1.members.first()
         try:
             DialogMembership.objects.create(
-                dialog=dialog,
+                dialog=self.d1,
                 person=person
             )
             self.fail('dialog must have unique members')
@@ -43,40 +44,32 @@ class TestDialogModel(TestCase):
             pass
     
     def test_max_count_members(self):
-        dialog = Dialog.objects.get(id=1)
-        p2 = Profile.objects.get(id=2)
-        p3 = Profile.objects.get(id=3)
-
         DialogMembership.objects.create(
-            dialog=dialog,
-            person=p2
+            dialog=self.d1,
+            person=self.p2
         )
         try:
             DialogMembership.objects.create(
-                dialog=dialog,
-                person=p3
+                dialog=self.d1,
+                person=self.p3
             )
             self.fail('max members in dialogs is 2')
         except ValidationError:
             pass
     
     def test_unique_couple_members_in_defferent_dialogs(self):
-        d1 = Dialog.objects.get(id=1)
-        d2 = Dialog.objects.get(id=2)
-        p1 = Profile.objects.get(id=1)
-        p2 = Profile.objects.get(id=2)
         DialogMembership.objects.create(
-            dialog=d1,
-            person=p2
+            dialog=self.d1,
+            person=self.p2
         )
         DialogMembership.objects.create(
-            dialog=d2,
-            person=p1
+            dialog=self.d2,
+            person=self.p1
         )
         try:
             DialogMembership.objects.create(
-                dialog=d2,
-                person=p2
+                dialog=self.d2,
+                person=self.p2
             )
             self.fail('two persons must have not general dialogs')
         except ValidationError:
