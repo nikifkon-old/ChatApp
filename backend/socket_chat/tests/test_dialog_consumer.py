@@ -1,59 +1,58 @@
 import pytest
+from django.contrib.auth import get_user_model
+from rest_framework_simplejwt.tokens import AccessToken
 from channels.testing import WebsocketCommunicator
 
-from rest_framework.test import RequestsClient
 from config.routing import application
+from backend.dialogs.models import Dialog
 
+User = get_user_model()
 
 DIALOG_URL = 'ws/dialogs/'
-TEST_SERVER = 'http://127.0.0.1:8000'
 
-async def connect(url):
-    communicator = WebsocketCommunicator(application, url)
-    connected = await communicator.connect()
-    assert connected
-    return communicator
+async def connect():
+    com = WebsocketCommunicator(application, DIALOG_URL)
+    connected = await com.connect()
+    return com
 
 @pytest.mark.asyncio
-async def test_need_authenticate():
-    communicator = await connect(DIALOG_URL)
-    await communicator.send_json_to({
-        'event': 'dialogs.list',
-        'data': {}
-    })
-    response = await communicator.receive_json_from()
-    assert response == {
-        'status': 'error',
-        'event': 'dialogs.list',
-        'data': {
-            'detail': 'You must be authenticated'
+async def test_connect():
+    com = WebsocketCommunicator(application, DIALOG_URL) 
+    connected, subprotocol = await com.connect()
+    assert connected
+
+    await com.disconnect()
+
+@pytest.mark.asyncio
+async def test_need_auth():
+    com = await connect()
+    
+    data = {
+        "event": "dialogs.list",
+        "data": {} 
+    }
+    await com.send_json_to(data)
+
+    response = await com.receive_json_from()
+    assert isinstance(response, dict)
+    assert response['status'] == 'error'
+    assert response['data']['detail'] == 'You must be authenticated'
+    
+    await com.disconnect()
+
+async def connect_and_auth():
+    com = await connect()
+    user = User.objects.create(username="test user", password="test password")
+    access_token = AccessToken.for_user(user)
+    data = {
+        "event": "authenticate",
+        "data": {
+          "access_token": str(access_token)
         }
     }
+    await com.send_json_to(data)
+    response = await com.receive_json_from()
+    assert response['status'] == 'ok'
+    assert response['data']['detail'] == 'Authorization successed'
 
-    await communicator.disconnect()
-
-@pytest.mark.django_db
-def get_access_token():
-    client = RequestsClient()
-    response = client.post('%s/token-auth/jwt/create' % TEST_SERVER, json={
-        'username': 'amdin',
-        'password': 'default123'
-    })
-    assert response.status_code == 200
-    token = response.data.get('access')
-    return token
-
-@pytest.mark.django_db
-@pytest.mark.asyncio
-async def test_authenticate_event():
-    token = get_access_token()
-    communicator = await connect(DIALOG_URL)
-    await communicator.send_json_to({
-        'event': 'authenticate',
-        'data': {
-            'access_token': token
-        }
-    })
-    response = await communicator.receive_json_from()
-    assert response['status'] == 200
-    
+    return com
