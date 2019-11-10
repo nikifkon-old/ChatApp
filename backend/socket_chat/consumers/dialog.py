@@ -1,4 +1,4 @@
-from backend.socket_chat.mixins.chat import EventsMixin
+from backend.socket_chat.mixins.events import EventsMixin
 from backend.dialogs.models import (
     DialogMessage,
     Dialog,
@@ -9,6 +9,7 @@ from backend.api.v1.dialogs.serializers import (
     DialogMessageSerializer,
     DialogSerializer,
 )
+
 
 class DialogEvents(EventsMixin):
     def __init__(self, *args, **kwargs):

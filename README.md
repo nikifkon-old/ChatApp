@@ -51,7 +51,7 @@ WebSocket DOC
     {
         "event": "dialog.get",
         "data": {
-          "id": "DIALOG_ID"
+          "id": "DIALOG_ID",
           "filter": "unread"
         }
     }

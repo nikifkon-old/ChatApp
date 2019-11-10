@@ -9,7 +9,7 @@ from backend.socket_chat.consumers.group import GroupEvents
 
 
 class MainConsumer(GroupEvents, DialogEvents):
-    async def receive_json(self, content):
+    async def receive_json(self, content, **kwargs):
         """ Event managment """
         message = await self.parse_content(content)
         if message:
@@ -18,7 +18,7 @@ class MainConsumer(GroupEvents, DialogEvents):
             await method(message)
         else:
             await self._throw_error({'detail': 'Invalid format'})
-    
+
     async def event_authenticate(self, message):
         """ User Authorization """
         try:

@@ -3,13 +3,12 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
 def private(func):
     """ Provide private event with user objects """
-    async def new_func(*args, **kwargs):
-        user = args[0].user
+    async def new_func(self, message, *args, **kwargs):
+        user = self.user
         if user:
-            return await func(*args, **kwargs)
+            return await func(self, message, *args, **kwargs)
         else:
-            await args[0]._throw_error({'detail': 'You must be authenticated'},
-                                       event=args[1]['event'])
+            await self.throw_must_authenticate(message['event'])
     return new_func
 
 
@@ -49,7 +48,10 @@ class BaseConsumer(AsyncJsonWebsocketConsumer):
     async def throw_missed_field(self, event=None):
         await self._throw_error({"detail": "Missed required fields"}, event=event)
 
-    async def disconnect(self, *args, **kwargs):
+    async def throw_must_authenticate(self, event=None):
+        await self._throw_error({'detail': 'You must be authenticated'}, event=event)
+
+    async def disconnect(self, code):
         """ Discard from all channels """
         if self.dialogs:
             for dialog in self.dialogs:
