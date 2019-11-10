@@ -1,11 +1,9 @@
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.urls import path
-from backend.socket_chat.consumers.group import GroupConsumer
-from backend.socket_chat.consumers.dialog import DialogConsumer
+from backend.socket_chat.consumers.main import MainConsumer
 
 application = ProtocolTypeRouter({
     "websocket": URLRouter([
-        path('ws/dialogs/', DialogConsumer),
-        path('ws/groups/', GroupConsumer),
+        path('ws/main/', MainConsumer),
     ])
 })

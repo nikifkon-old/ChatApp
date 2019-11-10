@@ -6,22 +6,30 @@ from django.utils.translation import gettext_lazy as _
 from backend.socket_chat.consumers.base import BaseConsumer, private
 from backend.socket_chat.mixins.chat_db import ChatDBMixin
 
-class ChatConsumerMixin(BaseConsumer, ChatDBMixin):
+class ChatConsumerMixin(ChatDBMixin, BaseConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+    def setup(self, MetaData):
         try:
-            getattr(self.Meta, 'name')
-            self.Meta.name_plural = self.Meta.name + 's'
+            getattr(MetaData, 'name')
+            MetaData.name_plural = MetaData.name + 's'
         except AttributeError:
             raise ValidationError(_('missed attribute "name" required in Meta class'))
         
-        setattr(self, 'event_%s_list' % self.Meta.name_plural, self.list)
-        setattr(self, 'event_%s_get' % self.Meta.name, self.get)
-        setattr(self, 'event_%s_create' % self.Meta.name, self.create)
-        setattr(self, 'event_%s_delete' % self.Meta.name, self.delete)
-        setattr(self, 'event_%s_message_send' % self.Meta.name, self.message_send)
-        setattr(self, 'event_%s_message_delete' % self.Meta.name, self.message_delete)
-        setattr(self, 'event_%s_message_update' % self.Meta.name, self.message_update)
+        setattr(self, 'event_%s_list' % MetaData.name_plural, self.build(self.list, MetaData))
+        setattr(self, 'event_%s_get' % MetaData.name, self.build(self.get, MetaData))
+        setattr(self, 'event_%s_create' % MetaData.name, self.build(self.create, MetaData))
+        setattr(self, 'event_%s_delete' % MetaData.name, self.build(self.delete, MetaData))
+        setattr(self, 'event_%s_message_send' % MetaData.name, self.build(self.message_send, MetaData))
+        setattr(self, 'event_%s_message_delete' % MetaData.name, self.build(self.message_delete, MetaData))
+        setattr(self, 'event_%s_message_update' % MetaData.name, self.build(self.message_update, MetaData))
+
+    def build(self, method, MetaData):
+        def withMeta(_self, *args, **kwargs):
+            method.__self__.Meta = MetaData
+            return method(_self, *args, **kwargs)
+        return withMeta
 
     @private
     async def list(self, event):
