@@ -4,9 +4,9 @@ from django.core.exceptions import (
 from django.utils.translation import gettext_lazy as _
 
 from backend.socket_chat.consumers.base import BaseConsumer, private
-from backend.socket_chat.mixins.chat_db import ChatDBMixin
+from backend.socket_chat.mixins.chat_db import EventsDBMixin
 
-class ChatConsumerMixin(ChatDBMixin, BaseConsumer):
+class EventsMixin(EventsDBMixin, BaseConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 

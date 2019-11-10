@@ -4,11 +4,11 @@ from django.contrib.auth.models import User
 from channels.db import database_sync_to_async
 
 from backend.profiles.models import Profile
-from backend.socket_chat.consumers.dialog import DialogConsumer
-from backend.socket_chat.consumers.group import GroupConsumer 
+from backend.socket_chat.consumers.dialog import DialogEvents
+from backend.socket_chat.consumers.group import GroupEvents
 
 
-class MainConsumer(GroupConsumer, DialogConsumer):
+class MainConsumer(GroupEvents, DialogEvents):
     async def receive_json(self, content):
         """ Event managment """
         message = await self.parse_content(content)

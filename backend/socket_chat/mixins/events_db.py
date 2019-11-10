@@ -5,7 +5,7 @@ from django.core.exceptions import (
     ValidationError,
 )
 
-class ChatDBMixin:
+class EventsDBMixin:
     @database_sync_to_async
     def get_messages(self, id, user_id, filter=None):
         """ Get chat with messages """

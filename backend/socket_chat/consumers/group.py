@@ -1,4 +1,4 @@
-from backend.socket_chat.mixins.chat import ChatConsumerMixin
+from backend.socket_chat.mixins.chat import EventsMixin
 from backend.groups.models import (
     ChatGroup,
     GroupMembership,
@@ -10,7 +10,7 @@ from backend.api.v1.groups.serializers import (
     GroupMessageSerializer,
 )
 
-class GroupConsumer(ChatConsumerMixin):
+class GroupEvents(EventsMixin):
     def __init__(self, *args, **kwargs):
         self.setup(Meta)
         super().__init__(*args, **kwargs)
