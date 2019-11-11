@@ -46,7 +46,12 @@ class GroupMembership(models.Model):
     class Meta:
         verbose_name = "Membership in group"
         verbose_name_plural = "Memberships in group"
-        unique_together = ("person", "group")
+        constraints = [
+            models.UniqueConstraint(
+                fields=("person", "group"),
+                name="unique_person_and_group"
+            )
+        ]
 
     def __str__(self):
         return f"`{self.person.user.username}` in `{self.group.name}`"
@@ -65,19 +70,25 @@ class GroupMessage(MessageMixin):
         related_name=f"group_messages"
     )
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, unread=None, stared=None, **kwargs):
         """ set readers as group members """
         super().save(*args, **kwargs)
         for person in self.group.members.all():
-            unread = True
-            if person.id == self.sender.id:
-                unread = False
-
-            GroupMessageInfo.objects.create(
+            info, created = GroupMessageInfo.objects.get_or_create(
                 message=self,
                 person=person,
-                unread=unread,
             )
+            if created:
+                if person.id == self.sender.id:
+                    info.unread = False
+                else:
+                    info.unread = True
+            else:
+                if unread is not None:
+                    info.unread = unread
+                if stared is not None:
+                    info.stared = stared
+            info.save()
 
     class Meta:
         verbose_name = "Message in group"
@@ -89,7 +100,11 @@ class GroupMessage(MessageMixin):
 
 class GroupMessageInfo(models.Model):
     """ m2m for profile & group message """
-    message = models.ForeignKey(GroupMessage, on_delete=models.CASCADE)
+    message = models.ForeignKey(
+        GroupMessage,
+        on_delete=models.CASCADE,
+        related_name="message_info"
+    )
     person = models.ForeignKey(Profile, on_delete=models.CASCADE)
     unread = models.BooleanField(default=True)
     stared = models.BooleanField(default=False)

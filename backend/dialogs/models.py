@@ -77,7 +77,7 @@ class DialogMessage(MessageMixin):
         related_name="dialog_messages"
     )
 
-    def save(self, unread=None, stared=None, *args, **kwargs):
+    def save(self, *args, unread=None, stared=None, **kwargs):
         """ set readers as dialog members """
         super().save(*args, **kwargs)
         for person in self.dialog.members.all():
