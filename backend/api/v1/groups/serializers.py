@@ -42,7 +42,9 @@ class GroupSerializer(serializers.ModelSerializer):
     """ Group Serializer"""
     messages = serializers.SerializerMethodField()
     last_message = serializers.SerializerMethodField()
+    unread_count = serializers.SerializerMethodField()
     members = serializers.SerializerMethodField()
+
     messages_qs = None
 
     @property
@@ -96,6 +98,15 @@ class GroupSerializer(serializers.ModelSerializer):
             }
         ).data
 
+    def get_unread_count(self, obj):
+        if self.user_id:
+            count = GroupMessageInfo.objects.filter(
+                message__group=obj,
+                person__id=self.user_id,
+                unread=True
+            ).count()
+            return count
+
     def get_members(self, obj):
         return ProfileAsMemberSerializer(
             obj.members.all(),
@@ -115,7 +126,8 @@ class GroupSerializer(serializers.ModelSerializer):
             "description",
             "members",
             "messages",
-            "last_message"
+            "last_message",
+            "unread_count"
         )
 
 
