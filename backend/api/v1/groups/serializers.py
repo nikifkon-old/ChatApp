@@ -1,7 +1,9 @@
 from rest_framework import serializers
 
 from backend.api.v1.profiles.serializers import ProfileSerializer
-from backend.groups.models import ChatGroup, GroupMembership, GroupMessage
+from backend.groups.models import (ChatGroup, GroupMembership, GroupMessage,
+                                   GroupMessageInfo)
+from backend.profiles.models import Profile
 
 
 class MemberSerializer(serializers.ModelSerializer):
@@ -53,6 +55,19 @@ class GroupSerializer(serializers.ModelSerializer):
     def get_messages(self, obj):
         self.messages_qs = obj.messages.all()
 
+        if self.user_id:
+            person = Profile.objects.get(id=self.user_id)
+            if self.context.get('filter') == 'unread':
+                self.messages_qs = person.group_messages.filter(
+                    group=obj,
+                    message_info__unread=True
+                )
+            elif self.context.get('filter') == 'stared':
+                self.messages_qs = person.group_messages.filter(
+                    group=obj,
+                    message_info__stared=True
+                )
+
         if self.context.get('message_details'):
             return GroupMessageSerializer(
                 self.messages_qs,
@@ -60,7 +75,7 @@ class GroupSerializer(serializers.ModelSerializer):
                     "user_id": self.user_id
                 },
                 many=True
-            )
+            ).data
         else:
             return GroupMessageSerializer(
                 obj.messages.none(),
@@ -106,6 +121,36 @@ class GroupSerializer(serializers.ModelSerializer):
 
 class GroupMessageSerializer(serializers.ModelSerializer):
     """ Message Serializer"""
+    unread = serializers.SerializerMethodField()
+    stared = serializers.SerializerMethodField()
+
+    @property
+    def user_id(self):
+        if self.context.get('requests'):
+            return self.context.get('request').query_params.get('user_id')
+        else:
+            return self.context.get('user_id')
+
+    def get_message_info(self, obj):
+        return GroupMessageInfo.objects.get(
+            message=obj,
+            person__id=self.user_id
+        )
+
+    def get_unread(self, obj):
+        return self.get_message_info(obj).unread
+
+    def get_stared(self, obj):
+        return self.get_message_info(obj).stared
+
     class Meta:
         model = GroupMessage
-        fields = ("id", "sender", "group", "text", "date")
+        fields = (
+            "id",
+            "sender",
+            "group",
+            "text",
+            "date",
+            "unread",
+            "stared"
+        )
