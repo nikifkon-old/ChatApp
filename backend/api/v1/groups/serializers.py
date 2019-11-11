@@ -9,6 +9,7 @@ class MemberSerializer(serializers.ModelSerializer):
         model = GroupMembership
         fields = ("person", "group", "role", "date_joined")
 
+
 class ProfileAsMemberSerializer(ProfileSerializer):
     role = serializers.SerializerMethodField()
     date_joined = serializers.SerializerMethodField()
@@ -34,11 +35,13 @@ class ProfileAsMemberSerializer(ProfileSerializer):
         model = ProfileSerializer.Meta.model
         fields = ProfileSerializer.Meta.fields + ("role", "date_joined")
 
+
 class GroupSerializer(serializers.ModelSerializer):
     """ Group Serializer"""
     messages = serializers.SerializerMethodField()
     last_message = serializers.SerializerMethodField()
     members = serializers.SerializerMethodField()
+    messages_qs = None
 
     @property
     def user_id(self):

@@ -36,6 +36,7 @@ class EventsMixin(EventsDBMixin, BaseConsumer):
             return await self.throw_missed_field(event=event['event'])
         data = await self.get_list(self.user.id, filter_)
         await self._send_message(data, event=event['event'])
+
     @private
     async def get(self, event):
         """ get chat by id """

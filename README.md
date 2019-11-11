@@ -25,7 +25,7 @@ python manage.py makemigrations dialogs groups profiles socket_chat
 
 WebSocket DOC
 -----
-- **base URL**: `ws:/localhost:8000/ws/main`
+- **base URL**: `ws:/localhost:8000/ws/main/`
 - events:
   - *`authenticate`:*
     - authenticate user for auto insert *user id* in all event
@@ -56,7 +56,7 @@ WebSocket DOC
         }
     }
     ```
-  - *`dialogs.list`:*
+  - *`dialogs.list`(`groups.list`):*
     - get dialogs without messages
     - data:
       - *filter*, messages,

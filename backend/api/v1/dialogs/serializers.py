@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from backend.api.v1.profiles.serializers import ProfileSerializer
 from backend.dialogs.models import (
     Dialog,
     DialogMembership,
@@ -7,7 +8,6 @@ from backend.dialogs.models import (
     DialogMessageInfo,
 )
 from backend.profiles.models import Profile
-from backend.api.v1.profiles.serializers import ProfileSerializer
 
 
 class DialogMemberSerializer(serializers.ModelSerializer):
@@ -89,6 +89,7 @@ class DialogSerializer(serializers.ModelSerializer):
     last_message = serializers.SerializerMethodField()
     unread_count = serializers.SerializerMethodField()
     interlocutor = serializers.SerializerMethodField()
+    messages_qs = None
 
     @property
     def user_id(self):
@@ -155,7 +156,7 @@ class DialogSerializer(serializers.ModelSerializer):
             ).count()
             return count
 
-    def get_last_message(self, obj):
+    def get_last_message(self, _):
         """ Get last message in dialog """
         try:
             message = self.messages_qs.last()
