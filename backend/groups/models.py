@@ -10,8 +10,17 @@ class ChatGroup(models.Model):
     name = models.CharField("Name", max_length=100)
     slug = models.SlugField("Unique name", max_length=100, unique=True)
     img = models.ImageField("Image", upload_to="groups/", null=True, blank=True)
-    description = models.TextField("Description", max_length=1000, null=True, blank=True)
-    members = models.ManyToManyField(Profile, through='GroupMembership', related_name='groups')
+    description = models.TextField(
+        "Description",
+        max_length=1000,
+        null=True,
+        blank=True
+    )
+    members = models.ManyToManyField(
+        Profile,
+        through='GroupMembership',
+        related_name='groups'
+    )
 
     class Meta:
         verbose_name = "Group"
@@ -40,7 +49,11 @@ class GroupMembership(models.Model):
 
     person = models.ForeignKey(Profile, on_delete=models.CASCADE)
     group = models.ForeignKey(ChatGroup, on_delete=models.CASCADE)
-    role = models.CharField("Role in Group", max_length=1, choices=ROLES_CHOICES)
+    role = models.CharField(
+        "Role in Group",
+        max_length=1,
+        choices=ROLES_CHOICES
+    )
     date_joined = models.DateField("Date of joined", auto_now_add=True)
 
     class Meta:

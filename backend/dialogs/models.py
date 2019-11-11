@@ -11,7 +11,11 @@ from backend.socket_chat.models import MessageMixin
 
 class Dialog(models.Model):
     """ Room for 2 people """
-    members = models.ManyToManyField(Profile, through='DialogMembership', related_name='dialogs')
+    members = models.ManyToManyField(
+        Profile,
+        through='DialogMembership',
+        related_name='dialogs'
+    )
 
     class Meta:
         verbose_name = "Dialog"
@@ -57,7 +61,9 @@ class DialogMembership(models.Model):
                 member_dialogs = member.dialogs.exclude(id=self.dialog.id)
                 general_dialogs = member_dialogs & self.person.dialogs.all()
                 if len(general_dialogs) > 0:
-                    raise ValidationError(_('Person already have dialog with members'))
+                    raise ValidationError(_(
+                        'Person already have dialog with members'
+                    ))
         super().save(*args, **kwargs)
 
     def __str__(self):
