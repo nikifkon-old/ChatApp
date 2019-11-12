@@ -12,14 +12,18 @@ class EventsMixin(EventsDBMixin, BaseConsumer):
             meta.name_plural = meta.name + 's'
         except AttributeError:
             raise ValidationError(_('missed attribute "name" required in Meta class'))
+        
+        self.setattr('event_%s_list' % meta.name_plural, self.build(self.list, meta))
+        self.setattr('event_%s_get' % meta.name, self.build(self.get, meta))
+        self.setattr('event_%s_create' % meta.name, self.build(self.create, meta))
+        self.setattr('event_%s_delete' % meta.name, self.build(self.delete, meta))
+        self.setattr('event_%s_message_send' % meta.name, self.build(self.message_send, meta))
+        self.setattr('event_%s_message_delete' % meta.name, self.build(self.message_delete, meta))
+        self.setattr('event_%s_message_update' % meta.name, self.build(self.message_update, meta))
 
-        setattr(self, 'event_%s_list' % meta.name_plural, self.build(self.list, meta))
-        setattr(self, 'event_%s_get' % meta.name, self.build(self.get, meta))
-        setattr(self, 'event_%s_create' % meta.name, self.build(self.create, meta))
-        setattr(self, 'event_%s_delete' % meta.name, self.build(self.delete, meta))
-        setattr(self, 'event_%s_message_send' % meta.name, self.build(self.message_send, meta))
-        setattr(self, 'event_%s_message_delete' % meta.name, self.build(self.message_delete, meta))
-        setattr(self, 'event_%s_message_update' % meta.name, self.build(self.message_update, meta))
+    def setattr(self, name, method):
+        if not hasattr(self, name):
+            setattr(self, name, method)
 
     def build(self, method, meta):
         def with_meta(_self, *args, **kwargs):
