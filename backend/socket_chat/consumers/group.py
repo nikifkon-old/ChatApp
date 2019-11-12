@@ -30,18 +30,23 @@ class GroupEvents(EventsMixin):
             img = event['data'].get('img')
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
-        data, created = await self.create_group(name=name, slug=slug, description=description, img=img)
+        data, created = await self.create_group(
+            name=name,
+            slug=slug,
+            description=description,
+            img=img
+        )
         if created:
             users = [self.user.id]
             room = '%s_%d' % (Meta.name, data['id'])
-            data = {self.user.id: data}
+            room_data = {self.user.id: data}
             await self.channel_layer.group_send('general', {
                 'type': 'connect_users',
                 'event': event['event'],
                 'data': {
                     'users': users,
                     'room': room,
-                    'room_data': data
+                    'room_data': room_data
                 }
             })
         else:

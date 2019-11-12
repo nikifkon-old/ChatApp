@@ -140,7 +140,11 @@ class EventsDBMixin:
             new_chat,
             context={'user_id': id_}
         ).data
-        return {self.user.id: data1, id_: data2}, True
+        return {
+            self.user.id: data1,
+            id_: data2,
+            "chat_id": new_chat.id
+        }, True
 
     @database_sync_to_async
     def delete_chat(self, id_):

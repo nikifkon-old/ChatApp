@@ -59,10 +59,10 @@ class EventsMixin(EventsDBMixin, BaseConsumer):
             id_ = int(event.get('data')['id'])
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
-        data, is_ok = await self.create_chat(id_)
+        room_data, is_ok = await self.create_chat(id_)
         if is_ok:
             users = [self.user.id, id_]
-            chat_id = data[next(iter(data))].get('id')
+            chat_id = room_data.get('chat_id')
             room = '%s_%d' % (self.Meta.name, chat_id)
 
             await self.channel_layer.group_send('general', {
@@ -71,7 +71,7 @@ class EventsMixin(EventsDBMixin, BaseConsumer):
                 'data': {
                     'users': users,
                     'room': room,
-                    'room_data': data
+                    'room_data': room_data
                 }
             })
         else:
