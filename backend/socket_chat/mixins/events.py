@@ -75,7 +75,7 @@ class EventsMixin(EventsDBMixin, BaseConsumer):
                 }
             })
         else:
-            await self._throw_error(data, event=event['event'])
+            await self._throw_error(room_data, event=event['event'])
 
     @private
     async def delete(self, event):
