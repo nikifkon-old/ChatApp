@@ -1,4 +1,6 @@
 from channels.db import database_sync_to_async
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 
 from backend.socket_chat.consumers.base import private
 from backend.socket_chat.mixins.events import EventsMixin
@@ -30,16 +32,36 @@ class GroupEvents(EventsMixin):
             return await self.throw_missed_field(event=event['event'])
         data, created = await self.create_group(name=name, slug=slug, description=description, img=img)
         if created:
-            await self._send_message(data, event=event['event'])
+            users = [self.user.id]
+            room = '%s_%d' % (Meta.name, data['id'])
+            data = {self.user.id: data}
+            await self.channel_layer.group_send('general', {
+                'type': 'connect_users',
+                'event': event['event'],
+                'data': {
+                    'users': users,
+                    'room': room,
+                    'room_data': data
+                }
+            })
+        else:
+            await self._throw_error(data, event=event['event'])
 
     @database_sync_to_async
     def create_group(self, name, slug, description=None, img=None):
-        group = ChatGroup.objects.create(
-            name=name,
-            slug=slug,
-            description=description,
-            img=img
-        )
+        try:
+            group = ChatGroup.objects.create(
+                name=name,
+                slug=slug,
+                description=description,
+                img=img
+            )
+        except (IntegrityError, ValidationError) as error:
+            if isinstance(error, IntegrityError):
+                message = 'slug - `%s` has already taken' % slug
+            elif isinstance(error, ValidationError):
+                message = error.message
+            return {'detail': message}, False
         serialized = GroupSerializer(
             group,
             context={

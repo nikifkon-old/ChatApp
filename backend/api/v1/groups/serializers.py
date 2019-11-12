@@ -121,6 +121,7 @@ class GroupSerializer(serializers.ModelSerializer):
         model = ChatGroup
         fields = (
             "name",
+            "id",
             "slug",
             "img",
             "description",
