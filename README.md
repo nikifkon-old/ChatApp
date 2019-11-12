@@ -139,7 +139,7 @@ WebSocket DOC
         "event": "dialog.update",
         "data": {
             "id": "MESSAGE_ID",
-            "text": "NEW_TEXT",
+            "text": "NEW_TEXT"
         }
     }
     ```

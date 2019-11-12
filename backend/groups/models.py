@@ -80,7 +80,7 @@ class GroupMessage(MessageMixin):
     readers = models.ManyToManyField(
         Profile,
         through="GroupMessageInfo",
-        related_name=f"group_messages"
+        related_name="group_messages"
     )
 
     def save(self, *args, unread=None, stared=None, **kwargs):
