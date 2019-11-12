@@ -143,3 +143,21 @@ WebSocket DOC
         }
     }
     ```
+
+  - *`group.create`:*
+    - create group
+    - data:
+      - *name*, name of group, is required,
+      - *slug*, unique name of group, is required,
+      - *description*, group description,
+      - *img*, group avatar,
+    - example:
+    ```
+    {
+        "event": "group.create",
+        "data": {
+            "name": "GROUP_NAME",
+            "slug": "GROUP_SLUG"
+        }
+    }
+    ```
