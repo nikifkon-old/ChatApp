@@ -10,6 +10,10 @@ import { Btn } from '../../../styles'
 const { getQueryParams } = routerSelectors
 
 function AllowEmptyBtn({handler}) {
+  if (!handler) {
+    return null
+  }
+
   const filter = useSelector(state => getQueryParams(state, 'filter'));
 
   if (filter === null) {
@@ -24,7 +28,7 @@ function AllowEmptyBtn({handler}) {
 }
 
 AllowEmptyBtn.propTypes = {
-  handler: PropTypes.func.isRequired,
+  handler: PropTypes.func,
 };
 
 export default AllowEmptyBtn;

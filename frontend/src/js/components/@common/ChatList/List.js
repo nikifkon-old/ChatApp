@@ -68,7 +68,7 @@ List.propTypes = {
     fetching: PropTypes.bool.isRequired,
     error: PropTypes.object,
   }),
-  additionalBtnProps: PropTypes.object.isRequired,
+  additionalBtnProps: PropTypes.object,
   cardProps: PropTypes.object.isRequired,
   getCardData: PropTypes.func.isRequired,
 };
