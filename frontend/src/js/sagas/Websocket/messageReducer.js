@@ -45,6 +45,20 @@ function* MessageReducer({payload: event}) {
       }
       break
 
+    case events.GROUPS_LIST:
+      if(event.status === 'ok') {
+        yield put({
+          type: types.SET_GROUPS_DATA,
+          payload: event.data
+        })
+      } else {
+        console.log(event.data.detail);
+        yield put({
+          type: types.GET_GROUPS_FAILURE,
+          payload: event.data.detail
+        })
+      }
+
     case events.DIALOG_GET:
       if(event.status === 'ok') {
         yield put({

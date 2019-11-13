@@ -1,0 +1,1 @@
+export const getWebsocketIsAuth = state => state.app.websocket.authenticated
