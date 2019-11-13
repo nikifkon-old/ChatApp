@@ -18,6 +18,7 @@ function List(props) {
     listProps: {
       list,
       fetching,
+      errorMessage,
       error,
     },
     cardProps,
@@ -56,7 +57,7 @@ function List(props) {
               )
             }
             </ContentGrid>
-          : <P center>have not dialog yet...</P>
+          : <P center>{errorMessage}</P>
       }
     </StyledDialogList>
   );

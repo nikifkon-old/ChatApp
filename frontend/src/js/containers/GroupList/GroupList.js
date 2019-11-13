@@ -29,6 +29,7 @@ function GroupList() {
       listProps={{
         list: groupList,
         fetching,
+        errorMessage: "You don't have any group.",
         error
       }}
       cardProps={{

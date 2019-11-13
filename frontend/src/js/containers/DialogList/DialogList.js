@@ -34,6 +34,7 @@ function DialogList() {
       listProps={{
         list: dialogs,
         fetching,
+        errorMessage: "You don't have any dialogs.",
         error
       }}
       additionalBtnProps={{
