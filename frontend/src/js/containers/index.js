@@ -6,6 +6,7 @@ import SideBar from './SideBar'
 import DialogList from './DialogList'
 import DialogChat from './DialogChat'
 import GroupList from './GroupList'
+import GroupChat from './GroupChat'
 
 export {
   LoginForm,

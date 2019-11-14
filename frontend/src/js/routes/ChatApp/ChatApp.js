@@ -11,6 +11,7 @@ import {
   SideBar,
   DialogList,
   GroupList,
+  GroupChat,
 } from '../../containers'
 import { RoomCreate } from './index'
 import {
@@ -47,6 +48,7 @@ function ChatAppRoute(props) {
           path={`${url}/groups`}
         >
           <GroupList />
+          <GroupChat />
         </Route>
       </Switch>
       <SideBar />
