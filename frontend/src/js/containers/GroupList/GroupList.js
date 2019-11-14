@@ -5,7 +5,7 @@ import { ChatList } from '../../components'
 import { getWebsocketIsAuth } from '../../selectors/WebsocketSelectors'
 import { getGroupList, setActiveGroup } from '../../actions/groupActions'
 import { getQueryParams } from '../../selectors/RouterSelectors'
-import { selectGroupList, selectGroupInfo } from './selectors'
+import { selectGroupList, selectGroupInfo } from '../../selectors/GroupSelectors'
 
 
 function GroupList() {
