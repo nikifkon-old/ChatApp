@@ -74,10 +74,36 @@ function* MessageReducer({payload: event}) {
       }
       break
 
+    case events.GROUP_GET:
+      if(event.status === 'ok') {
+        yield put({
+          type: types.SET_GROUP_DATA,
+          payload: event.data
+        })
+      } else {
+        console.log(event.data.detail);
+        yield put({
+          type: types.GET_GROUPS_FAILURE,
+          payload: event.data.detail
+        })
+      }
+      break
+
     case events.DIALOG_SEND:
       if (event.status === 'ok') {
         yield put({
           type: types.PUSH_RECEIVE_MESSAGE_IN_DIALOG,
+          payload: event.data
+        })
+      } else {
+        console.log(event.data.detail);
+      }
+      break
+
+    case events.GROUP_SEND:
+      if (event.status === 'ok') {
+        yield put({
+          type: types.PUSH_RECEIVE_MESSAGE_IN_GROUP,
           payload: event.data
         })
       } else {
@@ -96,6 +122,17 @@ function* MessageReducer({payload: event}) {
       }
       break
 
+    case events.GROUP_DELETE_MESSAGE:
+      if (event.status === 'ok') {
+        yield put({
+          type: types.DELETE_GROUP_MESSAGE,
+          payload: event.data
+        })
+      } else {
+        console.log(event.data.detail);
+      }
+      break
+
     case events.DIALOG_UPDATE_MESSAGE:
       if (event.status === 'ok') {
         yield put({
@@ -106,6 +143,18 @@ function* MessageReducer({payload: event}) {
         console.log(event.data.detail);
       }
       break
+
+    case events.GROUP_UPDATE_MESSAGE:
+      if (event.status === 'ok') {
+        yield put({
+          type: types.UPDATE_GROUP_MESSAGE,
+          payload: event.data
+        })
+      } else {
+        console.log(event.data.detail);
+      }
+      break
+
     case events.DIALOG_CREATE:
       if (event.status === 'ok') {
         yield put({
