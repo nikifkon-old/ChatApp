@@ -136,6 +136,9 @@ class GroupMessageSerializer(serializers.ModelSerializer):
     """ Message Serializer"""
     unread = serializers.SerializerMethodField()
     stared = serializers.SerializerMethodField()
+    avatar = serializers.SerializerMethodField()
+    sender_name = serializers.SerializerMethodField()
+    chat_id = serializers.IntegerField(source="group.id")
 
     @property
     def user_id(self):
@@ -150,6 +153,12 @@ class GroupMessageSerializer(serializers.ModelSerializer):
             person__id=self.user_id
         )
 
+    def get_sender_name(self, obj):
+        return obj.sender.user.username
+
+    def get_avatar(self, obj):
+        return obj.sender.avatar.url
+
     def get_unread(self, obj):
         return self.get_message_info(obj).unread
 
@@ -161,7 +170,9 @@ class GroupMessageSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "sender",
-            "group",
+            "sender_name",
+            "avatar",
+            "chat_id",
             "text",
             "date",
             "unread",
