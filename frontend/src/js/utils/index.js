@@ -4,6 +4,7 @@ import required from './validation/required'
 import manyThen from './validation/manyThen'
 
 import getElapsedTime from './func/getElapsedTime'
+import useAction from './func/useAction'
 
 export {
   composeValidators,
@@ -11,4 +12,5 @@ export {
   required,
   manyThen,
   getElapsedTime,
+  useAction,
 }
