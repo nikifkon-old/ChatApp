@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import {
@@ -7,32 +7,30 @@ import {
 } from '../../components'
 import {
   sendMessageInDialog,
-  setAsRead,
+  setAsReadDialogMessage,
   updateMessageInDialog,
   deleteMessageInDialog,
 } from '../../actions/dialogActions'
 import {
-  dialogSelectors,
-} from '../../selectors'
-import { getFirstUnread } from '../../selectors/DialogSelectors'
+  getFirstUnread,
+  selectDialogInfo,
+  getActiveDialog
+} from '../../selectors/DialogSelectors'
+import { useAction } from '../../utils'
 
-const { getActiveDialogId, getDialog, getDialogs } = dialogSelectors
+const DialogChat = () => {
+  const info = useSelector(state => selectDialogInfo(state))
+  const { fetching, success, error } = info
 
-const DialogChat = (props) => {
-  let {
-    dialog,
-    fetching,
-    success,
-    error,
-    firstUnread,
-    sendMessageInDialog,
-    setAsRead,
-    updateMessageInDialog,
-    deleteMessageInDialog,
-  } = props
-
+  const dialog = useSelector(state => getActiveDialog(state))
   let title = dialog && dialog.interlocutor.user
   let id = dialog && dialog.id
+  const firstUnread = useSelector(state => getFirstUnread(state))
+
+  const sendMessage = useAction(sendMessageInDialog)
+  const setAsRead = useAction(setAsReadDialogMessage)
+  const updateMessage= useAction(updateMessageInDialog)
+  const deleteMessage = useAction(deleteMessageInDialog)
 
   return (
     <Chat
@@ -47,54 +45,30 @@ const DialogChat = (props) => {
         title
       }}
       inputProps={{
-        sendMessage: sendMessageInDialog,
+        sendMessage,
         id
       }}
       messageProps={{
         setAsRead,
-        updateMessage: updateMessageInDialog,
-        deleteMessage: deleteMessageInDialog
+        updateMessage,
+        deleteMessage
       }}
     />
-  )
+  );
 }
 
-const mapStateToProps = state => {
-  const dialogs = getDialogs(state)
-  const { fetching, success, error } = dialogs
-  const active = getActiveDialogId(state)
-  const dialog = getDialog(state, active)
-  const firstUnread = getFirstUnread(state)
+// DialogChat.propTypes = {
+//   sendMessageInDialog: PropTypes.func.isRequired,
+//   firstUnread: PropTypes.number,
+//   dialog: PropTypes.shape({
+//     id: PropTypes.number.isRequired,
+//     last_message: PropTypes.object.isRequired,
+//     interlocutor: PropTypes.object.isRequired,
+//     messages: PropTypes.array,
+//   }),
+//   fetching: PropTypes.bool.isRequired,
+//   success: PropTypes.bool.isRequired,
+//   error: PropTypes.string,
+// };
 
-  return {
-    dialog,
-    fetching,
-    success,
-    error,
-    firstUnread
-  }
-}
-
-DialogChat.propTypes = {
-  sendMessageInDialog: PropTypes.func.isRequired,
-  firstUnread: PropTypes.number,
-  dialog: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    last_message: PropTypes.object.isRequired,
-    interlocutor: PropTypes.object.isRequired,
-    messages: PropTypes.array,
-  }),
-  fetching: PropTypes.bool.isRequired,
-  success: PropTypes.bool.isRequired,
-  error: PropTypes.string,
-};
-
-export default connect(
-  mapStateToProps,
-  {
-    sendMessageInDialog,
-    setAsRead,
-    updateMessageInDialog,
-    deleteMessageInDialog,
-  }
-)(DialogChat);
+export default DialogChat;

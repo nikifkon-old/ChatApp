@@ -84,7 +84,7 @@ export const createDialog = ({person_id}) => {
   }
 }
 
-export const setAsRead = ({chat_id, message_id}) => {
+export const setAsReadDialogMessage = ({chat_id, message_id}) => {
   return {
     type: types.SET_AS_READ_DIALOG_MESSAGE,
     payload: {

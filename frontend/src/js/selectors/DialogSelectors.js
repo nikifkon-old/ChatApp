@@ -1,14 +1,16 @@
-export const getActiveDialogId = state => state.app.dialogs.active;
+export const selectDialogInfo = state => state.app.dialogs
+export const selectDialogData = state => state.app.dialogs.data
 
-export const getDialogs = state => state.app.dialogs
+export const getActiveId = state => selectDialogInfo(state).active;
 
-export const getDialog = (state, id) => state.app.dialogs.data.find(
+export const getDialogById = (state, id) => selectDialogData(state).find(
   dialog => dialog.id === id
-);
+)
+
+export const getActiveDialog = state => getDialogById(state, getActiveId(state))
 
 export const getFirstUnread = state => {
-  const id = getActiveDialogId(state)
-  const dialog = getDialog(state, id)
+  const dialog = getActiveDialog(state)
   if (dialog) {
     const firstUnread = dialog.messages.find(message => message.unread === true)
     if (firstUnread) {

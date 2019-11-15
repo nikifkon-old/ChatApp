@@ -6,7 +6,6 @@ import {
   getWebsocketIsAuth,
 } from '../../reducers/selectors'
 import {
-  dialogSelectors,
   routerSelectors,
 } from '../../selectors'
 import {
@@ -16,8 +15,8 @@ import {
   getDialogData,
   getDialogDetails,
 } from '../../actions/dialogActions'
+import { getActiveDialog } from '../../selectors/DialogSelectors'
 
-const { getActiveDialogId, getDialog } = dialogSelectors
 const { getQueryParams } = routerSelectors
 
 export default function useWebsocket() {
@@ -43,15 +42,14 @@ export default function useWebsocket() {
   }, [websocketIsAuth, dispatch, filter])
 
   // get dialogs details on active dialog change
-  const active = useSelector(state => getActiveDialogId(state));
-  const activeDialog = useSelector(state => getDialog(state, active))
+  const activeDialog = useSelector(state => getActiveDialog(state))
 
   useEffect(() => {
     if (activeDialog &&
       !activeDialog.fetched &&
       filter !== 'stared'
     ) {
-      dispatch(getDialogDetails(active))
+      dispatch(getDialogDetails(activeDialog.id))
     }
-  }, [active, activeDialog, dispatch, filter])
+  }, [activeDialog, dispatch, filter])
 }
