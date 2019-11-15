@@ -144,6 +144,27 @@ WebSocket DOC
     }
     ```
 
+  - *`dialog.messages.setasread`:*
+    - set as read messages 
+    - data:
+      - *list*, of messages, is required
+        - *chat_id*, id of chat, is required
+        - *message_id*, id of message, is required
+    - example:
+    ```
+    {
+        "event": "dialog.messages.setasread",
+        "data": {
+            "list": [
+                {
+                  "chat_id": "CHAT_ID",
+                  "message_id": "MESSAGE_ID"
+                }
+            ]
+        }
+    }
+    ```
+
   - *`group.create`:*
     - create group
     - data:
