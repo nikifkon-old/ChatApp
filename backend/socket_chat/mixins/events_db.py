@@ -108,6 +108,16 @@ class EventsDBMixin:
             return {'detail': 'Message doesn\'t exist'}, False
 
     @database_sync_to_async
+    def set_as_read(self, messages):
+        for message in messages:
+            info = self.Meta.message_info_model.objects.get(
+                person=self.user.id,
+                message__id=message['message_id']
+            )
+            info.unread = False
+            info.save()
+
+    @database_sync_to_async
     def create_chat(self, id_):
         """ Create chat in Database """
         try:

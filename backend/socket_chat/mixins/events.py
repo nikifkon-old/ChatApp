@@ -20,6 +20,7 @@ class EventsMixin(EventsDBMixin, BaseConsumer):
         self.setattr('event_%s_message_send' % meta.name, self.build(self.message_send, meta))
         self.setattr('event_%s_message_delete' % meta.name, self.build(self.message_delete, meta))
         self.setattr('event_%s_message_update' % meta.name, self.build(self.message_update, meta))
+        self.setattr('event_%s_messages_setasread' % meta.name, self.build(self.messages_setasread, meta))
 
     def setattr(self, name, method):
         if not hasattr(self, name):
@@ -166,3 +167,12 @@ class EventsMixin(EventsDBMixin, BaseConsumer):
                 data,
                 event=event['event']
             )
+
+    @private
+    async def messages_setasread(self, event):
+        """ set as read messages """
+        try:
+            messages = event['data']['list']
+        except KeyError:
+            return await self.throw_missed_field(event=event['event'])
+        await self.set_as_read(messages)
