@@ -1,49 +1,52 @@
-import { takeEvery, put, delay } from 'redux-saga/effects'
+import { takeEvery, put, debounce } from 'redux-saga/effects'
 
 import * as types from '../../actions'
 import * as events from '../../actions/websocketEvents'
 
 let dialogsMessages = []
+let groupsMessages = []
 
-function* watchDialogMessages() {
-  while(true) {
-    yield delay(5000)
-    
-    if(dialogsMessages.length > 0) {
-      yield put({
-        type: types.WEBSOCKET_SEND_REQUEST,
-        payload: {
-          event: events.DIALOG_MESSAGES_SETASREAD, 
-          data: {
-            list: dialogsMessages
-          }
+function* groupSetAsRead() {
+  if(groupsMessages.length > 0) {
+    yield put({
+      type: types.WEBSOCKET_SEND_REQUEST,
+      payload: {
+        event: events.GROUP_MESSAGES_SETASREAD, 
+        data: {
+          list: groupsMessages
         }
-      })
-      dialogsMessages = []
-    }
+      }
+    })
+    groupsMessages = []
   }
 }
 
-function* setAsRead({payload}) {
+function* dialogSetAsRead() {
+  if(dialogsMessages.length > 0) {
+    yield put({
+      type: types.WEBSOCKET_SEND_REQUEST,
+      payload: {
+        event: events.DIALOG_MESSAGES_SETASREAD, 
+        data: {
+          list: dialogsMessages
+        }
+      }
+    })
+  dialogsMessages = []
+  }
+}
+
+function* pushDialogMessage({payload}) {
   dialogsMessages.push(payload)
 }
 
-function* setAsReadGroupMessage({payload}) {
-  const { chat_id, message_id } = payload
-  yield put({
-    type: types.WEBSOCKET_SEND_REQUEST,
-    payload: {
-      event: events.GROUP_UPDATE_MESSAGE, 
-      data: {
-        id: message_id,
-        unread: false,
-      }
-    }
-  })
+function* pushGroupMessage({payload}) {
+  groupsMessages.push(payload)
 }
 
 export default function* () {
-  yield takeEvery(types.SET_AS_READ_DIALOG_MESSAGE, setAsRead)
-  yield takeEvery(types.SET_AS_READ_GROUP_MESSAGE, setAsReadGroupMessage)
-  yield watchDialogMessages()
+  yield takeEvery(types.SET_AS_READ_DIALOG_MESSAGE, pushDialogMessage)
+  yield takeEvery(types.SET_AS_READ_GROUP_MESSAGE, pushGroupMessage)
+  yield debounce(3000, () => dialogsMessages.length > 0, dialogSetAsRead)
+  yield debounce(3000, () => groupsMessages.length > 0, groupSetAsRead)
 }
