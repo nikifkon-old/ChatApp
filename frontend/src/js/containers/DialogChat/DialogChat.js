@@ -10,7 +10,7 @@ import {
   setAsRead,
   updateMessageInDialog,
   deleteMessageInDialog,
-} from '../../actions/chatActions'
+} from '../../actions/dialogActions'
 import {
   dialogSelectors,
 } from '../../selectors'

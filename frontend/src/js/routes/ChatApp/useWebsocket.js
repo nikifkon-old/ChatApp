@@ -11,9 +11,11 @@ import {
 } from '../../selectors'
 import {
   connectToWebSocket,
+} from '../../actions/chatActions'
+import {
   getDialogData,
   getDialogDetails,
-} from '../../actions/chatActions'
+} from '../../actions/dialogActions'
 
 const { getActiveDialogId, getDialog } = dialogSelectors
 const { getQueryParams } = routerSelectors

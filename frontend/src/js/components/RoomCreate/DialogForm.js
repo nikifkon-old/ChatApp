@@ -2,7 +2,7 @@ import React, { Fragment, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { Form, Field } from 'react-final-form'
 
-import { createDialog } from '../../actions/chatActions'
+import { createDialog } from '../../actions/dialogActions'
 import { IconButton } from '../index'
 import { CreatingForm } from './styles'
 import { TextField, P } from '../../styles'
