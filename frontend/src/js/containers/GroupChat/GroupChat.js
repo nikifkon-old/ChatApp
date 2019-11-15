@@ -10,7 +10,7 @@ import {
   getGroupDetails
 } from '../../actions/groupActions'
 import { getQueryParams } from '../../selectors/RouterSelectors'
-import { getActiveGroup, selectGroupInfo } from '../../selectors/GroupSelectors'
+import { getActiveGroup, selectGroupInfo, getFirstUnread } from '../../selectors/GroupSelectors'
 import { useAction } from '../../utils'
 
 function GroupChat() {
@@ -19,6 +19,7 @@ function GroupChat() {
   const group = useSelector(state => getActiveGroup(state))
   const title = group && group.name
   const id = group && group.id
+  const firstUnread = useSelector(state => getFirstUnread(state))
   const { fetching, success, error } = useSelector(state => selectGroupInfo(state))
 
   const filter = useSelector(state => getQueryParams(state, 'filter'))
@@ -43,7 +44,8 @@ function GroupChat() {
         data: group,
         fetching,
         success,
-        error
+        error,
+        firstUnread
       }}
       topPanelProps={{
         title

@@ -14,6 +14,7 @@ import {
 import {
   dialogSelectors,
 } from '../../selectors'
+import { getFirstUnread } from '../../selectors/DialogSelectors'
 
 const { getActiveDialogId, getDialog, getDialogs } = dialogSelectors
 
@@ -23,6 +24,7 @@ const DialogChat = (props) => {
     fetching,
     success,
     error,
+    firstUnread,
     sendMessageInDialog,
     setAsRead,
     updateMessageInDialog,
@@ -38,7 +40,8 @@ const DialogChat = (props) => {
         data: dialog,
         fetching,
         success,
-        error
+        error,
+        firstUnread
       }}
       topPanelProps={{
         title
@@ -61,11 +64,14 @@ const mapStateToProps = state => {
   const { fetching, success, error } = dialogs
   const active = getActiveDialogId(state)
   const dialog = getDialog(state, active)
+  const firstUnread = getFirstUnread(state)
+
   return {
     dialog,
     fetching,
     success,
     error,
+    firstUnread
   }
 }
 

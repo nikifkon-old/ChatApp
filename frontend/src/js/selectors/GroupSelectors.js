@@ -10,3 +10,13 @@ export const getGroupById = (state, id) => {
 }
 
 export const getActiveGroup = state => getGroupById(state, getActiveId(state))
+
+export const getFirstUnread = state => {
+  const group = getActiveGroup(state)
+  if (group) {
+    const firstUnread = group.messages.find(message => message.unread === true)
+    if (firstUnread) {
+      return firstUnread.id
+    }
+  }
+}

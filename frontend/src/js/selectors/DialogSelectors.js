@@ -9,8 +9,10 @@ export const getDialog = (state, id) => state.app.dialogs.data.find(
 export const getFirstUnread = state => {
   const id = getActiveDialogId(state)
   const dialog = getDialog(state, id)
-  const firstUnread = dialog.messages.find(message => message.unread === true)
-  if (firstUnread) {
-    return firstUnread.id
+  if (dialog) {
+    const firstUnread = dialog.messages.find(message => message.unread === true)
+    if (firstUnread) {
+      return firstUnread.id
+    }
   }
 }

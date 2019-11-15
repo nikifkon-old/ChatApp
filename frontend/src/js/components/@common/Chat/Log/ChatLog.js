@@ -15,6 +15,7 @@ function ChatLog(props) {
     data,
     success,
     error,
+    firstUnread,
     messageProps,
   } = props
   const ChatLog = React.createRef()
@@ -49,6 +50,7 @@ function ChatLog(props) {
                   <Fragment key={message.id}>
                     <NewMessagesLabel
                       id={message.id}
+                      firstUnread={firstUnread}
                     />
                     <Message
                       key={message.id}
@@ -74,6 +76,7 @@ ChatLog.propTypes = {
   fetching: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
   error: PropTypes.string,
+  firstUnread: PropTypes.number,
 };
 
 export default ChatLog;
