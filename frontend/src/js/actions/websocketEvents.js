@@ -7,6 +7,7 @@ export const DIALOG_DELETE = 'dialog.delete'
 export const DIALOG_SEND = 'dialog.message.send'
 export const DIALOG_DELETE_MESSAGE = 'dialog.message.delete'
 export const DIALOG_UPDATE_MESSAGE = 'dialog.message.update'
+export const DIALOG_MESSAGES_SETASREAD = 'dialog.messages.setasread'
 
 export const GROUPS_LIST = 'groups.list'
 export const GROUP_GET = 'group.get'
