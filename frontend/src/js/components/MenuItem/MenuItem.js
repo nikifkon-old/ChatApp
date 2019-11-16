@@ -1,16 +1,16 @@
 import React from 'react'
-import { Link, useRouteMatch } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import { P, dark_cont2, dark_active } from '../../styles'
 
 const MenuRow = ({unreadCount, title, link}) => {
-  let match = useRouteMatch('/app/:page');
-  const page = match && match.params ? match.params.page : null;
+  let location = useLocation('/app');
+  const page = `${location.pathname}${location.search}`
 
   title = title.toLowerCase();
-  const isActive = (page === title);
+  const isActive = page === `/app/${link}` || page === `/app/${title}`
 
   return (
     <StyledLink
