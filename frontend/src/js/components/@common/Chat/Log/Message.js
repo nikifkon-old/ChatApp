@@ -71,18 +71,25 @@ class Message extends Component {
 
   MessageRef = createRef()
 
-  componentDidUpdate() {
-    const { setAsRead, message } = this.props
-    const { chat_id, id, unread } = message
+  componentDidMount() {
+    this.setAsRead()
+  }
 
-    if(unread) {
-      const msg = this.MessageRef.current
-      const messageOffset = msg.offsetTop + msg.scrollHeight - 80
+  componentDidUpdate() {
+    this.setAsRead()
+  }
+
+  setAsRead() {
+    const { setAsRead, message } = this.props;
+    const { chat_id, id, unread } = message;
+    if (unread) {
+      const msg = this.MessageRef.current;
+      const messageOffset = msg.offsetTop + msg.scrollHeight - 80;
       if (unread && messageOffset < this.props.maxOffset) {
         setAsRead({
           message_id: id,
           chat_id,
-        })
+        });
       }
     }
   }

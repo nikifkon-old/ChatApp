@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useCallback } from 'react';
+import React, { Fragment, useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -22,6 +22,17 @@ function ChatLog(props) {
 
   const [maxOffset, setMaxOffset] = useState(null)
 
+  // set initial value to maxOffset
+  useEffect(() => {
+    const elementDom = ChatLog.current
+    if(elementDom) {
+      const new_value = elementDom.scrollTop + elementDom.offsetHeight
+      if(!maxOffset) {
+        setMaxOffset(new_value)
+      }
+    }
+  }, [ChatLog.current])
+
   const handleScroll = useCallback((e) => {
     const elementDom = e.target
     const new_value = elementDom.scrollTop + elementDom.offsetHeight
@@ -32,11 +43,12 @@ function ChatLog(props) {
     else if ( Math.abs(maxOffset - new_value) > 100) {
       setMaxOffset(new_value)
     }
+    // on end
     else if (new_value === scrollHeight) {
       setMaxOffset(scrollHeight)
     }
   }, [maxOffset])
-
+  
   return (
     <StyledChatLog
       onScroll={handleScroll}
