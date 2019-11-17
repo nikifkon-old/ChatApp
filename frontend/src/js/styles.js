@@ -145,8 +145,8 @@ export const TextField = withStyles({
       width: props => props.width || '100%',
       color: dark_cont
     },
-    '& label.Mui-focused': {
-      color: dark_cont1,
+    '& label': {
+      color: dark_cont2,
     },
     '& .MuiInputBase-root': {
       '&': {

@@ -81,3 +81,15 @@ export const setAsReadGroupMessage = ({chat_id, message_id}) => {
     }
   }
 }
+
+export const createGroup = ({name, slug, description, img}) => {
+  return {
+    type: types.WEBSOCKET_SEND_REQUEST,
+    payload: {
+      event: events.GROUP_CREATE,
+      data: {
+        name, slug, description, img
+      }
+    }
+  }
+}
