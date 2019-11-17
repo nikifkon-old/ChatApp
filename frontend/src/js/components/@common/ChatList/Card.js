@@ -29,12 +29,12 @@ function Card(props) {
 
   const dispatch = useDispatch()
 
-  function handleDialogDetails() {
+  function handleActive() {
     dispatch(setActive(id))
   }
 
   return (
-    <Grid onClick={handleDialogDetails}>
+    <Grid onClick={handleActive}>
       <AvatarItem
         src={avatar}
         round
