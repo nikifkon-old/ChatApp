@@ -165,6 +165,17 @@ function* MessageReducer({payload: event}) {
         console.log(event.data.detail);
       }
       break
+      
+    case events.GROUP_CREATE:
+      if (event.status === 'ok') {
+        yield put({
+          type: types.PUSH_NEW_GROUP,
+          payload: event.data
+        })
+      } else {
+        console.log(event.data.detail);
+      }
+      break
     default:
       yield
   }
