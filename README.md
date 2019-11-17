@@ -171,7 +171,6 @@ WebSocket DOC
       - *name*, name of group, is required,
       - *slug*, unique name of group, is required,
       - *description*, group description,
-      - *img*, group avatar,
     - example:
     ```
     {

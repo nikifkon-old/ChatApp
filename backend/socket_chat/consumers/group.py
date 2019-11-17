@@ -27,14 +27,12 @@ class GroupEvents(EventsMixin):
             name = event['data']['name']
             slug = event['data']['slug']
             description = event['data'].get('description')
-            img = event['data'].get('img')
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
         data, created = await self.create_group(
             name=name,
             slug=slug,
             description=description,
-            img=img
         )
         if created:
             users = [self.user.id]
@@ -53,13 +51,12 @@ class GroupEvents(EventsMixin):
             await self._throw_error(data, event=event['event'])
 
     @database_sync_to_async
-    def create_group(self, name, slug, description=None, img=None):
+    def create_group(self, name, slug, description=None):
         try:
             group = ChatGroup.objects.create(
                 name=name,
                 slug=slug,
                 description=description,
-                img=img
             )
         except (IntegrityError, ValidationError) as error:
             if isinstance(error, IntegrityError):

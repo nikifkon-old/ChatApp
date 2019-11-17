@@ -8,10 +8,9 @@ import { createGroup } from '../../actions/groupActions';
 function GroupForm() {
   const dispatch = useDispatch()
 
-  const handleSubmit = ({name, slug, description, img}) => {
-    img = img.replace("C:\\fakepath\\", "")
+  const handleSubmit = ({name, slug, description}) => {
     dispatch(createGroup({
-      name, slug, description, img
+      name, slug, description
     }))
   }
 
@@ -21,7 +20,10 @@ function GroupForm() {
       <Form
         onSubmit={handleSubmit}
         render={({handleSubmit}) => (
-          <CreatingForm onSubmit={handleSubmit}>
+          <CreatingForm
+            onSubmit={handleSubmit}
+            enctype="multipart/form-data"
+           >
             <Field
               component={TextField}
               name="name"
@@ -46,17 +48,6 @@ function GroupForm() {
               variant="outlined"
               margin="normal"
             />
-            <Field
-              component="input"
-              name="img"
-              type="file"
-              accept="image/*"
-              hidden
-              id="load-file-group-form"
-            />
-            <label htmlFor="load-file-group-form">
-              <Btn component="span">Load avatar</Btn>
-            </label>
             <Btn type="submit">Create</Btn>
           </CreatingForm>
         )}
