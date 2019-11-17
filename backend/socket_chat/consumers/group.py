@@ -64,6 +64,11 @@ class GroupEvents(EventsMixin):
             elif isinstance(error, ValidationError):
                 message = error.message
             return {'detail': message}, False
+        GroupMembership.objects.create(
+            group=group,
+            person_id=self.user.id,
+            role="A"
+        )
         serialized = GroupSerializer(
             group,
             context={
