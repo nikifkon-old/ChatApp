@@ -5,7 +5,7 @@ export const getActiveId = state => selectGroupInfo(state).active
 
 export const getGroupById = (state, id) => {
   return selectGroupList(state).find(
-    group => group.id = id
+    group => group.id === id
   )
 }
 
