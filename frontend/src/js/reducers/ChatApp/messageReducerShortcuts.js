@@ -125,3 +125,12 @@ export const pushChat = (state, payload) => {
     ]
   }
 }
+
+export const popChat = (state, payload) => {
+  return {
+    ...state,
+    data: state.data.filter(
+      chat => chat.id !== payload.id
+    )
+  }
+}

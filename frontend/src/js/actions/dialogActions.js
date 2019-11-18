@@ -84,6 +84,18 @@ export const createDialog = ({person_id}) => {
   }
 }
 
+export const deleteDialog = ({id}) => {
+  return {
+    type: types.WEBSOCKET_SEND_REQUEST,
+    payload: {
+      event: events.DIALOG_DELETE,
+      data: {
+        id
+      }
+    }
+  }
+}
+
 export const setAsReadDialogMessage = ({chat_id, message_id}) => {
   return {
     type: types.SET_AS_READ_DIALOG_MESSAGE,

@@ -176,6 +176,29 @@ function* MessageReducer({payload: event}) {
         console.log(event.data.detail);
       }
       break
+    
+    case events.DIALOG_DELETE:
+      if (event.status === 'ok') {
+        yield put({
+          type: types.POP_DIALOG,
+          payload: event.data
+        })
+      } else {
+        console.log(event.data.detail);
+      }
+      break
+    
+    case events.GROUP_DELETE:
+      if (event.status === 'ok') {
+        yield put({
+          type: types.POP_GROUP,
+          payload: event.data
+        })
+      } else {
+        console.log(event.data.detail);
+      }
+      break
+
     default:
       yield
   }

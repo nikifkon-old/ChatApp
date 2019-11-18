@@ -7,6 +7,7 @@ import {
   setAsRead,
   pushChat,
   setData,
+  popChat,
 } from './messageReducerShortcuts'
 
 const initialState = {
@@ -55,6 +56,9 @@ export default function(state = initialState, action) {
     case types.PUSH_NEW_DIALOG: {
       return pushChat(state, action.payload)
     }
+
+    case types.POP_DIALOG:
+      return popChat(state, action.payload)
 
     case types.SET_AS_READ_DIALOG_MESSAGE: {
       return setAsRead(state, action.payload)

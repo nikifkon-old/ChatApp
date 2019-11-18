@@ -7,7 +7,8 @@ import {
   setAsReadGroupMessage,
   updateMessageInGroup,
   deleteMessageInGroup,
-  getGroupDetails
+  getGroupDetails,
+  deleteGroup
 } from '../../actions/groupActions'
 import { getQueryParams } from '../../selectors/RouterSelectors'
 import { getActiveGroup, selectGroupInfo, getFirstUnread } from '../../selectors/GroupSelectors'
@@ -37,6 +38,7 @@ function GroupChat() {
   const updateMessage = useAction(updateMessageInGroup)
   const deleteMessage = useAction(deleteMessageInGroup)
   const setAsRead = useAction(setAsReadGroupMessage)
+  const deleteChat = useAction(deleteGroup)
 
   return (
     <Chat
@@ -48,7 +50,9 @@ function GroupChat() {
         firstUnread
       }}
       topPanelProps={{
-        title
+        title,
+        deleteChat,
+        id
       }}
       inputProps={{
         sendMessage,

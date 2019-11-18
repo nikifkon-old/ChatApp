@@ -10,6 +10,7 @@ import {
   setAsReadDialogMessage,
   updateMessageInDialog,
   deleteMessageInDialog,
+  deleteDialog,
 } from '../../actions/dialogActions'
 import {
   getFirstUnread,
@@ -31,6 +32,7 @@ const DialogChat = () => {
   const setAsRead = useAction(setAsReadDialogMessage)
   const updateMessage= useAction(updateMessageInDialog)
   const deleteMessage = useAction(deleteMessageInDialog)
+  const deleteChat = useAction(deleteDialog)
 
   return (
     <Chat
@@ -42,7 +44,9 @@ const DialogChat = () => {
         firstUnread
       }}
       topPanelProps={{
-        title
+        title,
+        deleteChat,
+        id
       }}
       inputProps={{
         sendMessage,

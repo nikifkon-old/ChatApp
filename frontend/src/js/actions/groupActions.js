@@ -93,3 +93,15 @@ export const createGroup = ({name, slug, description}) => {
     }
   }
 }
+
+export const deleteGroup = ({id}) => {
+  return {
+    type: types.WEBSOCKET_SEND_REQUEST,
+    payload: {
+      event: events.GROUP_DELETE,
+      data: {
+        id
+      }
+    }
+  }
+}
