@@ -23,7 +23,7 @@ export default createGlobalStyle`
     margin: 0;
     padding: 0;
     font-family: 'Nunito', sans-serif;
-    background: ${bgColor};
+    background: ${dark_bg1};
   }
 
   a {
