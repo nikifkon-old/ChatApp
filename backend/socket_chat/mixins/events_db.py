@@ -162,6 +162,6 @@ class EventsDBMixin:
         try:
             chat = self.Meta.chat_model.objects.get(id=id_)
             chat.delete()
-            return id_, True
+            return {"id": id_}, True
         except ObjectDoesNotExist:
-            return {'detail': f'{self.chat_name} doesn\'t exist'}, False
+            return {'detail': f'{self.Meta.name} doesn\'t exist'}, False
