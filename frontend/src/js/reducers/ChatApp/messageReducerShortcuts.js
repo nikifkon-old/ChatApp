@@ -70,17 +70,16 @@ export const deleteMessage = (state, payload) => {
 }
 
 export const updateMessage = (state, payload) => {
-  const chat_id = Number(payload.chat_id)
   const message_id = Number(payload.id)
   
   return {
     ...state,
     data: state.data.map(
-      chat => chat.id === chat_id ?
-      {
+      chat => chat.messages.length > 0
+      ? {
         ...chat,
         messages: chat.messages.map(
-          message => message.id === message_id
+            message => message.id === message_id
           ? {
             ...message,
             ...payload,

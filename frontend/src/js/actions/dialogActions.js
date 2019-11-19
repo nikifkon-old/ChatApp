@@ -104,3 +104,15 @@ export const setAsReadDialogMessage = ({chat_id, message_id}) => {
     }
   }
 }
+
+export const starDialogMessage = ({message_id, star}) => {
+  return {
+    type: types.WEBSOCKET_SEND_REQUEST,
+    payload: {
+      event: events.DIALOG_MESSAGE_STAR,
+      data: {
+        message_id, star
+      }
+    }
+  }
+}

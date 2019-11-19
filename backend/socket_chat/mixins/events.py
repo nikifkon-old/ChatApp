@@ -21,6 +21,7 @@ class EventsMixin(EventsDBMixin, BaseConsumer):
         self.setattr('event_%s_message_delete' % meta.name, self.build(self.message_delete, meta))
         self.setattr('event_%s_message_update' % meta.name, self.build(self.message_update, meta))
         self.setattr('event_%s_messages_setasread' % meta.name, self.build(self.messages_setasread, meta))
+        self.setattr('event_%s_message_star' % meta.name, self.build(self.message_star, meta))
 
     def setattr(self, name, method):
         if not hasattr(self, name):
@@ -176,3 +177,17 @@ class EventsMixin(EventsDBMixin, BaseConsumer):
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
         await self.set_as_read(messages)
+
+    @private
+    async def message_star(self, event):
+        """ star/unstar message """
+        try:
+            star = event['data']['star']
+            message_id = event['data']['message_id']
+        except KeyError:
+            return await self.throw_missed_field(event=event['event'])
+        data, is_ok = await self.star_message(message_id=message_id, star=star)
+        if is_ok:
+            await self._send_message(data, event=event['event'])
+        else:
+            await self._throw_error(data, event=event['event'])

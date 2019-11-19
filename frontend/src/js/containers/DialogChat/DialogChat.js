@@ -8,6 +8,7 @@ import {
 import {
   sendMessageInDialog,
   setAsReadDialogMessage,
+  starDialogMessage,
   updateMessageInDialog,
   deleteMessageInDialog,
   deleteDialog,
@@ -30,6 +31,7 @@ const DialogChat = () => {
 
   const sendMessage = useAction(sendMessageInDialog)
   const setAsRead = useAction(setAsReadDialogMessage)
+  const starMessage = useAction(starDialogMessage)
   const updateMessage= useAction(updateMessageInDialog)
   const deleteMessage = useAction(deleteMessageInDialog)
   const deleteChat = useAction(deleteDialog)
@@ -55,7 +57,8 @@ const DialogChat = () => {
       messageProps={{
         setAsRead,
         updateMessage,
-        deleteMessage
+        deleteMessage,
+        starMessage
       }}
     />
   );

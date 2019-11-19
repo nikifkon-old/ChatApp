@@ -8,7 +8,8 @@ import {
   updateMessageInGroup,
   deleteMessageInGroup,
   getGroupDetails,
-  deleteGroup
+  deleteGroup,
+  starGroupMessage
 } from '../../actions/groupActions'
 import { getQueryParams } from '../../selectors/RouterSelectors'
 import { getActiveGroup, selectGroupInfo, getFirstUnread } from '../../selectors/GroupSelectors'
@@ -38,6 +39,7 @@ function GroupChat() {
   const updateMessage = useAction(updateMessageInGroup)
   const deleteMessage = useAction(deleteMessageInGroup)
   const setAsRead = useAction(setAsReadGroupMessage)
+  const starMessage = useAction(starGroupMessage)
   const deleteChat = useAction(deleteGroup)
 
   return (
@@ -61,7 +63,8 @@ function GroupChat() {
       messageProps={{
         setAsRead,
         updateMessage,
-        deleteMessage
+        deleteMessage,
+        starMessage
       }}
     />
   )

@@ -198,6 +198,24 @@ function* MessageReducer({payload: event}) {
         console.log(event.data.detail);
       }
       break
+    
+    case events.DIALOG_MESSAGE_STAR:
+      if (event.status === 'ok') {
+        yield put({
+          type: types.UPDATE_DIALOG_MESSAGE,
+          payload: event.data
+        })
+      }
+      break
+
+    case events.GROUP_MESSAGE_STAR:
+      if (event.status === 'ok') {
+        yield put({
+          type: types.UPDATE_GROUP_MESSAGE,
+          payload: event.data
+        })
+      }
+      break
 
     default:
       yield

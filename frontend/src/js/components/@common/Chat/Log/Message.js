@@ -23,6 +23,7 @@ class Message extends Component {
   static propTypes = {
     deleteMessage: PropTypes.func.isRequired,
     updateMessage: PropTypes.func.isRequired,
+    starMessage: PropTypes.func.isRequired,
     setAsRead: PropTypes.func.isRequired,
     maxOffset: PropTypes.number,
     message: PropTypes.shape({
@@ -52,11 +53,11 @@ class Message extends Component {
   }
 
   handleStar = () => {
-    const { updateMessage, message } = this.props
+    const { starMessage, message } = this.props
     const { id, stared } = message
-    updateMessage({
-      id,
-      stared: !stared
+    starMessage({
+      message_id: id,
+      star: !stared
     })
   }
 

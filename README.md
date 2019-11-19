@@ -152,6 +152,22 @@ WebSocket DOC
         }
     }
     ```
+  
+  - *`dialog.message.star`:*
+    - star dialog message for user
+    - data:
+      - *message_id*, id of message, is required
+      - *star*, bool, star on unstar message, is required
+    - example:'
+    ```
+    {
+        "event": "dialog.message.star",
+        "data": {
+            "message_id": "MESSAGE_ID",
+            "star": true
+        }
+    }
+    ```
 
   - *`dialog.create`:*
     - create dialog & and add requesting user and user with passed id to this
