@@ -145,16 +145,12 @@ class EventsMixin(EventsDBMixin, BaseConsumer):
         try:
             id_ = event['data']['id']
             text = event['data'].get('text')
-            stared = event['data'].get('stared')
-            unread = event['data'].get('unread')
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
 
         data, is_ok = await self.update_message(
             id_,
             text=text,
-            stared=stared,
-            unread=unread
         )
         if is_ok:
             room = '%s_%d' % (self.Meta.name, data.get('chat_id'))

@@ -88,15 +88,14 @@ class EventsDBMixin:
             return {'detail': 'Message doesn\'t exist'}, False
 
     @database_sync_to_async
-    def update_message(self, id_, text=None, stared=None, unread=None):
+    def update_message(self, id_, text):
         """ Update message in Database """
         try:
             message = self.Meta.message_model.objects.get(id=id_)
-            if text:
-                if message.sender.id != self.user.id:
-                    return {'detail': 'You can\'t update foreign messages'}, False
-                message.text = text
-            message.save(unread=unread, stared=stared)
+            if message.sender.id != self.user.id:
+                return {'detail': 'You can\'t update foreign messages'}, False
+            message.text = text
+            message.save()
             serialized = self.Meta.message_serializer(
                 message,
                 context={

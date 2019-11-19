@@ -83,7 +83,7 @@ class GroupMessage(MessageMixin):
         related_name="group_messages"
     )
 
-    def save(self, *args, unread=None, stared=None, **kwargs):
+    def save(self, *args, **kwargs):
         """ set readers as group members """
         super().save(*args, **kwargs)
         for person in self.group.members.all():
@@ -96,11 +96,6 @@ class GroupMessage(MessageMixin):
                     info.unread = False
                 else:
                     info.unread = True
-            else:
-                if unread is not None:
-                    info.unread = unread
-                if stared is not None:
-                    info.stared = stared
             info.save()
 
     class Meta:

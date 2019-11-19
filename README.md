@@ -118,9 +118,7 @@ WebSocket DOC
     - update message text
     - data:
       - *id*, of message, is required,
-      - *text*, new text,
-      - *unread* - bool, set as read,
-      - *stared* - bool, set stared,
+      - *text*, new text, is required
     - example:
     ```
     {
