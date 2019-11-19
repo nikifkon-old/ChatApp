@@ -40,6 +40,7 @@ WebSocket DOC
         }
     }
     ```
+  (events below same for dialog, group, channels, if other haven't said)
   - *`dialog.get`:*
     - get dialog details (messages)
     - data:
@@ -56,7 +57,7 @@ WebSocket DOC
         }
     }
     ```
-  - *`dialogs.list`(`groups.list`):*
+  - *`dialogs.list`:*
     - get dialogs without messages
     - data:
       - *filter*, messages,
@@ -67,19 +68,6 @@ WebSocket DOC
         "event": "dialogs.list",
         "data": {
           "filter": "unread"
-        }
-    }
-    ```
-  - *`dialog.create`:*
-    - create dialog & and add requesting user and user with passed id to this
-    - data:
-      - *id*, of user, is required
-    - example:
-    ```
-    {
-        "event": "dialog.create",
-        "data": {
-          "id": "USER_ID"
         }
     }
     ```
@@ -161,6 +149,20 @@ WebSocket DOC
                   "message_id": "MESSAGE_ID"
                 }
             ]
+        }
+    }
+    ```
+
+  - *`dialog.create`:*
+    - create dialog & and add requesting user and user with passed id to this
+    - data:
+      - *id*, of user, is required
+    - example:
+    ```
+    {
+        "event": "dialog.create",
+        "data": {
+          "id": "USER_ID"
         }
     }
     ```
