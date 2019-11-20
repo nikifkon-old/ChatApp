@@ -20,3 +20,8 @@ export const getFirstUnread = state => {
     }
   }
 }
+
+export const getUnreadCount = state => {
+  const data = selectGroupList(state)
+  return data.reduce((total, el) => (total + el.unread_count > 0), 0)
+}

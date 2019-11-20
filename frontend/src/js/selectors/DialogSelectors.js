@@ -18,3 +18,8 @@ export const getFirstUnread = state => {
     }
   }
 }
+
+export const getUnreadCount = state => {
+  const data = selectDialogData(state)
+  return data.reduce((total, el) => total + (el.unread_count > 0), 0)
+}

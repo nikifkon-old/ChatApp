@@ -18,7 +18,9 @@ const MenuRow = ({unreadCount, title, link}) => {
       to={`/app/${link || title}`}
     >
       <P center grid_left color={dark_cont2}>{title}</P>
-      <P center color="#fff">{unreadCount}</P>
+      <StyledP center>
+        {unreadCount > 0 && unreadCount}
+      </StyledP>
     </StyledLink>
   )
 };
@@ -39,5 +41,14 @@ const StyledLink = styled(({isActive, ...props}) => <Link {...props} />)`
     : "inherit"
   };
 `;
+
+const StyledP = styled(P)`
+  min-width: 21px;
+  width: min-content;
+  margin: 0 auto;
+  background: #fff;
+  color: ${dark_active};
+  border-radius: 50%;
+`
 
 export default MenuRow;
