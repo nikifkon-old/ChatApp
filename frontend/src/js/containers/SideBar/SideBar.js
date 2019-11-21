@@ -23,7 +23,7 @@ function SideBar(props) {
     username,
     logoutUser,
   } = props
-  const data = useChatInfo()
+  const [data, details] = useChatInfo()
   
   return (
     <StyledInfoPanel>
@@ -39,7 +39,7 @@ function SideBar(props) {
             <ChatInfo data={data} />
             <ColoredLine color={dark_cont1} />
 
-            <ChatDetail />
+            <ChatDetail data={details} />
           </Fragment>
         )
       }

@@ -8,31 +8,46 @@ const useChatInfo = () => {
   if (pathname.indexOf('messages') !== -1) {
     const data = useSelector(state => getActiveDialog(state))
     if (!data) {
-      return null
+      return [null, null]
     }
+    const intrlc = data && data.interlocutor
+    const name = intrlc && intrlc.user
+    const avatar = intrlc && intrlc.avatar
 
-    const name = data && data.interlocutor && data.interlocutor.user
-    const avatar = data && data.interlocutor && data.interlocutor.avatar
-
-    return {
-      name,
-      avatar
+    const details = {
+      tel: intrlc && intrlc.tel,
+      birth: intrlc && intrlc.birth,
+      gender: intrlc && intrlc.gender,
     }
+    return [
+      {
+        name,
+        avatar
+      },
+      details
+    ]
   } else if (pathname.indexOf('groups') !== -1) {
     const data = useSelector(state => getActiveGroup(state))
     if (!data) {
-      return null
+      return [null, null]
     }
 
     const name = data && data.name
     const avatar = data && data.img
-
-    return {
-      name,
-      avatar
+    
+    const details = {
+      description: data && data.description,
+      members: data && data.members.length
     }
+    return [
+      {
+        name,
+        avatar
+      },
+      details 
+    ]
   } else {
-    return null
+    return [null, null]
   }
 }
 
