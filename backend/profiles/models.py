@@ -39,6 +39,7 @@ class Profile(models.Model):
         return self.user.username
 
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         if self.avatar:
             img = Image.open(self.avatar.path)
             if img.height > 500 or img.width > 500:
@@ -47,4 +48,3 @@ class Profile(models.Model):
                 img.save(self.avatar.path)
         else:
             self.avatar = self.MEDIA_DIR + "/defaultAvatar.jpg"
-        super().save(*args, **kwargs)
