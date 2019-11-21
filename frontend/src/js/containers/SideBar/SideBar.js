@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -12,18 +12,19 @@ import {
 } from '../../actions/authActions'
 import {
   getUserInfo,
-  getActiveDialog,
 } from '../../reducers/selectors'
 import { ColoredLine } from '../../components'
 import { dark_cont1 } from '../../styles'
 import { StyledInfoPanel } from './styles'
+import { useChatInfo } from '../../hooks'
 
 function SideBar(props) {
   const {
     username,
-    dialog,
     logoutUser,
   } = props
+  const data = useChatInfo()
+  
   return (
     <StyledInfoPanel>
 
@@ -32,11 +33,16 @@ function SideBar(props) {
         logoutUser={logoutUser}
       />
       <ColoredLine color={dark_cont1} />
+      {
+        data && (
+          <Fragment>
+            <ChatInfo data={data} />
+            <ColoredLine color={dark_cont1} />
 
-      <ChatInfo dialog={dialog} />
-      <ColoredLine color={dark_cont1} />
-
-      <ChatDetail />
+            <ChatDetail />
+          </Fragment>
+        )
+      }
     </StyledInfoPanel>
   );
 }
@@ -44,13 +50,11 @@ function SideBar(props) {
 SideBar.propTypes = {
   username: PropTypes.string,
   logoutUser: PropTypes.func.isRequired,
-  dialog: PropTypes.object,
 };
 
 const mapStateToProps = state => {
   return {
     username: getUserInfo(state).user,
-    dialog: getActiveDialog(state)
   };
 };
 

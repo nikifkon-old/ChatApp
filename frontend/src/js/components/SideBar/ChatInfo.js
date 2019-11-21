@@ -8,9 +8,13 @@ import DefaultAvatar from '../../../assets/defaultAvatar.jpg'
 import { ContentGrid, H1, P, Img } from '../../styles'
 import { StyledChatLogo } from './styles'
 
-function ChatInfo({dialog}) {
-  let interlocutor = dialog.interlocutor
-
+function ChatInfo({data}) {
+  if(!data.avatar) {
+    data.avatar = DefaultAvatar
+  }
+  if(!data.name) {
+    data.name = 'not' 
+  }
   return (
     <Fragment>
       <ContentGrid container
@@ -27,8 +31,8 @@ function ChatInfo({dialog}) {
         direction="column"
         alignItems="center"
       >
-        <Img src={interlocutor.avatar} width="150px" round alt="avatar"/>
-        <H1>{interlocutor.user}</H1>
+        <Img src={data.avatar} width="150px" round alt="avatar"/>
+        <H1>{data.name}</H1>
         <P noMargin>location</P>
       </Grid>
     </Fragment>
@@ -36,21 +40,10 @@ function ChatInfo({dialog}) {
 }
 
 ChatInfo.propTypes = {
-  dialog: PropTypes.shape({
-    interlocutor: PropTypes.shape({
-      avatar: PropTypes.string,
-      user: PropTypes.string,
-    })
+  data: PropTypes.shape({
+    avatar: PropTypes.string,
+    name: PropTypes.string,
   })
 };
-
-ChatInfo.defaultProps = {
-  dialog: {
-    interlocutor: {
-      user: 'not',
-      avatar: DefaultAvatar
-    }
-  }
-}
 
 export default ChatInfo;
