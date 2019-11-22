@@ -5,8 +5,10 @@ import { getActiveGroup } from '../selectors/GroupSelectors'
 
 const useChatInfo = () => {
   const { pathname }= useLocation()
+  const dialog = useSelector(state => getActiveDialog(state))
+  const group = useSelector(state => getActiveGroup(state))
   if (pathname.indexOf('messages') !== -1) {
-    const data = useSelector(state => getActiveDialog(state))
+    const data = dialog
     if (!data) {
       return [null, null]
     }
@@ -27,7 +29,7 @@ const useChatInfo = () => {
       details
     ]
   } else if (pathname.indexOf('groups') !== -1) {
-    const data = useSelector(state => getActiveGroup(state))
+    const data = group
     if (!data) {
       return [null, null]
     }
