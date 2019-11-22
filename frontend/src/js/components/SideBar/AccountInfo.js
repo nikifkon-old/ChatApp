@@ -1,51 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { ContentGrid, P, H4 } from '../../styles'
-import { IconButton, Popover } from '../index'
+import { IconButton } from '../index'
+import { Menu, MenuItem } from '@material-ui/core'
 
 const UserInfo = ({username, logoutUser}) => {
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget)
+  }
+
   return (
     <ContentGrid container
       alignItems="center"
       justify="space-between"
     >
-      <IconButton
-        icon="notifications"
-        onClick={logoutUser}
-        size="small"
-      />
       <P center grid_right>{username}</P>
 
-      <Popover
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
+      <IconButton
+        onClick={handleClick}
+        icon="keyboard_arrow_down"
+        size="small"
+      />
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'center',
+          horizontal: 'right',
         }}
-        button={
-          ({handleClick}) => (
-            <IconButton
-              onClick={handleClick}
-              icon="keyboard_arrow_down"
-              size="small"
-            />
-          )
-        }
-        modal={() => (
-          <ContentGrid
-            container
-            direction="column"
-            alignItems="center"
-          >
-            <H4>My profile</H4>
-            <P>data</P>
-          </ContentGrid>
-        )}
-      />
+      >
+        <MenuItem onClick={handleClose}>
+          My Profile
+        </MenuItem>
+        <MenuItem onClick={logoutUser}>
+          Log out
+        </MenuItem>
+      </Menu>
     </ContentGrid>
   );
 }
