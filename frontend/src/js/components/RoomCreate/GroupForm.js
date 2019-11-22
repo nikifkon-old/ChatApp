@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react'
-import { P, TextField, Btn } from '../../styles'
-import { Form, Field } from 'react-final-form'
-import { CreatingForm } from './styles';
 import { useDispatch } from 'react-redux';
+import { Form, Field } from 'react-final-form'
+
+import { ColoredLine } from '../index'
 import { createGroup } from '../../actions/groupActions';
+import { P, TextField, Btn, H4, dark_cont1 } from '../../styles'
+import { CreatingForm } from './styles';
 
 function GroupForm() {
   const dispatch = useDispatch()
@@ -16,7 +18,9 @@ function GroupForm() {
 
   return (
     <Fragment>
+      <H4 center>Create Group</H4>
       <P>Fill in form below: </P>
+      <ColoredLine color={dark_cont1} />
       <Form
         onSubmit={handleSubmit}
         render={({handleSubmit}) => (

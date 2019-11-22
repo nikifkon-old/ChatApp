@@ -1,7 +1,6 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom'
 
-import { ColoredLine } from '../../components'
 import {
   Menu,
   DialogForm,
@@ -11,8 +10,6 @@ import {
   GridItem,
   ContentGrid,
   Content,
-  H4,
-  dark_cont1,
 } from '../../styles'
 
 function RoomCreateRoute() {
@@ -27,8 +24,6 @@ function RoomCreateRoute() {
       alignItems="center"
     >
       <Content>
-        <H4 center>Create: </H4>
-        <ColoredLine color={dark_cont1} />
         <Switch>
           <Route exact path={`${url}`} component={Menu} />
           <Route path={`${url}/dialog`} component={DialogForm} />

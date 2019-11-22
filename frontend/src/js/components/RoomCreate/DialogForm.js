@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux'
 import { Form, Field } from 'react-final-form'
 
 import { createDialog } from '../../actions/dialogActions'
-import { IconButton } from '../index'
+import { IconButton, ColoredLine } from '../index'
 import { CreatingForm } from './styles'
-import { TextField, P } from '../../styles'
+import { TextField, H4, Content, dark_cont1 } from '../../styles'
 
 const DialogForm = () => {
   const dispatch = useDispatch();
@@ -18,45 +18,27 @@ const DialogForm = () => {
 
   return (
     <Fragment>
-      <P center>Find people</P>
-      <Form
-        onSubmit={handleSubmit}
-        render={
-          ({handleSubmit}) => (
-          <CreatingForm onSubmit={handleSubmit}>
-            <Field
-              component={TextField}
-              width="85%"
-              name="name"
-              variant="outlined"
-              placeholder="by name"
-            />
-            <IconButton
-              icon="search"
-              type="submit"
-            />
-          </CreatingForm>
-        )}
-      />
-
-      <P center>-- or --</P>
+      <H4 center>Create Dialog</H4>
+      <ColoredLine color={dark_cont1} />
 
       <Form
         onSubmit={handleSubmit}
         render={
           ({handleSubmit}) => (
           <CreatingForm onSubmit={handleSubmit}>
-            <Field
-              component={TextField}
-              width="85%"
-              name="id"
-              variant="outlined"
-              placeholder="by id"
-            />
-            <IconButton
-              icon="search"
-              type="submit"
-            />
+            <Content>
+              <Field
+                component={TextField}
+                width="calc(100% - 48px)"
+                name="id"
+                variant="outlined"
+                placeholder="person id"
+              />
+              <IconButton
+                icon="person_add"
+                type="submit"
+              />
+            </Content>
           </CreatingForm>
         )}
       />
