@@ -32,19 +32,6 @@ function CreatingMenu() {
         </Content>
       </Btn>
     </StyledLink>
-    <StyledLink
-      to="create/channel"
-      width="100%"
-    >
-      <Btn>
-        <i className="material-icons">
-          group_add
-        </i>
-        <Content>
-          <P>Channel</P>
-        </Content>
-      </Btn>
-    </StyledLink>
     </Fragment>
   );
 }

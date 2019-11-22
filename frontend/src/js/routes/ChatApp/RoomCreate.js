@@ -33,7 +33,6 @@ function RoomCreateRoute() {
           <Route exact path={`${url}`} component={Menu} />
           <Route path={`${url}/dialog`} component={DialogForm} />
           <Route path={`${url}/group`} component={GroupForm} />
-          <Route path={`${url}/channel`} component={() =><p>channel</p>} />
         </Switch>
       </Content>
     </GridItem>
