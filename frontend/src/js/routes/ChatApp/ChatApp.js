@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
@@ -19,10 +20,12 @@ import {
 } from '../../HOC'
 import { useWebsocket } from './index'
 import { AppContainer } from '../../styles'
+import { getRouterState } from '../../selectors/RouterSelectors'
 
 function ChatAppRoute(props) {
   const { headerIsOpen, handleAppHeader } = props
   const { url } = useRouteMatch()
+  const routerState = useSelector(state => getRouterState(state))
 
   useWebsocket()
 
@@ -32,7 +35,10 @@ function ChatAppRoute(props) {
       <Menu />
       <Switch>
         <Route exact path={`${url}`}>
-          <Redirect to={`${url}/messages`}/>
+          <Redirect to={{
+            pathname: `${url}/messages`,
+            state: routerState
+          }}/>
         </Route>
         <Route
           path={`${url}/create`}

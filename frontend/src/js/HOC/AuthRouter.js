@@ -23,7 +23,7 @@ export default function (ComposedComponent) {
     componentDidMount(){
       const { isAuth, push } = this.props
       if(isAuth) {
-        push('/app', this.getRedirectMessage())
+        push('/app/messages', this.getRedirectMessage())
       }
     }
 
