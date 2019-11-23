@@ -11,3 +11,9 @@ export const connectToWebSocket = () => {
     type: types.WEBSOCKET_CONNECT_REQUEST
   }
 }
+
+export const clearNotification = () => {
+  return {
+    type: types.CLEAR_NOTIFICATION
+  }
+}
