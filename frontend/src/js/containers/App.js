@@ -14,6 +14,7 @@ import {
 } from '../components';
 import {
   RedirectMessage,
+  AppMessage,
 } from '../components/SnackBar'
 import {
   Private,
@@ -40,6 +41,7 @@ function App() {
       </Wrapper>
       <GlobalStyle />
       <RedirectMessage />
+      <AppMessage />
     </StylesProvider>
   );
 }
