@@ -13,6 +13,9 @@ import {
   Header,
 } from '../components';
 import {
+  RedirectMessage,
+} from '../components/SnackBar'
+import {
   Private,
   AuthRouter,
 } from '../HOC';
@@ -36,6 +39,7 @@ function App() {
         </PageContainer>
       </Wrapper>
       <GlobalStyle />
+      <RedirectMessage />
     </StylesProvider>
   );
 }
