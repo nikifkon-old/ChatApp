@@ -3,3 +3,7 @@ export const getQueryParams = (state, query) => {
   const filter = new URLSearchParams(queryParams).get(query)
   return filter
 }
+
+export const getRouterState = state => {
+  return state.router.location.state
+}
