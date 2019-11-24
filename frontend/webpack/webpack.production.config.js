@@ -12,7 +12,7 @@ config.entry = {
 config.output = {
   path: path.join(__dirname, '../builds/'),
   filename: '[name]-[hash].min.js',
-  publicPath: 'static/builds/'
+  publicPath: '/static/builds/'
 };
 
 config.optimization = {

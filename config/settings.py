@@ -14,7 +14,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -59,8 +58,6 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'chat.wsgi.application'
-
 ASGI_APPLICATION = 'config.routing.application'
 
 CHANNEL_LAYERS = {
@@ -90,13 +87,13 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        # 'rest_framework.authentication.TokenAuthentication',
-        # 'rest_framework.authentication.BasicAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    )
 }
 
 SIMPLE_JWT = {
@@ -123,11 +120,9 @@ USE_TZ = True
 DATETIME_INPUT_FORMATS = ['%d-%m-%Y %H:%M']
 
 MEDIA_URL = '/media/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend/')
 ]
@@ -135,5 +130,5 @@ STATICFILES_DIRS = [
 
 try:
     from .local_settings import *
-except:
+except ModuleNotFoundError:
     from .prod_settings import *
