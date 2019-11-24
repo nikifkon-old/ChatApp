@@ -104,6 +104,7 @@ frontend/builds-dev/
 
 # media
 media/
+static/
 
 # ide
 .vscode/

@@ -35,6 +35,18 @@ WHITENOISE_MIDDLEWARE = ['whitenoise.middleware.WhiteNoiseMiddleware', ]
 MIDDLEWARE = SECURITY_MIDDLEWARE + CORS_MIDDLEWARE + WHITENOISE_MIDDLEWARE + DJANGO_MIDDLEWARE
 
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'django_chat_db',
+        'USER': 'cellon',
+        'PASSWORD': 'admin',
+        'HOST' : '127.0.0.1',
+        'PORT' : '5432',
+    }
+}
+
+
 # Webpack Loader by Owais Lane
 # ------------------------------------------------------------------------------
 # https://github.com/owais/django-webpack-loader
@@ -44,3 +56,5 @@ WEBPACK_LOADER = {
         'STATS_FILE': os.path.join(BASE_DIR, 'frontend', 'webpack', 'webpack-stats.production.json')
     }
 }
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')

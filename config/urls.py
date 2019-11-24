@@ -8,7 +8,7 @@ import backend.urls
 backend = backend.urls.urlpatterns
 media = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 static = static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-react_route = re_path('.*', TemplateView.as_view(template_name="index.html"))
+react_route = re_path('^(?:.*)/?$', TemplateView.as_view(template_name="index.html"))
 
 urlpatterns = [
     path('admin/', admin.site.urls),
