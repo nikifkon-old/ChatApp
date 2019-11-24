@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { withStyles } from '@material-ui/core/styles'
-import { TextField } from '../../index'
+import TextField from '../TextField'
 
 import {
   P,
