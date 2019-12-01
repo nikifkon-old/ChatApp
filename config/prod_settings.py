@@ -36,9 +36,9 @@ MIDDLEWARE = SECURITY_MIDDLEWARE + CORS_MIDDLEWARE + WHITENOISE_MIDDLEWARE + DJA
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'django_chat_db',
-        'USER': 'cellon',
-        'PASSWORD': 'admin',
+        'NAME': 'django_db',
+        'USER': 'db_user',
+        'PASSWORD': 'database_password',
         'HOST' : '127.0.0.1',
         'PORT' : '5432',
     }
@@ -56,3 +56,4 @@ WEBPACK_LOADER = {
         )
     }
 }
+
