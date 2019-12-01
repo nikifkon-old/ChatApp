@@ -18,7 +18,7 @@ if(process.env.NODE_ENV === 'development') {
 }
 
 if(process.env.NODE_ENV === 'production') {
-  BASE_URL = 'localhost:8000'
+  BASE_URL = '13.58.207.223'
 }
 
 export {
