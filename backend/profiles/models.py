@@ -46,5 +46,3 @@ class Profile(models.Model):
                 output_size = (500, 500)
                 img.thumbnail(output_size)
                 img.save(self.avatar.path)
-        else:
-            self.avatar = self.MEDIA_DIR + "/defaultAvatar.jpg"
