@@ -15,6 +15,7 @@ import {
 } from '../styles'
 import { H4, GridItem } from '../../../../styles'
 import MessageShouldUpdate from './MessageShouldUpdate';
+import DefaultAvatar from '../../../../../assets/defaultAvatar.jpg'
 
 const Message = React.forwardRef((props, ref) => {
   const [edited, setEdited] = useState(false)
@@ -26,8 +27,11 @@ const Message = React.forwardRef((props, ref) => {
     updateMessage,
   } = props
 
-  const { id, sender_name, avatar, text, date, stared } = message
-
+  const { id, sender_name, text, date, stared } = message
+  let { avatar } = message
+  if (!avatar) {
+    avatar = DefaultAvatar
+  }
   const toggleEdit = () => {
     setEdited(!edited);
   }
@@ -146,7 +150,7 @@ Message.propTypes = {
     sender_name: PropTypes.string.isRequired,
     unread: PropTypes.bool.isRequired,
     stared: PropTypes.bool.isRequired,
-    avatar: PropTypes.string.isRequired,
+    avatar: PropTypes.string,
     text: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
   }).isRequired

@@ -66,7 +66,8 @@ class DialogMessageSerializer(serializers.ModelSerializer):
         return obj.sender.user.username
 
     def get_avatar(self, obj):
-        return obj.sender.avatar.url
+        if obj.sender.avatar:
+            return obj.sender.avatar.url
 
     class Meta:
         model = DialogMessage
