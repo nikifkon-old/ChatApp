@@ -157,7 +157,8 @@ class GroupMessageSerializer(serializers.ModelSerializer):
         return obj.sender.user.username
 
     def get_avatar(self, obj):
-        return obj.sender.avatar.url
+        if obj.sender.avatar:
+            return obj.sender.avatar.url
 
     def get_unread(self, obj):
         return self.get_message_info(obj).unread
