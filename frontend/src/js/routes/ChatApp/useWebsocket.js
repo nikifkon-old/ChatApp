@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import {
-  getTokens,
   getWebsocketIsAuth,
+  hasTokens,
 } from '../../reducers/selectors'
 import {
   routerSelectors,
@@ -21,16 +21,16 @@ const { getQueryParams } = routerSelectors
 
 export default function useWebsocket() {
   const dispatch = useDispatch()
-  const tokens = useSelector(state => getTokens(state))
+  const tokensExist = useSelector(state => hasTokens(state))
   const websocketIsAuth = useSelector(state => getWebsocketIsAuth(state))
   const filter = useSelector(state => getQueryParams(state, 'filter'))
 
   // after get tokens connect to websocket
   useEffect(() => {
-    if (tokens && !websocketIsAuth) {
+    if (tokensExist && !websocketIsAuth) {
       dispatch(connectToWebSocket())
     }
-  }, [dispatch, tokens, websocketIsAuth])
+  }, [dispatch, tokensExist, websocketIsAuth])
 
   // after authenticate get dialogs list
   useEffect(() => {
