@@ -18,7 +18,7 @@ import { RoomCreate } from './index'
 import {
   withHeaderStatus,
 } from '../../HOC'
-import { useWebsocket } from './index'
+import { useWebsocket } from '../../hooks'
 import { AppContainer } from '../../styles'
 import { getRouterState } from '../../selectors/RouterSelectors'
 

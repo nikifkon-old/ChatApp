@@ -4,18 +4,18 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   getWebsocketIsAuth,
   hasTokens,
-} from '../../reducers/selectors'
+} from '../reducers/selectors'
 import {
   routerSelectors,
-} from '../../selectors'
+} from '../selectors'
 import {
   connectToWebSocket,
-} from '../../actions/chatActions'
+} from '../actions/chatActions'
 import {
   getDialogData,
   getDialogDetails,
-} from '../../actions/dialogActions'
-import { getActiveDialog } from '../../selectors/DialogSelectors'
+} from '../actions/dialogActions'
+import { getActiveDialog } from '../selectors/DialogSelectors'
 
 const { getQueryParams } = routerSelectors
 
