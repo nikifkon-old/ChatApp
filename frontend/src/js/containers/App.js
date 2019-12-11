@@ -8,6 +8,7 @@ import {
   GetStarted,
   Login,
   ChatAppRoute,
+  Route404,
 } from '../routes';
 import {
   Header,
@@ -36,6 +37,7 @@ function App() {
             <Route path="/app" component={Private(ChatAppRoute)} />
             <Route path="/get-started" component={AuthRouter(GetStarted)} />
             <Route path="/login" component={AuthRouter(Login)} />
+            <Route path="/" component={Route404} />
           </Switch>
         </PageContainer>
       </Wrapper>
