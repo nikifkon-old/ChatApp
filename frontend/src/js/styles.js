@@ -215,7 +215,7 @@ export const H4 = styled.h4`
 
 export const P = styled.p`
   color: ${props => props.color || "inherit"};
-  text-align: ${props => props.center ? 'center' : ''};
+  text-align: ${props => props.center ? 'center' : 'left'};
   font-size: 14px;
   font-weight: ${props => props.bold ? 'bold' : ''};
   line-height: 20px;

@@ -15,7 +15,7 @@ import {
 } from './styles'
 import { P, dark_cont2 } from '../../../styles'
 import DefaultAvatar from '../../../../assets/defaultAvatar.jpg'
-import { getElapsedTime } from '../../../utils'
+import { getElapsedTime, getOneLineText } from '../../../utils'
 
 function Card(props) {
   const { data, setActive } = props
@@ -32,6 +32,8 @@ function Card(props) {
   function handleActive() {
     dispatch(setActive(id))
   }
+
+  const lastMessageId = `last_message_${id}`
 
   return (
     <Grid onClick={handleActive}>
@@ -59,11 +61,11 @@ function Card(props) {
       }
 
       <LastMessageItem
+        id={lastMessageId}
         color={dark_cont2}
         center
       >
-        {/*{text.split(' ').slice(0, 8).join(' ') || 'No messages yet'}*/}
-        <EmojiedText text={text}/>
+        <EmojiedText text={getOneLineText(text, lastMessageId)}/>
       </LastMessageItem>
       {
         last_message && last_message.date &&

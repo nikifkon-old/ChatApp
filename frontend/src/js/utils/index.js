@@ -5,6 +5,7 @@ import manyThen from './validation/manyThen'
 
 import getElapsedTime from './func/getElapsedTime'
 import useAction from './func/useAction'
+import getOneLineText from './func/getOneLineText'
 
 export {
   composeValidators,
@@ -13,4 +14,5 @@ export {
   manyThen,
   getElapsedTime,
   useAction,
+  getOneLineText,
 }

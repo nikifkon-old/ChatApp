@@ -71,7 +71,6 @@ export const UsernameItem = styled(H4)`
 export const LastMessageItem = styled(P)`
   grid-column: 2;
   grid-row: 2;
-  margin-right: auto;
 `
 
 export const ElapsedTimeItem = styled(P)`

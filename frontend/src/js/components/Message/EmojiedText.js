@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Emoji } from 'emoji-mart'
+import { P } from '../../styles'
 
 function EmojiedText({text}) {
   const textArray = text.split(':')
   return (
-    <span>
+    <P>
       {
         textArray.map(
           (el, i) => (i % 2 === 1)
@@ -13,7 +14,7 @@ function EmojiedText({text}) {
             : el
         )
       }
-    </span>
+    </P>
   )
 }
 
