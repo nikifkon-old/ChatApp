@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
 import {
   AccountInfo,
@@ -10,27 +9,25 @@ import {
 import {
   logoutUser,
 } from '../../actions/authActions'
-import {
-  getUserInfo,
-} from '../../reducers/selectors'
 import { ColoredLine } from '../../components'
 import { dark_cont1 } from '../../styles'
 import { StyledInfoPanel } from './styles'
 import { useChatInfo } from '../../hooks'
+import { getUserInfo, getUserId } from '../../selectors/AuthSelectors'
+import { useAction } from '../../utils'
 
-function SideBar(props) {
-  const {
-    username,
-    logoutUser,
-  } = props
+function SideBar() {
   const [data, details] = useChatInfo()
-  
+  const username = useSelector(state => getUserInfo(state).user)
+  const userId = useSelector(state => getUserId(state))
+  const logout = useAction(logoutUser)
+
   return (
     <StyledInfoPanel>
-
       <AccountInfo
         username={username}
-        logoutUser={logoutUser}
+        userId={userId}
+        logout={logout}
       />
       <ColoredLine color={dark_cont1} />
       {
@@ -47,20 +44,4 @@ function SideBar(props) {
   );
 }
 
-SideBar.propTypes = {
-  username: PropTypes.string,
-  logoutUser: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => {
-  return {
-    username: getUserInfo(state).user,
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  {
-    logoutUser
-  }
-)(SideBar);
+export default SideBar

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { ContentGrid, P, H4 } from '../../styles'
+import { ContentGrid, P} from '../../styles'
 import { IconButton } from '../index'
-import { Menu, MenuItem } from '@material-ui/core'
+import { Menu, MenuItem, Link } from '@material-ui/core'
 
-const UserInfo = ({username, logoutUser}) => {
+const UserInfo = ({username, userId, logout}) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClose = () => {
@@ -37,10 +37,12 @@ const UserInfo = ({username, logoutUser}) => {
           horizontal: 'right',
         }}
       >
-        <MenuItem onClick={handleClose}>
-          My Profile
+        <MenuItem>
+          <Link href={`/app/profile/${userId}`}> {/* fix me */}
+            My Profile
+          </Link>
         </MenuItem>
-        <MenuItem onClick={logoutUser}>
+        <MenuItem onClick={logout}>
           Log out
         </MenuItem>
       </Menu>
@@ -50,7 +52,8 @@ const UserInfo = ({username, logoutUser}) => {
 
 UserInfo.propTypes = {
   username: PropTypes.string,
-  logoutUser: PropTypes.func.isRequired,
+  userId: PropTypes.number,
+  logout: PropTypes.func.isRequired
 };
 
 export default UserInfo;
