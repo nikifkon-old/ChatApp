@@ -13,7 +13,7 @@ import {
 } from '../../actions/groupActions'
 import { getQueryParams } from '../../selectors/RouterSelectors'
 import { getActiveGroup, selectGroupInfo, getFirstUnread } from '../../selectors/GroupSelectors'
-import { useAction } from '../../utils'
+import { useAction } from '../../hooks'
 
 function GroupChat() {
   const dispatch = useDispatch()

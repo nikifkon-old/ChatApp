@@ -18,7 +18,7 @@ import {
   selectDialogInfo,
   getActiveDialog
 } from '../../selectors/DialogSelectors'
-import { useAction } from '../../utils'
+import { useAction } from '../../hooks'
 
 const DialogChat = () => {
   const info = useSelector(state => selectDialogInfo(state))

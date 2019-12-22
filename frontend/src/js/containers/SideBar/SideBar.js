@@ -12,9 +12,8 @@ import {
 import { ColoredLine } from '../../components'
 import { dark_cont1 } from '../../styles'
 import { StyledInfoPanel } from './styles'
-import { useChatInfo } from '../../hooks'
+import { useChatInfo, useAction } from '../../hooks'
 import { getUserInfo, getUserId } from '../../selectors/AuthSelectors'
-import { useAction } from '../../utils'
 
 function SideBar() {
   const [data, details] = useChatInfo()
