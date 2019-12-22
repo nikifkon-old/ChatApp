@@ -3,7 +3,6 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from channels.db import database_sync_to_async
 
-from backend.profiles.models import Profile
 from backend.socket_chat.consumers.dialog import DialogEvents
 from backend.socket_chat.consumers.group import GroupEvents
 
@@ -65,8 +64,7 @@ class MainConsumer(GroupEvents, DialogEvents):
     @database_sync_to_async
     def get_user_channels(self, user):
         """ Get all user's dialogs & groups id """
-        profile = Profile.objects.get(user=user)
-        for dialog in profile.dialogs.values():
+        for dialog in user.profile.dialogs.values():
             self.dialogs.append(dialog.get('id'))
-        for group in profile.groups.values():
+        for group in user.profile.groups.values():
             self._groups.append(group.get('id'))

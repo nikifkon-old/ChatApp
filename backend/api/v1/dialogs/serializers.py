@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 
 from backend.api.v1.profiles.serializers import ProfileSerializer
 from backend.dialogs.models import (
@@ -8,6 +9,9 @@ from backend.dialogs.models import (
     DialogMessageInfo,
 )
 from backend.profiles.models import Profile
+
+
+User = get_user_model()
 
 
 class DialogMemberSerializer(serializers.ModelSerializer):
@@ -106,13 +110,13 @@ class DialogSerializer(serializers.ModelSerializer):
         # filters
         if self.user_id:
             if self.context.get('filter') == 'unread':
-                person = Profile.objects.get(id=self.user_id)
+                person = User.objects.get(id=self.user_id).profile
                 self.messages_qs = person.dialog_messages.filter(
                     dialog=obj,
                     message_info__unread=True
                 )
             elif self.context.get('filter') == 'stared':
-                person = Profile.objects.get(id=self.user_id)
+                person = User.objects.get(id=self.user_id).profile
                 self.messages_qs = person.dialog_messages.filter(
                     dialog=obj,
                     message_info__stared=True
@@ -142,7 +146,7 @@ class DialogSerializer(serializers.ModelSerializer):
             serializer = ProfileSerializer(qs_interlocutor[0].person)
         else:
             # get all members
-            profiles = Profile.objects.filter(dialogs=obj)
+            profiles = User.objects.filter(profile__dialogs=obj)
             serializer = ProfileSerializer(profiles, many=True)
 
         return serializer.data

@@ -1,9 +1,12 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 
 from backend.api.v1.profiles.serializers import ProfileSerializer
 from backend.groups.models import (ChatGroup, GroupMembership, GroupMessage,
                                    GroupMessageInfo)
-from backend.profiles.models import Profile
+
+
+User = get_user_model()
 
 
 class MemberSerializer(serializers.ModelSerializer):
@@ -58,7 +61,7 @@ class GroupSerializer(serializers.ModelSerializer):
         self.messages_qs = obj.messages.all()
 
         if self.user_id:
-            person = Profile.objects.get(id=self.user_id)
+            person = User.objects.get(id=self.user_id).profile
             if self.context.get('filter') == 'unread':
                 self.messages_qs = person.group_messages.filter(
                     group=obj,
