@@ -69,6 +69,9 @@ export const UsernameItem = styled(H4)`
 `
 
 export const LastMessageItem = styled(P)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   grid-column: 2;
   grid-row: 2;
 `

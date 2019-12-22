@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Emoji } from 'emoji-mart'
 import { P } from '../../styles'
@@ -6,7 +6,7 @@ import { P } from '../../styles'
 function EmojiedText({text}) {
   const textArray = text.split(':')
   return (
-    <P>
+    <Fragment>
       {
         textArray.map(
           (el, i) => (i % 2 === 1)
@@ -14,7 +14,7 @@ function EmojiedText({text}) {
             : el
         )
       }
-    </P>
+    </Fragment>
   )
 }
 
