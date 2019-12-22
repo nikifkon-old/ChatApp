@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import {
   getHeaderStatus
-} from '../reducers/selectors'
+} from '../selectors/AppSelectors'
 import {
   handleAppHeader
 } from '../actions/chatActions'

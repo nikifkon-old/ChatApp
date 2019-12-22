@@ -3,7 +3,7 @@ import { put, takeEvery, call, select } from 'redux-saga/effects'
 import * as types from '../../actions'
 import * as events from '../../actions/websocketEvents'
 import { connectToWebSocketService } from '../../services'
-import { getTokens } from '../../reducers/selectors'
+import { getTokens } from '../../selectors/AuthSelectors'
 
 let socket;
 export function* connectToWebSocket() {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 import PropTypes from 'prop-types'
 
-import { getIsSuccessUserData } from '../reducers/selectors'
+import { getIsSuccessUserData } from '../selectors/AuthSelectors'
 import { getUserProfile } from '../actions/authActions'
 
 export default function (ComposedComponent) {
