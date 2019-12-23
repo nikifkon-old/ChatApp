@@ -9,6 +9,7 @@ import logoutCleanUp from './Authorization/logoutCleanUp'
 import connectToWebSocket from './Websocket/connectToWebSocket'
 import sendToWebsocket from './Websocket/sendToWebsocket'
 import messageReducer from './Websocket/messageReducer'
+import watchGetProfile from './ChatApp/getProfile'
 
 export default function* rootSaga() {
   yield all([
@@ -22,5 +23,6 @@ export default function* rootSaga() {
     connectToWebSocket(),
     sendToWebsocket(),
     messageReducer(),
+    watchGetProfile()
   ])
 }

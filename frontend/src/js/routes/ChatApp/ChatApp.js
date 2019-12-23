@@ -13,6 +13,7 @@ import {
   DialogList,
   GroupList,
   GroupChat,
+  Profile,
 } from '../../containers'
 import { RoomCreate } from './index'
 import {
@@ -56,6 +57,10 @@ function ChatAppRoute(props) {
           <GroupList />
           <GroupChat />
         </Route>
+        <Route
+          path={`${url}/profile/:id`}
+          component={Profile}
+        />
       </Switch>
       <SideBar />
     </AppContainer>

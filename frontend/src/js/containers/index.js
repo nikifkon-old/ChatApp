@@ -7,6 +7,7 @@ import DialogList from './DialogList'
 import DialogChat from './DialogChat'
 import GroupList from './GroupList'
 import GroupChat from './GroupChat'
+import Profile from './Profile'
 
 export {
   LoginForm,
@@ -18,4 +19,5 @@ export {
   DialogChat,
   GroupList,
   GroupChat,
+  Profile,
 }
