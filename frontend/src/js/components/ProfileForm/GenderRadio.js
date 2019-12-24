@@ -13,8 +13,8 @@ function GenderRadio({input}) {
       value={input.value}
       onChange={handleChange}
     >
-      <FormControlLabel value="female" control={<Radio />} label="Famale" />
-      <FormControlLabel value="male" control={<Radio />} label="Male" />
+      <FormControlLabel value="F" control={<Radio />} label="Famale" />
+      <FormControlLabel value="M" control={<Radio />} label="Male" />
     </RadioGroup>
   )
 }

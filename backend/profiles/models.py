@@ -9,14 +9,14 @@ class Profile(models.Model):
     """ User Profile """
 
     GENDER_CHOICES = [
-        ("M", "Man"),
-        ("W", "Woman"),
+        ("M", "Male"),
+        ("F", "Famale"),
     ]
 
     MEDIA_DIR = "profiles/"
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField("Avatar", upload_to=MEDIA_DIR, blank=True)
+    avatar = models.ImageField("Avatar", upload_to=MEDIA_DIR, null=True, blank=True)
     tel = models.CharField("Telephone", max_length=16, blank=True)
     birth = models.DateField("Date of Birth", max_length=200, null=True, blank=True)
     gender = models.CharField("Gender", max_length=1, choices=GENDER_CHOICES, blank=True)
