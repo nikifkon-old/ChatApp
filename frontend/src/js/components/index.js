@@ -13,6 +13,7 @@ import MenuItem from './MenuItem'
 import Popover from './Popover'
 import EmojiedText from './Message/EmojiedText'
 import PropsRoute from './PropsRoute'
+import ProfileForm from './ProfileForm'
 
 export {
   TextField,
@@ -30,4 +31,5 @@ export {
   Popover,
   EmojiedText,
   PropsRoute,
+  ProfileForm,
 }
