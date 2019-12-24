@@ -4,21 +4,23 @@ import { useParams } from 'react-router'
 
 import { getUserId } from '../../selectors/AuthSelectors'
 import { useAction } from '../../hooks'
-import { getProfile } from '../../actions/profilePageActions'
+import { getProfile, updateProfile } from '../../actions/profilePageActions'
 import { getProfileData, getRequestStatus } from '../../selectors/ProfilePageSelectors'
 import { Content, GridItem, ContentGrid, H1, P, Btn } from '../../styles'
 import ProfileForm from '../../components/ProfileForm/ProfileForm'
 
 function Profile() {
-  const { id } = useParams()
+  let { id } = useParams()
+  id = Number(id)
 
   let isMy = false
   const myId = useSelector(state => getUserId(state))
-  if (myId === Number(id)) {
+  if (myId === id) {
     isMy = true
   }
 
   const fetchProfile = useAction(getProfile)
+  const editProfile = useAction(updateProfile)
   
   useEffect(() => {
     fetchProfile({id})
@@ -39,7 +41,12 @@ function Profile() {
         <H1 center>Profile of</H1>
         <P center>SomeUser : 123</P>
       </Content>
-      <ProfileForm data={data} editable={isMy}/>
+      <ProfileForm
+        user_id={id}
+        data={data}
+        editable={isMy}
+        editProfile={editProfile}
+      />
     </GridItem>
   )
 }

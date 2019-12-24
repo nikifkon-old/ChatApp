@@ -8,3 +8,13 @@ export const getProfile = ({id}) => {
     }
   }
 }
+
+export const updateProfile = ({user_id, data}) => {
+  return {
+    type: types.UPDATE_PROFILE_REQUEST,
+    payload: {
+      user_id,
+      data
+    }
+  }
+}

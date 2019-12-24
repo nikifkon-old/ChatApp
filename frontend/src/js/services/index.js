@@ -6,6 +6,7 @@ import {
 } from './authServices'
 import {
   getUserDataService,
+  updateUserDataService,
 } from './userDataService'
 import {
   connectToWebSocketService,
@@ -30,6 +31,7 @@ export {
   getAuthHeaders,
 
   getUserDataService,
+  updateUserDataService,
 
   connectToWebSocketService,
   sendToWebsokcet,

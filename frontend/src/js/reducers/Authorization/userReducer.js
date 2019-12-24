@@ -36,6 +36,26 @@ export default function(state = initialState, action) {
         fetching: false,
         error: action.payload
       }
+    case types.UPDATE_PROFILE_REQUEST:
+      return {
+        ...state,
+        fetching: false,
+        success: true,
+        error: null,
+        fetching: true
+      }
+    case types.UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        data: action.payload
+      }
+    case types.UPDATE_PROFILE_FAILURE:
+      return {
+        ...state,
+        fetching: false,
+        error: action.payload
+      }
+    
     case types.USER_DATA_CLEAN_UP:
       return {
         ...state,
