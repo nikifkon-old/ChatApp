@@ -1,10 +1,10 @@
 from rest_framework import generics
-from .serializers import (
+
+from backend.api.v1.groups.serializers import (
     GroupSerializer,
     MemberSerializer,
     GroupMessageSerializer,
 )
-
 from backend.groups.models import (
     ChatGroup,
     GroupMembership,

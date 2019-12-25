@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (
+from backend.api.v1.dialogs.views import (
     DialogListCreateView,
     DialogRetrieveUpdateDestroyAPIView,
     DialogMembershipListCreateView,

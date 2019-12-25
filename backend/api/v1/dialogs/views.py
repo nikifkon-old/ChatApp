@@ -1,10 +1,10 @@
 from rest_framework import generics
-from .serializers import (
+
+from backend.api.v1.dialogs.serializers import (
     DialogSerializer,
     DialogMemberSerializer,
     DialogMessageSerializer,
 )
-
 from backend.dialogs.models import (
     Dialog,
     DialogMembership,
