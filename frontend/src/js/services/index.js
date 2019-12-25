@@ -22,8 +22,15 @@ if(process.env.NODE_ENV === 'production') {
   BASE_URL = '13.58.207.223'
 }
 
+const config = {
+  'headers': {
+    ...getAuthHeaders()
+  }
+}
+
 export {
   BASE_URL as default,
+  config,
 
   loginUserService,
   singUpUserService,

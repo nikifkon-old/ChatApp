@@ -1,8 +1,8 @@
 import BASE_URL from '../index'
 import * as types from '../../actions'
 import { store } from '../../index'
-let socket
 
+let socket
 export function connectToWebSocketService() {
   return new Promise(function(resolve, reject) {
     if (socket) {
