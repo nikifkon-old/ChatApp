@@ -6,8 +6,8 @@ import { getUserId } from '../../selectors/AuthSelectors'
 import { useAction } from '../../hooks'
 import { getProfile, updateProfile } from '../../actions/profilePageActions'
 import { getProfileData, getRequestStatus } from '../../selectors/ProfilePageSelectors'
-import { Content, GridItem, ContentGrid, H1, P, Btn } from '../../styles'
-import ProfileForm from '../../components/ProfileForm/ProfileForm'
+import { Content, GridItem, ContentGrid, H1, P } from '../../styles'
+import { ProfileForm } from '../../components'
 
 function Profile() {
   let { id } = useParams()
@@ -42,7 +42,7 @@ function Profile() {
         <P center>SomeUser : 123</P>
       </Content>
       <ProfileForm
-        user_id={id}
+        id={id}
         data={data}
         editable={isMy}
         editProfile={editProfile}

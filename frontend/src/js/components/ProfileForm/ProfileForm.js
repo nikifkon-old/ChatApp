@@ -6,11 +6,11 @@ import { GenderRadio } from './index'
 import { StyledForm } from './styles'
 import { TextField, GridItem, Btn } from '../../styles'
 
-function ProfileForm({user_id, data, editable, editProfile}) {
+function ProfileForm({id, data, editable, editProfile}) {
   function handleSubmit(values) {
     editProfile({
-      user_id,
-      data: values
+      data: values,
+      id
     })
   }
 
@@ -70,7 +70,7 @@ function ProfileForm({user_id, data, editable, editProfile}) {
 }
 
 ProfileForm.propTypes = {
-  user_id: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
   data: PropTypes.object,
   editable: PropTypes.bool.isRequired,
   editProfile: PropTypes.func.isRequired,

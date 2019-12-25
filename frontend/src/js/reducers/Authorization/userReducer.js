@@ -10,45 +10,29 @@ const initialState = {
     tel: null,
     birth: null,
     gender: null,
-    groups: [],
-    dialogs: []
   }
 }
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case types.GET_USER_DATA_REQUEST:
-      return {
-        ...state,
-        fetching: true
-      }
-    case types.GET_USER_DATA_SUCCESS:
-      return {
-        ...state,
-        fetching: false,
-        success: true,
-        error: null,
-        data: action.payload
-      }
-    case types.GET_USER_DATA_FAILURE:
-      return {
-        ...state,
-        fetching: false,
-        error: action.payload
-      }
     case types.UPDATE_PROFILE_REQUEST:
       return {
         ...state,
-        fetching: false,
-        success: true,
-        error: null,
         fetching: true
       }
+
+    case types.GET_USER_DATA_SUCCESS:
     case types.UPDATE_PROFILE_SUCCESS:
       return {
         ...state,
+        fetching: false,
+        success: true,
+        error: null,
         data: action.payload
       }
+
+    case types.GET_USER_DATA_FAILURE:
     case types.UPDATE_PROFILE_FAILURE:
       return {
         ...state,

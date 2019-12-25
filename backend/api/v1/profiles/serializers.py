@@ -15,6 +15,4 @@ class ProfileSerializer(serializers.ModelSerializer):
             "tel",
             "birth",
             "gender",
-            "groups",
-            "dialogs"
         )
