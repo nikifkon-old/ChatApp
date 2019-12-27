@@ -1,20 +1,19 @@
 import axios from 'axios'
-import BASE_URL from './index'
 
 export const loginUserService = credentials => {
-  const LOGIN_API_ENDPOINT = `http://${BASE_URL}/token-auth/jwt/create/`
+  const LOGIN_API_ENDPOINT = `/token-auth/jwt/create/`
 
   return axios.post(LOGIN_API_ENDPOINT, credentials)
 }
 
 export const singUpUserService = credentials => {
-  const SINGUP_API_ENDPOINT = `http://${BASE_URL}/auth/users/`
+  const SINGUP_API_ENDPOINT = `/auth/users/`
 
   return axios.post(SINGUP_API_ENDPOINT, credentials)
 }
 
 export const refreshTokenService = refreshToken => {
-  const REFRESH_TOKEN_API_ENDPOINT = `http://${BASE_URL}/token-auth/jwt/refresh/`
+  const REFRESH_TOKEN_API_ENDPOINT = `/token-auth/jwt/refresh/`
   const data = {
     refresh: refreshToken
   }

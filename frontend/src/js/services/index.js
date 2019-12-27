@@ -1,3 +1,4 @@
+import axios from 'axios'
 import {
   loginUserService,
   singUpUserService,
@@ -22,15 +23,15 @@ if(process.env.NODE_ENV === 'production') {
   BASE_URL = '13.58.207.223'
 }
 
-const config = {
-  'headers': {
-    ...getAuthHeaders()
-  }
-}
+// axios configuration
+axios.interceptors.request.use(config => {
+  config.headers = getAuthHeaders()
+  return config
+})
+axios.defaults.baseURL = 'http://' + BASE_URL
 
 export {
   BASE_URL as default,
-  config,
 
   loginUserService,
   singUpUserService,
