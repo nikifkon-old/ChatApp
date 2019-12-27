@@ -6,8 +6,8 @@ import { getUserId } from '../../selectors/AuthSelectors'
 import { useAction } from '../../hooks'
 import { getProfile, updateProfile } from '../../actions/profilePageActions'
 import { getProfileData, getRequestStatus } from '../../selectors/ProfilePageSelectors'
-import { Content, GridItem, ContentGrid, H1, P } from '../../styles'
-import { ProfileForm } from '../../components'
+import { Content, H1, P } from '../../styles'
+import { ProfileForm, AppContentWrap } from '../../components'
 
 function Profile() {
   let { id } = useParams()
@@ -30,24 +30,19 @@ function Profile() {
   const data = useSelector(state => getProfileData(state))
   
   return (
-    <GridItem
-      column="3/5"
-      component={ContentGrid}
-      container
-      direction="column"
-      alignItems="center"
-    >
+    <AppContentWrap>
       <Content>
         <H1 center>Profile of</H1>
         <P center>SomeUser : 123</P>
       </Content>
+
       <ProfileForm
         id={id}
         data={data}
         editable={isMy}
         editProfile={editProfile}
       />
-    </GridItem>
+    </AppContentWrap>
   )
 }
 

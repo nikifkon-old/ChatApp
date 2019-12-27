@@ -35,7 +35,6 @@ function Menu() {
         color={dark_cont1}
         height="2px"
       />
-      <MenuItem id={9} title="Settings" />
     </StyledChatMenu>
   );
 }

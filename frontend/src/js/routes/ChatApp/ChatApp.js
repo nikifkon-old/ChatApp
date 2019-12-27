@@ -4,7 +4,7 @@ import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import {
-  Nav,
+  Nav, AppContentWrap,
 } from '../../components'
 import {
   DialogChat,
@@ -22,6 +22,7 @@ import {
 import { useWebsocket } from '../../hooks'
 import { AppContainer } from '../../styles'
 import { getRouterState } from '../../selectors/RouterSelectors'
+import { Route404 } from '../index'
 
 function ChatAppRoute(props) {
   const { headerIsOpen, handleAppHeader } = props
@@ -61,6 +62,13 @@ function ChatAppRoute(props) {
           path={`${url}/profile/:id`}
           component={Profile}
         />
+        <Route
+          path="/"
+        >
+          <AppContentWrap>
+            <Route404 />
+          </AppContentWrap>
+        </Route>
       </Switch>
       <SideBar />
     </AppContainer>

@@ -6,23 +6,14 @@ import {
   DialogForm,
   GroupForm,
 } from '../../components/RoomCreate'
-import {
-  GridItem,
-  ContentGrid,
-  Content,
-} from '../../styles'
+import { Content } from '../../styles'
+import { AppContentWrap } from '../../components'
 
 function RoomCreateRoute() {
   const { url } = useRouteMatch()
 
   return (
-    <GridItem
-      column="3/5"
-      component={ContentGrid}
-      container
-      direction="column"
-      alignItems="center"
-    >
+    <AppContentWrap>
       <Content>
         <Switch>
           <Route exact path={`${url}`} component={Menu} />
@@ -30,7 +21,7 @@ function RoomCreateRoute() {
           <Route path={`${url}/group`} component={GroupForm} />
         </Switch>
       </Content>
-    </GridItem>
+    </AppContentWrap>
   );
 }
 
