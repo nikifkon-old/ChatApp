@@ -18,7 +18,14 @@ function getFailType(action) {
   return `${identifyAction(action)}_FAILURE`
 }
 
+let monitoredActions = []
+
 function* monitor(monitoredAction) {
+  if (monitoredActions.indexOf(monitoredAction) == -1) {
+    monitoredActions.push(monitoredAction)
+  } else {
+    return
+  }
   const { fail } = yield race({
     success: take(getSuccessType(monitoredAction)),
     fail: take(getFailType(monitoredAction))
@@ -35,10 +42,18 @@ function* monitor(monitoredAction) {
     })
     if (success) {
       yield put(monitoredAction)
-    } else {
-      yield put({
-        type: types.LOGOUT_USER
+      const { fail } = yield race({
+        success: take(getSuccessType(monitoredAction)),
+        fail: take(getFailType(monitoredAction))
       })
+      if (fail) {
+        console.log(`requets ${monitoredAction.type} still 401 status after refreshing token`)
+        yield put({ type: types.LOGOUT_USER })
+      }
+      monitoredActions.pop(monitoredAction) 
+    } else {
+      yield put({ type: types.LOGOUT_USER })
+      monitoredActions.pop(monitoredAction) 
     }
   }
 }
