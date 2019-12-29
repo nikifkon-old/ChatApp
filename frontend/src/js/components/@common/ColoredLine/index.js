@@ -36,16 +36,13 @@ const ColoredLine = ({color, width, height, text}) => {
 }
 
 const StyledLine = styled.hr`
+  border: 0;
+  margin: 0;
   width: ${props => props.width || "100%"};
   background-color: ${props => props.color || "#000"};
-  border: 0;
   height: ${props => props.height || "1px"};
   display: ${props => props.inline && 'inline-block'};
 `
-
-export {
-  StyledLine
-}
 
 ColoredLine.propTypes = {
   color: PropTypes.string,

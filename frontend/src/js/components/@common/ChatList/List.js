@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -46,13 +46,11 @@ function List(props) {
             {
               list.map(
                 card => (
-                  <Fragment key={card.id}>
-                    <Card
-                      data={getCardData(card)}
-                      {...cardProps}
-                    />
-                    <ColoredLine color={dark_cont1} width="50%" />
-                  </Fragment>
+                  <Card
+                    key={card.id}
+                    data={getCardData(card)}
+                    {...cardProps}
+                  />
                 )
               )
             }

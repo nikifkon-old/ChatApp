@@ -5,7 +5,7 @@ import {
   Img,
   P,
   H4,
-  dark_cont,
+  dark_cont2,
   dark_bg2,
   dark_bg3,
   dark_active
@@ -25,23 +25,28 @@ export const UnreadMessagesCounter = styled(Content)`
     align-items: center;
     justify-content: center;
     grid-column: 3;
-    grid-row: 1;
+    grid-row: 2;
 
-    & > p {
-      width: 20px;
-      height: 20px;
-      background: ${dark_active};
+    &:before {
+      content: "";
+      position: absolute;
+      height: 30px;
+      width: 30px;
+      background: #2B5278;
       border-radius: 50%;
+      z-index: 1;
+    }
+    & > p {
+      z-index: 2;
     }
   }
 `
 
-export const Grid = styled.div`
+export const CardGrid = styled.div`
   display: grid;
-  padding: 5px;
-  grid-template-columns: 60px 1fr 60px;
-  grid-template-rows: auto 1fr;
-  grid-column-gap: 30px;
+  height: 80px;
+  grid-template-columns: 80px 1fr 60px;
+  grid-template-rows: calc(16px*3) calc(16px*2);
   user-select: none;
 
   &:hover {
@@ -50,8 +55,10 @@ export const Grid = styled.div`
   &:active {
     background: ${dark_active}
     & > div${UnreadMessagesCounter} > p {
-      background: ${dark_cont};
-      color: ${dark_active};
+      color: #000;
+    }
+    & > div${UnreadMessagesCounter}:before {
+      background: ${dark_cont2};
     }
   }
 `
@@ -59,7 +66,7 @@ export const Grid = styled.div`
 export const AvatarItem = styled(Img)`
   grid-column: 1;
   grid-row: 1/3;
-  margin: auto 0;
+  margin: 10px;
 `
 
 export const UsernameItem = styled(H4)`
@@ -68,7 +75,7 @@ export const UsernameItem = styled(H4)`
   margin-right: auto;
 `
 
-export const LastMessageItem = styled(P)`
+export const LastMessageItem = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -78,5 +85,5 @@ export const LastMessageItem = styled(P)`
 
 export const ElapsedTimeItem = styled(P)`
   grid-column: 3;
-  grid-row: 2
+  grid-row: 1;
 `

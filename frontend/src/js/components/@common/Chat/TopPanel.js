@@ -27,7 +27,6 @@ function TopPanel(props) {
       <GridItem
         component={H4}
         column="1"
-        center
       >
         {title}
       </GridItem>

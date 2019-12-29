@@ -35,6 +35,7 @@ MenuRow.propTypes = {
 
 const StyledLink = styled(({isActive, ...props}) => <Link {...props} />)`
   width: 100%;
+  margin: 8px 0;
   border-radius: 6px;
   background: ${props => props.isActive
     ? dark_active

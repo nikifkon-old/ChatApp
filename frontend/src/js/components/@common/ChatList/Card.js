@@ -6,7 +6,7 @@ import {
   EmojiedText
 } from '../../index'
 import {
-  Grid,
+  CardGrid,
   AvatarItem,
   UsernameItem,
   UnreadMessagesCounter,
@@ -34,7 +34,7 @@ function Card(props) {
   }
 
   return (
-    <Grid onClick={handleActive}>
+    <CardGrid onClick={handleActive}>
       <AvatarItem
         src={avatar}
         round
@@ -72,7 +72,7 @@ function Card(props) {
           {getElapsedTime(date)} ago
         </ElapsedTimeItem>
       }
-    </Grid>
+    </CardGrid>
   );
 }
 

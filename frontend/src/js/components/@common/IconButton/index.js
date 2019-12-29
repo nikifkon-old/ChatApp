@@ -3,7 +3,7 @@ import { IconButton as MaterialIconButton } from '@material-ui/core'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-import { dark_active } from '../../../styles'
+import { dark_active, dark_cont, dark_cont2 } from '../../../styles'
 
 const IconButton = ({icon, color, borderRadius, backgroud, ...rest}) => {
   return (
@@ -32,12 +32,13 @@ const StyledIconButton = styled(
   )`
   color: ${props => props.color === "active"
     ? dark_active
-    : 'inherit'
+    : dark_cont2
   };
   background: ${props => props.background || 'inherit'};
   border-radius: ${props => props.borderRadius || '50%'};
   &:hover {
     background: ${dark_active};
+    color: ${dark_cont}
   }
 `;
 

@@ -112,7 +112,8 @@ export const AppContainer = styled.div`
   background: ${dark_bg1};
   color: ${dark_cont};
   display: grid;
-  grid-template-columns: 40px 1fr 1.3fr 550px 1fr;
+  /* 40px 184px 300px 718px 198px */
+  grid-template-columns: 2.8% 12.8% 20.8% 49.9% 13.7%;
   transition: .3s ease-out 0s min-height;
 `
 
@@ -203,14 +204,14 @@ export const H1 = styled.h1`
   color: ${props => props.color || ""};
   text-align: ${props => props.center ? 'center' : ''};
   font-size: 20px
-  line-height: 1rem
+  line-height: 1em
 `
 
 export const H4 = styled.h4`
   color: ${props => props.color || ""};
   text-align: ${props => props.center ? 'center' : ''};
   font-size: 16px
-  line-height: 1rem
+  line-height: 1em
 `
 
 export const P = styled.p`
@@ -218,7 +219,6 @@ export const P = styled.p`
   text-align: ${props => props.center ? 'center' : 'left'};
   font-size: 14px;
   font-weight: ${props => props.bold ? 'bold' : ''};
-  line-height: 20px;
   ${css`
     ${props => props.grid_left ? 'margin-right: auto;' : ''}
     ${props => props.grid_right ? 'margin-left: auto;' : ''}

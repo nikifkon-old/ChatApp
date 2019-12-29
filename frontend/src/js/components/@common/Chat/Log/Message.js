@@ -13,7 +13,7 @@ import {
   MessageText,
   EditMessageInput,
 } from '../styles'
-import { H4, GridItem } from '../../../../styles'
+import { H4, GridItem, dark_cont2 } from '../../../../styles'
 import MessageShouldUpdate from './MessageShouldUpdate';
 import DefaultAvatar from '../../../../../assets/defaultAvatar.jpg'
 
@@ -72,40 +72,26 @@ const Message = React.forwardRef((props, ref) => {
         {sender_name}
       </GridItem>
 
-      <GridItem
-        column="3"
-        row="1"
-        center
-        >
-        <IconButton icon="reply" size="small" />
-      </GridItem>
+      <MessageDate>{new Date(date).toLocaleString()}</MessageDate>
 
       <GridItem
         column="4"
         row="1"
         center
-        >
-        <IconButton icon="edit" onClick={toggleEdit} size="small" />
-      </GridItem>
-
-      <GridItem
-        column="5"
-        row="1"
-        center
-        >
+      >
+        <IconButton icon="edit"
+          onClick={toggleEdit}
+          size="small"
+        />
         <IconButton icon="star"
           onClick={handleStar}
           size="small"
           color={starBtnColor}
         />
-      </GridItem>
-
-      <GridItem
-        column="6"
-        row="1"
-        center
-        >
-        <IconButton icon="delete" onClick={handleDelete} size="small" />
+        <IconButton icon="delete"
+          onClick={handleDelete}
+          size="small"
+        />
       </GridItem>
 
       <MessageText>
@@ -131,8 +117,6 @@ const Message = React.forwardRef((props, ref) => {
           <EmojiedText text={text}/>
         }
       </MessageText>
-
-      <MessageDate>{new Date(date).toLocaleString()}</MessageDate>
     </StyledMessage>
   )
 })

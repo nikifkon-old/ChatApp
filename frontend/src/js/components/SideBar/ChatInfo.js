@@ -1,9 +1,8 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-import { IconButton } from '../index'
 import DefaultAvatar from '../../../assets/defaultAvatar.jpg'
-import { ContentGrid, H1, P, Img } from '../../styles'
+import { ContentGrid, H1, P, Img, Content } from '../../styles'
 
 function ChatInfo({data}) {
   if(!data.avatar) {
@@ -13,22 +12,15 @@ function ChatInfo({data}) {
     data.name = 'not' 
   }
   return (
-    <Fragment>
-      <ContentGrid container
-        justify="flex-end"
-        alignItems="center"
-      >
-        <IconButton icon="more_horiz" size="small" />
-      </ContentGrid>
-
-      <ContentGrid container
-        direction="column"
-        alignItems="center"
-      >
+    <ContentGrid container
+      direction="column"
+      alignItems="center"
+    >
+      <Content>
         <Img src={data.avatar} width="150px" round alt="avatar"/>
-        <H1>{data.name}</H1>
-      </ContentGrid>
-    </Fragment>
+        <H1 center>{data.name}</H1>
+      </Content>
+    </ContentGrid>
   );
 }
 
