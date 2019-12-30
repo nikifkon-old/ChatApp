@@ -7,7 +7,8 @@ import {
   dark_bg2,
   dark_cont,
   dark_cont1,
-  dark_cont2
+  dark_cont2,
+  chatWidth,
 } from '../../../styles'
 
 import {
@@ -19,7 +20,7 @@ export const StyledChat = withHeaderStatus(styled.div`
   color: ${props => props.color || 'inherit'};
   height: calc(100vh ${props => props.headerIsOpen && '- 50px'});
   position: fixed;
-  width: 49.9%;
+  width: ${chatWidth};
   display: grid;
   grid-template-rows: 60px 1fr 70px;
   transition: .3s ease-out 0s height;

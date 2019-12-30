@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled, { css, createGlobalStyle } from 'styled-components'
 import { Button, Grid } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, createMuiTheme } from '@material-ui/core/styles'
 
 import {
   withHeaderStatus,
@@ -17,6 +17,39 @@ export const dark_active = "#2B5278"
 export const dark_cont = "#fff"
 export const dark_cont1 = "#383f47"
 export const dark_cont2 = "#ccc"
+
+export const active = "#2B5278"
+export const background_darken = "#0E1621"
+export const background = "#182533"
+export const background_light = "#202B36"
+export const content_light = "#fff"
+export const content = "#ccc"
+export const content_darken = "#383f47"
+
+export const navWidth = "2.8%" // 40px
+export const menuWidth = "12.8%" // 184px
+export const chatsListWidth = "20.8%" // 300px
+export const chatWidth = "49.9%" // 718px
+export const sidebarWidth = "13.7%" // 198px
+
+const defaultTheme = createMuiTheme()
+
+export const theme = {
+  ...defaultTheme,
+  color: {
+    primary: active,
+    secondary: content_darken,
+    background: {
+      primary: background_darken,
+      secondary: background,
+      light: background_light
+    },
+    text: {
+      primary: content_light,
+      secondary: content,
+    }
+  }
+}
 
 export default createGlobalStyle`
   html, body {
@@ -112,8 +145,11 @@ export const AppContainer = styled.div`
   background: ${dark_bg1};
   color: ${dark_cont};
   display: grid;
-  /* 40px 184px 300px 718px 198px */
-  grid-template-columns: 2.8% 12.8% 20.8% 49.9% 13.7%;
+  grid-template-columns: ${navWidth}
+                         ${menuWidth}
+                         ${chatsListWidth}
+                         ${chatWidth}
+                         ${sidebarWidth};
   transition: .3s ease-out 0s min-height;
 `
 

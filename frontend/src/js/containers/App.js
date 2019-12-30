@@ -1,8 +1,9 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { StylesProvider } from "@material-ui/styles";
+import { ThemeProvider } from 'styled-components';
 
-import GlobalStyle, { Wrapper, PageContainer } from '../styles';
+import GlobalStyle, { Wrapper, PageContainer, theme } from '../styles';
 import {
   Home,
   GetStarted,
@@ -25,6 +26,7 @@ import {
 function App() {
   return (
     <StylesProvider injectFirst>
+      <ThemeProvider theme={theme}>
       <Wrapper>
         <Header />
         <PageContainer
@@ -44,6 +46,8 @@ function App() {
       <GlobalStyle />
       <RedirectMessage />
       <AppMessage />
+
+      </ThemeProvider>
     </StylesProvider>
   );
 }
