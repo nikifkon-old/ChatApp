@@ -10,7 +10,7 @@ import {
   ColoredLine,
   Spinner,
 } from '../../index'
-import { StyledDialogList } from './styles'
+import { StyledList } from './styles'
 import { ContentGrid, P, dark_cont1 } from '../../../styles'
 
 function List(props) {
@@ -33,7 +33,7 @@ function List(props) {
   }
 
   return (
-    <StyledDialogList>
+    <StyledList>
       <Search />
       <ColoredLine color={dark_cont1} />
       <AllowEmptyBtn {...additionalBtnProps} />
@@ -57,7 +57,7 @@ function List(props) {
             </ContentGrid>
           : <P center>{errorMessage}</P>
       }
-    </StyledDialogList>
+    </StyledList>
   );
 }
 

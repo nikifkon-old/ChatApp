@@ -11,7 +11,7 @@ import {
   dark_active
 } from '../../../styles'
 
-export const StyledDialogList = styled.section`
+export const StyledList = styled.section`
   color: #fff
   background: ${dark_bg2}
   display: flex
