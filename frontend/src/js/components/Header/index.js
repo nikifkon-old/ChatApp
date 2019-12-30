@@ -8,22 +8,22 @@ function Header() {
   return (
     <StyledHeader>
       <Link to="/">
-        <P color="#fff">
+        <P>
           Home
         </P>
       </Link>
       <Link to="/app">
-        <P color="#fff">
+        <P>
           App
         </P>
       </Link>
       <Link to="/login">
-        <P color="#fff">
+        <P>
           Login
         </P>
       </Link>
       <Link to="/get-started">
-        <P color="#fff">
+        <P>
           Get-Started
         </P>
       </Link>

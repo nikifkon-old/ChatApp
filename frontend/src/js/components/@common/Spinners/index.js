@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
-import { dark_cont, ContentGrid } from '../../../styles'
+import { ContentGrid } from '../../../styles'
 
 const scale = keyframes`
   0% {
@@ -21,7 +21,7 @@ const AnimatedSpinner = styled.div`
     margin: 5px;
     width: 13px;
     height: 30px;
-    background: ${dark_cont};
+    background: ${props => props.theme.color.text.primary};
     animation: ${scale} .3s infinite alternate;
   }
   & > div:nth-child(1) {

@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Emoji } from 'emoji-mart'
-import { P } from '../../styles'
 
 function EmojiedText({text}) {
   const textArray = text.split(':')

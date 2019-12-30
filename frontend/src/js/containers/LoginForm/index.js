@@ -68,6 +68,7 @@ export class LoginForm extends Component{
                 <Content fullWidth>
                   <Btn
                     fullWidth
+                    color="primary"
                     type="submit"
                   >
                     Go

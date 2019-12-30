@@ -4,7 +4,7 @@ import { Form, Field } from 'react-final-form'
 
 import { ColoredLine } from '../index'
 import { createGroup } from '../../actions/groupActions';
-import { P, TextField, Btn, H4, dark_cont1 } from '../../styles'
+import { P, TextField, Btn, H4 } from '../../styles'
 import { CreatingForm } from './styles';
 
 function GroupForm() {
@@ -20,7 +20,7 @@ function GroupForm() {
     <Fragment>
       <H4 center>Create Group</H4>
       <P>Fill in form below: </P>
-      <ColoredLine color={dark_cont1} />
+      <ColoredLine color={props => props.theme.color.secondary} />
       <Form
         onSubmit={handleSubmit}
         render={({handleSubmit}) => (

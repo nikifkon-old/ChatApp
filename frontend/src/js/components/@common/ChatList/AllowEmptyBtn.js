@@ -18,7 +18,11 @@ function AllowEmptyBtn({handler}) {
 
   if (filter === null) {
     return (
-      <Btn width="50%" onClick={handler}>
+      <Btn
+        width="50%"
+        onClick={handler}
+        color="primary"
+      >
         allow empty
       </Btn>
     )

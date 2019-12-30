@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-import { P, dark_cont2, dark_active } from '../../styles'
+import { P } from '../../styles'
 
 const MenuRow = ({unreadCount, title, link}) => {
   let location = useLocation('/app');
@@ -17,7 +17,7 @@ const MenuRow = ({unreadCount, title, link}) => {
       isActive={isActive}
       to={`/app/${link || title}`}
     >
-      <P center grid_left color={dark_cont2}>{title}</P>
+      <P center grid_left color="secondary">{title}</P>
       <StyledP center>
         {unreadCount > 0 && unreadCount}
       </StyledP>
@@ -38,7 +38,7 @@ const StyledLink = styled(({isActive, ...props}) => <Link {...props} />)`
   margin: 8px 0;
   border-radius: 6px;
   background: ${props => props.isActive
-    ? dark_active
+    ? props.theme.color.primary
     : "inherit"
   };
 `;
@@ -48,7 +48,7 @@ const StyledP = styled(P)`
   width: min-content;
   margin: 0 auto;
   background: #fff;
-  color: ${dark_active};
+  color: ${props => props.theme.color.primary};
   border-radius: 50%;
 `
 

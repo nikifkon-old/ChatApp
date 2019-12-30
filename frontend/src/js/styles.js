@@ -9,15 +9,6 @@ import {
 } from './HOC'
 import FinalFormTextField from './components/@common/TextField'
 
-export const bgColor = "#fff"
-export const dark_bg1 = "#0E1621"
-export const dark_bg2 = "#182533"
-export const dark_bg3 = "#202B36"
-export const dark_active = "#2B5278"
-export const dark_cont = "#fff"
-export const dark_cont1 = "#383f47"
-export const dark_cont2 = "#ccc"
-
 export const active = "#2B5278"
 export const background_darken = "#0E1621"
 export const background = "#182533"
@@ -25,6 +16,7 @@ export const background_light = "#202B36"
 export const content_light = "#fff"
 export const content = "#ccc"
 export const content_darken = "#383f47"
+export const alternative = "#000"
 
 export const navWidth = "2.8%" // 40px
 export const menuWidth = "12.8%" // 184px
@@ -38,7 +30,6 @@ export const theme = {
   ...defaultTheme,
   color: {
     primary: active,
-    secondary: content_darken,
     background: {
       primary: background_darken,
       secondary: background,
@@ -47,6 +38,26 @@ export const theme = {
     text: {
       primary: content_light,
       secondary: content,
+      alternative: alternative
+    },
+    hr: {
+      primary: content_light,
+      secondary: content_darken,
+      default: content
+    },
+    btn: {
+      primary: {
+        text: content_light,
+        background: active
+      },
+      secondary: {
+        text: alternative,
+        background: content
+      },
+      default: {
+        text: alternative,
+        background: content_light
+      } 
     }
   }
 }
@@ -56,7 +67,7 @@ export default createGlobalStyle`
     margin: 0;
     padding: 0;
     font-family: 'Nunito', sans-serif;
-    background: ${dark_bg1};
+    background: ${props => props.theme.color.background.primary};
   }
 
   a {
@@ -79,7 +90,7 @@ export const PageContainer = withHeaderStatus(styled(
   ({headerIsOpen, handleAppHeader, ...props}) => <Grid {...props}/>
 )`
   margin-top: ${props => props.headerIsOpen ? '50px' : '0px'}
-  background: ${props => props.background || bgColor}
+  background: ${props => props.background || props.theme.background.primary}
   flex: 1
   transition: .3s ease-out 0s margin-top;
 `)
@@ -142,8 +153,8 @@ export const AppContainer = styled.div`
       ? "calc(100vh - 50px)"
       : "100vh"
     };
-  background: ${dark_bg1};
-  color: ${dark_cont};
+  background: ${props => props.theme.color.background.primary};
+  color: ${props => props.theme.color.text.primary};
   display: grid;
   grid-template-columns: ${navWidth}
                          ${menuWidth}
@@ -154,8 +165,8 @@ export const AppContainer = styled.div`
 `
 
 export const StyledChatWrap = styled.section`
-  color: ${dark_cont};
-  background: ${dark_bg1};
+  color: ${props => props.theme.color.text.primary};
+  background: ${props => props.theme.color.background.primary};
   position: relative;
 `
 
@@ -180,10 +191,10 @@ export const TextField = withStyles({
   root: {
     '&': {
       width: props => props.width || '100%',
-      color: dark_cont
+      color: props => props.theme.color.text.primary,
     },
     '& label': {
-      color: dark_cont2,
+      color: props => props.theme.color.text.secondary,
     },
     '& .MuiInputBase-root': {
       '&': {
@@ -193,46 +204,42 @@ export const TextField = withStyles({
         width: '100%',
       },
       '&::before' : {
-        borderColor: dark_cont1,
+        borderColor: props => props.theme.color.text.primary,
       },
       '& fieldset': {
-        borderColor: dark_cont1,
+        borderColor: props => props.theme.color.text.primary,
       },
       '&:hover fieldset': {
-        borderColor: dark_cont,
+        borderColor: props => props.theme.color.text.primary,
       },
       '&.Mui-focused fieldset': {
-        borderColor: dark_active,
+        borderColor: props => props.theme.color.primary,
       },
       '& input': {
         // override -internal-autofill-selected by shadow
-        '-webkit-box-shadow': `inset 0 0 0 50px ${dark_bg1}`,
-        '-webkit-text-fill-color': dark_cont2,
+        '-webkit-box-shadow': `inset 0 0 0 50px ${props => props.theme.color.background.primary}`,
+        '-webkit-text-fill-color': props => props.theme.color.text.secondary,
       },
     },
   },
 })(FinalFormTextField)
 
 export const Btn = styled(
-    ({color, primary, ...props}) => <Button {...props} />
+    ({color, ...props}) => <Button {...props} />
   )`
   width: ${props => props.width || '100%'};
-  color: ${props => props.color || 'inherit'};
-  ${css`
-    ${props => props.background
-      && `background: ${props.background};`
-    }
-    ${props => props.primary
-      && `
-        background: ${dark_active};
-        color: ${dark_cont};
-      `
-    }
-  `}
+  background: ${props => props.color
+    ? props.theme.color.btn[props.color].background
+    : props.theme.color.btn.default.background
+  };
+  color: ${props => props.color
+    ? props.theme.color.btn[props.color].text
+    : props.theme.color.btn.default.text
+  };
   margin: 10px auto;
   &:hover {
-    background: ${dark_active};
-    color: ${dark_cont};
+    background: ${props => props.theme.color.primary};
+    color: ${props => props.theme.color.text.primary};
   }
 `
 
@@ -251,7 +258,11 @@ export const H4 = styled.h4`
 `
 
 export const P = styled.p`
-  color: ${props => props.color || "inherit"};
+  color: ${props =>
+    props.color
+      ? props.theme.color.text[props.color]
+      : "inherit"
+  }
   text-align: ${props => props.center ? 'center' : 'left'};
   font-size: 14px;
   font-weight: ${props => props.bold ? 'bold' : ''};

@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 
-import { dark_bg1 } from '../../styles'
 import {
   withHeaderStatus
 } from '../../HOC'
@@ -15,6 +14,7 @@ export const StyledHeader = withHeaderStatus(styled.nav`
   top: ${props => props.headerIsOpen ? '0' : '-50px'};
   z-index: 9;
   height: 50px;
-  background: ${dark_bg1};
+  color: ${props => props.theme.color.text.primary};
+  background: ${props => props.theme.color.background.primary};
   transition: .3s ease-out 0s top;
 `)

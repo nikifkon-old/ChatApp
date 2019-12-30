@@ -39,20 +39,23 @@ const StyledLine = styled.hr`
   border: 0;
   margin: 0;
   width: ${props => props.width || "100%"};
-  background-color: ${props => props.color || "#000"};
+  background-color: ${props =>
+    props.color
+      ? props.theme.color.hr[props.color]
+      : props.theme.color.hr.default
+  };
   height: ${props => props.height || "1px"};
   display: ${props => props.inline && 'inline-block'};
 `
 
 ColoredLine.propTypes = {
-  color: PropTypes.string,
+  color: PropTypes.oneOf(["primary", "secondary", "default"]),
   width: PropTypes.string,
   height: PropTypes.string,
   text: PropTypes.string,
 }
 
 ColoredLine.defaultProps = {
-  color: "#ccc",
   width: "100%",
   height: "1px",
 }

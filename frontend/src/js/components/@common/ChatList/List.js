@@ -11,7 +11,7 @@ import {
   Spinner,
 } from '../../index'
 import { StyledList } from './styles'
-import { ContentGrid, P, dark_cont1 } from '../../../styles'
+import { ContentGrid, P } from '../../../styles'
 
 function List(props) {
   const {
@@ -35,7 +35,7 @@ function List(props) {
   return (
     <StyledList>
       <Search />
-      <ColoredLine color={dark_cont1} />
+      <ColoredLine color="secondary"/>
       <AllowEmptyBtn {...additionalBtnProps} />
       {
         list.length > 0

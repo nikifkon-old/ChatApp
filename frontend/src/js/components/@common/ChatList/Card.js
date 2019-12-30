@@ -13,7 +13,7 @@ import {
   LastMessageItem,
   ElapsedTimeItem,
 } from './styles'
-import { P, dark_cont2 } from '../../../styles'
+import { P } from '../../../styles'
 import DefaultAvatar from '../../../../assets/defaultAvatar.jpg'
 import { getElapsedTime } from '../../../utils'
 
@@ -43,7 +43,6 @@ function Card(props) {
       />
 
       <UsernameItem
-        color="#fff"
         bold
         center
       >
@@ -59,7 +58,6 @@ function Card(props) {
       }
 
       <LastMessageItem
-        color={dark_cont2}
         center
       >
         <EmojiedText text={text}/>
@@ -67,7 +65,7 @@ function Card(props) {
       {
         last_message && last_message.date &&
         <ElapsedTimeItem
-          color={dark_cont2}
+          color="secondary"
           >
           {getElapsedTime(date)} ago
         </ElapsedTimeItem>

@@ -7,20 +7,20 @@ import {
 import PropTypes from 'prop-types'
 
 import { StyledTable } from './styles'
-import { P, dark_cont1, dark_cont2, dark_cont } from '../../styles'
+import { P } from '../../styles'
 
 function ChatDetail({data}) {
   return (
-    <StyledTable borderColor={dark_cont1}>
+    <StyledTable>
       <TableBody>
       {
         data && Object.keys(data).map(key =>
           <TableRow key={key}>
             <TableCell component="th">
-              <P noMargin color={dark_cont}>{key}:</P>
+              <P noMargin color="primary">{key}:</P>
             </TableCell>
             <TableCell component="th">
-              <P noMargin color={dark_cont2}>{data[key]}</P>
+              <P noMargin color="secondary">{data[key]}</P>
             </TableCell>
           </TableRow>
         )

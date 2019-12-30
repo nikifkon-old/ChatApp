@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 
-// switch case https://stackoverflow.com/a/42438769
 const NotificationContainer = styled.div`
   width: 100%
   height: 80px

@@ -19,7 +19,7 @@ const Home = () => {
             <Link to="/login">
               <Btn
                 variant="outlined"
-                color="#000"
+                color="secondary"
                 width="300px"
               >
                 Login
@@ -27,7 +27,7 @@ const Home = () => {
             </Link>
             <Link to="/get-started">
               <Btn
-                primary
+                color="primary"
                 variant="contained"
                 width="300px"
               >

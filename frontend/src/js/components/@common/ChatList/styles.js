@@ -5,15 +5,11 @@ import {
   Img,
   P,
   H4,
-  dark_cont2,
-  dark_bg2,
-  dark_bg3,
-  dark_active
 } from '../../../styles'
 
 export const StyledList = styled.section`
   color: #fff
-  background: ${dark_bg2}
+  background: ${props => props.theme.color.background.secondary}
   display: flex
   flex-direction: column
   align-items: center
@@ -50,15 +46,15 @@ export const CardGrid = styled.div`
   user-select: none;
 
   &:hover {
-    background: ${dark_bg3};
+    background: ${props => props.theme.color.background.light};
   }
   &:active {
-    background: ${dark_active}
+    background: ${props => props.theme.color.primary}
     & > div${UnreadMessagesCounter} > p {
       color: #000;
     }
     & > div${UnreadMessagesCounter}:before {
-      background: ${dark_cont2};
+      background: ${props => props.theme.color.background.light};
     }
   }
 `

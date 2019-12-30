@@ -1,14 +1,13 @@
 import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
 
 import { ColoredLine } from '../index'
-import { Content, StyledLink, Btn, P, dark_cont1, H4 } from '../../styles'
+import { Content, StyledLink, Btn, P, H4 } from '../../styles'
 
 function CreatingMenu() {
   return (
     <Fragment>
       <H4>Create: </H4>
-      <ColoredLine color={dark_cont1} />
+      <ColoredLine color={props => props.theme.color.secondary} />
       <StyledLink
         to="create/dialog"
         width="100%"

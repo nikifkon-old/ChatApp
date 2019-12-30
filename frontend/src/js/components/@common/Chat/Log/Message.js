@@ -13,7 +13,7 @@ import {
   MessageText,
   EditMessageInput,
 } from '../styles'
-import { H4, GridItem, dark_cont2 } from '../../../../styles'
+import { H4, GridItem } from '../../../../styles'
 import MessageShouldUpdate from './MessageShouldUpdate';
 import DefaultAvatar from '../../../../../assets/defaultAvatar.jpg'
 

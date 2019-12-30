@@ -1,10 +1,8 @@
 import styled from 'styled-components'
 
-import { dark_cont, dark_bg2 } from '../../styles'
-
 const StyledInfoPanel = styled.aside`
-  color: ${dark_cont};
-  background: ${dark_bg2};
+  color: ${props => props.theme.color.text.primary};
+  background: ${props => props.theme.color.background.secondary};
   display: flex;
   flex-direction: column;
 `

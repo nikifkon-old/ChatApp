@@ -5,7 +5,7 @@ import { Form, Field } from 'react-final-form'
 import { createDialog } from '../../actions/dialogActions'
 import { IconButton, ColoredLine } from '../index'
 import { CreatingForm } from './styles'
-import { TextField, H4, Content, dark_cont1 } from '../../styles'
+import { TextField, H4, Content } from '../../styles'
 
 const DialogForm = () => {
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const DialogForm = () => {
   return (
     <Fragment>
       <H4 center>Create Dialog</H4>
-      <ColoredLine color={dark_cont1} />
+      <ColoredLine color={props => props.theme.color.secondary} />
 
       <Form
         onSubmit={handleSubmit}

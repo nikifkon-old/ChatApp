@@ -81,6 +81,7 @@ export class SingUpForm extends Component {
                 <Content fullWidth>
                   <Btn
                     type="submit"
+                    color="primary"
                     fullWidth
                   >
                    Sing Up

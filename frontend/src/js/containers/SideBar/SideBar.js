@@ -10,7 +10,6 @@ import {
   logoutUser,
 } from '../../actions/authActions'
 import { ColoredLine } from '../../components'
-import { dark_cont1 } from '../../styles'
 import { StyledInfoPanel } from './styles'
 import { useChatInfo, useAction } from '../../hooks'
 import { getUserInfo, getUserId } from '../../selectors/AuthSelectors'
@@ -28,13 +27,12 @@ function SideBar() {
         userId={userId}
         logout={logout}
       />
-      <ColoredLine color={dark_cont1} />
+      <ColoredLine color="secondary"/>
       {
         data && (
           <Fragment>
             <ChatInfo data={data} />
-            <ColoredLine color={dark_cont1} />
-
+            <ColoredLine color="secondary"/>
             <ChatDetail data={details} />
           </Fragment>
         )

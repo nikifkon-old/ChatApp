@@ -4,10 +4,6 @@ import TextField from '../TextField'
 
 import {
   P,
-  dark_bg2,
-  dark_cont,
-  dark_cont1,
-  dark_cont2,
   chatWidth,
 } from '../../../styles'
 
@@ -43,7 +39,7 @@ export const StyledChatLog = styled.div`
 
 // Message
 export const StyledMessage = styled.div`
-  background: ${dark_bg2};
+  background: ${props => props.theme.color.background.secondary};
   color: ${props => props.color || 'inherit'};
   padding: 10px;
   margin: 5px;
@@ -64,7 +60,7 @@ export const MessageDate = styled(P)`
   grid-column: 3;
   grid-row: 1;
   margin: auto 5px;
-  color: ${dark_cont2}
+  color: ${props => props.theme.color.text.secondary}
 `
 export const MessageText = styled.div`
   grid-column: 2/8;
@@ -87,10 +83,10 @@ export const EditMessageInput = withStyles({
   root: {
     '&': {
       width: '100%',
-      color: dark_cont
+      color: props => props.theme.color.text.primary
     },
     '& label.Mui-focused': {
-      color: dark_cont,
+      color: props => props.theme.color.text.primary,
     },
     '& .MuiInputBase-root': {
       '&': {
@@ -99,16 +95,16 @@ export const EditMessageInput = withStyles({
         color: 'inherit'
       },
       '&::before' : {
-        borderColor: dark_cont1,
+        borderColor: props => props.theme.color.secondary,
       },
       '& fieldset': {
-        borderColor: dark_cont1,
+        borderColor: props => props.theme.color.secondary,
       },
       '&:hover fieldset': {
-        borderColor: dark_cont,
+        borderColor: props => props.theme.color.text.primary,
       },
       '&.Mui-focused fieldset': {
-        borderColor: dark_cont,
+        borderColor: props => props.theme.color.text.primary,
       },
     },
   },

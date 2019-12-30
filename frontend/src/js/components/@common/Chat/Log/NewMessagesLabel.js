@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types';
 
 import { ColoredLine } from '../../../index'
-import { dark_cont1 } from '../../../../styles'
 import { getQueryParams } from '../../../../selectors/RouterSelectors';
 
 function NewMessagesLabel({id, firstUnread}) {
@@ -11,10 +10,7 @@ function NewMessagesLabel({id, firstUnread}) {
 
   if (id === firstUnread && filter !== 'stared') {
     return (
-      <ColoredLine
-        color={dark_cont1}
-        text="New Messages:"
-      />
+      <ColoredLine text="New Messages:" />
     );
   } else {
     return null
