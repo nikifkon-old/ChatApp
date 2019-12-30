@@ -6,6 +6,7 @@ Quick Start
   - Create venv: `virtualenv venv`
   - Activate : `venv\Scripts\activate`(On Windows)
 - Install python dependences `pip install -r requirements.txt`
+  - also install pywin32, if you on windows
 - Install node.js dependences `npm install`
   - if you will get error, try this: `npm cache clean --force`
 - Run Django dev Server: `python manage.py runserver`
