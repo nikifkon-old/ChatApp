@@ -23,6 +23,9 @@ export const refreshTokenService = refreshToken => {
 
 export const getAuthHeaders = () => {
   const access_token = localStorage.getItem('access_token')
+  if (!access_token) {
+    return null
+  }
   return {
     'Authorization': `JWT ${access_token}`
   }
