@@ -15,8 +15,8 @@ import {
 export const StyledChat = withHeaderStatus(styled.div`
   color: ${props => props.color || 'inherit'};
   height: calc(100vh ${props => props.headerIsOpen && '- 50px'});
-  position: fixed;
-  width: ${chatWidth};
+  position: sticky;
+  width: 100%;
   display: grid;
   grid-template-rows: 60px 1fr 70px;
   transition: .3s ease-out 0s height;

@@ -18,10 +18,10 @@ export const content = "#ccc"
 export const content_darken = "#383f47"
 export const alternative = "#000"
 
-export const navWidth = "minmax(40px, 2.8%)" // 40px
-export const menuWidth = "minmax(7%, 12.8%)" // 184px
+export const navWidth = "40px" // 40px
+export const menuWidth = "12%" // 184px
 export const chatsListWidth = "20.8%" // 300px
-export const chatWidth = "47.2%" // 718px
+export const chatWidth = "0.997fr" // 718px
 export const sidebarWidth = "calc(150px * 1.1)" // 198px
 
 const defaultTheme = createMuiTheme()
