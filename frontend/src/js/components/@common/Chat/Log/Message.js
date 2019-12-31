@@ -5,13 +5,13 @@ import { Field, Form } from 'react-final-form';
 import {
   IconButton,
   EmojiedText,
+  TextField
 } from '../../../index'
 import {
   StyledMessage,
   MessageDate,
   MessageAvatar,
   MessageText,
-  EditMessageInput,
 } from '../styles'
 import { H4, GridItem } from '../../../../styles'
 import MessageShouldUpdate from './MessageShouldUpdate';
@@ -103,10 +103,12 @@ const Message = React.forwardRef((props, ref) => {
               ({handleSubmit}) => (
                 <form onSubmit={handleSubmit}>
                   <Field
-                    component={EditMessageInput}
+                    component={TextField}
                     name="text"
                     defaultValue={text}
                     InputProps={{disableUnderline: true}}
+                    styled
+                    multiline
                     autoFocus
                   />
                 </form>

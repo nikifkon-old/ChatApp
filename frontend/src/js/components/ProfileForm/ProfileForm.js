@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Field } from 'react-final-form'
 
+import { TextField } from '../index'
 import { GenderRadio } from './index'
 import { StyledForm } from './styles'
-import { TextField, GridItem, Btn } from '../../styles'
+import { GridItem, Btn } from '../../styles'
 
 function ProfileForm({id, data, editable, editProfile}) {
   function handleSubmit(values) {
@@ -27,6 +28,7 @@ function ProfileForm({id, data, editable, editProfile}) {
             name="user"
             placeholder="username"
             disabled={!editable}
+            styled
           />
           <label>Phone number: </label>
           <Field
@@ -35,6 +37,7 @@ function ProfileForm({id, data, editable, editProfile}) {
             name="tel"
             placeholder="tel"
             disabled={!editable}
+            styled
           />
 
           <label>Gender: </label>
@@ -53,12 +56,14 @@ function ProfileForm({id, data, editable, editProfile}) {
             name="birth"
             placeholder="birth"
             disabled={!editable}
+            styled
           />
           {editable &&
             <GridItem
               column="2/3"
               component={Btn}
               type="submit"
+              color="primary"
             >
               Edit profile
             </GridItem>

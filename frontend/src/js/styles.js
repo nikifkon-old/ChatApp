@@ -187,43 +187,6 @@ export const Img = styled.img`
   border-radius: ${props => props.round ? '50%' : ';'}
 `
 
-export const TextField = withStyles({
-  root: {
-    '&': {
-      width: props => props.width || '100%',
-      color: props => props.theme.color.text.primary,
-    },
-    '& label': {
-      color: props => props.theme.color.text.secondary,
-    },
-    '& .MuiInputBase-root': {
-      '&': {
-        width: 'inherit',
-        height: 'inherit',
-        color: 'inherit',
-        width: '100%',
-      },
-      '&::before' : {
-        borderColor: props => props.theme.color.text.primary,
-      },
-      '& fieldset': {
-        borderColor: props => props.theme.color.text.primary,
-      },
-      '&:hover fieldset': {
-        borderColor: props => props.theme.color.text.primary,
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: props => props.theme.color.primary,
-      },
-      '& input': {
-        // override -internal-autofill-selected by shadow
-        '-webkit-box-shadow': `inset 0 0 0 50px ${props => props.theme.color.background.primary}`,
-        '-webkit-text-fill-color': props => props.theme.color.text.secondary,
-      },
-    },
-  },
-})(FinalFormTextField)
-
 export const Btn = styled(
     ({color, ...props}) => <Button {...props} />
   )`

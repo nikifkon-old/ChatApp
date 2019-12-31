@@ -2,9 +2,9 @@ import React, { Fragment } from 'react'
 import { useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form'
 
-import { ColoredLine } from '../index'
+import { ColoredLine, TextField } from '../index'
 import { createGroup } from '../../actions/groupActions';
-import { P, TextField, Btn, H4 } from '../../styles'
+import { P, Btn, H4 } from '../../styles'
 import { CreatingForm } from './styles';
 
 function GroupForm() {
@@ -20,13 +20,14 @@ function GroupForm() {
     <Fragment>
       <H4 center>Create Group</H4>
       <P>Fill in form below: </P>
-      <ColoredLine color={props => props.theme.color.secondary} />
+      <ColoredLine color="secondary" />
       <Form
         onSubmit={handleSubmit}
         render={({handleSubmit}) => (
-          <CreatingForm
+          <CreatingForm container
+            direction="column"
             onSubmit={handleSubmit}
-            enctype="multipart/form-data"
+            encType="multipart/form-data"
            >
             <Field
               component={TextField}
@@ -34,6 +35,7 @@ function GroupForm() {
               label="Group name"
               variant="outlined"
               margin="normal"
+              styled
               required
             />
             <Field
@@ -42,6 +44,7 @@ function GroupForm() {
               label="Unique name"
               variant="outlined"
               margin="normal"
+              styled
               required
             />
             <Field
@@ -51,8 +54,9 @@ function GroupForm() {
               multiline
               variant="outlined"
               margin="normal"
+              styled
             />
-            <Btn type="submit">Create</Btn>
+            <Btn type="submit" color="primary">Create</Btn>
           </CreatingForm>
         )}
       />

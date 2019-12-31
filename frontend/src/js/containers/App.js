@@ -22,31 +22,33 @@ import {
   Private,
   AuthRouter,
 } from '../HOC';
+import { MuiThemeProvider } from '@material-ui/core';
 
 function App() {
   return (
     <StylesProvider injectFirst>
       <ThemeProvider theme={theme}>
-      <Wrapper>
-        <Header />
-        <PageContainer
-          container
-          direction="column"
-          background="#edeef0"
-        >
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/app" component={Private(ChatAppRoute)} />
-            <Route path="/get-started" component={AuthRouter(GetStarted)} />
-            <Route path="/login" component={AuthRouter(Login)} />
-            <Route path="/" component={Route404} />
-          </Switch>
-        </PageContainer>
-      </Wrapper>
-      <GlobalStyle />
-      <RedirectMessage />
-      <AppMessage />
-
+      <MuiThemeProvider theme={theme}>
+        <Wrapper>
+          <Header />
+          <PageContainer
+            container
+            direction="column"
+            background="#edeef0"
+          >
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/app" component={Private(ChatAppRoute)} />
+              <Route path="/get-started" component={AuthRouter(GetStarted)} />
+              <Route path="/login" component={AuthRouter(Login)} />
+              <Route path="/" component={Route404} />
+            </Switch>
+          </PageContainer>
+        </Wrapper>
+        <GlobalStyle />
+        <RedirectMessage />
+        <AppMessage />
+      </MuiThemeProvider>
       </ThemeProvider>
     </StylesProvider>
   );

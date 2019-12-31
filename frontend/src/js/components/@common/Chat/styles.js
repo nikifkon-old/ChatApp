@@ -78,34 +78,3 @@ export const MainInput = styled.textarea`
   color: inherit;
   resize: none;
 `
-
-export const EditMessageInput = withStyles({
-  root: {
-    '&': {
-      width: '100%',
-      color: props => props.theme.color.text.primary
-    },
-    '& label.Mui-focused': {
-      color: props => props.theme.color.text.primary,
-    },
-    '& .MuiInputBase-root': {
-      '&': {
-        width: 'inherit',
-        height: 'inherit',
-        color: 'inherit'
-      },
-      '&::before' : {
-        borderColor: props => props.theme.color.secondary,
-      },
-      '& fieldset': {
-        borderColor: props => props.theme.color.secondary,
-      },
-      '&:hover fieldset': {
-        borderColor: props => props.theme.color.text.primary,
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: props => props.theme.color.text.primary,
-      },
-    },
-  },
-})(TextField)
