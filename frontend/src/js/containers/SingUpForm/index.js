@@ -4,14 +4,16 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import { withRouter } from "react-router-dom";
 
-import * as types from '../../actions'
-import { Btn,
+import {
+  Btn,
   ContentGrid,
   Content,
   StyledForm
 } from '../../styles'
+import { singUpUser } from '../../actions/authActions'
 import { composeValidators, isEmail, required, manyThen } from '../../utils'
 import { ErrorMessage, TextField } from '../../components'
+import { getSingUpStatus } from '../../selectors/AuthSelectors';
 
 export class SingUpForm extends Component {
 
@@ -96,23 +98,9 @@ export class SingUpForm extends Component {
   }
 }
 
-const singUpUser = values => {
-  return {
-    type: types.SINGUP_USER_REQUEST,
-    payload: values
-  }
-}
-
 const mapStateToProps = state => {
-  let errorStatus
-  try {
-    errorStatus = state.singup.error.status
-  } catch (error) {
-    errorStatus = false
-  }
-
   return {
-    errorStatus
+    errorStatus: getSingUpStatus(state)
   }
 }
 

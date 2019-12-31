@@ -3,14 +3,16 @@ import { Form, Field } from 'react-final-form'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import * as types from '../../actions'
-import { Btn,
+import {
+  Btn,
   ContentGrid,
   Content,
   StyledForm
 } from '../../styles'
+import { loginJWT } from '../../actions/authActions'
 import { required } from '../../utils'
 import { ErrorMessage, TextField } from '../../components'
+import { getLoginStatus } from '../../selectors/AuthSelectors'
 
 export class LoginForm extends Component{
 
@@ -85,22 +87,8 @@ export class LoginForm extends Component{
 }
 
 const mapStateToProps = state => {
-  let errorStatus
-  try {
-    errorStatus = state.auth.login.error.status
-  } catch (error) {
-    errorStatus = false
-  }
-
   return {
-    errorStatus: errorStatus
-  }
-}
-
-const loginJWT = (values) => {
-  return {
-    type: types.LOGIN_WITH_JWT_REQUEST,
-    payload: values
+    errorStatus: getLoginStatus(state) 
   }
 }
 
