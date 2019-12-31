@@ -7,12 +7,12 @@ function CreatingMenu() {
   return (
     <Fragment>
       <H4>Create: </H4>
-      <ColoredLine color={props => props.theme.color.secondary} />
+      <ColoredLine color="secondary" />
       <StyledLink
         to="create/dialog"
         width="100%"
       >
-        <Btn>
+        <Btn color="primary">
           <i className="material-icons">
             person_add
           </i>
@@ -25,7 +25,7 @@ function CreatingMenu() {
         to="create/group"
         width="100%"
       >
-        <Btn>
+        <Btn color="primary">
           <i className="material-icons">
             group_add
           </i>

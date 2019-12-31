@@ -9,6 +9,7 @@ import {
   getNotEmptyDialogsData,
 } from './selectors'
 import { ChatList } from '../../components'
+import { getActiveId } from '../../selectors/DialogSelectors'
 
 function DialogList() {
   // allow dialogs without messages
@@ -20,7 +21,7 @@ function DialogList() {
 
   // data
   const dialogsInfo = useSelector(state => getDialogsInfo(state));
-  const { fetching, error } = dialogsInfo;
+  const { fetching, error } = dialogsInfo
   const dialogs = useSelector(state => {
     if (allowEmpty) {
       return getDialogsList(state)
@@ -28,6 +29,7 @@ function DialogList() {
       return getNotEmptyDialogsData(state)
     }
   });
+  const activeId = useSelector(state => getActiveId(state))
 
   return (
     <ChatList
@@ -48,6 +50,7 @@ function DialogList() {
           ...data,
           avatar: data.interlocutor.avatar,
           title: data.interlocutor.user,
+          isActive: data.id == activeId
         }
       }}
     />

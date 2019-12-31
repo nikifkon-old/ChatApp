@@ -2,14 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled, { css, createGlobalStyle } from 'styled-components'
 import { Button, Grid } from '@material-ui/core'
-import { withStyles, createMuiTheme } from '@material-ui/core/styles'
+import { createMuiTheme } from '@material-ui/core/styles'
 
 import {
   withHeaderStatus,
 } from './HOC'
-import FinalFormTextField from './components/@common/TextField'
 
 export const active = "#2B5278"
+export const active_light = "#427eb8"
 export const background_darken = "#0E1621"
 export const background = "#182533"
 export const background_light = "#202B36"
@@ -18,11 +18,11 @@ export const content = "#ccc"
 export const content_darken = "#383f47"
 export const alternative = "#000"
 
-export const navWidth = "2.8%" // 40px
-export const menuWidth = "12.8%" // 184px
+export const navWidth = "minmax(40px, 2.8%)" // 40px
+export const menuWidth = "minmax(7%, 12.8%)" // 184px
 export const chatsListWidth = "20.8%" // 300px
-export const chatWidth = "49.9%" // 718px
-export const sidebarWidth = "13.7%" // 198px
+export const chatWidth = "47.2%" // 718px
+export const sidebarWidth = "calc(150px * 1.1)" // 198px
 
 const defaultTheme = createMuiTheme()
 
@@ -30,6 +30,7 @@ export const theme = {
   ...defaultTheme,
   color: {
     primary: active,
+    primary_light: active_light,
     background: {
       primary: background_darken,
       secondary: background,
@@ -206,11 +207,18 @@ export const Btn = styled(
   }
 `
 
+const margin_position = css`
+  ${props => props.grid_left ? 'margin-right: auto;' : ''}
+  ${props => props.grid_right ? 'margin-left: auto;' : ''}
+  ${props => props.noMargin ? 'margin: 0;' : ''}
+`
+
 export const H1 = styled.h1`
   color: ${props => props.color || ""};
   text-align: ${props => props.center ? 'center' : ''};
   font-size: 20px
   line-height: 1em
+  ${margin_position}
 `
 
 export const H4 = styled.h4`
@@ -218,6 +226,7 @@ export const H4 = styled.h4`
   text-align: ${props => props.center ? 'center' : ''};
   font-size: 16px
   line-height: 1em
+  ${margin_position}
 `
 
 export const P = styled.p`
@@ -229,10 +238,6 @@ export const P = styled.p`
   text-align: ${props => props.center ? 'center' : 'left'};
   font-size: 14px;
   font-weight: ${props => props.bold ? 'bold' : ''};
-  ${css`
-    ${props => props.grid_left ? 'margin-right: auto;' : ''}
-    ${props => props.grid_right ? 'margin-left: auto;' : ''}
-    ${props => props.noMargin ? 'margin: 0;' : ''}
-  `}
   display: ${props => props.inline && 'inline-block'};
+  ${margin_position}
 `

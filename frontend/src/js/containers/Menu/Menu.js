@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { H1 } from '../../styles'
+import { H4 } from '../../styles'
 import { StyledChatMenu } from './styles'
 import { ColoredLine, MenuItem } from '../../components'
 import { useSelector } from 'react-redux'
@@ -13,7 +13,7 @@ function Menu() {
 
   return (
     <StyledChatMenu>
-      <H1>Inbox</H1>
+      <H4>Menu</H4>
 
       <ColoredLine height="2px" color="secondary"/>
       <MenuItem id={1} title="Dialogs" link="messages" unreadCount={dialogsUnread} />

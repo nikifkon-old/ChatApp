@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { ContentGrid, P} from '../../styles'
+import { ContentGrid, H4 } from '../../styles'
 import { IconButton } from '../index'
 import { Menu, MenuItem, Link } from '@material-ui/core'
 
@@ -21,7 +21,7 @@ const UserInfo = ({username, userId, logout}) => {
       alignItems="center"
       justify="space-between"
     >
-      <P center grid_right>{username}</P>
+      <H4 center grid_right>{username}</H4>
 
       <IconButton
         onClick={handleClick}

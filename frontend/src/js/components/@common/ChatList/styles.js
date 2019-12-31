@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import {
   Content,
@@ -38,6 +38,16 @@ export const UnreadMessagesCounter = styled(Content)`
   }
 `
 
+const active_card = css`
+  background: ${props => props.theme.color.primary}
+  & > div${UnreadMessagesCounter} > p {
+    color: #000;
+  }
+  & > div${UnreadMessagesCounter}:before {
+    background: ${props => props.theme.color.background.light};
+  }
+`
+
 export const CardGrid = styled.div`
   display: grid;
   height: 80px;
@@ -49,14 +59,9 @@ export const CardGrid = styled.div`
     background: ${props => props.theme.color.background.light};
   }
   &:active {
-    background: ${props => props.theme.color.primary}
-    & > div${UnreadMessagesCounter} > p {
-      color: #000;
-    }
-    & > div${UnreadMessagesCounter}:before {
-      background: ${props => props.theme.color.background.light};
-    }
+    ${active_card}
   }
+  ${props => props.isActive && active_card}
 `
 
 export const AvatarItem = styled(Img)`

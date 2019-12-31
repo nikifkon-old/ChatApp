@@ -29,7 +29,7 @@ const StyledIconButton = styled(
     ({borderRadius, backgroud, color, ...rest}) => <MaterialIconButton {...rest} />
   )`
   color: ${props => props.color === "active"
-    ? props.theme.color.primary
+    ? props.theme.color.primary_light
     : props.theme.color.text.secondary
   };
   background: ${props => props.background || 'inherit'};

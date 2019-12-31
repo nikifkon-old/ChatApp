@@ -19,7 +19,7 @@ import { getElapsedTime } from '../../../utils'
 
 function Card(props) {
   const { data, setActive } = props
-  const { last_message, id, unread_count, title } = data
+  const { last_message, id, unread_count, title, isActive } = data
   const { date, text } = last_message
 
   let avatar = data.avatar
@@ -34,7 +34,7 @@ function Card(props) {
   }
 
   return (
-    <CardGrid onClick={handleActive}>
+    <CardGrid isActive={isActive} onClick={handleActive}>
       <AvatarItem
         src={avatar}
         round
