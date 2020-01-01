@@ -21,7 +21,7 @@ function AllowEmptyBtn({handler}) {
       <Btn
         width="50%"
         onClick={handler}
-        color="primary"
+        color="secondary"
       >
         allow empty
       </Btn>

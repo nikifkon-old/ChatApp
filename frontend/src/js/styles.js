@@ -52,8 +52,8 @@ export const theme = {
         background: active
       },
       secondary: {
-        text: alternative,
-        background: content
+        text: content,
+        background: content_darken
       },
       default: {
         text: alternative,

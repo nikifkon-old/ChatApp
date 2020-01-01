@@ -8,8 +8,17 @@ const useStyles = makeStyles(theme => ({
   root: {
     color: theme.color.text.primary,
     width: '100%',
-    '& div': {
-      color: theme.color.text.primary
+    '& .MuiInputBase-root': {
+      color: theme.color.text.primary,
+      '& fieldset': {
+        borderColor: theme.color.text.secondary
+      },
+      '&:hover fieldset': {
+        borderColor: theme.color.primary
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: theme.color.primary
+      }
     },
     '& label': {
       color: theme.color.text.secondary
@@ -19,12 +28,6 @@ const useStyles = makeStyles(theme => ({
       '-webkit-box-shadow': `inset 0 0 0 50px ${theme.color.background.primary}`,
       '-webkit-text-fill-color': theme.color.text.secondary,
     },
-    '& fieldset': {
-      borderColor: theme.color.text.secondary
-    },
-    '& > div:hover > fieldset': {
-      borderColor: theme.color.primary
-    }
   }
 }))
 

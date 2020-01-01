@@ -34,6 +34,7 @@ const DialogForm = () => {
               width="calc(100% - 48px)"
               name="id"
               variant="outlined"
+              margin="normal"
               placeholder="person id"
               styled
             />
