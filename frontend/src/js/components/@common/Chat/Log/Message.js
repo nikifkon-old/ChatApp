@@ -5,7 +5,7 @@ import { Field, Form } from 'react-final-form';
 import {
   IconButton,
   EmojiedText,
-  TextField
+  FinalFormTextField
 } from '../../../index'
 import {
   StyledMessage,
@@ -103,7 +103,7 @@ const Message = React.forwardRef((props, ref) => {
               ({handleSubmit}) => (
                 <form onSubmit={handleSubmit}>
                   <Field
-                    component={TextField}
+                    component={FinalFormTextField}
                     name="text"
                     defaultValue={text}
                     InputProps={{disableUnderline: true}}

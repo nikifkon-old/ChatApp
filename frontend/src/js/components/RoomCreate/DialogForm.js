@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux'
 import { Form, Field } from 'react-final-form'
 
 import { createDialog, } from '../../actions/dialogActions'
-import { IconButton, ColoredLine, TextField } from '../index'
+import { IconButton, ColoredLine, FinalFormTextField } from '../index'
 import { CreatingForm } from './styles'
-import { H4, ContentGrid } from '../../styles'
+import { H4 } from '../../styles'
 
 const DialogForm = () => {
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const DialogForm = () => {
             onSubmit={handleSubmit}
           >
             <Field
-              component={TextField}
+              component={FinalFormTextField}
               width="calc(100% - 48px)"
               name="id"
               variant="outlined"

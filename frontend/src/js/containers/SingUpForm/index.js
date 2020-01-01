@@ -12,7 +12,7 @@ import {
 } from '../../styles'
 import { singUpUser } from '../../actions/authActions'
 import { composeValidators, isEmail, required, manyThen } from '../../utils'
-import { ErrorMessage, TextField } from '../../components'
+import { ErrorMessage, FinalFormTextField } from '../../components'
 import { getSingUpStatus } from '../../selectors/AuthSelectors';
 
 export class SingUpForm extends Component {
@@ -50,7 +50,7 @@ export class SingUpForm extends Component {
                     name="username"
                     validate={composeValidators(required, manyThen(4))}
                     placeholder="Username"
-                    component={TextField}
+                    component={FinalFormTextField}
                     variant="outlined"
                     margin="dense"
                     fullWidth
@@ -62,7 +62,7 @@ export class SingUpForm extends Component {
                     name="email"
                     validate={composeValidators(required, isEmail)}
                     placeholder="Email"
-                    component={TextField}
+                    component={FinalFormTextField}
                     variant="outlined"
                     margin="dense"
                     fullWidth
@@ -74,7 +74,7 @@ export class SingUpForm extends Component {
                     name="password"
                     validate={required}
                     placeholder="Password"
-                    component={TextField}
+                    component={FinalFormTextField}
                     variant="outlined"
                     margin="dense"
                     fullWidth

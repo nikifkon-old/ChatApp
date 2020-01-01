@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form'
 
-import { ColoredLine, TextField } from '../index'
+import { ColoredLine, FinalFormTextField } from '../index'
 import { createGroup } from '../../actions/groupActions';
 import { P, Btn, H4 } from '../../styles'
 import { CreatingForm } from './styles';
@@ -31,7 +31,7 @@ function GroupForm() {
             encType="multipart/form-data"
            >
             <Field
-              component={TextField}
+              component={FinalFormTextField}
               name="name"
               label="Group name"
               variant="outlined"
@@ -40,7 +40,7 @@ function GroupForm() {
               required
             />
             <Field
-              component={TextField}
+              component={FinalFormTextField}
               name="slug"
               label="Unique name"
               variant="outlined"
@@ -49,7 +49,7 @@ function GroupForm() {
               required
             />
             <Field
-              component={TextField}
+              component={FinalFormTextField}
               name="description"
               label="Description"
               multiline

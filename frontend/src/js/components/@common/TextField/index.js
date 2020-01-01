@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const TextField = ({
+const FinalFormTextField = ({
     styled,
     input: { name, onChange, value, ...restInput },
     meta,
@@ -53,10 +53,24 @@ const TextField = ({
   )
 }
 
-TextField.propTypes = {
+const TextField = ({styled, ...rest}) => {
+  const classes = useStyles()
+
+  return (
+    <MaterialTextField
+      classes={styled && {root: classes.root}}
+      {...rest}
+    />
+  )
+}
+
+FinalFormTextField.propTypes = {
   input: PropTypes.object,
   meta: PropTypes.object,
   styled: PropTypes.bool,
 }
 
-export default TextField
+export {
+  FinalFormTextField as default,
+  TextField
+}

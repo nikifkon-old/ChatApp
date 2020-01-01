@@ -1,4 +1,5 @@
 import {
+  FinalFormTextField,
   TextField,
   Spinner,
   IconButton,
@@ -19,6 +20,7 @@ import PropsRoute from './PropsRoute'
 import ProfileForm from './ProfileForm'
 
 export {
+  FinalFormTextField,
   TextField,
   ColoredLine,
   Spinner,

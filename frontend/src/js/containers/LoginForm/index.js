@@ -11,7 +11,7 @@ import {
 } from '../../styles'
 import { loginJWT } from '../../actions/authActions'
 import { required } from '../../utils'
-import { ErrorMessage, TextField } from '../../components'
+import { ErrorMessage, FinalFormTextField } from '../../components'
 import { getLoginStatus } from '../../selectors/AuthSelectors'
 
 export class LoginForm extends Component{
@@ -49,7 +49,7 @@ export class LoginForm extends Component{
                     name="username"
                     validate={required}
                     placeholder="Username"
-                    component={TextField}
+                    component={FinalFormTextField}
                     variant="outlined"
                     margin="dense"
                     fullWidth
@@ -61,7 +61,7 @@ export class LoginForm extends Component{
                     name="password"
                     validate={required}
                     placeholder="Password"
-                    component={TextField}
+                    component={FinalFormTextField}
                     variant="outlined"
                     margin="dense"
                     fullWidth
