@@ -117,3 +117,16 @@ export const deleteGroup = ({id}) => {
     }
   }
 }
+
+export const searchGroups = ({filters}) => {
+  return {
+    type: types.SET_GROUPS_FILTERS,
+    payload: filters
+  }
+}
+
+export const clearSearchGroups = () => {
+  return {
+    type: types.CLEAR_GROUPS_FILTERS,
+  }
+}

@@ -116,3 +116,16 @@ export const starDialogMessage = ({message_id, star}) => {
     }
   }
 }
+
+export const searchDialogs = ({filters}) => {
+  return {
+    type: types.SET_DIALOGS_FILTERS,
+    payload: filters
+  }
+}
+
+export const clearSearchDialogs = () => {
+  return {
+    type: types.CLEAR_DIALOGS_FILTERS,
+  }
+}

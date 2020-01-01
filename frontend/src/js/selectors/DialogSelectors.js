@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect'
+
 export const selectDialogInfo = state => state.app.dialogs
 export const selectDialogData = state => state.app.dialogs.data
 
@@ -22,4 +24,23 @@ export const getFirstUnread = state => {
 export const getUnreadCount = state => {
   const data = selectDialogData(state)
   return data.reduce((total, el) => total + (el.unread_count > 0), 0)
+}
+
+export const getNotEmptyDialogsData = createSelector(
+  [ selectDialogData ],
+  dialogs => dialogs.filter(dialog => dialog.last_message.sender !== null)
+)
+
+export const getDialogFilter = state => selectDialogInfo(state).filters
+
+export const getDialogsWithFilters = state => {
+  const data = selectDialogData(state)
+  const filter = getDialogFilter(state)
+  
+  if (!filter.name) {
+    return data
+  }
+  return data.filter(dialog =>
+    dialog.interlocutor.user.toLowerCase().indexOf(filter.name.toLowerCase()) != -1
+  )
 }

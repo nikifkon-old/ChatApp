@@ -1,10 +1,48 @@
-import React from 'react'
-import { H4 } from '../../../styles'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
-const FriendListSearch = () => {
+import { TextField, IconButton } from '../../index'
+import { ContentGrid } from '../../../styles'
+
+const SearchBar = ({search}) => {
+  const [value, setValue] = useState()
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    search({
+      filters: {
+        name: value
+      }
+    })
+  }
+
+  function handleChange(e) {
+    setValue(e.target.value)
+  }
+
   return (
-    <H4>search</H4>
+    <ContentGrid container
+      component="form"
+      wrap="nowrap"
+      onSubmit={handleSubmit}
+    >
+      <TextField
+        onChange={handleChange}
+        name="search"
+        variant="outlined"
+        margin="dense"
+        styled
+      />
+      <IconButton
+        icon="search"
+        type="submit"
+      />
+    </ContentGrid>
   )
 }
 
-export default FriendListSearch
+SearchBar.propsTypes = {
+  search: PropTypes.func.isRequired,
+}
+
+export default SearchBar 

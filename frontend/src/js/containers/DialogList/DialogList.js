@@ -2,34 +2,37 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 // import PropTypes from 'prop-types'
 
-import { setActiveDialog } from '../../actions/dialogActions'
+import { setActiveDialog, searchDialogs } from '../../actions/dialogActions'
 import {
-  getDialogsInfo,
-  getDialogsList,
+  selectDialogInfo,
   getNotEmptyDialogsData,
-} from './selectors'
+  getDialogsWithFilters
+} from '../../selectors/DialogSelectors'
 import { ChatList } from '../../components'
+import { useAction } from '../../hooks'
 import { getActiveId } from '../../selectors/DialogSelectors'
 
 function DialogList() {
   // allow dialogs without messages
-  const [allowEmpty, setAllowEmpty] = useState(false);
+  const [allowEmpty, setAllowEmpty] = useState(true);
 
   function handleAllowEmpty() {
     setAllowEmpty(!allowEmpty)
   }
 
   // data
-  const dialogsInfo = useSelector(state => getDialogsInfo(state));
+  const dialogsInfo = useSelector(state => selectDialogInfo(state));
   const { fetching, error } = dialogsInfo
   const dialogs = useSelector(state => {
     if (allowEmpty) {
-      return getDialogsList(state)
+      return getDialogsWithFilters(state)
     } else {
       return getNotEmptyDialogsData(state)
     }
   });
   const activeId = useSelector(state => getActiveId(state))
+
+  const search = useAction(searchDialogs)
 
   return (
     <ChatList
@@ -38,6 +41,9 @@ function DialogList() {
         fetching,
         errorMessage: "You don't have any dialogs.",
         error
+      }}
+      searchBarProps={{
+        search
       }}
       additionalBtnProps={{
         handler: handleAllowEmpty

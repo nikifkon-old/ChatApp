@@ -25,3 +25,17 @@ export const getUnreadCount = state => {
   const data = selectGroupList(state)
   return data.reduce((total, el) => (total + el.unread_count > 0), 0)
 }
+
+export const getGroupFilter = state => selectGroupInfo(state).filters
+
+export const getGroupsWithFilters = state => {
+  const data = selectGroupList(state)
+  const filter = getGroupFilter(state)
+  
+  if (!filter.name) {
+    return data
+  }
+  return data.filter(group =>
+    group.name.toLowerCase().indexOf(filter.name.toLowerCase()) != -1
+  )
+}

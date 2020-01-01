@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { ChatList } from '../../components'
 import { getWebsocketIsAuth } from '../../selectors/WebsocketSelectors'
-import { getGroupList, setActiveGroup } from '../../actions/groupActions'
+import { getGroupList, setActiveGroup, searchGroups } from '../../actions/groupActions'
 import { getQueryParams } from '../../selectors/RouterSelectors'
-import { selectGroupList, selectGroupInfo, getActiveId } from '../../selectors/GroupSelectors'
+import { useAction } from '../../hooks'
+import { selectGroupInfo, getActiveId, getGroupsWithFilters } from '../../selectors/GroupSelectors'
 
 
 function GroupList() {
@@ -13,7 +14,7 @@ function GroupList() {
 
   const info = useSelector(state => selectGroupInfo(state))
   const { fetching, error } = info
-  const groupList = useSelector(state => selectGroupList(state))
+  const groupList = useSelector(state => getGroupsWithFilters(state))
   const activeId = useSelector(state => getActiveId(state))
 
   const websocketIsAuth = useSelector(state => getWebsocketIsAuth(state))
@@ -25,6 +26,8 @@ function GroupList() {
     }
   }, [websocketIsAuth, dispatch, filter])
 
+  const search = useAction(searchGroups)
+
   return (
     <ChatList
       listProps={{
@@ -32,6 +35,9 @@ function GroupList() {
         fetching,
         errorMessage: "You don't have any group.",
         error
+      }}
+      searchBarProps={{
+        search
       }}
       cardProps={{
         setActive: setActiveGroup

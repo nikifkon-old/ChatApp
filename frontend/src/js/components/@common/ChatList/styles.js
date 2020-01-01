@@ -10,9 +10,8 @@ import {
 export const StyledList = styled.section`
   color: #fff
   background: ${props => props.theme.color.background.secondary}
-  display: flex
-  flex-direction: column
-  align-items: center
+  display: grid;
+  grid-template-rows: 60px repeat(3, min-content);
 `
 
 export const UnreadMessagesCounter = styled(Content)`

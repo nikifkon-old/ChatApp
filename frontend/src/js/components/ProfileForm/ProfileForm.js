@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Field } from 'react-final-form'
 
-import { TextField } from '../index'
+import { FinalFormTextField } from '../index'
 import { GenderRadio } from './index'
 import { StyledForm } from './styles'
 import { GridItem, Btn } from '../../styles'
@@ -23,7 +23,7 @@ function ProfileForm({id, data, editable, editProfile}) {
         <StyledForm onSubmit={handleSubmit}>
           <label>Username: </label>
           <Field
-            component={TextField}
+            component={FinalFormTextField}
             variant="outlined"
             name="user"
             placeholder="username"
@@ -32,7 +32,7 @@ function ProfileForm({id, data, editable, editProfile}) {
           />
           <label>Phone number: </label>
           <Field
-            component={TextField}
+            component={FinalFormTextField}
             variant="outlined"
             name="tel"
             placeholder="tel"
@@ -50,7 +50,7 @@ function ProfileForm({id, data, editable, editProfile}) {
 
           <label>Birth: </label>
           <Field
-            component={TextField}
+            component={FinalFormTextField}
             type="date"
             variant="outlined"
             name="birth"

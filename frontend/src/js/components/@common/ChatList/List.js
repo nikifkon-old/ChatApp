@@ -21,6 +21,7 @@ function List(props) {
       errorMessage,
       error,
     },
+    searchBarProps,
     cardProps,
     additionalBtnProps,
     getCardData
@@ -34,7 +35,7 @@ function List(props) {
 
   return (
     <StyledList>
-      <Search />
+      <Search {...searchBarProps} />
       <ColoredLine color="secondary"/>
       <AllowEmptyBtn {...additionalBtnProps} />
       {
@@ -67,6 +68,7 @@ List.propTypes = {
     fetching: PropTypes.bool.isRequired,
     error: PropTypes.object,
   }),
+  searchBarProps: PropTypes.object,
   additionalBtnProps: PropTypes.object,
   cardProps: PropTypes.object.isRequired,
   getCardData: PropTypes.func.isRequired,

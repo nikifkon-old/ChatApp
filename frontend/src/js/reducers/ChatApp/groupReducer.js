@@ -8,6 +8,8 @@ import {
   pushChat,
   setData,
   popChat,
+  setFilters,
+  clearFilters,
 } from './messageReducerShortcuts'
 
 const initialState = {
@@ -15,7 +17,10 @@ const initialState = {
   error: null,
   success: false,
   active: null,
-  data: []
+  data: [],
+  filters: {
+    name: null
+  }
 }
 
 export default function(state = initialState, action) {
@@ -62,6 +67,14 @@ export default function(state = initialState, action) {
 
     case types.SET_AS_READ_GROUP_MESSAGE: {
       return setAsRead(state, action.payload)
+    }
+
+    case types.SET_GROUPS_FILTERS: {
+      return setFilters(state, action.payload)
+    }
+    
+    case types.CLEAR_GROUPS_FILTERS: {
+      return clearFilters(state, initialState)
     }
 
     case types.GROUP_CLEAN_UP:

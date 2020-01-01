@@ -8,6 +8,8 @@ import {
   pushChat,
   setData,
   popChat,
+  setFilters,
+  clearFilters,
 } from './messageReducerShortcuts'
 
 const initialState = {
@@ -15,7 +17,10 @@ const initialState = {
   error: null,
   success: false,
   active: null,
-  data: []
+  data: [],
+  filters: {
+    name: null
+  }
 }
 
 export default function(state = initialState, action) {
@@ -62,6 +67,14 @@ export default function(state = initialState, action) {
 
     case types.SET_AS_READ_DIALOG_MESSAGE: {
       return setAsRead(state, action.payload)
+    }
+
+    case types.SET_DIALOGS_FILTERS: {
+      return setFilters(state, action.payload)
+    }
+    
+    case types.CLEAR_DIALOGS_FILTERS: {
+      return clearFilters(state, initialState)
     }
 
     case types.DIALOG_CLEAN_UP:

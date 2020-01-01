@@ -133,3 +133,20 @@ export const popChat = (state, payload) => {
     )
   }
 }
+
+export const setFilters = (state, payload) => {
+  return {
+    ...state,
+    filters: {
+      ...state.filters,
+      ...payload
+    }
+  }
+}
+
+export const clearFilters = (state, initialState) => {
+  return {
+    ...state,
+    filters: initialState.filters
+  }
+}
