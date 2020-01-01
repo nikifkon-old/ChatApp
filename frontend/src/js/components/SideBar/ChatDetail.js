@@ -15,12 +15,12 @@ function ChatDetail({data}) {
       <TableBody>
       {
         data && Object.keys(data).map(key =>
-          <TableRow key={key}>
-            <TableCell component="th">
-              <P noMargin color="primary">{key}:</P>
+          <TableRow key={key} size="small">
+            <TableCell padding="none" component="th">
+              <P color="primary">{key}:</P>
             </TableCell>
-            <TableCell component="th">
-              <P noMargin color="secondary">{data[key]}</P>
+            <TableCell padding="none" component="th">
+              <P color="secondary">{data[key]}</P>
             </TableCell>
           </TableRow>
         )

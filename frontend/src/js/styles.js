@@ -208,6 +208,7 @@ export const Btn = styled(
 `
 
 const margin_position = css`
+  margin-left: 5px;
   ${props => props.grid_left ? 'margin-right: auto;' : ''}
   ${props => props.grid_right ? 'margin-left: auto;' : ''}
   ${props => props.noMargin ? 'margin: 0;' : ''}

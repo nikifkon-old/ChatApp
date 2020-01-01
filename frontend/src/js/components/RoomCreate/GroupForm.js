@@ -26,6 +26,7 @@ function GroupForm() {
         render={({handleSubmit}) => (
           <CreatingForm container
             direction="column"
+            component="form"
             onSubmit={handleSubmit}
             encType="multipart/form-data"
            >

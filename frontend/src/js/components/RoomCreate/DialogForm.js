@@ -27,6 +27,7 @@ const DialogForm = () => {
           ({handleSubmit}) => (
           <CreatingForm container
             wrap="nowrap"
+            component="form"
             onSubmit={handleSubmit}
           >
             <Field
