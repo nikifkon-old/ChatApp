@@ -6,7 +6,6 @@ from django.core.exceptions import (
 from django.utils.translation import gettext_lazy as _
 
 from backend.profiles.models import Profile
-from backend.socket_chat.models import MessageMixin
 
 
 class Dialog(models.Model):
@@ -70,7 +69,7 @@ class DialogMembership(models.Model):
         return f"{self.person.user.username} in {self.dialog.id}"
 
 
-class DialogMessage(MessageMixin):
+class DialogMessage(models.Model):
     """ Dialog message """
     dialog = models.ForeignKey(
         Dialog,
@@ -82,6 +81,13 @@ class DialogMessage(MessageMixin):
         through="DialogMessageInfo",
         related_name="dialog_messages"
     )
+    sender = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name="dialogs_sended"
+    )
+    text = models.TextField(max_length=1000)
+    date = models.DateTimeField("date of created or updated", auto_now=True)
 
     def save(self, *args, **kwargs):
         """ set readers as dialog members """

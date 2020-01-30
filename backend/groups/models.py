@@ -2,7 +2,6 @@ from django.db import models
 from PIL import Image
 
 from backend.profiles.models import Profile
-from backend.socket_chat.models import MessageMixin
 
 
 class ChatGroup(models.Model):
@@ -70,7 +69,7 @@ class GroupMembership(models.Model):
         return f"`{self.person.user.username}` in `{self.group.name}`"
 
 
-class GroupMessage(MessageMixin):
+class GroupMessage(models.Model):
     """ Group message """
     group = models.ForeignKey(
         ChatGroup,
@@ -82,6 +81,13 @@ class GroupMessage(MessageMixin):
         through="GroupMessageInfo",
         related_name="group_messages"
     )
+    sender = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name="groups_sended"
+    )
+    text = models.TextField(max_length=1000)
+    date = models.DateTimeField("date of created or updated", auto_now=True)
 
     def save(self, *args, **kwargs):
         """ set readers as group members """
