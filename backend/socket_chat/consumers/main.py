@@ -1,4 +1,5 @@
 import jwt
+from jwt import DecodeError
 from django.conf import settings
 from django.contrib.auth.models import User
 from channels.db import database_sync_to_async
@@ -20,17 +21,22 @@ class MainConsumer(GroupEvents, DialogEvents):
 
     async def event_authenticate(self, message):
         """ User Authorization """
-        try:
-            token = message['data']['access_token']
-            data = jwt.decode(token, settings.SECRET_KEY)
+        token = message['data'].get('access_token')
+        if token is not None:
+            try:
+                data = jwt.decode(token, settings.SECRET_KEY)
+            except DecodeError:
+                return await self._throw_error({'detail': 'Token is not valid'},
+                                               event=message['event'])
+
             user = User.objects.get(id=data['user_id'])
             self.user = user
             await self._send_message({'detail': 'Authorization successed'},
                                      event=message['event'])
             if getattr(self, 'on_authenticate_success'):
                 await self.on_authenticate_success()
-        except:
-            await self._throw_error({'detail': 'Authorization failed'},
+        else:
+            await self._throw_error({'detail': 'Access token must not be empty'},
                                     event=message['event'])
 
     async def on_authenticate_success(self):
