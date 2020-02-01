@@ -2,6 +2,7 @@ import pytest
 from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import AccessToken
 from channels.testing import WebsocketCommunicator
+from pytest_mock import MockFixture
 
 
 User = get_user_model()
@@ -32,7 +33,7 @@ async def test_auth_valid_token(com: WebsocketCommunicator):
     access_token = AccessToken.for_user(user)
     await com.send_json_to({'event': 'authenticate',
                            'data': {'access_token': str(access_token)}})
-    response = await com.receive_json_from()
+    response = await com.receive_json_from(timeout=100)
     assert response["status"] == "ok"
     assert response["data"] == {'detail': 'Authorization successed'}
     await com.disconnect()
@@ -51,3 +52,10 @@ async def test_auth_expired_token(com: WebsocketCommunicator):
     assert response["status"] == "error"
     assert response["data"] == {'detail': 'Token is not valid'}
     await com.disconnect()
+
+
+@pytest.mark.django_db
+async def test_on_authenticate(com, consumer, mocker: MockFixture):
+    on_auth = mocker.spy(consumer, 'on_authenticate_success')
+    await test_auth_valid_token(com)
+    on_auth.assert_called_once()
