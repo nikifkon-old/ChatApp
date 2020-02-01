@@ -31,17 +31,19 @@ class MainConsumer(GroupEvents, DialogEvents):
 
             user = User.objects.get(id=data['user_id'])
             self.user = user
-            await self._send_message({'detail': 'Authorization successed'},
-                                     event=message['event'])
+            self.user_profile = user.profile
+
             if getattr(self, 'on_authenticate_success'):
                 await self.on_authenticate_success()
+            await self._send_message({'detail': 'Authorization successed'},
+                                     event=message['event'])
         else:
             await self._throw_error({'detail': 'Access token must not be empty'},
                                     event=message['event'])
 
     async def on_authenticate_success(self):
         """ Execute after user authenticate """
-        await self.get_user_channels(self.user)
+        await self.get_user_channels()
         await self.channel_layer.group_add('general', self.channel_name)
         # connect to channel for all groups
         if self.dialogs:
@@ -68,9 +70,9 @@ class MainConsumer(GroupEvents, DialogEvents):
             await self._send_message(room_data[self.user.id], event=event)
 
     @database_sync_to_async
-    def get_user_channels(self, user):
+    def get_user_channels(self):
         """ Get all user's dialogs & groups id """
-        for dialog in user.profile.dialogs.values():
+        for dialog in self.user_profile.dialogs.values():
             self.dialogs.append(dialog.get('id'))
-        for group in user.profile.groups.values():
+        for group in self.user_profile.groups.values():
             self._groups.append(group.get('id'))
