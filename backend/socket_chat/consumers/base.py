@@ -22,10 +22,6 @@ class BaseConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         await self.accept()
 
-    async def method_unedefined(self, message):
-        await self._throw_error({'detail': 'Undefined event'},
-                                event=message['event'])
-
     async def parse_content(self, content):
         """ Validate request """
         if isinstance(content, dict) and isinstance(content.get('data'), dict) and content.get('event'):

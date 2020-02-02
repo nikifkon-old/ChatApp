@@ -48,10 +48,12 @@ class MainConsumer(GroupEvents, DialogEvents):
         # connect to channel for all groups
         if self.dialogs:
             for dialog in self.dialogs:
-                await self.channel_layer.group_add(f'dialog_{dialog}', self.channel_name)
+                await self.channel_layer.group_add(f'dialog_{dialog}',
+                                                   self.channel_name)
         if self._groups:
             for group in self._groups:
-                await self.channel_layer.group_add(f'group_{group}', self.channel_name)
+                await self.channel_layer.group_add(f'group_{group}',
+                                                   self.channel_name)
 
     # channel layer message types:
     async def channels_message(self, message):
@@ -68,6 +70,10 @@ class MainConsumer(GroupEvents, DialogEvents):
         if self.user.id in users:
             await self.channel_layer.group_add(room, self.channel_name)
             await self._send_message(room_data[self.user.id], event=event)
+
+    async def method_unedefined(self, message):
+        await self._throw_error({'detail': 'Undefined event'},
+                                event=message['event'])
 
     @database_sync_to_async
     def get_user_channels(self):
