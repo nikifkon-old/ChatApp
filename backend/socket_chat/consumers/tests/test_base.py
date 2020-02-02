@@ -14,13 +14,13 @@ async def test_connect():
     await communicator.disconnect()
 
 
-async def test_send_plain_text(com):
+async def test_send_plain_text(com: WebsocketCommunicator):
     await com.send_to('invalid text')
     with pytest.raises(JSONDecodeError):
         await com.receive_from()
 
 
-async def test_invalid_format(com):
+async def test_invalid_format(com: WebsocketCommunicator):
     await com.send_json_to({'test': 'test'})
     response = await com.receive_json_from()
     assert response
@@ -28,7 +28,7 @@ async def test_invalid_format(com):
     assert response["data"] == {'detail': 'Invalid format'}
 
 
-async def test_must_auth(com):
+async def test_must_auth(com: WebsocketCommunicator):
     await com.send_json_to({'event': 'dialogs.list', 'data': {}})
     response = await com.receive_json_from()
     assert response

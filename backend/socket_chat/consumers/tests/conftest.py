@@ -10,12 +10,16 @@ User = get_user_model()
 WS_URL = 'ws/main/'
 
 
-@pytest.fixture
+@pytest.yield_fixture
 async def com() -> WebsocketCommunicator:
     communicator = WebsocketCommunicator(application, WS_URL)
     connected, _ = await communicator.connect()
     assert connected
-    return communicator
+    yield communicator
+    try:
+        await communicator.disconnect()
+    except Exception:
+        pass
 
 
 @pytest.fixture
@@ -33,4 +37,5 @@ async def auth_com(com) -> WebsocketCommunicator:
 
 @pytest.fixture
 async def consumer() -> AsyncConsumer:
-    return application.application_mapping['websocket'].routes[0].resolve(WS_URL).func
+    return application.application_mapping['websocket']\
+        .routes[0].resolve(WS_URL).func
