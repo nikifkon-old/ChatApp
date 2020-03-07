@@ -1,15 +1,13 @@
-from django.test import TestCase
 from django.contrib.auth import get_user_model
-from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError
-from backend.profiles.models import Profile
-from backend.dialogs.models import (
-    Dialog,
-    DialogMembership,
-)
+from django.db.utils import IntegrityError
+from django.test import TestCase
 
+from backend.dialogs.models import Dialog, DialogMembership
+from backend.profiles.models import Profile
 
 User = get_user_model()
+
 
 class TestDialogModel(TestCase):
 
@@ -26,12 +24,12 @@ class TestDialogModel(TestCase):
         cls.d1 = Dialog.objects.create()
         cls.d2 = Dialog.objects.create()
         DialogMembership.objects.create(dialog=cls.d1, person=cls.p1)
-    
+
     def test_membership(self):
         members = self.d1.members.filter(dialogmembership__person=self.p1)
         empty_qs = Profile.objects.none()
         self.assertNotEqual(members, empty_qs)
-    
+
     def test_unique_members(self):
         person = self.d1.members.first()
         try:
@@ -42,7 +40,7 @@ class TestDialogModel(TestCase):
             self.fail('dialog must have unique members')
         except IntegrityError:
             pass
-    
+
     def test_max_count_members(self):
         DialogMembership.objects.create(
             dialog=self.d1,
@@ -56,7 +54,7 @@ class TestDialogModel(TestCase):
             self.fail('max members in dialogs is 2')
         except ValidationError:
             pass
-    
+
     def test_unique_couple_members_in_defferent_dialogs(self):
         DialogMembership.objects.create(
             dialog=self.d1,

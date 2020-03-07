@@ -2,18 +2,12 @@ from channels.db import database_sync_to_async
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 
+from backend.api.v1.groups.serializers import (GroupMessageSerializer,
+                                               GroupSerializer)
+from backend.groups.models import (ChatGroup, GroupMembership, GroupMessage,
+                                   GroupMessageInfo)
 from backend.socket_chat.consumers.base import private
 from backend.socket_chat.mixins.events import EventsMixin
-from backend.groups.models import (
-    ChatGroup,
-    GroupMembership,
-    GroupMessage,
-    GroupMessageInfo,
-)
-from backend.api.v1.groups.serializers import (
-    GroupSerializer,
-    GroupMessageSerializer,
-)
 
 
 class GroupEvents(EventsMixin):

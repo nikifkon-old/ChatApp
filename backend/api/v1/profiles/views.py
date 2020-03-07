@@ -1,8 +1,9 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAdminUser, BasePermission, SAFE_METHODS
+from rest_framework.permissions import (SAFE_METHODS, BasePermission,
+                                        IsAdminUser)
 
-from backend.profiles.models import Profile
 from backend.api.v1.profiles.serializers import ProfileSerializer
+from backend.profiles.models import Profile
 
 
 class ReadOnly(BasePermission):
@@ -26,4 +27,4 @@ class ProfileRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView)
     serializer_class = ProfileSerializer
     lookup_url_kwarg = "id"
     lookup_field = "user__id"
-    permission_classes = [IsAdminUser|ReadOnly]
+    permission_classes = [IsAdminUser | ReadOnly]

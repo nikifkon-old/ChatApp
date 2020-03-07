@@ -12,7 +12,7 @@ class EventsMixin(EventsDBMixin, BaseConsumer):
             meta.name_plural = meta.name + 's'
         except AttributeError:
             raise ValidationError(_('missed attribute "name" required in Meta class'))
-        
+
         self.setattr('event_%s_list' % meta.name_plural, self.build(self.list, meta))
         self.setattr('event_%s_get' % meta.name, self.build(self.get, meta))
         self.setattr('event_%s_create' % meta.name, self.build(self.create, meta))

@@ -1,6 +1,6 @@
 import os
-from .settings import BASE_DIR
 
+from .settings import BASE_DIR
 
 SECRET_KEY = 'n(b+v==45q2p11(#2$7-g-g!6x86*+&9vqsilydyv_q!7y83(k'
 
@@ -39,8 +39,8 @@ DATABASES = {
         'NAME': 'django_db',
         'USER': 'db_user',
         'PASSWORD': 'database_password',
-        'HOST' : '127.0.0.1',
-        'PORT' : '5432',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -56,4 +56,3 @@ WEBPACK_LOADER = {
         )
     }
 }
-

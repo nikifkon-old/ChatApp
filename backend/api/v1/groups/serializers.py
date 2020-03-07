@@ -1,10 +1,9 @@
-from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from rest_framework import serializers
 
 from backend.api.v1.profiles.serializers import ProfileSerializer
 from backend.groups.models import (ChatGroup, GroupMembership, GroupMessage,
                                    GroupMessageInfo)
-
 
 User = get_user_model()
 

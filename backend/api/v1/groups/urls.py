@@ -1,11 +1,9 @@
 from django.urls import path
+
 from backend.api.v1.groups.views import (
-    GroupListCreateView,
-    GroupRetrieveUpdateDestroyAPIView,
-    GroupMembershipListCreateView,
-    GroupMessageListCreateView,
-    GroupMessageRetrieveUpdateDestroyAPIView,
-)
+    GroupListCreateView, GroupMembershipListCreateView,
+    GroupMessageListCreateView, GroupMessageRetrieveUpdateDestroyAPIView,
+    GroupRetrieveUpdateDestroyAPIView)
 
 urlpatterns = [
     path('', GroupListCreateView.as_view()),

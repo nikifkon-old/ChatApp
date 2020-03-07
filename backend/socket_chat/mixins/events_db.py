@@ -1,9 +1,8 @@
 from datetime import datetime
+
 from channels.db import database_sync_to_async
-from django.core.exceptions import (
-    ObjectDoesNotExist,
-    ValidationError,
-)
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
+
 
 class EventsDBMixin:
     @database_sync_to_async
@@ -126,11 +125,11 @@ class EventsDBMixin:
 
         new_chat = self.Meta.chat_model.objects.create()
         kwargs1 = {
-            self.Meta.name : new_chat,
+            self.Meta.name: new_chat,
             'person_id': id_
         }
         kwargs2 = {
-            self.Meta.name : new_chat,
+            self.Meta.name: new_chat,
             'person_id': self.user.id
         }
         m1 = self.Meta.chat_membership(**kwargs1)

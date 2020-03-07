@@ -1,15 +1,10 @@
-from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from rest_framework import serializers
 
 from backend.api.v1.profiles.serializers import ProfileSerializer
-from backend.dialogs.models import (
-    Dialog,
-    DialogMembership,
-    DialogMessage,
-    DialogMessageInfo,
-)
+from backend.dialogs.models import (Dialog, DialogMembership, DialogMessage,
+                                    DialogMessageInfo)
 from backend.profiles.models import Profile
-
 
 User = get_user_model()
 

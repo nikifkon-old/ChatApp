@@ -1,8 +1,8 @@
 import jwt
-from jwt import DecodeError
+from channels.db import database_sync_to_async
 from django.conf import settings
 from django.contrib.auth.models import User
-from channels.db import database_sync_to_async
+from jwt import DecodeError
 
 from backend.socket_chat.consumers.dialog import DialogEvents
 from backend.socket_chat.consumers.group import GroupEvents

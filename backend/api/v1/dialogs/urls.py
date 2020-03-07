@@ -1,11 +1,9 @@
 from django.urls import path
+
 from backend.api.v1.dialogs.views import (
-    DialogListCreateView,
-    DialogRetrieveUpdateDestroyAPIView,
-    DialogMembershipListCreateView,
-    DialogMessageListCreateView,
-    DialogMessageRetrieveUpdateDestroyAPIView,
-)
+    DialogListCreateView, DialogMembershipListCreateView,
+    DialogMessageListCreateView, DialogMessageRetrieveUpdateDestroyAPIView,
+    DialogRetrieveUpdateDestroyAPIView)
 
 urlpatterns = [
     path('', DialogListCreateView.as_view()),

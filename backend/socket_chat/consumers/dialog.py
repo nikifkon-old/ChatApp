@@ -16,6 +16,7 @@ class DialogEvents(EventsMixin):
         self.setup(Meta)
         super().__init__(*args, **kwargs)
 
+
 class Meta:
     name = 'dialog'
     name_plural = 'dialogs'

@@ -1,8 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models
-from django.core.exceptions import (
-    ValidationError,
-    ObjectDoesNotExist,
-)
 from django.utils.translation import gettext_lazy as _
 
 from backend.profiles.models import Profile

@@ -1,15 +1,9 @@
 from rest_framework import generics
 
-from backend.api.v1.groups.serializers import (
-    GroupSerializer,
-    MemberSerializer,
-    GroupMessageSerializer,
-)
-from backend.groups.models import (
-    ChatGroup,
-    GroupMembership,
-    GroupMessage,
-)
+from backend.api.v1.groups.serializers import (GroupMessageSerializer,
+                                               GroupSerializer,
+                                               MemberSerializer)
+from backend.groups.models import ChatGroup, GroupMembership, GroupMessage
 
 
 class GroupListCreateView(generics.ListCreateAPIView):
