@@ -1,14 +1,15 @@
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from backend.profiles.models import Profile
+User = get_user_model()
 
 
 class Dialog(models.Model):
     """ Room for 2 people """
     members = models.ManyToManyField(
-        Profile,
+        User,
         through='DialogMembership',
         related_name='dialogs'
     )
@@ -20,11 +21,11 @@ class Dialog(models.Model):
     @staticmethod
     def check_unique_members(user1, user2):
         try:
-            p1 = Profile.objects.get(id=user1)
-            p2 = Profile.objects.get(id=user2)
+            user1 = User.objects.get(id=user1)
+            user2 = User.objects.get(id=user2)
         except ObjectDoesNotExist:
-            raise ValidationError(_('Profile does not exist'))
-        general_dialogs = p2.dialogs.all() & p1.dialogs.all()
+            raise ValidationError(_('User does not exist'))
+        general_dialogs = user2.dialogs.all() & user1.dialogs.all()
         if len(general_dialogs) > 0:
             raise ValidationError(_('Dialog with these 2 person already exist'))
 
@@ -33,8 +34,8 @@ class Dialog(models.Model):
 
 
 class DialogMembership(models.Model):
-    """ m2m for Profile and Group """
-    person = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    """ m2m for User and Group """
+    person = models.ForeignKey(User, on_delete=models.CASCADE)
     dialog = models.ForeignKey(Dialog, on_delete=models.CASCADE)
 
     class Meta:
@@ -63,7 +64,7 @@ class DialogMembership(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.person.user.username} in {self.dialog.id}"
+        return f"{self.person.username} in {self.dialog.id}"
 
 
 class DialogMessage(models.Model):
@@ -74,12 +75,12 @@ class DialogMessage(models.Model):
         related_name="messages"
     )
     readers = models.ManyToManyField(
-        Profile,
+        User,
         through="DialogMessageInfo",
         related_name="dialog_messages"
     )
     sender = models.ForeignKey(
-        Profile,
+        User,
         on_delete=models.CASCADE,
         related_name="dialogs_sended"
     )
@@ -110,13 +111,13 @@ class DialogMessage(models.Model):
 
 
 class DialogMessageInfo(models.Model):
-    """ m2m for profile & dialog message """
+    """ m2m for user & dialog message """
     message = models.ForeignKey(
         DialogMessage,
         on_delete=models.CASCADE,
         related_name="message_info"
     )
-    person = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    person = models.ForeignKey(User, on_delete=models.CASCADE)
     unread = models.BooleanField(default=True)
     stared = models.BooleanField(default=False)
 

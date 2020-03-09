@@ -1,9 +1,11 @@
+from django.contrib.auth import get_user_model
 from rest_framework import generics
 from rest_framework.permissions import (SAFE_METHODS, BasePermission,
                                         IsAdminUser)
 
-from backend.api.v1.profiles.serializers import ProfileSerializer
-from backend.profiles.models import Profile
+from backend.api.v1.users.serializers import UserSerializer
+
+User = get_user_model()
 
 
 class ReadOnly(BasePermission):
@@ -15,16 +17,16 @@ class ReadOnly(BasePermission):
         return person_id == profile_id
 
 
-class ProfileListCreateView(generics.ListCreateAPIView):
-    """ Create & List Profile """
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+class UserListCreateView(generics.ListCreateAPIView):
+    """ Create & List User """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
-class ProfileRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    """ Get & Update & Delete Profile """
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """ Get & Update & Delete User """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
     lookup_url_kwarg = "id"
     lookup_field = "user__id"
     permission_classes = [IsAdminUser | ReadOnly]

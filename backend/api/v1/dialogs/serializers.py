@@ -1,10 +1,9 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from backend.api.v1.profiles.serializers import ProfileSerializer
+from backend.api.v1.users.serializers import UserSerializer
 from backend.dialogs.models import (Dialog, DialogMembership, DialogMessage,
                                     DialogMessageInfo)
-from backend.profiles.models import Profile
 
 User = get_user_model()
 
@@ -33,7 +32,7 @@ class PersonSerializer(serializers.ModelSerializer):
         return obj.user.id
 
     class Meta:
-        model = Profile
+        model = User
         fields = ("user", "user_id", "avatar")
 
 
@@ -138,11 +137,11 @@ class DialogSerializer(serializers.ModelSerializer):
             # remove yourself
             qs_interlocutor = DialogMembership.objects.filter(dialog=obj)\
                 .exclude(person__id=self.user_id)
-            serializer = ProfileSerializer(qs_interlocutor[0].person)
+            serializer = UserSerializer(qs_interlocutor[0].person)
         else:
             # get all members
             profiles = User.objects.filter(profile__dialogs=obj)
-            serializer = ProfileSerializer(profiles, many=True)
+            serializer = UserSerializer(profiles, many=True)
 
         return serializer.data
 
