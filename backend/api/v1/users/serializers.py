@@ -1,14 +1,15 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from backend.profiles.models import Profile
+User = get_user_model()
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    """ Profile Serializer"""
+class UserSerializer(serializers.ModelSerializer):
+    """ User Serializer"""
     user = serializers.StringRelatedField()
 
     class Meta:
-        model = Profile
+        model = User
         fields = (
             "user",
             "avatar",

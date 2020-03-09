@@ -16,7 +16,7 @@ Django
 ----
 - **make migrations**:
 <code>
-python manage.py makemigrations dialogs groups profiles socket_chat
+python manage.py makemigrations dialogs groups users socket_chat
 </code>
 
 - **run tests**:

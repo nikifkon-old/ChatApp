@@ -1,7 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from PIL import Image
 
-from backend.profiles.models import Profile
+
+User = get_user_model()
 
 
 class ChatGroup(models.Model):
@@ -16,9 +18,9 @@ class ChatGroup(models.Model):
         blank=True
     )
     members = models.ManyToManyField(
-        Profile,
+        User,
         through='GroupMembership',
-        related_name='groups'
+        related_name='chatgroups'
     )
 
     class Meta:
@@ -39,14 +41,14 @@ class ChatGroup(models.Model):
 
 
 class GroupMembership(models.Model):
-    """ m2m for Profile and Group """
+    """ m2m for User and Group """
     ROLES_CHOICES = [
         ("A", "Admin"),
         ("M", "Moderator"),
         ("S", "Subscriber"),
     ]
 
-    person = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    person = models.ForeignKey(User, on_delete=models.CASCADE)
     group = models.ForeignKey(ChatGroup, on_delete=models.CASCADE)
     role = models.CharField(
         "Role in Group",
@@ -66,7 +68,7 @@ class GroupMembership(models.Model):
         ]
 
     def __str__(self):
-        return f"`{self.person.user.username}` in `{self.group.name}`"
+        return f"`{self.person.username}` in `{self.group.name}`"
 
 
 class GroupMessage(models.Model):
@@ -77,12 +79,12 @@ class GroupMessage(models.Model):
         related_name="messages"
     )
     readers = models.ManyToManyField(
-        Profile,
+        User,
         through="GroupMessageInfo",
         related_name="group_messages"
     )
     sender = models.ForeignKey(
-        Profile,
+        User,
         on_delete=models.CASCADE,
         related_name="groups_sended"
     )
@@ -119,7 +121,7 @@ class GroupMessageInfo(models.Model):
         on_delete=models.CASCADE,
         related_name="message_info"
     )
-    person = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    person = models.ForeignKey(User, on_delete=models.CASCADE)
     unread = models.BooleanField(default=True)
     stared = models.BooleanField(default=False)
 

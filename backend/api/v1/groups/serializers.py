@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from backend.api.v1.profiles.serializers import ProfileSerializer
+from backend.api.v1.users.serializers import UserSerializer
 from backend.groups.models import (ChatGroup, GroupMembership, GroupMessage,
                                    GroupMessageInfo)
 
@@ -14,7 +14,7 @@ class MemberSerializer(serializers.ModelSerializer):
         fields = ("person", "group", "role", "date_joined")
 
 
-class ProfileAsMemberSerializer(ProfileSerializer):
+class UserAsMemberSerializer(UserSerializer):
     role = serializers.SerializerMethodField()
     date_joined = serializers.SerializerMethodField()
 
@@ -36,8 +36,8 @@ class ProfileAsMemberSerializer(ProfileSerializer):
         return str(date)
 
     class Meta:
-        model = ProfileSerializer.Meta.model
-        fields = ProfileSerializer.Meta.fields + ("role", "date_joined")
+        model = UserSerializer.Meta.model
+        fields = UserSerializer.Meta.fields + ("role", "date_joined")
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -110,7 +110,7 @@ class GroupSerializer(serializers.ModelSerializer):
             return count
 
     def get_members(self, obj):
-        return ProfileAsMemberSerializer(
+        return UserAsMemberSerializer(
             obj.members.all(),
             many=True,
             read_only=True,

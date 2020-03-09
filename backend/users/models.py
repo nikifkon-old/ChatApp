@@ -1,41 +1,30 @@
-from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.contrib.auth.models import AbstractUser
 from PIL import Image
 
 
-class Profile(models.Model):
-    """ User Profile """
+MEDIA_DIR = "person/"
+
+
+class User(AbstractUser):
+    """ User model"""
 
     GENDER_CHOICES = [
         ("M", "Male"),
         ("F", "Famale"),
     ]
 
-    MEDIA_DIR = "profiles/"
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField("Avatar", upload_to=MEDIA_DIR, null=True, blank=True)
     tel = models.CharField("Telephone", max_length=16, blank=True)
     birth = models.DateField("Date of Birth", max_length=200, null=True, blank=True)
     gender = models.CharField("Gender", max_length=1, choices=GENDER_CHOICES, blank=True)
 
     class Meta:
-        verbose_name = "Profile"
-        verbose_name_plural = "Profiles"
-
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            Profile.objects.create(user=instance)
-
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.profile.save()
+        verbose_name = "User"
+        verbose_name_plural = "Users"
 
     def __str__(self):
-        return self.user.username
+        return self.username
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
