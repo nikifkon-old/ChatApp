@@ -30,7 +30,7 @@ idna==2.8
 incremental==17.5.0
 msgpack==0.6.2
 oauthlib==3.0.2
-Pillow==6.2.0
+Pillow>=6.2.2
 psycopg2==2.8.3
 pycparser==2.19
 Pygments==2.4.2
