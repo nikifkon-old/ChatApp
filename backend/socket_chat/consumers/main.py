@@ -1,16 +1,19 @@
 import jwt
 from channels.db import database_sync_to_async
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from jwt import DecodeError
 
 from backend.socket_chat.consumers.dialog import DialogEvents
 from backend.socket_chat.consumers.group import GroupEvents
 
 
+User = get_user_model()
+
+
 class MainConsumer(GroupEvents, DialogEvents):
     async def receive_json(self, content, **kwargs):
-        """ Event managment """
+        """ Event management """
         message = await self.parse_content(content)
         if message:
             event = message['event'].replace('.', '_')
@@ -31,7 +34,6 @@ class MainConsumer(GroupEvents, DialogEvents):
 
             user = User.objects.get(id=data['user_id'])
             self.user = user
-            self.user_profile = user.profile
 
             if getattr(self, 'on_authenticate_success'):
                 await self.on_authenticate_success()
@@ -78,7 +80,7 @@ class MainConsumer(GroupEvents, DialogEvents):
     @database_sync_to_async
     def get_user_channels(self):
         """ Get all user's dialogs & groups id """
-        for dialog in self.user_profile.dialogs.values():
+        for dialog in self.user.dialogs.values():
             self.dialogs.append(dialog.get('id'))
-        for group in self.user_profile.groups.values():
+        for group in self.user.groups.values():
             self._groups.append(group.get('id'))
