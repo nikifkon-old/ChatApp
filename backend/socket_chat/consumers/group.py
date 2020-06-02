@@ -6,17 +6,21 @@ from backend.api.v1.groups.serializers import (GroupMessageSerializer,
                                                GroupSerializer)
 from backend.groups.models import (ChatGroup, GroupMembership, GroupMessage,
                                    GroupMessageInfo)
-from backend.socket_chat.consumers.base import private
-from backend.socket_chat.mixins.events import EventsMixin
+from backend.socket_chat.mixins.events import EventsMixin, private
 
 
 class GroupEvents(EventsMixin):
-    def __init__(self, *args, **kwargs):
-        self.setup(Meta)
-        super().__init__(*args, **kwargs)
+    class Meta:
+        name = 'group'
+        chat_model = ChatGroup
+        chat_serializer = GroupSerializer
+        chat_membership = GroupMembership
+        message_model = GroupMessage
+        message_serializer = GroupMessageSerializer
+        message_info_model = GroupMessageInfo
 
     @private
-    async def event_group_create(self, event):
+    async def event_create(self, event):
         try:
             name = event['data']['name']
             slug = event['data']['slug']
@@ -29,9 +33,9 @@ class GroupEvents(EventsMixin):
             description=description,
         )
         if created:
-            users = [self.user.id]
-            room = '%s_%d' % (Meta.name, data['id'])
-            room_data = {self.user.id: data}
+            users = [self.consumer.user.id]
+            room = '%s_%d' % (self.Meta.name, data['id'])
+            room_data = {self.consumer.user.id: data}
             await self.channel_layer.group_send('general', {
                 'type': 'connect_users',
                 'event': event['event'],
@@ -60,24 +64,13 @@ class GroupEvents(EventsMixin):
             return {'detail': message}, False
         GroupMembership.objects.create(
             group=group,
-            person_id=self.user.id,
+            person_id=self.consumer.user.id,
             role="A"
         )
         serialized = GroupSerializer(
             group,
             context={
-                "user_id": self.user.id
+                "user_id": self.consumer.user.id
             }
         )
         return serialized.data, True
-
-
-class Meta:
-    name = 'group'
-    name_plural = 'groups'
-    chat_model = ChatGroup
-    chat_serializer = GroupSerializer
-    chat_membership = GroupMembership
-    message_model = GroupMessage
-    message_serializer = GroupMessageSerializer
-    message_info_model = GroupMessageInfo

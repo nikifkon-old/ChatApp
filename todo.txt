@@ -1,6 +1,0 @@
-1. Use drf Serializer only for convert model data to json
-2. Implement 2 class(dialog and group) with methods and test them
-3. Implement MainCounsumer class, that manage requests, call dialog or group class
-
-Additional:
-4. Make documentation to websocket api

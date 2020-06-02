@@ -6,19 +6,37 @@ from jwt import DecodeError
 
 from backend.socket_chat.consumers.dialog import DialogEvents
 from backend.socket_chat.consumers.group import GroupEvents
+from backend.socket_chat.consumers.base import BaseConsumer
 
 
 User = get_user_model()
 
 
-class MainConsumer(GroupEvents, DialogEvents):
+class MainConsumer(BaseConsumer):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.dialog_events = DialogEvents(self)
+        self.group_events = GroupEvents(self)
+
     async def receive_json(self, content, **kwargs):
         """ Event management """
         message = await self.parse_content(content)
         if message:
-            event = message['event'].replace('.', '_')
-            method = getattr(self, f'event_{event}', self.method_unedefined)
-            await method(message)
+            event = message['event'].split('.')
+            type_ = event.pop(0)
+            action = '_'.join(event)
+
+            if type_ == "authenticate":
+                await self.event_authenticate(message)
+            elif type_ == "dialog":
+                method = getattr(self.dialog_events, f'event_{action}', self.method_unedefined)
+                await method(message)
+            elif type_ == "group":
+                method = getattr(self.group_events, f'event_{action}', self.method_unedefined)
+                await method(message)
+            else:
+                await self.method_unedefined(message)
+
         else:
             await self._throw_error({'detail': 'Invalid format'})
 

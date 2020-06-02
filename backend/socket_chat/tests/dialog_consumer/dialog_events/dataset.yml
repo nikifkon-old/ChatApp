@@ -67,8 +67,8 @@ test_get_dialog_event:
     }, 'status': 'ok'}
 
 test_list_dialog_event:
-    request_data: {'event': 'dialogs.list', data: {}}
-    successed_response: {'event': 'dialogs.list', data: [{
+    request_data: {'event': 'dialog.list', data: {}}
+    successed_response: {'event': 'dialog.list', data: [{
         'id': 'ID',
         'messages': [],
         'interlocutor': {

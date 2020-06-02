@@ -144,7 +144,7 @@ TODO: response typing
         }
     }
     ```
-  - *`dialogs.list`:*
+  - *`dialog.list`:*
     TODO: rename to `dialog.list`
     - get dialogs without messages
     - response data:

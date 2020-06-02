@@ -56,7 +56,7 @@ class EventsDBMixin:
     def send_message(self, id_, text):
         """ Create message in Database """
         kwargs = {
-            'sender_id': self.user.id,
+            'sender_id': self.consumer.user.id,
             '%s_id' % self.Meta.name: id_,
             'text': text,
             'date': datetime.now()
@@ -65,7 +65,7 @@ class EventsDBMixin:
         serialized = self.Meta.message_serializer(
             new_message,
             context={
-                'user_id': self.user.id
+                'user_id': self.consumer.user.id
             }
         )
         return serialized.data
@@ -75,7 +75,7 @@ class EventsDBMixin:
         """ Delete message in Database """
         try:
             message = self.Meta.message_model.objects.get(id=id_)
-            if message.sender.id != self.user.id:
+            if message.sender.id != self.consumer.user.id:
                 return {'detail': 'You can\'t delete foreign message'}, False
             message.delete()
             return {
@@ -91,14 +91,14 @@ class EventsDBMixin:
         """ Update message in Database """
         try:
             message = self.Meta.message_model.objects.get(id=id_)
-            if message.sender.id != self.user.id:
+            if message.sender.id != self.consumer.user.id:
                 return {'detail': 'You can\'t update foreign messages'}, False
             message.text = text
             message.save()
             serialized = self.Meta.message_serializer(
                 message,
                 context={
-                    'user_id': self.user.id
+                    'user_id': self.consumer.user.id
                 }
             )
             return serialized.data, True
@@ -109,7 +109,7 @@ class EventsDBMixin:
     def set_as_read(self, messages):
         for message in messages:
             info = self.Meta.message_info_model.objects.get(
-                person=self.user.id,
+                person=self.consumer.user.id,
                 message__id=message['message_id']
             )
             info.unread = False
@@ -119,7 +119,7 @@ class EventsDBMixin:
     def create_chat(self, id_):
         """ Create chat in Database """
         try:
-            self.Meta.chat_model.check_unique_members(self.user.id, id_)
+            self.Meta.chat_model.check_unique_members(self.consumer.user.id, id_)
         except ValidationError as error:
             return {'detail': str(error.message)}, False
 
@@ -130,7 +130,7 @@ class EventsDBMixin:
         }
         kwargs2 = {
             self.Meta.name: new_chat,
-            'person_id': self.user.id
+            'person_id': self.consumer.user.id
         }
         m1 = self.Meta.chat_membership(**kwargs1)
         m2 = self.Meta.chat_membership(**kwargs2)
@@ -142,14 +142,14 @@ class EventsDBMixin:
 
         data1 = self.Meta.chat_serializer(
             new_chat,
-            context={'user_id': self.user.id}
+            context={'user_id': self.consumer.user.id}
         ).data
         data2 = self.Meta.chat_serializer(
             new_chat,
             context={'user_id': id_}
         ).data
         return {
-            self.user.id: data1,
+            self.consumer.user.id: data1,
             id_: data2,
             "chat_id": new_chat.id
         }, True
@@ -169,7 +169,7 @@ class EventsDBMixin:
         try:
             info = self.Meta.message_info_model.objects.get(
                 message__id=id,
-                person__id=self.user.id,
+                person__id=self.consumer.user.id,
             )
         except ObjectDoesNotExist:
             return False

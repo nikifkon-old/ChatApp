@@ -12,17 +12,11 @@ from backend.api.v1.dialogs.serializers import (
 
 
 class DialogEvents(EventsMixin):
-    def __init__(self, *args, **kwargs):
-        self.setup(Meta)
-        super().__init__(*args, **kwargs)
-
-
-class Meta:
-    name = 'dialog'
-    name_plural = 'dialogs'
-    chat_model = Dialog
-    chat_serializer = DialogSerializer
-    chat_membership = DialogMembership
-    message_model = DialogMessage
-    message_serializer = DialogMessageSerializer
-    message_info_model = DialogMessageInfo
+    class Meta:
+        name = 'dialog'
+        chat_model = Dialog
+        chat_serializer = DialogSerializer
+        chat_membership = DialogMembership
+        message_model = DialogMessage
+        message_serializer = DialogMessageSerializer
+        message_info_model = DialogMessageInfo
