@@ -6,12 +6,10 @@ User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
     """ User Serializer"""
-    user = serializers.StringRelatedField()
-
     class Meta:
         model = User
         fields = (
-            "user",
+            "username",
             "avatar",
             "tel",
             "birth",

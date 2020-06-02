@@ -20,22 +20,6 @@ class LastMessageSerizalizer(serializers.ModelSerializer):
         fields = ("sender", "text", "date",)
 
 
-class PersonSerializer(serializers.ModelSerializer):
-    """ Interlocutor serializer """
-    user = serializers.SerializerMethodField()
-    user_id = serializers.SerializerMethodField()
-
-    def get_user(self, obj):
-        return obj.user.username
-
-    def get_user_id(self, obj):
-        return obj.user.id
-
-    class Meta:
-        model = User
-        fields = ("user", "user_id", "avatar")
-
-
 class DialogMessageSerializer(serializers.ModelSerializer):
     """ Message Serializer"""
     avatar = serializers.SerializerMethodField()
@@ -61,7 +45,7 @@ class DialogMessageSerializer(serializers.ModelSerializer):
             return info.stared
 
     def get_sender_name(self, obj):
-        return obj.sender.user.username
+        return obj.sender.username
 
     def get_avatar(self, obj):
         if obj.sender.avatar:
@@ -104,13 +88,13 @@ class DialogSerializer(serializers.ModelSerializer):
         # filters
         if self.user_id:
             if self.context.get('filter') == 'unread':
-                person = User.objects.get(id=self.user_id).profile
+                person = User.objects.get(id=self.user_id)
                 self.messages_qs = person.dialog_messages.filter(
                     dialog=obj,
                     message_info__unread=True
                 )
             elif self.context.get('filter') == 'stared':
-                person = User.objects.get(id=self.user_id).profile
+                person = User.objects.get(id=self.user_id)
                 self.messages_qs = person.dialog_messages.filter(
                     dialog=obj,
                     message_info__stared=True
@@ -140,8 +124,8 @@ class DialogSerializer(serializers.ModelSerializer):
             serializer = UserSerializer(qs_interlocutor[0].person)
         else:
             # get all members
-            profiles = User.objects.filter(profile__dialogs=obj)
-            serializer = UserSerializer(profiles, many=True)
+            users = User.objects.filter(dialogs=obj)
+            serializer = UserSerializer(users, many=True)
 
         return serializer.data
 

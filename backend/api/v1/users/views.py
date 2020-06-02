@@ -12,9 +12,9 @@ class ReadOnly(BasePermission):
     def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
             return True
-        person_id = request.user.profile.id
-        profile_id = int(request.parser_context['kwargs']['id'])
-        return person_id == profile_id
+        person_id = request.user.id
+        user_id = int(request.parser_context['kwargs']['id'])
+        return person_id == user_id
 
 
 class UserListCreateView(generics.ListCreateAPIView):

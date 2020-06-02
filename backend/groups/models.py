@@ -115,7 +115,7 @@ class GroupMessage(models.Model):
 
 
 class GroupMessageInfo(models.Model):
-    """ m2m for profile & group message """
+    """ m2m for user & group message """
     message = models.ForeignKey(
         GroupMessage,
         on_delete=models.CASCADE,

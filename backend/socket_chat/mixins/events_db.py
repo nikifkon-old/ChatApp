@@ -165,14 +165,14 @@ class EventsDBMixin:
             return {'detail': f'{self.Meta.name} doesn\'t exist'}, False
 
     @database_sync_to_async
-    def star_message(self, message_id, star):
+    def star_message(self, id, stared):
         try:
             info = self.Meta.message_info_model.objects.get(
-                message__id=message_id,
+                message__id=id,
                 person__id=self.user.id,
             )
         except ObjectDoesNotExist:
             return False
-        info.stared = star
+        info.stared = stared
         info.save()
-        return {"id": message_id, "stared": star}, True
+        return {"id": id, "stared": stared}, True

@@ -1,0 +1,75 @@
+test_send_message_in_dialog_event:
+    request_data: {"event": "dialog.message.send", data: {
+        "id": "DIALOG_ID",
+        "text": "some_text"
+    }}
+    successed_response_for_user: {"event": "dialog.message.send", data: {
+        # "id": "MESSAGE_ID",
+        "sender": "USER_ID",
+        "sender_name": "USERNAME",
+        "avatar": "AVATAR",
+        "chat_id": "DIALOG_ID",
+        "text": "some_text",
+        "unread": false,
+        "stared": false,
+        "date": "TODAY"
+    }, "status": "ok"}
+    successed_response_for_another_user: {"event": "dialog.message.send", data: {
+        # "id": "MESSAGE_ID",
+        "sender": "USER_ID",
+        "sender_name": "USERNAME",
+        "avatar": "AVATAR",
+        "chat_id": "DIALOG_ID",
+        "text": "some_text",
+        "unread": false,  # must be true
+        "stared": false,
+        "date": "TODAY"
+    }, "status": "ok"}
+
+test_update_message_in_dialog_event:
+    request_data: {"event": "dialog.message.update", data: {
+        "id": "MESSAGE_ID",
+        "text": "new_some_text"
+    }}
+    successed_response: {"event": "dialog.message.update", data: {
+        "id": "MESSAGE_ID",
+        "sender": "USER_ID",
+        "sender_name": "USERNAME",
+        "avatar": "AVATAR",
+        "chat_id": "DIALOG_ID",
+        "text": "new_some_text",
+        "unread": false,
+        "stared": false,
+        "date": "TODAY"
+    }, "status": "ok"}
+    message_does_not_exist_response: {"event": "dialog.message.update", data: {
+        "detail": "Message doesn't exist"
+    }, "status": "error"}
+    message_is_foreign_response: {"event": "dialog.message.update", data: {
+        "detail": "You can't update foreign messages"
+    }, "status": "error"}
+
+test_delete_message_in_dialog_event:
+    request_data: {"event": "dialog.message.delete", data: {
+        "id": "MESSAGE_ID",
+    }}
+    successed_response: {"event": "dialog.message.delete", data: {
+        "message_id": "MESSAGE_ID",
+        "chat_id": "CHAT_ID"
+    }, "status": "ok"}
+    message_does_not_exist_response: {"event": "dialog.message.delete", data: {
+        "detail": "Message doesn't exist"
+    }, "status": "error"}
+    message_is_foreign_response: {"event": "dialog.message.delete", data: {
+        "detail": "You can't delete foreign message"
+    }, "status": "error"}
+
+test_star_message_in_dialog_event:
+    request_data: {"event": "dialog.message.star", data: {
+        "id": "MESSAGE_ID",
+        "stared": true
+    }}
+    successed_response: {"event": "dialog.message.star", data: {
+        "id": "MESSAGE_ID",
+        "stared": true
+    }, "status": "ok"}

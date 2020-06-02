@@ -178,11 +178,11 @@ class EventsMixin(EventsDBMixin, BaseConsumer):
     async def message_star(self, event):
         """ star/unstar message """
         try:
-            star = event['data']['star']
-            message_id = event['data']['message_id']
+            stared = event['data']['stared']
+            id = event['data']['id']
         except KeyError:
             return await self.throw_missed_field(event=event['event'])
-        data, is_ok = await self.star_message(message_id=message_id, star=star)
+        data, is_ok = await self.star_message(id=id, stared=stared)
         if is_ok:
             await self._send_message(data, event=event['event'])
         else:

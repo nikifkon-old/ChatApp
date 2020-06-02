@@ -60,7 +60,7 @@ class GroupSerializer(serializers.ModelSerializer):
         self.messages_qs = obj.messages.all()
 
         if self.user_id:
-            person = User.objects.get(id=self.user_id).profile
+            person = User.objects.get(id=self.user_id)
             if self.context.get('filter') == 'unread':
                 self.messages_qs = person.group_messages.filter(
                     group=obj,
@@ -156,7 +156,7 @@ class GroupMessageSerializer(serializers.ModelSerializer):
         )
 
     def get_sender_name(self, obj):
-        return obj.sender.user.username
+        return obj.sender.username
 
     def get_avatar(self, obj):
         if obj.sender.avatar:

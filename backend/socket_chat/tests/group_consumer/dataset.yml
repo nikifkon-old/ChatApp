@@ -1,0 +1,32 @@
+test_create_group_event:
+    request_data:
+        {
+            'event': 'group.create',
+            'data': {'name': 'test_group', 'slug': 'test_group_slug', 'description': 'test_group_description'}
+        }
+    expected_response:
+        {
+            'event': 'group.create',
+            'data': {
+                'id': 1,
+                'name': 'test_group',
+                'slug': 'test_group_slug',
+                'img': null,
+                'description': 'test_group_description',
+                'messages': [],
+                'members': [
+                    {
+                        ...user_data,
+                        'date_joined': 'TODAY',
+                        'role': 'A',
+                    }
+                ],
+                'unread_count': 0,
+                'last_message': {
+                    'chat_id': null,
+                    'sender': null,
+                    'text': '' 
+                }
+            },
+            'status': 'ok'
+        }
