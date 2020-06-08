@@ -11,16 +11,18 @@ pytestmark = [pytest.mark.asyncio, pytest.mark.django_db(transaction=True)]
 
 
 @pytest.fixture
-def filled_data(yml_dataset: dict, dialog: Dialog, user_serialized_data: dict, user: User, message_text: str) -> dict:
+def filled_data(yml_dataset: dict, dialog: Dialog, message_text: str, dialog_message_sender) -> dict:
     data = yml_dataset["test_send_message_in_dialog_event"]
     data["request_data"]["data"]["id"] = dialog.id
     data["request_data"]["data"]["text"] = message_text
 
-    data["successed_response_for_another_user"]["data"]["sender"] = data["successed_response_for_user"]["data"]["sender"] = user.id
-    data["successed_response_for_another_user"]["data"]["chat_id"] = data["successed_response_for_user"]["data"]["chat_id"] = dialog.id
-    data["successed_response_for_another_user"]["data"]["sender_name"] = data["successed_response_for_user"]["data"]["sender_name"] = user_serialized_data["username"]
-    data["successed_response_for_another_user"]["data"]["avatar"] = data["successed_response_for_user"]["data"]["avatar"] = user_serialized_data["avatar"]
-    data["successed_response_for_another_user"]["data"]["date"] = data["successed_response_for_user"]["data"]["date"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%MZ")
+    data["successed_response_for_another_user"]["data"]["sender"] = dialog_message_sender
+    data["successed_response_for_user"]["data"]["sender"] = dialog_message_sender
+
+    data["successed_response_for_another_user"]["data"]["chat_id"] = dialog.id
+    data["successed_response_for_user"]["data"]["chat_id"] = dialog.id
+    data["successed_response_for_another_user"]["data"]["date"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%MZ")
+    data["successed_response_for_user"]["data"]["date"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%MZ")
     return data
 
 

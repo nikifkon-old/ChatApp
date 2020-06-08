@@ -13,15 +13,14 @@ pytestmark = [pytest.mark.asyncio, pytest.mark.django_db(transaction=True)]
 
 
 @pytest.fixture
-def filled_data(yml_dataset: dict, group_message: GroupMessage, user: User, user_serialized_data: dict):
+def filled_data(yml_dataset: dict, group_message: GroupMessage, group_message_sender):
     data = yml_dataset["test_update_message_in_group_event"]
     data["request_data"]["data"]["id"] = group_message.id
 
+    data["successed_response"]["data"]["sender"] = group_message_sender
+
     data["successed_response"]["data"]["id"] = group_message.id
     data["successed_response"]["data"]["chat_id"] = group_message.group.id
-    data["successed_response"]["data"]["sender"] = user.id
-    data["successed_response"]["data"]["sender_name"] = user_serialized_data["username"]
-    data["successed_response"]["data"]["avatar"] = user_serialized_data["avatar"]
     data["successed_response"]["data"]["date"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%MZ")
     return data
 

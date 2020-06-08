@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from channels.db import database_sync_to_async
 from asgiref.sync import async_to_sync
 
-from backend.api.v1.groups.serializers import GroupSerializer, GroupMessageSerializer, MemberSerializer
+from backend.api.v1.groups.serializers import GroupSerializer, LastMessageSerializer, GroupMessageSerializer, MemberSerializer
 from backend.groups.models import ChatGroup, GroupMessage, GroupMessageInfo, GroupMembership
 from backend.groups.forms import GroupForm, GroupMessageForm, GroupMembershipForm
 
@@ -25,7 +25,7 @@ class GroupView:
         data = GroupSerializer(group).data
 
         last_message = self._get_last_message(group)
-        data["last_message"] = GroupMessageSerializer(last_message).data
+        data["last_message"] = LastMessageSerializer(last_message).data
 
         data["unread_count"] = self._get_unread_count(group, user_id=user_id)
 

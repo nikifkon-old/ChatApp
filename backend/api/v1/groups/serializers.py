@@ -28,26 +28,28 @@ class GroupSerializer(serializers.ModelSerializer):
         )
 
 
+class LastMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GroupMessage
+        fields = ("sender", "text", "date",)
+
+
+class GroupMessageSender(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "username", "avatar",)
+
+
 class GroupMessageSerializer(serializers.ModelSerializer):
     """ Message Serializer"""
-    avatar = serializers.SerializerMethodField()
-    sender_name = serializers.SerializerMethodField()
+    sender = GroupMessageSender()
     chat_id = serializers.IntegerField(source="group.id")
-
-    def get_sender_name(self, obj):
-        return obj.sender.username
-
-    def get_avatar(self, obj):
-        if obj.sender.avatar:
-            return obj.sender.avatar.url
 
     class Meta:
         model = GroupMessage
         fields = (
             "id",
             "sender",
-            "sender_name",
-            "avatar",
             "chat_id",
             "text",
             "date",

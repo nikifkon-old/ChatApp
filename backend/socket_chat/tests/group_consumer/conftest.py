@@ -46,3 +46,12 @@ async def group_message(group: ChatGroup, user: User, message_text: str) -> Grou
     form = GroupMessageForm(data)
     assert form.is_valid(), form.errors
     return form.save()
+
+
+@pytest.fixture
+async def group_message_sender(user):
+    return {
+        "id": user.id,
+        "username": user.username,
+        "avatar": user.avatar.url
+    }

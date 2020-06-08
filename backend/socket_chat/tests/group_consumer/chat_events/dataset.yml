@@ -21,7 +21,6 @@ test_create_group_event:
             ],
             'unread_count': 0,
             'last_message': {
-                'chat_id': null,
                 'sender': null,
                 'text': '' 
             }
@@ -59,7 +58,6 @@ test_join_in_group_event:
         ],
         'unread_count': 0,
         'last_message': {
-            'chat_id': null,
             'sender': null,
             'text': '' 
         }
@@ -91,7 +89,6 @@ test_get_group_event:
         ],
         'unread_count': 0,
         'last_message': {
-            'chat_id': null,
             'sender': null,
             'text': '' 
         }
@@ -120,7 +117,6 @@ test_list_group_event:
         ],
         'unread_count': 0,
         'last_message': {
-            'chat_id': null,
             'sender': null,
             'text': '' 
         }

@@ -42,3 +42,12 @@ async def dialog_message(dialog: Dialog, user: User, message_text: str) -> Dialo
     form = DialogMessageForm(data)
     assert form.is_valid(), form.errors
     return form.save()
+
+
+@pytest.fixture
+async def dialog_message_sender(user):
+    return {
+        "id": user.id,
+        "username": user.username,
+        "avatar": user.avatar.url
+    }

@@ -18,26 +18,22 @@ class LastMessageSerizalizer(serializers.ModelSerializer):
         fields = ("sender", "text", "date",)
 
 
+class DialogMessageSender(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "username", "avatar",)
+
+
 class DialogMessageSerializer(serializers.ModelSerializer):
     """ Message Serializer"""
-    avatar = serializers.SerializerMethodField()
-    sender_name = serializers.SerializerMethodField()
+    sender = DialogMessageSender()
     chat_id = serializers.IntegerField(source="dialog.id")
-
-    def get_sender_name(self, obj):
-        return obj.sender.username
-
-    def get_avatar(self, obj):
-        if obj.sender.avatar:
-            return obj.sender.avatar.url
 
     class Meta:
         model = DialogMessage
         fields = (
             "id",
             "sender",
-            "sender_name",
-            "avatar",
             "chat_id",
             "text",
             "date",
