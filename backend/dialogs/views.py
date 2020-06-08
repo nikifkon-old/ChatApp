@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
+from channels.db import database_sync_to_async
+from asgiref.sync import async_to_sync
 
 from backend.api.v1.users.serializers import UserSerializer
 from backend.api.v1.dialogs.serializers import DialogSerializer, DialogMessageSerializer, LastMessageSerizalizer
@@ -16,6 +18,7 @@ class DialogView:
     def set_user_id(self, user_id: int):
         self.user_id = user_id
 
+    @database_sync_to_async
     def get(self, id_: int, with_messages: bool = False, filter_: str = None, user_id: int = None) -> dict:
         if user_id is None:
             user_id = self.user_id
@@ -57,10 +60,12 @@ class DialogView:
         members = DialogMembership.objects.filter(dialog=dialog)
         return members.exclude(person__id=user_id)[0].person
 
+    @database_sync_to_async
     def list(self, filter_=None) -> dict:
         dialogs = Dialog.objects.filter(members__exact=self.user_id)
-        return [self.get(dialog.id, filter_=filter_) for dialog in dialogs]
+        return [async_to_sync(self.get)(dialog.id, filter_=filter_) for dialog in dialogs]
 
+    @database_sync_to_async
     def create(self, interlocutor_id: id) -> (dict, bool):
         try:
             interlocutor = User.objects.get(id=interlocutor_id)
@@ -74,13 +79,14 @@ class DialogView:
             dialog = form.save()
             data = {
                 "chat_id": dialog.id,
-                interlocutor_id: self.get(dialog.id, user_id=interlocutor_id),
-                self.user_id: self.get(dialog.id)
+                interlocutor_id: async_to_sync(self.get)(dialog.id, user_id=interlocutor_id),
+                self.user_id: async_to_sync(self.get)(dialog.id)
             }
             return data, True
         else:
             return {"detail": form.errors["__all__"][0]}, False
 
+    @database_sync_to_async
     def delete(self, id_: int) -> (dict, bool):
         try:
             dialog = Dialog.objects.get(id=id_)
@@ -89,6 +95,7 @@ class DialogView:
         except ObjectDoesNotExist:
             return {"detail": "dialog doesn't exist"}, False
 
+    @database_sync_to_async
     def send_message(self, dialog_id: int, text: str) -> (dict, bool):
         message_data = {
             "dialog": dialog_id,
@@ -120,6 +127,7 @@ class DialogView:
             message["stared"] = info.stared
             return message
 
+    @database_sync_to_async
     def delete_message(self, message_id: int) -> (dict, bool):
         try:
             message = DialogMessage.objects.get(id=message_id)
@@ -131,6 +139,7 @@ class DialogView:
         message.delete()
         return {"chat_id": chat_id, "message_id": message_id}, True
 
+    @database_sync_to_async
     def update_message(self, message_id: int, new_text: str) -> (dict, bool):
         try:
             message = DialogMessage.objects.get(id=message_id)
@@ -145,6 +154,7 @@ class DialogView:
         new_message.save()
         return self._get_serialized_message(new_message), True
 
+    @database_sync_to_async
     def star_message(self, message_id: int, stared: bool):
         try:
             info = DialogMessageInfo.objects.get(
@@ -157,6 +167,7 @@ class DialogView:
         info.save()
         return {"id": message_id, "stared": stared}, True
 
+    @database_sync_to_async
     def set_as_read(self, messages: list) -> None:
         for message in messages:
             info = DialogMessageInfo.objects.get(

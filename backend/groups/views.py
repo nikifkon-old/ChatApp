@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from channels.db import database_sync_to_async
+from asgiref.sync import async_to_sync
 
 from backend.api.v1.groups.serializers import GroupSerializer, GroupMessageSerializer, MemberSerializer
 from backend.groups.models import ChatGroup, GroupMessage, GroupMessageInfo, GroupMembership
@@ -16,6 +17,7 @@ class GroupView:
     def set_user_id(self, user_id: int):
         self.user_id = user_id
 
+    @database_sync_to_async
     def get(self, id_: int, with_messages: bool = False, filter_: str = None, user_id: int = None) -> dict:
         if user_id is None:
             user_id = self.user_id
@@ -54,9 +56,10 @@ class GroupView:
     def _get_members(self, group: ChatGroup) -> dict:
         return GroupMembership.objects.filter(group=group)
 
+    @database_sync_to_async
     def list(self, filter_=None) -> dict:
         groups = ChatGroup.objects.filter(members__exact=self.user_id)
-        return [self.get(group.id, filter_=filter_) for group in groups]
+        return [async_to_sync(self.get)(group.id, filter_=filter_) for group in groups]
 
     @database_sync_to_async
     def create(self, name: str, slug: str, description: str = None) -> (dict, bool):
@@ -70,7 +73,7 @@ class GroupView:
         form = GroupForm(group_data)
         if form.is_valid():
             group = form.save()
-            data = self.get(group.id)
+            data = async_to_sync(self.get)(group.id)
             return data, True
         else:
             return {"detail": form.errors["__all__"][0]}, False
@@ -94,11 +97,12 @@ class GroupView:
         form = GroupMembershipForm(form_data)
         if form.is_valid():
             form.save()
-            data = self.get(group.id)
+            data = async_to_sync(self.get)(group.id)
             return data, True
         else:
             return {"detail": form.errors["__all__"][0]}, False
 
+    @database_sync_to_async
     def delete(self, id_: int) -> (dict, bool):
         try:
             group = ChatGroup.objects.get(id=id_)
@@ -107,6 +111,7 @@ class GroupView:
         except ObjectDoesNotExist:
             return {"detail": "group doesn't exist"}, False
 
+    @database_sync_to_async
     def send_message(self, group_id: int, text: str) -> (dict, bool):
         message_data = {
             "group": group_id,
@@ -138,6 +143,7 @@ class GroupView:
             message["stared"] = info.stared
             return message
 
+    @database_sync_to_async
     def delete_message(self, message_id: int) -> (dict, bool):
         try:
             message = GroupMessage.objects.get(id=message_id)
@@ -149,6 +155,7 @@ class GroupView:
         message.delete()
         return {"chat_id": chat_id, "message_id": message_id}, True
 
+    @database_sync_to_async
     def update_message(self, message_id: int, new_text: str) -> (dict, bool):
         try:
             message = GroupMessage.objects.get(id=message_id)
@@ -163,6 +170,7 @@ class GroupView:
         new_message.save()
         return self._get_serialized_message(new_message), True
 
+    @database_sync_to_async
     def star_message(self, message_id: int, stared: bool):
         try:
             info = GroupMessageInfo.objects.get(
@@ -175,6 +183,7 @@ class GroupView:
         info.save()
         return {"id": message_id, "stared": stared}, True
 
+    @database_sync_to_async
     def set_as_read(self, messages: list) -> None:
         for message in messages:
             info = GroupMessageInfo.objects.get(

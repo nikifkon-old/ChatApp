@@ -1,6 +1,3 @@
-from backend.socket_chat.mixins.events_db import EventsDBMixin
-
-
 def private(event):
     """ Provide private event with user objects """
     async def must_auth(self, message, *args, **kwargs):
@@ -12,7 +9,7 @@ def private(event):
     return must_auth
 
 
-class EventsMixin(EventsDBMixin):
+class EventsMixin():
     def __init__(self, consumer):
         self.consumer = consumer
         self.view = self.Meta.view()
@@ -25,7 +22,7 @@ class EventsMixin(EventsDBMixin):
             filter_ = event.get('data').get('filter')
         except KeyError:
             return await self.consumer.throw_missed_field(event=event['event'])
-        data = await self.get_list(filter_)
+        data = await self.view.list(filter_=filter_)
         await self.consumer._send_message(data, event=event['event'])
 
     @private
@@ -36,7 +33,7 @@ class EventsMixin(EventsDBMixin):
             filter_ = event.get('data').get('filter')
         except KeyError:
             return await self.consumer.throw_missed_field(event=event['event'])
-        data = await self.get_messages(id_, self.consumer.user.id, filter_)
+        data = await self.view.get(id_, with_messages=True, filter_=filter_)
         await self.consumer._send_message(data, event=event['event'])
 
     @private
@@ -46,10 +43,10 @@ class EventsMixin(EventsDBMixin):
             id_ = int(event.get('data')['id'])
         except KeyError:
             return await self.consumer.throw_missed_field(event=event['event'])
-        room_data, is_ok = await self.create_chat(id_)
-        if is_ok:
+        data, created = await self.view.create(id_)
+        if created:
             users = [self.consumer.user.id, id_]
-            chat_id = room_data.get('chat_id')
+            chat_id = data.get('chat_id')
             room = '%s_%d' % (self.Meta.name, chat_id)
 
             await self.consumer.channel_layer.group_send('general', {
@@ -58,11 +55,11 @@ class EventsMixin(EventsDBMixin):
                 'data': {
                     'users': users,
                     'room': room,
-                    'room_data': room_data
+                    'room_data': data
                 }
             })
         else:
-            await self.consumer._throw_error(room_data, event=event['event'])
+            await self.consumer._throw_error(data, event=event['event'])
 
     @private
     async def event_delete(self, event):
@@ -71,8 +68,8 @@ class EventsMixin(EventsDBMixin):
             id_ = event['data']['id']
         except KeyError:
             return await self.consumer.throw_missed_field(event=event['event'])
-        data, is_ok = await self.delete_chat(id_)
-        if is_ok:
+        data, deleted = await self.view.delete(id_)
+        if deleted:
             room = '%s_%d' % (self.Meta.name, id_)
             await self.consumer.channel_layer.group_send(room, {
                 'type': 'channels_message',
@@ -94,7 +91,7 @@ class EventsMixin(EventsDBMixin):
         except KeyError:
             return await self.consumer.throw_missed_field(event=event['event'])
 
-        new_message, sended = await self.send_message(id_, text)
+        new_message, sended = await self.view.send_message(id_, text)
         room = '%s_%s' % (self.Meta.name, id_)
         await self.consumer.channel_layer.group_send(room, {
             'type': 'channels_message',
@@ -110,8 +107,8 @@ class EventsMixin(EventsDBMixin):
         except KeyError:
             return await self.consumer.throw_missed_field(event=event['event'])
 
-        data, is_ok = await self.delete_message(id_)
-        if is_ok:
+        data, deleted = await self.view.delete_message(id_)
+        if deleted:
             room = '%s_%d' % (self.Meta.name, data.get('chat_id'))
             await self.consumer.channel_layer.group_send(room, {
                 'type': 'channels_message',
@@ -133,11 +130,8 @@ class EventsMixin(EventsDBMixin):
         except KeyError:
             return await self.consumer.throw_missed_field(event=event['event'])
 
-        data, is_ok = await self.update_message(
-            id_,
-            text=text,
-        )
-        if is_ok:
+        data, updated = await self.view.update_message(id_, text)
+        if updated:
             room = '%s_%d' % (self.Meta.name, data.get('chat_id'))
             await self.consumer.channel_layer.group_send(room, {
                 'type': 'channels_message',
@@ -157,7 +151,7 @@ class EventsMixin(EventsDBMixin):
             messages = event['data']['list']
         except KeyError:
             return await self.consumer.throw_missed_field(event=event['event'])
-        await self.set_as_read(messages)
+        await self.view.set_as_read(messages)
 
     @private
     async def event_message_star(self, event):
@@ -167,8 +161,8 @@ class EventsMixin(EventsDBMixin):
             message_id = event['data']['id']
         except KeyError:
             return await self.consumer.throw_missed_field(event=event['event'])
-        data, is_ok = await self.star_message(message_id, stared=stared)
-        if is_ok:
+        data, stared = await self.view.star_message(message_id, stared)
+        if stared:
             await self.consumer._send_message(data, event=event['event'])
         else:
             await self.consumer._throw_error(data, event=event['event'])
