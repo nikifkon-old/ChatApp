@@ -52,6 +52,8 @@ class MainConsumer(BaseConsumer):
 
             user = User.objects.get(id=data['user_id'])
             self.user = user
+            self.dialog_events.view.set_user_id(user.id)
+            self.group_events.view.set_user_id(user.id)
 
             if getattr(self, 'on_authenticate_success'):
                 await self.on_authenticate_success()

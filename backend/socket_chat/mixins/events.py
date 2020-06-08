@@ -15,6 +15,7 @@ def private(event):
 class EventsMixin(EventsDBMixin):
     def __init__(self, consumer):
         self.consumer = consumer
+        self.view = self.Meta.view()
         super().__init__()
 
     @private
@@ -24,7 +25,7 @@ class EventsMixin(EventsDBMixin):
             filter_ = event.get('data').get('filter')
         except KeyError:
             return await self.consumer.throw_missed_field(event=event['event'])
-        data = await self.get_list(self.consumer.user.id, filter_)
+        data = await self.get_list(filter_)
         await self.consumer._send_message(data, event=event['event'])
 
     @private
@@ -93,7 +94,7 @@ class EventsMixin(EventsDBMixin):
         except KeyError:
             return await self.consumer.throw_missed_field(event=event['event'])
 
-        new_message = await self.send_message(id_, text)
+        new_message, sended = await self.send_message(id_, text)
         room = '%s_%s' % (self.Meta.name, id_)
         await self.consumer.channel_layer.group_send(room, {
             'type': 'channels_message',
@@ -163,10 +164,10 @@ class EventsMixin(EventsDBMixin):
         """ star/unstar message """
         try:
             stared = event['data']['stared']
-            id = event['data']['id']
+            message_id = event['data']['id']
         except KeyError:
             return await self.consumer.throw_missed_field(event=event['event'])
-        data, is_ok = await self.star_message(id=id, stared=stared)
+        data, is_ok = await self.star_message(message_id, stared=stared)
         if is_ok:
             await self.consumer._send_message(data, event=event['event'])
         else:

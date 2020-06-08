@@ -6,5 +6,5 @@ test_invalid_format:
     expected_response: {'detail': 'Invalid format'}
 
 test_must_auth:
-    request_data: {'event': 'dialogs.list', 'data': {}}
+    request_data: {'event': 'dialog.list', 'data': {}}
     expected_response: {'detail': 'You must be authenticated'}

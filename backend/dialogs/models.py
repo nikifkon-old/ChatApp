@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -17,17 +17,6 @@ class Dialog(models.Model):
     class Meta:
         verbose_name = "Dialog"
         verbose_name_plural = "Dialogs"
-
-    @staticmethod
-    def check_unique_members(user1, user2):
-        try:
-            user1 = User.objects.get(id=user1)
-            user2 = User.objects.get(id=user2)
-        except ObjectDoesNotExist:
-            raise ValidationError(_('User does not exist'))
-        general_dialogs = user2.dialogs.all() & user1.dialogs.all()
-        if len(general_dialogs) > 0:
-            raise ValidationError(_('Dialog with these 2 person already exist'))
 
     def __str__(self):
         return f"{self.id}"
@@ -86,21 +75,6 @@ class DialogMessage(models.Model):
     )
     text = models.TextField(max_length=1000)
     date = models.DateTimeField("date of created or updated", auto_now=True)
-
-    def save(self, *args, **kwargs):
-        """ set readers as dialog members """
-        super().save(*args, **kwargs)
-        for person in self.dialog.members.all():
-            info, created = DialogMessageInfo.objects.get_or_create(
-                message=self,
-                person=person,
-            )
-            if created:
-                if person.id == self.sender.id:
-                    info.unread = False
-                else:
-                    info.unread = True
-            info.save()
 
     class Meta:
         verbose_name = "Message in dialog"

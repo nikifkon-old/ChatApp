@@ -33,9 +33,16 @@
 | `img` | str | Link to Group's avatar |
 | `description` | str | Aditional information about Group |
 | `messages` | Group Messages | Group messages with request parameter filter |
-| `members` | Users | User list who joined in the group |
+| `members` | Group Members | User list who joined in the group |
 | `unread_count` | int | Count of unread filtered messages(for auth user) in the Group |
 | `last_message` | Short Group Message | last sent filtered message |
+
+### Group Member
+| field | type |  description |
+|----------|------------|-----|
+| `person` | User | User data |
+| `role` | one of `A`, `M`, `S` | A - administrator, M - moderator, S - subscriber |
+| `date_joined` | str | Group's unique title |
 
 ### Group Message:
 | field | type |  description |
@@ -119,7 +126,6 @@ TODO: response typing
         }
     }
     ```
-  (events below same for dialog, group, channels, if other haven't said)
   - *`dialog.get`:*
     - get dialog details (messages)
     - response data:
@@ -222,7 +228,6 @@ TODO: response typing
         | error | - | {"detail": "Message doesn't exist"} | Message with given id doesn't exist
         | error | - | {"detail": "You can't delete foreign message"} | Message with given id is foreign, so you can't delete it
     - request data:
-    
         | param | type |  description | is_required |
         |----------|------------|-----|-----|
         | `id` | int | Id of message | true |
@@ -235,7 +240,6 @@ TODO: response typing
         }
     }
     ```
-
   - *`dialog.message.update`:*
     - update message text
     - response data:
@@ -324,7 +328,6 @@ TODO: response typing
         | error | - | {"detail": "User does not exist"} | User with given id doesn't exist |
         | error | - | {"detail": "Dialog with these 2 person already exist"} | Dialog with you and user with given id already exist |
     - request:
-    
         | param | type |  description | is required |
         |----------|------------|-----|-----|
         | `id` |  int | Id of dialog | true |
@@ -337,16 +340,14 @@ TODO: response typing
         }
     }
     ```
-
   - *`group.create`:*
     - create group
     - response data:
         | status | room | data | description |
         |----------|------|-------|------|
         | ok | general -> (chat_name)_(chat_id) | {(user_id): Group, "chat_id"} -> Group | Return new Group |
-        | error | - | {"detail": "slug - \`(given_slug)\` has already taken"} | Group with given slug already exist and it must be unique
+        | error | - | {"detail": "This Slug \`given_slug\` has already taken"} | Group with given slug already exist and it must be unique
     - request data:
-    
         | param | type |  description | is_required |
         |----------|------------|-----|-----|
         | `name` | str | Title of group | true |
@@ -359,6 +360,219 @@ TODO: response typing
         "data": {
             "name": "GROUP_NAME",
             "slug": "GROUP_SLUG"
+        }
+    }
+    ```
+  - *`group.join`:*
+    - join in group by id or slug
+    - response data:
+        | status | room | data | description |
+        |----------|------|-------|------|
+        | ok | - | Group | Return Group |
+        | error | - | {"detail": "Group with given slug or id does not exist"} | Group with given slug or id does not exist |
+    - request data:
+        | param | type |  description | is_required |
+        |----------|------------|-----|-----|
+        | `id` | str | Title of group | false |
+        | `slug` | str | Unique title of group | false |
+    - example:
+    ```
+    {
+        "event": "group.join",
+        "data": {
+            "id": "GROUP_ID",
+            "slug": "GROUP_SLUG"
+        }
+    }
+    ```
+      - *`group.get`:*
+    - get group details (messages)
+    - response data:
+        | status | room |data | description |
+        |----------|-------|-----|-----|
+        | ok | - | Group | Dialog with filter matching messages |
+        TODO: doesnot exist
+    - request:
+    
+        | param | type |  description | is_required |
+        |----------|------------|-----|-----|
+        | `id` |  int | Id of group | true |
+        | `filter` | str, one of `unread`, `stared` ' | Filter option message's in group | false |
+    - example:
+    ```
+    {
+        "event": "group.get",
+        "data": {
+          "id": "GROUP_ID",
+          "filter": "unread"
+        }
+    }
+    ```
+  - *`group.list`:*
+    TODO: rename to `group.list`
+    - get groups without messages
+    - response data:
+
+        | status | room |data | description |
+        |----------|-----|-------|-----|
+        | ok | - | list of Groups | group with filter matching messages |
+    - request data:
+    
+        | param | type |  description | is_required |
+        |----------|------------|-----|-----|
+        | `filter` | str, one of `unread`, `stared` | Filter option message's in group | false |
+    - example:
+    ```
+    {
+        "event": "groups.list",
+        "data": {
+          "filter": "unread"
+        }
+    }
+    ```
+  - *`group.delete`:*
+    - delete group by id
+    - response data:
+
+        | status | room |data | description |
+        |----------|------|------|-----|
+        | ok | (chat_name)_(chat_id) | {"id"} | Return id of deleted group |
+        | error | - | {"detail": "(chat_name) doesn't exist"} | Group with given id doesn't exist |
+    - request data:
+    
+        | param | type |  description | is_required |
+        |----------|------------|-----|-----|
+        | `id` | int | Id of group | true |
+    - example:
+    ```
+    {
+        "event": "group.delete",
+        "data": {
+          "id": "GROUP_ID"
+        }
+    }
+    ```
+  - *`group.message.send`:*
+    - send message in group
+    - response data:
+
+        | status | room | data | description |
+        |----------|------|-------|------|
+        | ok | (chat_name)_(chat_id) | Group Message | Return new message |
+        TODO: group doesnot exist
+    - request data:
+    
+        | param | type |  description | is_required |
+        |----------|------------|-----|-----|
+        | `id` | int | Id of group | true |
+        | `text` | int | Text of message | true |
+    - example:
+    ```
+    {
+        "event": "group.send",
+        "data": {
+          "id": "GROUP_ID",
+          "text": "YOUR_TEXT"
+        }
+    }
+    ```
+
+  - *`group.message.delete`:*
+    - delete message by id
+    - response data:
+        | status | room | data | description |
+        |----------|-----|-------|-----|
+        | ok | (chat_name)_(chat_id) | dict: {"chat_id", "messages_id"} | Return ids of group and deleted message
+        | error | - | {"detail": "Message doesn't exist"} | Message with given id doesn't exist
+        | error | - | {"detail": "You can't delete foreign message"} | Message with given id is foreign, so you can't delete it
+    - request data:
+        | param | type |  description | is_required |
+        |----------|------------|-----|-----|
+        | `id` | int | Id of message | true |
+    - example:
+    ```
+    {
+        "event": "group.delete",
+        "data": {
+          "id": "MESSAGE_ID"
+        }
+    }
+    ```
+  - *`group.message.update`:*
+    - update message text
+    - response data:
+
+        | status | room | data | description |
+        |----------|------|-------|------|
+        | ok | (chat_name)_(chat_id) | Group Message | Return updated message |
+        | error | - | {"detail": "Message doesn't exist"} | Message with given id doesn't exist
+        | error | - | {"detail": "You can't update foreign messages"} | Message with given id is foreign, so you can't update it
+    - request data:
+    
+        | param | type |  description | is_required |
+        |----------|------------|-----|-----|
+        | `id` | int | Id of message | true |
+        | `text` | int | New text of message | true |
+    - example:
+    ```
+    {
+        "event": "group.update",
+        "data": {
+            "id": "MESSAGE_ID",
+            "text": "NEW_TEXT"
+        }
+    }
+    ```
+
+  - *`group.messages.setasread`:*
+    - set as read messages 
+    - response data:
+
+        | status | room | data | description |
+        |----------|------|-------|------|
+        | ok | no response | TODO: ?
+        TODO: message doesnot exist
+    - request data:
+    
+        | param | type |  description | is_required |
+        |----------|------------|-----|-----|
+        | `list` | dict: {"chat_id", "message_id"} | List of messages you want to set as read | true |
+    - example:
+    ```
+    {
+        "event": "group.messages.setasread",
+        "data": {
+            "list": [
+                {
+                  "chat_id": "CHAT_ID",
+                  "message_id": "MESSAGE_ID"
+                }
+            ]
+        }
+    }
+    ```
+  
+  - *`group.message.star`:*
+    - star group message for user
+    - response data:
+
+        | status | room | data | description |
+        |----------|------|-------|------|
+        | ok | - | {"id", "stared"} | Return id of (un)stared message and its state |
+        TODO: message doesnot exist
+    - request data:
+    
+        | param | type |  description | is_required |
+        |----------|------------|-----|-----|
+        | `id` | int | Id of message | true |
+        | `stared` | bool | New value of star property | true |
+    - example:'
+    ```
+    {
+        "event": "group.message.star",
+        "data": {
+            "id": "MESSAGE_ID",
+            "stared": true
         }
     }
     ```

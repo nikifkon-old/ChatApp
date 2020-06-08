@@ -1,9 +1,8 @@
-from datetime import datetime
-
 import pytest
-from channels.testing import WebsocketCommunicator
 from django.contrib.auth import get_user_model
 
+from channels.testing import WebsocketCommunicator
+from backend.dialogs.forms import DialogMessageForm
 from backend.dialogs.models import Dialog, DialogMessage
 
 
@@ -34,12 +33,12 @@ async def dialog(get_yml_dataset, auth_com: WebsocketCommunicator,
 
 
 @pytest.fixture
-async def dialog_message(auth_com: WebsocketCommunicator, dialog: Dialog,
-                         user: User, message_text: str) -> DialogMessage:
+async def dialog_message(dialog: Dialog, user: User, message_text: str) -> DialogMessage:
     data = {
-        "sender_id": user.id,
-        "dialog_id": dialog.id,
+        "sender": user.id,
+        "dialog": dialog.id,
         "text": message_text,
-        "date": datetime.date(datetime.today())
     }
-    return DialogMessage.objects.create(**data)
+    form = DialogMessageForm(data)
+    assert form.is_valid(), form.errors
+    return form.save()

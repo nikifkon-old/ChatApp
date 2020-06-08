@@ -2,158 +2,37 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from backend.api.v1.users.serializers import UserSerializer
-from backend.groups.models import (ChatGroup, GroupMembership, GroupMessage,
-                                   GroupMessageInfo)
+from backend.groups.models import ChatGroup, GroupMembership, GroupMessage
 
 User = get_user_model()
 
 
 class MemberSerializer(serializers.ModelSerializer):
+    person = UserSerializer(read_only=True)
+
     class Meta:
         model = GroupMembership
-        fields = ("person", "group", "role", "date_joined")
-
-
-class UserAsMemberSerializer(UserSerializer):
-    role = serializers.SerializerMethodField()
-    date_joined = serializers.SerializerMethodField()
-
-    @property
-    def group_id(self):
-        return self.context.get('group_id')
-
-    def get_membership(self, obj):
-        return GroupMembership.objects.get(
-            group__id=self.group_id,
-            person=obj
-        )
-
-    def get_role(self, obj):
-        return self.get_membership(obj).role
-
-    def get_date_joined(self, obj):
-        date = self.get_membership(obj).date_joined
-        return str(date)
-
-    class Meta:
-        model = UserSerializer.Meta.model
-        fields = UserSerializer.Meta.fields + ("role", "date_joined")
+        fields = ("person", "role", "date_joined")
 
 
 class GroupSerializer(serializers.ModelSerializer):
     """ Group Serializer"""
-    messages = serializers.SerializerMethodField()
-    last_message = serializers.SerializerMethodField()
-    unread_count = serializers.SerializerMethodField()
-    members = serializers.SerializerMethodField()
-
-    messages_qs = None
-
-    @property
-    def user_id(self):
-        if self.context.get('requests'):
-            return self.context.get('request').query_params.get('user_id')
-        else:
-            return self.context.get('user_id')
-
-    def get_messages(self, obj):
-        self.messages_qs = obj.messages.all()
-
-        if self.user_id:
-            person = User.objects.get(id=self.user_id)
-            if self.context.get('filter') == 'unread':
-                self.messages_qs = person.group_messages.filter(
-                    group=obj,
-                    message_info__unread=True
-                )
-            elif self.context.get('filter') == 'stared':
-                self.messages_qs = person.group_messages.filter(
-                    group=obj,
-                    message_info__stared=True
-                )
-
-        if self.context.get('message_details'):
-            return GroupMessageSerializer(
-                self.messages_qs,
-                context={
-                    "user_id": self.user_id
-                },
-                many=True
-            ).data
-        else:
-            return GroupMessageSerializer(
-                obj.messages.none(),
-                context={
-                    "user_id": self.user_id
-                },
-                many=True
-            ).data
-
-    def get_last_message(self, _):
-        message = None
-        if len(self.messages_qs) > 0:
-            message = self.messages_qs.last()
-        return GroupMessageSerializer(
-            message,
-            context={
-                "user_id": self.user_id
-            }
-        ).data
-
-    def get_unread_count(self, obj):
-        if self.user_id:
-            count = GroupMessageInfo.objects.filter(
-                message__group=obj,
-                person__id=self.user_id,
-                unread=True
-            ).count()
-            return count
-
-    def get_members(self, obj):
-        return UserAsMemberSerializer(
-            obj.members.all(),
-            many=True,
-            read_only=True,
-            context={
-                "group_id": obj.id
-            }
-        ).data
-
     class Meta:
         model = ChatGroup
         fields = (
-            "name",
             "id",
+            "name",
             "slug",
             "img",
             "description",
-            "members",
-            "messages",
-            "last_message",
-            "unread_count"
         )
 
 
 class GroupMessageSerializer(serializers.ModelSerializer):
     """ Message Serializer"""
-    unread = serializers.SerializerMethodField()
-    stared = serializers.SerializerMethodField()
     avatar = serializers.SerializerMethodField()
     sender_name = serializers.SerializerMethodField()
     chat_id = serializers.IntegerField(source="group.id")
-
-    @property
-    def user_id(self):
-        if self.context.get('requests'):
-            return self.context.get('request').query_params.get('user_id')
-        else:
-            return self.context.get('user_id')
-
-    def get_message_info(self, obj):
-        return GroupMessageInfo.objects.get(
-            message=obj,
-            person__id=self.user_id
-        )
 
     def get_sender_name(self, obj):
         return obj.sender.username
@@ -161,12 +40,6 @@ class GroupMessageSerializer(serializers.ModelSerializer):
     def get_avatar(self, obj):
         if obj.sender.avatar:
             return obj.sender.avatar.url
-
-    def get_unread(self, obj):
-        return self.get_message_info(obj).unread
-
-    def get_stared(self, obj):
-        return self.get_message_info(obj).stared
 
     class Meta:
         model = GroupMessage
@@ -178,6 +51,4 @@ class GroupMessageSerializer(serializers.ModelSerializer):
             "chat_id",
             "text",
             "date",
-            "unread",
-            "stared"
         )

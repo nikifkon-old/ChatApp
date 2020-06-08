@@ -1,9 +1,5 @@
-from channels.db import database_sync_to_async
-from django.core.exceptions import ValidationError
-from django.db import IntegrityError
-
-from backend.api.v1.groups.serializers import (GroupMessageSerializer,
-                                               GroupSerializer)
+from backend.api.v1.groups.serializers import GroupMessageSerializer, GroupSerializer
+from backend.groups.views import GroupView
 from backend.groups.models import (ChatGroup, GroupMembership, GroupMessage,
                                    GroupMessageInfo)
 from backend.socket_chat.mixins.events import EventsMixin, private
@@ -18,6 +14,7 @@ class GroupEvents(EventsMixin):
         message_model = GroupMessage
         message_serializer = GroupMessageSerializer
         message_info_model = GroupMessageInfo
+        view = GroupView
 
     @private
     async def event_create(self, event):
@@ -26,8 +23,8 @@ class GroupEvents(EventsMixin):
             slug = event['data']['slug']
             description = event['data'].get('description')
         except KeyError:
-            return await self.throw_missed_field(event=event['event'])
-        data, created = await self.create_group(
+            return await self.consumer.throw_missed_field(event=event['event'])
+        data, created = await self.view.create(
             name=name,
             slug=slug,
             description=description,
@@ -36,7 +33,7 @@ class GroupEvents(EventsMixin):
             users = [self.consumer.user.id]
             room = '%s_%d' % (self.Meta.name, data['id'])
             room_data = {self.consumer.user.id: data}
-            await self.channel_layer.group_send('general', {
+            await self.consumer.channel_layer.group_send('general', {
                 'type': 'connect_users',
                 'event': event['event'],
                 'data': {
@@ -46,31 +43,30 @@ class GroupEvents(EventsMixin):
                 }
             })
         else:
-            await self._throw_error(data, event=event['event'])
+            await self.consumer._throw_error(data, event=event['event'])
 
-    @database_sync_to_async
-    def create_group(self, name, slug, description=None):
-        try:
-            group = ChatGroup.objects.create(
-                name=name,
-                slug=slug,
-                description=description,
-            )
-        except (IntegrityError, ValidationError) as error:
-            if isinstance(error, IntegrityError):
-                message = 'slug - `%s` has already taken' % slug
-            elif isinstance(error, ValidationError):
-                message = error.message
-            return {'detail': message}, False
-        GroupMembership.objects.create(
-            group=group,
-            person_id=self.consumer.user.id,
-            role="A"
-        )
-        serialized = GroupSerializer(
-            group,
-            context={
-                "user_id": self.consumer.user.id
+    @private
+    async def event_join(self, event):
+        group_id = event['data'].get('id')
+        slug = event['data'].get('slug')
+        if not (group_id or slug):
+            return await self.consumer.throw_missed_field(event=event['event'])
+        data, joined = await self.view.join(group_id=group_id, slug=slug)
+        if joined:
+            users = [self.consumer.user.id]
+            room = '%s_%d' % (self.Meta.name, data["id"])
+            room_data = {
+                self.consumer.user.id: data
             }
-        )
-        return serialized.data, True
+
+            await self.consumer.channel_layer.group_send('general', {
+                'type': 'connect_users',
+                'event': event['event'],
+                'data': {
+                    'users': users,
+                    'room': room,
+                    'room_data': room_data
+                }
+            })
+        else:
+            await self.consumer._throw_error(data, event=event['event'])
