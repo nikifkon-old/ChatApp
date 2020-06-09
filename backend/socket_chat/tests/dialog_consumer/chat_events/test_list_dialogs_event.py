@@ -10,7 +10,6 @@ pytestmark = [pytest.mark.asyncio, pytest.mark.django_db(transaction=True)]
 @pytest.fixture
 def filled_data(yml_dataset: dict, dialog: Dialog, another_user_serialized_data: dict):
     data = yml_dataset["test_list_dialog_event"]
-    data["request_data"]["data"]["id"] = dialog.id
     data["successed_response"]["data"][0]["id"] = dialog.id
     data["successed_response"]["data"][0]["interlocutor"] = another_user_serialized_data
     return data

@@ -1,19 +1,34 @@
 test_auth_empty_data:
-    request_data: {'event': 'authenticate', 'data': {}}
-    expected_response: {'detail': 'Access token must not be empty'}
+  request_data: 
+    event: "authenticate"
+    data: {}
+
+  expected_response: 
+    detail: "Access token must not be empty"
 
 test_auth_invalid_token:
-    request_data: {'event': 'authenticate', 'data': {'access_token': 'invalid_token'}}
-    expected_response: {'detail': 'Token is not valid'}
+  request_data: 
+    event: "authenticate"
+    data: 
+      access_token: "invalid_token"
+
+  expected_response: 
+    detail: "Token is not valid"
 
 test_auth_valid_token:
-    expected_response: {'detail': 'Authorization successed'}
-    timeout: 100
+  expected_response: 
+    detail: "Authorization successed"
+  timeout: 100
 
 test_auth_expired_token:
-    expected_response: {'detail': 'Token is not valid'}
+  expected_response: 
+    detail: "Token is not valid"
 
 test_recieve_json_undefined_method:
-    request_data: {'event': 'some_undefined_event', 'data': {}}
-    event_name: 'some_undefined_event'
-    expected_response: {'detail': 'Undefined event'}
+  request_data: 
+    event: "some_undefined_event"
+    data: {}
+
+  event_name: "some_undefined_event"
+  expected_response: 
+    detail: "Undefined event"

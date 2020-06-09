@@ -1,30 +1,30 @@
 user_data:
-    username: 'Testy'
-    password: 'strong-password'
-    avatar: 'person/defaultAvatar.jpg'
-    tel: '891234567890'
-    birth: '1999-01-01'
-    gender: 'M'
+  username: "Testy"
+  password: "strong-password"
+  avatar: "person/defaultAvatar.jpg"
+  tel: "891234567890"
+  birth: "1999-01-01"
+  gender: "M"
 
 user_serialized_data:
-    username: 'Testy'
-    avatar: '/media/person/defaultAvatar.jpg'
-    tel: '891234567890'
-    birth: '1999-01-01'
-    gender: 'M'
+  username: "Testy"
+  avatar: "/media/person/defaultAvatar.jpg"
+  tel: "891234567890"
+  birth: "1999-01-01"
+  gender: "M"
 
 
 another_user_data:
-    username: 'Smitte'
-    password: 'strong-password2'
-    avatar: 'person/defaultAvatar.jpg'
-    tel: '891234567891'
-    birth: '1900-10-09'
-    gender: 'F'
+  username: "Smitte"
+  password: "strong-password2"
+  avatar: "person/defaultAvatar.jpg"
+  tel: "891234567891"
+  birth: "1900-10-09"
+  gender: "F"
 
 another_user_serialized_data:
-    username: 'Smitte'
-    avatar: '/media/person/defaultAvatar.jpg'
-    tel: '891234567891'
-    birth: '1900-10-09'
-    gender: 'F'
+  username: "Smitte"
+  avatar: "/media/person/defaultAvatar.jpg"
+  tel: "891234567891"
+  birth: "1900-10-09"
+  gender: "F"

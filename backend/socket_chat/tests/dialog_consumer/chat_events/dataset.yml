@@ -1,96 +1,105 @@
 test_create_dialog_event:
-    request_data: {'event': 'dialog.create', data: {'id': 'USER_ID'}}
-    successed_response_for_user: {
-        'event': 'dialog.create',
-        'data': {
-            # 'id': 'DIALOG_ID',
-            'messages': [],
-            'interlocutor': {
-                ...another_user_data
-            },
-            'unread_count': 0,
-            'last_message': {
-                'sender': null,
-                'text': ''
-            }
-        },
-        'status': 'ok'
-    }
-    successed_response_for_another_user: {
-        'event': 'dialog.create',
-        'data': {
-            # 'id': 'DIALOG_ID',
-            'messages': [],
-            'interlocutor': {
-                ...user_data
-            },
-            'unread_count': 0,
-            'last_message': {
-                'sender': null,
-                'text': ''
-            }
-        },
-        'status': 'ok'
-    }
-    user_does_not_exist_response: {
-        'event': 'dialog.create',
-        'data': {
-            'detail': 'User does not exist'
-        },
-        'status': 'error'
-    }
-    dialog_already_exist_response: {
-        'event': 'dialog.create',
-        'data': {
-            'detail': 'Dialog with these 2 person already exist'
-        },
-        'status': 'error'
-    }
+  request_data: 
+    event: "dialog.create"
+    data: 
+      id: "USER_ID"
+
+  successed_response_for_user: 
+    event: "dialog.create"
+    data: 
+      # "id: "DIALOG_ID"
+      messages: []
+      interlocutor: "ANOTHER_USER_DATA"
+      unread_count: 0
+      last_message: 
+        sender: null
+        text: ""
+    status: "ok"
+
+  successed_response_for_another_user: 
+    event: "dialog.create"
+    data: 
+      # "id: "DIALOG_ID"
+      messages: []
+      interlocutor: "USER_DATA"
+      unread_count: 0
+      last_message: 
+        sender: null
+        text: ""
+    status: "ok"
+  
+  user_does_not_exist_response: 
+    event: "dialog.create"
+    data: 
+      detail: "User does not exist"
+    status: "error"
+  
+  dialog_already_exist_response: 
+    event: "dialog.create"
+    data: 
+      detail: "Dialog with these 2 person already exist"
+    status: "error"
 
 test_get_dialog_event:
-    request_data: {'event': 'dialog.get', data: {'id': 'ID'}}
-    successed_response: {'event': 'dialog.get', data: {
-        'id': 'ID',
-        'messages': [],
-        'interlocutor': {
-            'username': 'USERNAME',
-            'avatar': null,
-            'birth': null,
-            'gender': '',
-            'tel': ''
-        },
-        'unread_count': 0,
-        'last_message': {
-            'sender': null,
-            'text': ''
-        }
-    }, 'status': 'ok'}
+  request_data: 
+    event: "dialog.get"
+    data: 
+      id: "ID"
+
+  successed_response: 
+    event: "dialog.get"
+    data: 
+      id: "ID"
+      messages: []
+      interlocutor: 
+        username: "USERNAME"
+        avatar: null
+        birth: null
+        gender: ""
+        tel: ""
+      unread_count: 0
+      last_message: 
+        sender: null
+        text: ""
+    status: "ok"
 
 test_list_dialog_event:
-    request_data: {'event': 'dialog.list', data: {}}
-    successed_response: {'event': 'dialog.list', data: [{
-        'id': 'ID',
-        'messages': [],
-        'interlocutor': {
-            'username': 'USERNAME',
-            'avatar': null,
-            'birth': null,
-            'gender': '',
-            'tel': ''
-        },
-        'unread_count': 0,
-        'last_message': {
-            'sender': null,
-            'text': ''
-        }
-    }], 'status': 'ok'}
+  request_data: 
+    event: "dialog.list"
+    data: {}
+
+  successed_response: 
+    event: "dialog.list"
+    data:
+    -
+      id: "ID"
+      messages: []
+      interlocutor: 
+        username: "USERNAME"
+        avatar: null
+        birth: null
+        gender: ""
+        tel: ""
+      unread_count: 0
+      last_message: 
+        sender: null
+        text: ""
+    status: "ok"
 
 test_delete_dialog_event:
-    request_data: {'event': 'dialog.delete', data: {'id': 'ID'}}
-    successed_response: {'event': 'dialog.delete', data: {
-        'id': 'ID',
-    }, 'status': 'ok'}
-    dialog_does_not_exist_response: {'event': 'dialog.delete', data: {
-        "detail": "dialog doesn't exist"
-    }, 'status': 'error'}
+  request_data: 
+    event: "dialog.delete"
+    data:
+      id: "ID"
 
+  successed_response: 
+    event: "dialog.delete"
+    data:
+      id: "ID"
+    status: "ok"
+
+  dialog_does_not_exist_response: 
+    event: "dialog.delete"
+    data:
+      detail: "dialog doesn't exist"
+    status: "error"

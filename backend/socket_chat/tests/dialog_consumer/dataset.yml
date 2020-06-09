@@ -1,22 +1,22 @@
 test_create_dialog_event:
-    request_data: {'event': 'dialog.create', data: {'id': 2}}
-    expected_response: {
-        'event': 'dialog.create',
-        'data': {
-            'id': 1,
-            'messages': [],
-            'interlocutor': {
-                'username': 'USERNAME',
-                'avatar': null,
-                'birth': null,
-                'gender': '',
-                'tel': ''
-            },
-            'unread_count': 0,
-            'last_message': {
-                'sender': null,
-                'text': ''
-            }
-        },
-        'status': 'ok'
-    }
+  request_data: 
+    event: "dialog.create"
+    data:
+      id: 2
+
+  expected_response: 
+    event: "dialog.create"
+    data:
+      id: 1
+      messages: []
+      interlocutor: 
+        username: "USERNAME"
+        avatar: null
+        birth: null
+        gender: ""
+        tel: ""
+      unread_count: 0
+      last_message: 
+        sender: null
+        text: ""
+    status: "ok"
