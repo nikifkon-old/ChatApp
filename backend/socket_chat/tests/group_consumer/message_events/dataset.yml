@@ -1,51 +1,21 @@
 test_send_message_in_group_event:
-  request_data: 
+  request: 
     event: "group.message.send"
-    data:
-      id: "GROUP_ID"
-      text: "some_text"
-  
-  successed_response_for_user: 
-    event: "group.message.send"
-    data:
-      # "id": "MESSAGE_ID"
-      sender: "SENDER_DATA"
-      chat_id: "GROUP_ID"
-      text: "some_text"
-      unread: false
-      stared: false
-      date: "TODAY"
-    status: "ok"
+    data: {}
 
-  successed_response_for_another_user: 
+  successed_response: 
     event: "group.message.send"
-    data:
-      # id: "MESSAGE_ID"
-      sender: "SENDER_DATA"
-      chat_id: "GROUP_ID"
-      text: "some_text"
-      unread: false  # must be true
-      stared: false
-      date: "TODAY"
+    data: {}
     status: "ok"
 
 test_update_message_in_group_event:
-  request_data: 
+  request: 
     event: "group.message.update"
-    data:
-      id: "MESSAGE_ID"
-      text: "new_some_text"
+    data: {}
   
   successed_response: 
     event: "group.message.update"
-    data:
-      id: "MESSAGE_ID"
-      sender: "SENDER_DATA"
-      chat_id: "GROUP_ID"
-      text: "new_some_text"
-      unread: false
-      stared: false
-      date: "TODAY"
+    data: {}
     status: "ok"
 
   message_does_not_exist_response: 
@@ -61,16 +31,13 @@ test_update_message_in_group_event:
     status: "error"
 
 test_delete_message_in_group_event:
-  request_data: 
+  request: 
     event: "group.message.delete"
-    data:
-      id: "MESSAGE_ID"
+    data: {}
   
   successed_response: 
     event: "group.message.delete"
-    data:
-      message_id: "MESSAGE_ID"
-      chat_id: "CHAT_ID"
+    data: {}
     status: "ok"
 
   message_does_not_exist_response: 
@@ -86,15 +53,11 @@ test_delete_message_in_group_event:
     status: "error"
 
 test_star_message_in_group_event:
-  request_data: 
+  request: 
     event: "group.message.star"
-    data:
-      id: "MESSAGE_ID"
-      stared: true
+    data: {}
   
   successed_response: 
     event: "group.message.star"
-    data:
-      id: "MESSAGE_ID"
-      stared: true
+    data: {}
     status: "ok"

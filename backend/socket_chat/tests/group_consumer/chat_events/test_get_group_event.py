@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import pytest
 from channels.testing import WebsocketCommunicator
 
@@ -10,18 +8,26 @@ pytestmark = [pytest.mark.asyncio, pytest.mark.django_db(transaction=True)]
 
 
 @pytest.fixture
-def filled_data(yml_dataset: dict, group: ChatGroup, user_serialized_data, another_user_serialized_data: dict):
+def request_data(group: ChatGroup) -> dict:
+    return {
+        "id": group.id,
+    }
+
+
+@pytest.fixture
+def successed_response_data(group_data: dict) -> dict:
+    return group_data
+
+
+@pytest.fixture
+def filled_data(yml_dataset: dict, request_data: dict, successed_response_data: dict) -> dict:
     data = yml_dataset["test_get_group_event"]
-    data["request_data"]["data"]["id"] = group.id
-    data["successed_response"]["data"]["id"] = group.id
-    data["successed_response"]["data"]["members"][0]["person"] = user_serialized_data
-    data["successed_response"]["data"]["members"][1]["person"] = another_user_serialized_data
-    data["successed_response"]["data"]["members"][0]["date_joined"] = str(datetime.date(datetime.today()))
-    data["successed_response"]["data"]["members"][1]["date_joined"] = str(datetime.date(datetime.today()))
+    data["request"]["data"] = request_data
+    data["successed_response"]["data"] = successed_response_data
     return data
 
 
 async def test_successed(filled_data: dict, auth_com: WebsocketCommunicator):
-    await auth_com.send_json_to(filled_data["request_data"])
+    await auth_com.send_json_to(filled_data["request"])
     response = await auth_com.receive_json_from()
     assert filled_data["successed_response"] == response, response["data"]

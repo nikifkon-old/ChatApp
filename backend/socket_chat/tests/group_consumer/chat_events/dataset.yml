@@ -1,31 +1,13 @@
 test_create_group_event:
-  request_data: 
+  request: 
     event: "group.create"
-    data: 
-      name: "test_group"
-      slug: "test_group_slug"
-      description: "test_group_description"
-  
-  expected_response: 
+    data: {}
+
+  successed_response: 
     event: "group.create"
-    data: 
-      # id: "ID"
-      name: "test_group"
-      slug: "test_group_slug"
-      img: null
-      description: "test_group_description"
-      messages: []
-      members:
-      -
-        person: "USER_DATA"
-        date_joined: "TODAY"
-        role: "A"
-      unread_count: 0
-      last_message: 
-        sender: null
-        text: "" 
+    data: {}
     status: "ok"
-      
+
   group_with_given_slug_already_exist_response: 
     event: "group.create"
     data:
@@ -34,33 +16,13 @@ test_create_group_event:
   
 
 test_join_in_group_event:
-  request_data: 
+  request: 
     event: "group.join"
-    data:
-      id: "ID"
+    data: {}
 
   successed_response: 
     event: "group.join"
-    data:
-      id: "ID"
-      name: "test_group"
-      slug: "test_group_slug"
-      img: null
-      description: "test_group_description"
-      messages: []
-      members:
-      -
-        person: "USER_DATA"
-        date_joined: "TODAY"
-        role: "A"
-      -
-        person: "ANOTHER_USER_DATA"
-        date_joined: "TODAY"
-        role: "S"
-      unread_count: 0
-      last_message: 
-        sender: null
-        text: "" 
+    data: {}
     status: "ok"
 
   group_does_not_exist_response: 
@@ -70,67 +32,28 @@ test_join_in_group_event:
     status: "error"
 
 test_get_group_event:
-  request_data: 
+  request: 
     event: "group.get"
     data:
       id: "ID"
 
   successed_response: 
     event: "group.get"
-    data:
-      id: "ID"
-      name: "test_group"
-      slug: "test_group_slug"
-      img: null
-      description: "test_group_description"
-      messages: []
-      members:
-      -
-        person: "USER_DATA"
-        date_joined: "TODAY"
-        role: "A"
-      -
-        person: "ANOTHER_USER_DATA"
-        date_joined: "TODAY"
-        role: "S"
-      unread_count: 0
-      last_message: 
-        sender: null
-        text: "" 
+    data: {}
     status: "ok"
 
 test_list_group_event:
-  request_data: 
+  request: 
     event: "group.list"
     data: {}
 
   successed_response: 
     event: "group.list"
-    data:
-    -
-      id: "ID"
-      name: "test_group"
-      slug: "test_group_slug"
-      img: null
-      description: "test_group_description"
-      messages: []
-      members:
-      -
-        person: "USER_DATA"
-        date_joined: "TODAY"
-        role: "A"
-      -
-        person: "ANOTHER_USER_DATA"
-        date_joined: "TODAY"
-        role: "S"
-      unread_count: 0
-      last_message: 
-        sender: null
-        text: "" 
+    data: []
     status: "ok"
 
 test_delete_group_event:
-  request_data: 
+  request: 
     event: "group.delete"
     data:
       id: "ID"

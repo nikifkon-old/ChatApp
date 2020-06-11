@@ -1,33 +1,13 @@
 test_create_dialog_event:
-  request_data: 
+  request: 
     event: "dialog.create"
-    data: 
-      id: "USER_ID"
+    data: {}
 
-  successed_response_for_user: 
+  successed_response: 
     event: "dialog.create"
-    data: 
-      # "id: "DIALOG_ID"
-      messages: []
-      interlocutor: "ANOTHER_USER_DATA"
-      unread_count: 0
-      last_message: 
-        sender: null
-        text: ""
+    data: {}
     status: "ok"
 
-  successed_response_for_another_user: 
-    event: "dialog.create"
-    data: 
-      # "id: "DIALOG_ID"
-      messages: []
-      interlocutor: "USER_DATA"
-      unread_count: 0
-      last_message: 
-        sender: null
-        text: ""
-    status: "ok"
-  
   user_does_not_exist_response: 
     event: "dialog.create"
     data: 
@@ -41,61 +21,33 @@ test_create_dialog_event:
     status: "error"
 
 test_get_dialog_event:
-  request_data: 
+  request: 
     event: "dialog.get"
-    data: 
-      id: "ID"
+    data: {}
 
   successed_response: 
     event: "dialog.get"
-    data: 
-      id: "ID"
-      messages: []
-      interlocutor: 
-        username: "USERNAME"
-        avatar: null
-        birth: null
-        gender: ""
-        tel: ""
-      unread_count: 0
-      last_message: 
-        sender: null
-        text: ""
+    data: {}
     status: "ok"
 
 test_list_dialog_event:
-  request_data: 
+  request: 
     event: "dialog.list"
     data: {}
 
   successed_response: 
     event: "dialog.list"
-    data:
-    -
-      id: "ID"
-      messages: []
-      interlocutor: 
-        username: "USERNAME"
-        avatar: null
-        birth: null
-        gender: ""
-        tel: ""
-      unread_count: 0
-      last_message: 
-        sender: null
-        text: ""
+    data: []
     status: "ok"
 
 test_delete_dialog_event:
-  request_data: 
+  request: 
     event: "dialog.delete"
-    data:
-      id: "ID"
+    data: {}
 
   successed_response: 
     event: "dialog.delete"
-    data:
-      id: "ID"
+    data: {}
     status: "ok"
 
   dialog_does_not_exist_response: 
