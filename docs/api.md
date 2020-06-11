@@ -1,6 +1,6 @@
 # API reference
 
-## Models
+## Data Types
 ### Dialog:
 
 | field | type |  description |
@@ -127,6 +127,29 @@ TODO: response typing
         }
     }
     ```
+
+#### Dialog Events
+  - *`dialog.create`:*
+    - create dialog & and add requesting user and user with passed id to this
+    - response data:
+        | status | room | data | description |
+        |----------|------|-------|------|
+        | ok | general -> (chat_name)_(chat_id) | {(user_id): Dialog, (interlocutor_id): Dialog, "chat_id"} -> Dialog | Return dialog for two user (in general), then connect them into new room send each of them rigth version of Dialog
+        | error | - | {"detail": "User does not exist"} | User with given id doesn't exist |
+        | error | - | {"detail": "Dialog with these 2 person already exist"} | Dialog with you and user with given id already exist |
+    - request:
+        | param | type |  description | is required |
+        |----------|------------|-----|-----|
+        | `id` |  int | Id of dialog | true |
+    - example:
+    ```
+    {
+        "event": "dialog.create",
+        "data": {
+          "id": "USER_ID"
+        }
+    }
+    ```
   - *`dialog.get`:*
     - get dialog details (messages)
     - response data:
@@ -212,7 +235,7 @@ TODO: response typing
     - example:
     ```
     {
-        "event": "dialog.send",
+        "event": "dialog.message.send",
         "data": {
           "id": "DIALOG_ID",
           "text": "YOUR_TEXT"
@@ -235,7 +258,7 @@ TODO: response typing
     - example:
     ```
     {
-        "event": "dialog.delete",
+        "event": "dialog.message.delete",
         "data": {
           "id": "MESSAGE_ID"
         }
@@ -259,7 +282,7 @@ TODO: response typing
     - example:
     ```
     {
-        "event": "dialog.update",
+        "event": "dialog.message.update",
         "data": {
             "id": "MESSAGE_ID",
             "text": "NEW_TEXT"
@@ -320,27 +343,7 @@ TODO: response typing
     }
     ```
 
-  - *`dialog.create`:*
-    - create dialog & and add requesting user and user with passed id to this
-    - response data:
-        | status | room | data | description |
-        |----------|------|-------|------|
-        | ok | general -> (chat_name)_(chat_id) | {(user_id): Dialog, (interlocutor_id): Dialog, "chat_id"} -> Dialog | Return dialog for two user (in general), then connect them into new room send each of them rigth version of Dialog
-        | error | - | {"detail": "User does not exist"} | User with given id doesn't exist |
-        | error | - | {"detail": "Dialog with these 2 person already exist"} | Dialog with you and user with given id already exist |
-    - request:
-        | param | type |  description | is required |
-        |----------|------------|-----|-----|
-        | `id` |  int | Id of dialog | true |
-    - example:
-    ```
-    {
-        "event": "dialog.create",
-        "data": {
-          "id": "USER_ID"
-        }
-    }
-    ```
+#### Group Events
   - *`group.create`:*
     - create group
     - response data:
@@ -470,7 +473,7 @@ TODO: response typing
     - example:
     ```
     {
-        "event": "group.send",
+        "event": "group.message.send",
         "data": {
           "id": "GROUP_ID",
           "text": "YOUR_TEXT"
@@ -493,7 +496,7 @@ TODO: response typing
     - example:
     ```
     {
-        "event": "group.delete",
+        "event": "group.message.delete",
         "data": {
           "id": "MESSAGE_ID"
         }
@@ -517,7 +520,7 @@ TODO: response typing
     - example:
     ```
     {
-        "event": "group.update",
+        "event": "group.message.update",
         "data": {
             "id": "MESSAGE_ID",
             "text": "NEW_TEXT"
