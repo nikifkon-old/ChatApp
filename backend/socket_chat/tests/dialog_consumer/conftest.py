@@ -33,14 +33,6 @@ async def dialog(auth_com: WebsocketCommunicator, ok_status: str,
 
 
 @pytest.fixture
-def dialog_last_message() -> dict:
-    return {
-        "sender": None,
-        "text": ""
-    }
-
-
-@pytest.fixture
 def dialog_unread_count() -> int:
     return 0
 
@@ -51,12 +43,40 @@ def dialog_messages() -> list:
 
 
 @pytest.fixture
+def dialog_last_message(dialog_messages: list) -> dict:
+    if len(dialog_messages) > 0:
+        message = dialog_messages[-1]
+        return {
+            "sender": message["sender"]["id"],
+            "text": message["text"],
+            "date": message["date"]
+        }
+    else:
+        return {
+            "sender": None,
+            "text": ""
+        }
+
+
+@pytest.fixture
 def dialog_data_for_user(dialog: Dialog, dialog_messages: list, another_user_serialized_data: dict,
                          dialog_last_message: dict, dialog_unread_count: int) -> dict:
     return {
         "id": dialog.id,
         "messages": dialog_messages,
         "interlocutor": another_user_serialized_data,
+        "unread_count": dialog_unread_count,
+        "last_message": dialog_last_message,
+    }
+
+
+@pytest.fixture
+def dialog_data_for_another_user(dialog: Dialog, dialog_messages: list, user_serialized_data: dict,
+                                 dialog_last_message: dict, dialog_unread_count: int) -> dict:
+    return {
+        "id": dialog.id,
+        "messages": dialog_messages,
+        "interlocutor": user_serialized_data,
         "unread_count": dialog_unread_count,
         "last_message": dialog_last_message,
     }

@@ -34,9 +34,7 @@ class GroupView:
 
         messages = []
         if with_messages:
-            messages = group.messages.all()
-            # do filtering
-            messages = GroupMessageSerializer(messages, many=True).data
+            messages = self._get_group_messages_with_filter(group, filter_=filter_)
         data["messages"] = self._get_serialized_message(messages, many=True, user_id=user_id)
         return data
 
@@ -55,6 +53,36 @@ class GroupView:
 
     def _get_members(self, group: ChatGroup) -> dict:
         return GroupMembership.objects.filter(group=group)
+
+    def _get_group_messages_with_filter(self, group: ChatGroup, filter_: str = None) -> GroupMessage:
+        if filter_ is not None:
+            user = User.objects.get(id=self.user_id)
+            if filter_ == "stared":
+                info = GroupMessageInfo.objects.filter(person=user, stared=True)
+                messages = GroupMessage.objects.filter(group=group, message_info__in=info)
+            elif filter_ == "unread":
+                info = GroupMessageInfo.objects.filter(person=user, unread=True)
+                messages = GroupMessage.objects.filter(group=group, message_info__in=info)
+        else:
+            messages = group.messages.all()
+        return messages
+
+    def _get_serialized_message(self, instance: GroupMessage, user_id: int = None, many: bool = False) -> dict:
+        if user_id is None:
+            user_id = self.user_id
+        if many:
+            messages = GroupMessageSerializer(instance, many=True).data
+            for message in messages:
+                info = GroupMessageInfo.objects.get(person__id=user_id, message__id=message["id"])
+                message["unread"] = info.unread
+                message["stared"] = info.stared
+            return messages
+        else:
+            message = GroupMessageSerializer(instance).data
+            info = GroupMessageInfo.objects.get(person__id=user_id, message=instance)
+            message["unread"] = info.unread
+            message["stared"] = info.stared
+            return message
 
     @database_sync_to_async
     def list(self, filter_=None) -> dict:
@@ -125,23 +153,6 @@ class GroupView:
             return data, True
         else:
             return {"detail": form.errors["__all__"][0]}, False
-
-    def _get_serialized_message(self, instance: GroupMessage, user_id: int = None, many: bool = False) -> dict:
-        if user_id is None:
-            user_id = self.user_id
-        if many:
-            messages = GroupMessageSerializer(instance, many=True).data
-            for message in messages:
-                info = GroupMessageInfo.objects.get(person__id=user_id, message=message)
-                message["unread"] = info.unread
-                message["stared"] = info.stared
-            return messages
-        else:
-            message = GroupMessageSerializer(instance).data
-            info = GroupMessageInfo.objects.get(person__id=user_id, message=instance)
-            message["unread"] = info.unread
-            message["stared"] = info.stared
-            return message
 
     @database_sync_to_async
     def delete_message(self, message_id: int) -> (dict, bool):

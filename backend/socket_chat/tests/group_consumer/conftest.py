@@ -64,11 +64,19 @@ def group_members(user_serialized_data, another_user_serialized_data):
 
 
 @pytest.fixture
-def last_message() -> dict:
-    return {
-        "sender": None,
-        "text": ""
-    }
+def last_message(group_messages: list) -> dict:
+    if len(group_messages) > 0:
+        message = group_messages[-1]
+        return {
+            "sender": message["sender"]["id"],
+            "text": message["text"],
+            "date": message["date"]
+        }
+    else:
+        return {
+            "sender": None,
+            "text": ""
+        }
 
 
 @pytest.fixture

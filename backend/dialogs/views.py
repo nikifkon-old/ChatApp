@@ -35,10 +35,8 @@ class DialogView:
 
         messages = []
         if with_messages:
-            messages = dialog.messages.all()
-            # do filtering
-            messages = DialogMessageSerializer(messages, many=True).data
-        data["messages"] = messages
+            messages = self._get_dialog_messages_with_filter(dialog, filter_=filter_)
+        data["messages"] = self._get_serialized_message(messages, many=True, user_id=user_id)
         return data
 
     def _get_last_message(self, dialog: Dialog) -> DialogMessage:
@@ -59,6 +57,36 @@ class DialogView:
             user_id = self.user_id
         members = DialogMembership.objects.filter(dialog=dialog)
         return members.exclude(person__id=user_id)[0].person
+
+    def _get_dialog_messages_with_filter(self, dialog: Dialog, filter_: str = None) -> DialogMessage:
+        if filter_ is not None:
+            user = User.objects.get(id=self.user_id)
+            if filter_ == "stared":
+                info = DialogMessageInfo.objects.filter(person=user, stared=True)
+                messages = DialogMessage.objects.filter(dialog=dialog, message_info__in=info)
+            elif filter_ == "unread":
+                info = DialogMessageInfo.objects.filter(person=user, unread=True)
+                messages = DialogMessage.objects.filter(dialog=dialog, message_info__in=info)
+        else:
+            messages = dialog.messages.all()
+        return messages
+
+    def _get_serialized_message(self, instance: DialogMessage, user_id: int = None, many: bool = False) -> dict:
+        if user_id is None:
+            user_id = self.user_id
+        if many:
+            messages = DialogMessageSerializer(instance, many=True).data
+            for message in messages:
+                info = DialogMessageInfo.objects.get(person__id=user_id, message__id=message["id"])
+                message["unread"] = info.unread
+                message["stared"] = info.stared
+            return messages
+        else:
+            message = DialogMessageSerializer(instance).data
+            info = DialogMessageInfo.objects.get(person__id=user_id, message=instance)
+            message["unread"] = info.unread
+            message["stared"] = info.stared
+            return message
 
     @database_sync_to_async
     def list(self, filter_=None) -> dict:
@@ -109,23 +137,6 @@ class DialogView:
             return data, True
         else:
             return {"detail": form.errors["__all__"][0]}, False
-
-    def _get_serialized_message(self, instance: DialogMessage, user_id: int = None, many: bool = False) -> dict:
-        if user_id is None:
-            user_id = self.user_id
-        if many:
-            messages = DialogMessageSerializer(instance, many=True).data
-            for message in messages:
-                info = DialogMessageInfo.objects.get(person__id=user_id, message=message)
-                message["unread"] = info.unread
-                message["stared"] = info.stared
-            return messages
-        else:
-            message = DialogMessageSerializer(instance).data
-            info = DialogMessageInfo.objects.get(person__id=user_id, message=instance)
-            message["unread"] = info.unread
-            message["stared"] = info.stared
-            return message
 
     @database_sync_to_async
     def delete_message(self, message_id: int) -> (dict, bool):
