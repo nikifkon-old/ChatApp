@@ -13,6 +13,10 @@ from backend.api.v1.dialogs.serializers import (
 
 
 class DialogEvents(EventsMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.consumer.need_unread_check_events.append("dialog.message.send")
+
     class Meta:
         name = 'dialog'
         chat_model = Dialog

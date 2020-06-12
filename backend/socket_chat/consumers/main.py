@@ -15,6 +15,7 @@ User = get_user_model()
 class MainConsumer(BaseConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.need_unread_check_events = []
         self.dialog_events = DialogEvents(self)
         self.group_events = GroupEvents(self)
 
@@ -77,9 +78,11 @@ class MainConsumer(BaseConsumer):
                 await self.channel_layer.group_add(f'group_{group}',
                                                    self.channel_name)
 
-    # channel layer message types:
     async def channels_message(self, message):
         """ Redirect Group messages to each person """
+        if message['event'] in self.need_unread_check_events:
+            if self.user.id != message['data']['sender']['id']:
+                message['data']['unread'] = True
         await self._send_message(message['data'], event=message['event'])
 
     async def connect_users(self, message):

@@ -6,6 +6,10 @@ from backend.socket_chat.mixins.events import EventsMixin, private
 
 
 class GroupEvents(EventsMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.consumer.need_unread_check_events.append("group.message.send")
+
     class Meta:
         name = 'group'
         chat_model = ChatGroup

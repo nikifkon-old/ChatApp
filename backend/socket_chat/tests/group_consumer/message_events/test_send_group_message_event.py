@@ -47,8 +47,8 @@ def assert_successed_response_for_user(ok_status: str, filled_data: dict, group_
         assert response["status"] == ok_status, response["data"]
         message_id = response["data"].pop("id")
         response["data"]["date"] = round_to_minutes(response["data"]["date"])
-        # if user.id != group_message_sender["id"]:
-        #     filled_data["successed_response"]["data"]["unread"] = True
+        if user.id != group_message_sender["id"]:
+            filled_data["successed_response"]["data"]["unread"] = True
         assert filled_data["successed_response"] == response, response["data"]
         return message_id
     return do_assert
