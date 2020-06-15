@@ -1,0 +1,11 @@
+test_group_form:
+  slug_already_taken_error_message:
+    __all__:
+    -
+      "This Slug `%s` has already taken"
+
+test_membership_form:
+  already_in_group_error_message:
+    __all__:
+    -
+      "Membership in group with this Person and Group already exists."

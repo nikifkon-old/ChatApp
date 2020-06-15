@@ -1,14 +1,16 @@
 import pytest
+from django.contrib.auth import get_user_model
 
 from backend.groups.forms import GroupMessageForm
-from backend.groups.models import GroupMessageInfo
+from backend.groups.models import ChatGroup, GroupMessage, GroupMessageInfo
 
 
+User = get_user_model()
 pytestmark = [pytest.mark.django_db]
 
 
 @pytest.fixture
-def message(group, user):
+def message(group: ChatGroup, user: User):
     data = {
         "chat": group.id,
         "sender": user.id,
@@ -19,7 +21,7 @@ def message(group, user):
     return form.save()
 
 
-def test_successed(group, user):
+def test_successed(group: ChatGroup, user: User):
     data = {
         "chat": group.id,
         "sender": user.id,
@@ -30,7 +32,8 @@ def test_successed(group, user):
     form.save()
 
 
-def test_message_info_created(group_with_two_members, message, user, another_user):
+def test_message_info_created(group_with_two_members: ChatGroup, message: GroupMessage,
+                              user: User, another_user: User):
     info = GroupMessageInfo.objects.get(message=message, person=user)
     another_info = GroupMessageInfo.objects.get(message=message, person=another_user)
     assert info.unread is False, info

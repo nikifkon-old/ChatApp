@@ -1,0 +1,10 @@
+test_dialog_form:
+  dilog_already_exist_error_message:
+    __all__:
+    -
+      "Dialog with these 2 person already exist"
+
+  less_then_two_members_error_message:
+    __all__:
+    -
+      "Must have 2 members at least"
