@@ -27,7 +27,7 @@ class DialogMessageSender(serializers.ModelSerializer):
 class DialogMessageSerializer(serializers.ModelSerializer):
     """ Message Serializer"""
     sender = DialogMessageSender()
-    chat_id = serializers.IntegerField(source="dialog.id")
+    chat_id = serializers.IntegerField(source="chat.id")
 
     class Meta:
         model = DialogMessage

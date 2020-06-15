@@ -23,7 +23,7 @@ class DialogForm(forms.ModelForm):
 class DialogMessageForm(forms.ModelForm):
     class Meta:
         model = DialogMessage
-        fields = ("dialog", "sender", "text",)
+        fields = ("chat", "sender", "text",)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -31,7 +31,7 @@ class DialogMessageForm(forms.ModelForm):
 
     def save(self, commit=True):
         message = super().save(commit=commit)
-        for person in message.dialog.members.all():
+        for person in message.chat.members.all():
             info, created = DialogMessageInfo.objects.get_or_create(
                 message=message,
                 person=person,

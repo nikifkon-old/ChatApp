@@ -58,7 +58,7 @@ class DialogMembership(models.Model):
 
 class DialogMessage(models.Model):
     """ Dialog message """
-    dialog = models.ForeignKey(
+    chat = models.ForeignKey(
         Dialog,
         on_delete=models.CASCADE,
         related_name="messages"

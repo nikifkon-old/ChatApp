@@ -4,7 +4,7 @@ import pytest
 from channels.testing import WebsocketCommunicator
 from django.contrib.auth import get_user_model
 
-from backend.dialogs.models import DialogMessage
+from backend.dialogs.models import Dialog, DialogMessage
 
 
 User = get_user_model()
@@ -19,9 +19,9 @@ def request_data(dialog_message: DialogMessage):
 
 
 @pytest.fixture
-def successed_response_data(dialog_message: DialogMessage):
+def successed_response_data(dialog: Dialog, dialog_message: DialogMessage):
     return {
-        "chat_id": dialog_message.dialog.id,
+        "chat_id": dialog.id,
         "message_id": dialog_message.id
     }
 

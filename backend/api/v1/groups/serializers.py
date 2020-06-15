@@ -43,7 +43,7 @@ class GroupMessageSender(serializers.ModelSerializer):
 class GroupMessageSerializer(serializers.ModelSerializer):
     """ Message Serializer"""
     sender = GroupMessageSender()
-    chat_id = serializers.IntegerField(source="group.id")
+    chat_id = serializers.IntegerField(source="chat.id")
 
     class Meta:
         model = GroupMessage

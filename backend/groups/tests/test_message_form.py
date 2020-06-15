@@ -10,7 +10,7 @@ pytestmark = [pytest.mark.django_db]
 @pytest.fixture
 def message(group, user):
     data = {
-        "group": group.id,
+        "chat": group.id,
         "sender": user.id,
         "text": "test"
     }
@@ -21,7 +21,7 @@ def message(group, user):
 
 def test_successed(group, user):
     data = {
-        "group": group.id,
+        "chat": group.id,
         "sender": user.id,
         "text": "test"
     }

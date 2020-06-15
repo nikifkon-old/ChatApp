@@ -157,11 +157,12 @@ def stared() -> bool:
 
 @pytest.fixture
 def group_message_data(group_message: GroupMessage, group_message_sender: dict,
-                       message_text: str, unread: bool, stared: bool) -> dict:
+                       message_text: str, unread: bool, stared: bool,
+                       group: ChatGroup) -> dict:
     return {
         "id": group_message.id,
         "sender": group_message_sender,
-        "chat_id": group_message.group.id,
+        "chat_id": group.id,
         "text": message_text,
         "unread": unread,
         "stared": stared,

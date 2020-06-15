@@ -28,7 +28,7 @@ class GroupForm(forms.ModelForm):
 class GroupMessageForm(forms.ModelForm):
     class Meta:
         model = GroupMessage
-        fields = ("group", "sender", "text",)
+        fields = ("chat", "sender", "text",)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -36,7 +36,7 @@ class GroupMessageForm(forms.ModelForm):
 
     def save(self, commit=True):
         message = super().save(commit=commit)
-        for person in message.group.members.all():
+        for person in message.chat.members.all():
             info, created = GroupMessageInfo.objects.get_or_create(
                 message=message,
                 person=person,

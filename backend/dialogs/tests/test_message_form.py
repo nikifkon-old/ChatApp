@@ -10,7 +10,7 @@ pytestmark = [pytest.mark.django_db]
 @pytest.fixture
 def message(dialog, user):
     data = {
-        "dialog": dialog.id,
+        "chat": dialog.id,
         "sender": user.id,
         "text": "test"
     }
@@ -21,7 +21,7 @@ def message(dialog, user):
 
 def test_successed(dialog, user):
     data = {
-        "dialog": dialog.id,
+        "chat": dialog.id,
         "sender": user.id,
         "text": "test"
     }

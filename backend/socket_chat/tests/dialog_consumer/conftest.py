@@ -132,11 +132,12 @@ def message_stared():
 
 @pytest.fixture
 def dialog_message_data(dialog_message: DialogMessage, dialog_message_sender: dict,
-                        message_text: str, message_unread: bool, message_stared: bool) -> dict:
+                        message_text: str, message_unread: bool, message_stared: bool,
+                        dialog: Dialog) -> dict:
     return {
         "id": dialog_message.id,
         "sender": dialog_message_sender,
-        "chat_id": dialog_message.dialog.id,
+        "chat_id": dialog.id,
         "text": message_text,
         "unread": message_unread,
         "stared": message_stared,

@@ -73,7 +73,7 @@ class GroupMembership(models.Model):
 
 class GroupMessage(models.Model):
     """ Group message """
-    group = models.ForeignKey(
+    chat = models.ForeignKey(
         ChatGroup,
         on_delete=models.CASCADE,
         related_name="messages"
@@ -90,21 +90,6 @@ class GroupMessage(models.Model):
     )
     text = models.TextField(max_length=1000)
     date = models.DateTimeField("date of created or updated", auto_now=True)
-
-    def save(self, *args, **kwargs):
-        """ set readers as group members """
-        super().save(*args, **kwargs)
-        for person in self.group.members.all():
-            info, created = GroupMessageInfo.objects.get_or_create(
-                message=self,
-                person=person,
-            )
-            if created:
-                if person.id == self.sender.id:
-                    info.unread = False
-                else:
-                    info.unread = True
-            info.save()
 
     class Meta:
         verbose_name = "Message in group"
