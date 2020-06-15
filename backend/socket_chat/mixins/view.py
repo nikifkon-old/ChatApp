@@ -38,7 +38,7 @@ class ChatViewMixin:
         data["unread_count"] = self._get_unread_count(chat, user_id=user_id)
 
         messages = []
-        if with_messages:
+        if with_messages or filter_:
             messages = self._get_chat_messages_with_filter(chat, filter_=filter_)
         data["messages"] = self._get_serialized_message(messages, many=True, user_id=user_id)
         return data
@@ -89,7 +89,12 @@ class ChatViewMixin:
     @database_sync_to_async
     def list(self, filter_=None) -> dict:
         chats = self.Meta.chat_model.objects.filter(members__exact=self.user_id)
-        return [async_to_sync(self.get)(chat.id, filter_=filter_) for chat in chats]
+        data = []
+        for chat in chats:
+            chat_data = async_to_sync(self.get)(chat.id, filter_=filter_)
+            if len(chat_data["messages"]) > 0 or filter_ is None:
+                data.append(chat_data)
+        return data
 
     @database_sync_to_async
     def create(self):

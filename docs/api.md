@@ -175,18 +175,17 @@ TODO: response typing
     }
     ```
   - *`dialog.list`:*
-    TODO: rename to `dialog.list`
     - get dialogs without messages
     - response data:
 
         | status | room |data | description |
         |----------|-----|-------|-----|
-        | ok | - | list of Dialogs | dialog with filter matching messages |
+        | ok | - | list of Dialogs (without messages) | dialog with filter matching messages |
     - request data:
     
         | param | type |  description | is_required |
         |----------|------------|-----|-----|
-        | `filter` | str, one of `unread`, `stared` | Filter option message's in dialog | false |
+        | `filter` | str, one of `unread`, `stared` | Filter option message's in dialog, if specified return list of dialogs **with messages** | false |
     - example:
     ```
     {

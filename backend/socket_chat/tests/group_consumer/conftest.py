@@ -64,7 +64,7 @@ def group_members(user_serialized_data, another_user_serialized_data):
 
 
 @pytest.fixture
-def last_message(group_messages: list) -> dict:
+def group_last_message(group_messages: list) -> dict:
     if len(group_messages) > 0:
         message = group_messages[-1]
         return {
@@ -93,7 +93,7 @@ def group_img(group: ChatGroup) -> str:
 
 @pytest.fixture
 def group_data(group: ChatGroup, group_img: str, group_messages: list,
-               group_members: list, last_message: dict, unread_count: int) -> dict:
+               group_members: list, group_last_message: dict, unread_count: int) -> dict:
     return {
         "id": group.id,
         "name": group.name,
@@ -103,7 +103,7 @@ def group_data(group: ChatGroup, group_img: str, group_messages: list,
         "messages": group_messages,
         "members": group_members,
         "unread_count": unread_count,
-        "last_message": last_message
+        "last_message": group_last_message
     }
 
 
