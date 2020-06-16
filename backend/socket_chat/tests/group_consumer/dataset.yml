@@ -1,0 +1,19 @@
+group_message_data:
+  text: "some_text"
+
+group_create_request:
+  event: "group.create"
+  data:
+    name: "test_group"
+    slug: "test_group_slug"
+    description: "test_group_description"
+  
+
+group_join_request: 
+  event: "group.join"
+  data: {}
+
+messsage_send_request:
+  event: "group.message.send"
+  data: {}
+   

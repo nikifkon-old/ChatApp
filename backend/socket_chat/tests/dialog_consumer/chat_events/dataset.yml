@@ -1,0 +1,57 @@
+test_create_dialog_event:
+  request: 
+    event: "dialog.create"
+    data: {}
+
+  successed_response: 
+    event: "dialog.create"
+    data: {}
+    status: "ok"
+
+  user_does_not_exist_response: 
+    event: "dialog.create"
+    data: 
+      detail: "User does not exist"
+    status: "error"
+  
+  dialog_already_exist_response: 
+    event: "dialog.create"
+    data: 
+      detail: "Dialog with these 2 person already exist"
+    status: "error"
+
+test_get_dialog_event:
+  request: 
+    event: "dialog.get"
+    data: {}
+
+  successed_response: 
+    event: "dialog.get"
+    data: {}
+    status: "ok"
+
+test_list_dialog_event:
+  request: 
+    event: "dialog.list"
+    data: {}
+
+  successed_response: 
+    event: "dialog.list"
+    data: []
+    status: "ok"
+
+test_delete_dialog_event:
+  request: 
+    event: "dialog.delete"
+    data: {}
+
+  successed_response: 
+    event: "dialog.delete"
+    data: {}
+    status: "ok"
+
+  dialog_does_not_exist_response: 
+    event: "dialog.delete"
+    data:
+      detail: "dialog doesn't exist"
+    status: "error"

@@ -1,0 +1,71 @@
+test_create_group_event:
+  request: 
+    event: "group.create"
+    data: {}
+
+  successed_response: 
+    event: "group.create"
+    data: {}
+    status: "ok"
+
+  group_with_given_slug_already_exist_response: 
+    event: "group.create"
+    data:
+      detail: "This Slug `{given_slug}` has already taken"
+    status: "error"
+  
+
+test_join_in_group_event:
+  request: 
+    event: "group.join"
+    data: {}
+
+  successed_response: 
+    event: "group.join"
+    data: {}
+    status: "ok"
+
+  group_does_not_exist_response: 
+    event: "group.join"
+    data:
+      detail: "Group with given slug or id does not exist"
+    status: "error"
+
+test_get_group_event:
+  request: 
+    event: "group.get"
+    data:
+      id: "ID"
+
+  successed_response: 
+    event: "group.get"
+    data: {}
+    status: "ok"
+
+test_list_group_event:
+  request: 
+    event: "group.list"
+    data: {}
+
+  successed_response: 
+    event: "group.list"
+    data: []
+    status: "ok"
+
+test_delete_group_event:
+  request: 
+    event: "group.delete"
+    data:
+      id: "ID"
+
+  successed_response: 
+    event: "group.delete"
+    data:
+      id: "ID"
+    status: "ok"
+
+  group_does_not_exist_response: 
+    event: "group.delete"
+    data:
+      detail: "group doesn't exist"
+    status: "error"

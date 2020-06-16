@@ -111,7 +111,8 @@ export const starDialogMessage = ({message_id, star}) => {
     payload: {
       event: events.DIALOG_MESSAGE_STAR,
       data: {
-        message_id, star
+        id: message_id,
+        stared: star
       }
     }
   }

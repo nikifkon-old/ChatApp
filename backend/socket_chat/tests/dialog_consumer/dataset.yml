@@ -1,0 +1,10 @@
+dialog_message_data:
+  text: "some_text"
+
+create_dialog_request:
+  event: "dialog.create"
+  data: {}
+
+send_message_request: 
+  event: "dialog.message.send"
+  data: {}

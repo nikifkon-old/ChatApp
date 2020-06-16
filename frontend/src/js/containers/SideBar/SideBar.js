@@ -16,7 +16,7 @@ import { getUserInfo, getUserId } from '../../selectors/AuthSelectors'
 
 function SideBar() {
   const [data, details] = useChatInfo()
-  const username = useSelector(state => getUserInfo(state).user)
+  const username = useSelector(state => getUserInfo(state).username)
   const userId = useSelector(state => getUserId(state))
   const logout = useAction(logoutUser)
 

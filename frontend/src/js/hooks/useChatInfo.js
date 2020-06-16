@@ -13,7 +13,7 @@ const useChatInfo = () => {
       return [null, null]
     }
     const intrlc = data && data.interlocutor
-    const name = intrlc && intrlc.user
+    const name = intrlc && intrlc.username
     const avatar = intrlc && intrlc.avatar
 
     const details = {

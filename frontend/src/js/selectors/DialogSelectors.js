@@ -41,6 +41,6 @@ export const getDialogsWithFilters = state => {
     return data
   }
   return data.filter(dialog =>
-    dialog.interlocutor.user.toLowerCase().indexOf(filter.name.toLowerCase()) != -1
+    dialog.interlocutor.username.toLowerCase().indexOf(filter.name.toLowerCase()) != -1
   )
 }

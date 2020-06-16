@@ -108,6 +108,7 @@ static/
 
 # ide
 .vscode/
+.pytest_cache/
 
 coverage/
 

@@ -1,0 +1,15 @@
+test_send_plain_text:
+  request_data: "some text"
+
+test_invalid_format:
+  request_data:
+    test: "test"
+  expected_response:
+    detail: "Invalid format"
+
+test_must_auth:
+  request_data:
+    event: "dialog.list"
+    data: {}
+  expected_response:
+    detail: "You must be authenticated"

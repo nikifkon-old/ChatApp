@@ -1,18 +1,15 @@
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.db import models
-from django.core.exceptions import (
-    ValidationError,
-    ObjectDoesNotExist,
-)
 from django.utils.translation import gettext_lazy as _
 
-from backend.profiles.models import Profile
-from backend.socket_chat.models import MessageMixin
+User = get_user_model()
 
 
 class Dialog(models.Model):
     """ Room for 2 people """
     members = models.ManyToManyField(
-        Profile,
+        User,
         through='DialogMembership',
         related_name='dialogs'
     )
@@ -21,24 +18,13 @@ class Dialog(models.Model):
         verbose_name = "Dialog"
         verbose_name_plural = "Dialogs"
 
-    @staticmethod
-    def check_unique_members(user1, user2):
-        try:
-            p1 = Profile.objects.get(id=user1)
-            p2 = Profile.objects.get(id=user2)
-        except ObjectDoesNotExist:
-            raise ValidationError(_('Profile does not exist'))
-        general_dialogs = p2.dialogs.all() & p1.dialogs.all()
-        if len(general_dialogs) > 0:
-            raise ValidationError(_('Dialog with these 2 person already exist'))
-
     def __str__(self):
         return f"{self.id}"
 
 
 class DialogMembership(models.Model):
-    """ m2m for Profile and Group """
-    person = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    """ m2m for User and Group """
+    person = models.ForeignKey(User, on_delete=models.CASCADE)
     dialog = models.ForeignKey(Dialog, on_delete=models.CASCADE)
 
     class Meta:
@@ -67,36 +53,28 @@ class DialogMembership(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.person.user.username} in {self.dialog.id}"
+        return f"{self.person.username} in {self.dialog.id}"
 
 
-class DialogMessage(MessageMixin):
+class DialogMessage(models.Model):
     """ Dialog message """
-    dialog = models.ForeignKey(
+    chat = models.ForeignKey(
         Dialog,
         on_delete=models.CASCADE,
         related_name="messages"
     )
     readers = models.ManyToManyField(
-        Profile,
+        User,
         through="DialogMessageInfo",
         related_name="dialog_messages"
     )
-
-    def save(self, *args, **kwargs):
-        """ set readers as dialog members """
-        super().save(*args, **kwargs)
-        for person in self.dialog.members.all():
-            info, created = DialogMessageInfo.objects.get_or_create(
-                message=self,
-                person=person,
-            )
-            if created:
-                if person.id == self.sender.id:
-                    info.unread = False
-                else:
-                    info.unread = True
-            info.save()
+    sender = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="dialogs_sended"
+    )
+    text = models.TextField(max_length=1000)
+    date = models.DateTimeField("date of created or updated", auto_now=True)
 
     class Meta:
         verbose_name = "Message in dialog"
@@ -107,13 +85,13 @@ class DialogMessage(MessageMixin):
 
 
 class DialogMessageInfo(models.Model):
-    """ m2m for profile & dialog message """
+    """ m2m for user & dialog message """
     message = models.ForeignKey(
         DialogMessage,
         on_delete=models.CASCADE,
         related_name="message_info"
     )
-    person = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    person = models.ForeignKey(User, on_delete=models.CASCADE)
     unread = models.BooleanField(default=True)
     stared = models.BooleanField(default=False)
 

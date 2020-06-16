@@ -1,3 +1,6 @@
+import { getUserId } from '../../selectors/AuthSelectors'
+import { store } from '../../index'
+
 export const setData = (state, payload) => {
   const sorted_data = payload.sort(
     (first, second) => second.unread_count - first.unread_count
@@ -29,14 +32,19 @@ export const setDataToOne = (state, payload) => {
 export const pushMessage = (state, payload) => {
   const chat_id = Number(payload.chat_id)
   const { sender, text, date } = payload
+  const user_id = getUserId(store)
+  
   return {
     ...state,
     data: state.data.map(
       chat => chat.id === chat_id
       ? {
         ...chat,
+        unread_count: sender !== user_id
+                      ? chat.unread_count + 1
+                      : chat.unread_count,
         last_message: {
-          sender,
+          sender: sender.id,
           text,
           date,
         },

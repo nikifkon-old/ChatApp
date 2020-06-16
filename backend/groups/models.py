@@ -1,8 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from PIL import Image
 
-from backend.profiles.models import Profile
-from backend.socket_chat.models import MessageMixin
+
+User = get_user_model()
 
 
 class ChatGroup(models.Model):
@@ -17,9 +18,9 @@ class ChatGroup(models.Model):
         blank=True
     )
     members = models.ManyToManyField(
-        Profile,
+        User,
         through='GroupMembership',
-        related_name='groups'
+        related_name='chatgroups'
     )
 
     class Meta:
@@ -40,14 +41,14 @@ class ChatGroup(models.Model):
 
 
 class GroupMembership(models.Model):
-    """ m2m for Profile and Group """
+    """ m2m for User and Group """
     ROLES_CHOICES = [
         ("A", "Admin"),
         ("M", "Moderator"),
         ("S", "Subscriber"),
     ]
 
-    person = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    person = models.ForeignKey(User, on_delete=models.CASCADE)
     group = models.ForeignKey(ChatGroup, on_delete=models.CASCADE)
     role = models.CharField(
         "Role in Group",
@@ -67,36 +68,28 @@ class GroupMembership(models.Model):
         ]
 
     def __str__(self):
-        return f"`{self.person.user.username}` in `{self.group.name}`"
+        return f"`{self.person.username}` in `{self.group.name}`"
 
 
-class GroupMessage(MessageMixin):
+class GroupMessage(models.Model):
     """ Group message """
-    group = models.ForeignKey(
+    chat = models.ForeignKey(
         ChatGroup,
         on_delete=models.CASCADE,
         related_name="messages"
     )
     readers = models.ManyToManyField(
-        Profile,
+        User,
         through="GroupMessageInfo",
         related_name="group_messages"
     )
-
-    def save(self, *args, **kwargs):
-        """ set readers as group members """
-        super().save(*args, **kwargs)
-        for person in self.group.members.all():
-            info, created = GroupMessageInfo.objects.get_or_create(
-                message=self,
-                person=person,
-            )
-            if created:
-                if person.id == self.sender.id:
-                    info.unread = False
-                else:
-                    info.unread = True
-            info.save()
+    sender = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="groups_sended"
+    )
+    text = models.TextField(max_length=1000)
+    date = models.DateTimeField("date of created or updated", auto_now=True)
 
     class Meta:
         verbose_name = "Message in group"
@@ -107,13 +100,13 @@ class GroupMessage(MessageMixin):
 
 
 class GroupMessageInfo(models.Model):
-    """ m2m for profile & group message """
+    """ m2m for user & group message """
     message = models.ForeignKey(
         GroupMessage,
         on_delete=models.CASCADE,
         related_name="message_info"
     )
-    person = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    person = models.ForeignKey(User, on_delete=models.CASCADE)
     unread = models.BooleanField(default=True)
     stared = models.BooleanField(default=False)
 

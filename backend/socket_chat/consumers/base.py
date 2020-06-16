@@ -1,17 +1,6 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
 
-def private(func):
-    """ Provide private event with user objects """
-    async def new_func(self, message, *args, **kwargs):
-        user = self.user
-        if user:
-            return await func(self, message, *args, **kwargs)
-        else:
-            await self.throw_must_authenticate(message['event'])
-    return new_func
-
-
 class BaseConsumer(AsyncJsonWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -21,10 +10,6 @@ class BaseConsumer(AsyncJsonWebsocketConsumer):
 
     async def connect(self):
         await self.accept()
-
-    async def method_unedefined(self, message):
-        await self._throw_error({'detail': 'Undefined event'},
-                                event=message['event'])
 
     async def parse_content(self, content):
         """ Validate request """

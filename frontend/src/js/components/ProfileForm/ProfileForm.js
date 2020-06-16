@@ -11,7 +11,7 @@ function ProfileForm({id, data, editable, editProfile}) {
   function handleSubmit(values) {
     editProfile({
       data: values,
-      id
+      user_id: id
     })
   }
 
@@ -25,7 +25,7 @@ function ProfileForm({id, data, editable, editProfile}) {
           <Field
             component={FinalFormTextField}
             variant="outlined"
-            name="user"
+            name="username"
             placeholder="username"
             disabled={!editable}
             styled

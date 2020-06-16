@@ -1,0 +1,67 @@
+test_send_message_in_dialog_event:
+  request: 
+    event: "dialog.message.send"
+    data: {}
+  
+  successed_response: 
+    event: "dialog.message.send"
+    data: {}
+    status: "ok"
+
+test_update_message_in_dialog_event:
+  request: 
+    event: "dialog.message.update"
+    data: {}
+  
+  successed_response: 
+    event: "dialog.message.update"
+    data: {}
+    status: "ok"
+
+  message_does_not_exist_response: 
+    event: "dialog.message.update"
+    data:
+      detail: "Message doesn't exist"
+    status: "error"
+
+  message_is_foreign_response: 
+    event: "dialog.message.update"
+    data:
+      detail: "You can't update foreign messages"
+    status: "error"
+
+test_delete_message_in_dialog_event:
+  request: 
+    event: "dialog.message.delete"
+    data: {}
+  
+  successed_response: 
+    event: "dialog.message.delete"
+    data: {}
+    status: "ok"
+
+  message_does_not_exist_response: 
+    event: "dialog.message.delete"
+    data:
+      detail: "Message doesn't exist"
+    status: "error"
+
+  message_is_foreign_response: 
+    event: "dialog.message.delete"
+    data:
+      detail: "You can't delete foreign message"
+    status: "error"
+
+test_star_message_in_dialog_event:
+  request: 
+    event: "dialog.message.star"
+    data:
+      id: "MESSAGE_ID"
+      stared: true
+  
+  successed_response: 
+    event: "dialog.message.star"
+    data:
+      id: "MESSAGE_ID"
+      stared: true
+    status: "ok"
