@@ -1,4 +1,4 @@
-from backend.api.v1.groups.serializers import GroupMessageSerializer, GroupSerializer
+from backend.api.v2.groups.serializers import GroupMessageSerializer, GroupSerializer
 from backend.groups.views import GroupView
 from backend.groups.models import (ChatGroup, GroupMembership, GroupMessage,
                                    GroupMessageInfo)

@@ -6,7 +6,7 @@ from backend.dialogs.models import (
     DialogMembership,
     DialogMessageInfo,
 )
-from backend.api.v1.dialogs.serializers import (
+from backend.api.v2.dialogs.serializers import (
     DialogMessageSerializer,
     DialogSerializer,
 )

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from backend.api.v1.users.views import (UserListCreateView,
+from backend.api.v2.users.views import (UserListCreateView,
                                         UserRetrieveUpdateDestroyAPIView)
 
 urlpatterns = [

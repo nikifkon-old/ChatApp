@@ -3,8 +3,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from channels.db import database_sync_to_async
 from asgiref.sync import async_to_sync
 
-from backend.api.v1.users.serializers import UserSerializer
-from backend.api.v1.dialogs.serializers import DialogSerializer, DialogMessageSerializer, LastMessageSerizalizer
+from backend.api.v2.users.serializers import UserSerializer
+from backend.api.v2.dialogs.serializers import DialogSerializer, DialogMessageSerializer, LastMessageSerizalizer
 from backend.dialogs.models import Dialog, DialogMessage, DialogMessageInfo, DialogMembership
 from backend.dialogs.forms import DialogForm, DialogMessageForm
 from backend.socket_chat.mixins.view import ChatViewMixin

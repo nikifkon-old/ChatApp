@@ -3,7 +3,7 @@ from rest_framework import generics
 from rest_framework.permissions import (SAFE_METHODS, BasePermission,
                                         IsAdminUser)
 
-from backend.api.v1.users.serializers import UserSerializer
+from backend.api.v2.users.serializers import UserSerializer
 
 User = get_user_model()
 

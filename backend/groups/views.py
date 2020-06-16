@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from channels.db import database_sync_to_async
 from asgiref.sync import async_to_sync
 
-from backend.api.v1.groups.serializers import GroupSerializer, LastMessageSerializer, GroupMessageSerializer, MemberSerializer
+from backend.api.v2.groups.serializers import GroupSerializer, LastMessageSerializer, GroupMessageSerializer, MemberSerializer
 from backend.groups.models import ChatGroup, GroupMessage, GroupMessageInfo, GroupMembership
 from backend.groups.forms import GroupForm, GroupMessageForm, GroupMembershipForm
 from backend.socket_chat.mixins.view import ChatViewMixin
