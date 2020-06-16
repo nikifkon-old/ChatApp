@@ -28,5 +28,5 @@ class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_url_kwarg = "id"
-    lookup_field = "user__id"
+    lookup_field = "id"
     permission_classes = [IsAdminUser | ReadOnly]

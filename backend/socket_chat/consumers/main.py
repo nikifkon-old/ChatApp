@@ -2,7 +2,7 @@ import jwt
 from channels.db import database_sync_to_async
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from jwt import DecodeError
+from jwt import DecodeError, ExpiredSignatureError
 
 from backend.socket_chat.consumers.dialog import DialogEvents
 from backend.socket_chat.consumers.group import GroupEvents
@@ -47,7 +47,7 @@ class MainConsumer(BaseConsumer):
         if token is not None:
             try:
                 data = jwt.decode(token, settings.SECRET_KEY)
-            except DecodeError:
+            except (DecodeError, ExpiredSignatureError):
                 return await self._throw_error({'detail': 'Token is not valid'},
                                                event=message['event'])
 

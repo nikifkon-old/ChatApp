@@ -88,7 +88,8 @@ export const starGroupMessage = ({message_id, star}) => {
     payload: {
       event: events.GROUP_MESSAGE_STAR,
       data: {
-        message_id, star
+        id: message_id,
+        stared: star
       }
     }
   }

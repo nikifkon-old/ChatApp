@@ -1,15 +1,24 @@
 # API reference
 
 ## Data Types
-### Dialog:
 
+### User:
+| field | type |  description |
+|----------|------------|-----|
+| `username` | str | Username |
+| `avatar` | str | Link to Avatar of user |
+| `tel` | str | Phone number of user |
+| `birth` | str | User's Date of birth |
+| `gender` | str | Gender of user |
+
+### Dialog
 | field | type |  description |
 |----------|------------|-----|
 | `id` |  int | Id of dialog |
 | `messages` | Dialog Messages | Dialog messages with request parameter filter |
 | `interlocutor` | User | Second person in dialog |
 | `unread_count` | int | Count of unread filtered messages in dialog |
-| `last_message` | Dialog Message | last sent filtered message |
+| `last_message` | Last Message | last sent filtered message |
 
 ### Dialog Message:
 | field | type |  description |
@@ -22,11 +31,6 @@
 | `stared` | bool | Is this message stared for authenticate person |
 | `date` | str, format: %Y-%m-%dT%H:%M:%S.%fZ | Date when messages was sent TODO: or updated? |
 
-### Message Sender
-| `id` | int | Id of User who sent this message |
-| `username` | str | Username of User who sent this message |
-| `avatar` | str | Link to avatar of User who sent this message |
-
 ### Group
 | field | type |  description |
 |----------|------------|-----|
@@ -38,7 +42,7 @@
 | `messages` | Group Messages | Group messages with request parameter filter |
 | `members` | Group Members | User list who joined in the group |
 | `unread_count` | int | Count of unread filtered messages(for auth user) in the Group |
-| `last_message` | Short Group Message | last sent filtered message |
+| `last_message` | Last Message | last sent filtered message |
 
 ### Group Member
 | field | type |  description |
@@ -58,21 +62,18 @@
 | `unread` | bool | Is this message stared for authenticate person |
 | `date` | str | Date when messages was sent TODO: or updated? |
 
-### Short Group Message:
+### Last Message:
 | field | type |  description |
 |----------|------------|-----|
 | `sender` | int | Id of User who sent this message |
-| `chat_id` | int | Id of Group |
 | `text` | str | Message text |
+| `date` | str, format: %Y-%m-%dT%H:%M:%S.%fZ | Date when messages was sent TODO: or updated? |
 
-### User:
-| field | type |  description |
-|----------|------------|-----|
-| `username` | str | Username |
-| `avatar` | str | Link to Avatar of user |
-| `tel` | str | Phone number of user |
-| `birth` | str | User's Date of birth |
-| `gender` | str | Gender of user |
+### Message Sender
+| `id` | int | Id of User who sent this message |
+| `username` | str | Username of User who sent this message |
+| `avatar` | str | Link to avatar of User who sent this message |
+
 
 ## Websocket API
 - **base URL**: `ws:/localhost:8000/ws/main/`

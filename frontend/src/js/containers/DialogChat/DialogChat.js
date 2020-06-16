@@ -25,7 +25,7 @@ const DialogChat = () => {
   const { fetching, success, error } = info
 
   const dialog = useSelector(state => getActiveDialog(state))
-  let title = dialog && dialog.interlocutor.user
+  let title = dialog && dialog.interlocutor.username
   let id = dialog && dialog.id
   const firstUnread = useSelector(state => getFirstUnread(state))
 

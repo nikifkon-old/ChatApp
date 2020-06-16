@@ -5,7 +5,7 @@ const initialState = {
   success: false,
   error: null,
   data: {
-    user: null,
+    username: null,
     avatar: null,
     tel: null,
     birth: null,

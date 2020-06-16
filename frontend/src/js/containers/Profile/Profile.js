@@ -33,7 +33,7 @@ function Profile() {
     <AppContentWrap>
       <Content>
         <H1 center>Profile of</H1>
-        <P center>SomeUser : 123</P>
+        <P center>{data && data.username} : #{id}</P>
       </Content>
 
       <ProfileForm

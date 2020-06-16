@@ -10,7 +10,7 @@ export const DIALOG_UPDATE_MESSAGE = 'dialog.message.update'
 export const DIALOG_MESSAGES_SETASREAD = 'dialog.messages.setasread'
 export const DIALOG_MESSAGE_STAR = 'dialog.message.star'
 
-export const GROUPS_LIST = 'groups.list'
+export const GROUPS_LIST = 'group.list'
 export const GROUP_GET = 'group.get'
 export const GROUP_CREATE = 'group.create'
 export const GROUP_DELETE = 'group.delete'

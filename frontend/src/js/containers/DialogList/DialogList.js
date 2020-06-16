@@ -55,7 +55,7 @@ function DialogList() {
         return {
           ...data,
           avatar: data.interlocutor.avatar,
-          title: data.interlocutor.user,
+          title: data.interlocutor.username,
           isActive: data.id == activeId
         }
       }}

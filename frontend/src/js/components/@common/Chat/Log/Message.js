@@ -27,11 +27,15 @@ const Message = React.forwardRef((props, ref) => {
     updateMessage,
   } = props
 
-  const { id, sender_name, text, date, stared } = message
-  let { avatar } = message
-  if (!avatar) {
+  const { id, sender, text, date, stared } = message
+  let avatar
+  if ( sender && sender.avatar ) {
+    avatar = sender.avatar
+  }
+  else {
     avatar = DefaultAvatar
   }
+
   const toggleEdit = () => {
     setEdited(!edited);
   }
@@ -69,7 +73,7 @@ const Message = React.forwardRef((props, ref) => {
         column="2"
         row="1/2"
         >
-        {sender_name}
+        {sender && sender.username}
       </GridItem>
 
       <MessageDate>{new Date(date).toLocaleString()}</MessageDate>
@@ -130,13 +134,15 @@ Message.propTypes = {
   setAsRead: PropTypes.func.isRequired,
   maxOffset: PropTypes.number,
   message: PropTypes.shape({
-    id: PropTypes.number.isRequired,
     sender: PropTypes.number.isRequired,
     chat_id: PropTypes.number.isRequired,
-    sender_name: PropTypes.string.isRequired,
+    sender: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      username: PropTypes.string.isRequired,
+      avatar: PropTypes.string,
+    }),
     unread: PropTypes.bool.isRequired,
     stared: PropTypes.bool.isRequired,
-    avatar: PropTypes.string,
     text: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
   }).isRequired
