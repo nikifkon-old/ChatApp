@@ -1,28 +1,49 @@
-## Quick Start
----
-- Clone Repo: `git clone https://github.com/nikifkon/ChatApp.git`
-- Go to project folder: `cd ChatApp`
-- Activate Virtualenv(optional):  `pip install virtualenv`
-  - Create venv: `virtualenv venv`
-  - Activate : `venv\Scripts\activate`(On Windows)
-- Install python dependences `pip install -r requirements.txt`
-  - also install pywin32, if you on windows
-- Install node.js dependences `npm install`
-  - if you will get error, try this: `npm cache clean --force`
-- Run Django dev Server: `python manage.py runserver`
-- In new window, run Webpack hot-reload server: `npm run watch`
+## Installing on a local machine
 
-## Django
-- **make migrations**:
-<code>
+### Backend
+```bash
+pip install -r requirements.txt
+# in bash
+cp config/_local_settings.py config/local_settings.py
+# in cmd
+copy config/_local_settings.py config/local_settings.py
 python manage.py makemigrations dialogs groups users socket_chat
-</code>
+python manage.py migrate
+python manage.py createsuperuser
+```
 
-- **run tests**:
-<code>pytest</code>
+### Frontend
+```
+npm install
+```
+
+### Redis
+Install redis on [Windows](https://github.com/ServiceStack/redis-windows), [Linux](https://redis.io/download#installation)
+
+### Run
+Run redis in default port - 6379:
+  ```bash
+  # in bash
+  redis-server&
+  # in cmd
+  start /b redis-server
+  ```
+Run Django dev Server:
+  ```bash
+  python manage.py runserver
+  ```
+Run Webpack hot-reload server:
+  ```bash
+  npm run watch
+  ```
+
+### Testing
+```
+pytest
+```
 
 ## Documentation
 see [api](docs/api.md)
 
-## Deploy
+## Deploy Guide
 see [deploy](docs/deploy.md)
